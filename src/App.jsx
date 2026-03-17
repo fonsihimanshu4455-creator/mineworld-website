@@ -1,19 +1,30 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import ServicesPage from "./pages/ServicesPage";
-import Contact from "./pages/Contact";
+import Navbar from "./components/layout/Navbar";
+import Hero from "./components/home/Hero";
+import BrandStatement from "./components/home/BrandStatement";
+import EditingShowcase from "./components/home/EditingShowcase";
+import Services from "./components/home/Services";
+import FounderSection from "./components/home/FounderSection";
+import TeamSection from "./components/home/TeamSection";
+import ResultsSection from "./components/home/ResultsSection";
+import Portfolio from "./components/home/Portfolio";
+import CTA from "./components/home/CTA";
+import Footer from "./components/layout/Footer";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <Navbar />
+      <Hero />
+      <BrandStatement />
+      <EditingShowcase />
+      <Services />
+      <FounderSection />
+      <TeamSection />
+      <ResultsSection />
+      <Portfolio />
+      <CTA />
+      <Footer />
+    </>
   );
 }
 
