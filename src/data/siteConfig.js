@@ -24,7 +24,7 @@ export const siteConfig = {
   form: {
     // Formspree dashboard se apna real endpoint yahan daalna
     // Example: https://formspree.io/f/xblyqzzz
-    endpoint: "https://formspree.io/f/YOUR_FORM_ID",
+    endpoint: "https://formspree.io/f/mjgajgnd",
   },
 };
 
