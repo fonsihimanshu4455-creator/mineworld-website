@@ -4,6 +4,7 @@ import { theme } from "../../styles/theme";
 import { closeContactModal } from "../../utils/contactActions";
 import { siteConfig } from "../../data/siteConfig";
 import { countryCodes } from "../../data/countryCodes";
+import SuccessScreen from "./SuccessScreen";
 
 const serviceOptions = [
   "Video Editing",
@@ -20,8 +21,14 @@ const defaultCountry =
 
 const overlayVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-  exit: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.28, ease: "easeOut" },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.2, ease: "easeOut" },
+  },
 };
 
 const modalVariants = {
@@ -56,6 +63,7 @@ const itemVariants = {
 
 function ContactModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [status, setStatus] = useState("");
   const [countryMenuOpen, setCountryMenuOpen] = useState(false);
@@ -87,7 +95,8 @@ function ContactModal() {
     return (
       countryCodes.find(
         (item) =>
-          item.iso === formData.countryIso && item.dialCode === formData.countryCode
+          item.iso === formData.countryIso &&
+          item.dialCode === formData.countryCode
       ) || defaultCountry
     );
   }, [formData.countryIso, formData.countryCode]);
@@ -258,13 +267,9 @@ function ContactModal() {
       });
 
       if (response.ok) {
-        setStatus("Form submitted successfully.");
         resetForm();
-
-        setTimeout(() => {
-          setIsOpen(false);
-          setStatus("");
-        }, 1400);
+        setIsOpen(false);
+        setShowSuccess(true);
       } else {
         setStatus("Submission failed. Please try again.");
       }
@@ -276,298 +281,323 @@ function ContactModal() {
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          variants={overlayVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          onClick={() => setIsOpen(false)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 2000,
-            background: "rgba(6, 10, 18, 0.78)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: isMobile ? "14px" : "20px",
-          }}
-        >
+    <>
+      <SuccessScreen
+        show={showSuccess}
+        onClose={() => setShowSuccess(false)}
+      />
+
+      <AnimatePresence>
+        {isOpen && (
           <motion.div
-            variants={modalVariants}
+            variants={overlayVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            onClick={(e) => e.stopPropagation()}
+            onClick={() => setIsOpen(false)}
             style={{
-              width: "100%",
-              maxWidth: "920px",
-              maxHeight: "92vh",
-              overflow: "hidden",
-              borderRadius: isMobile ? "24px" : "30px",
-              background:
-                "linear-gradient(135deg, rgba(18,28,44,0.98) 0%, rgba(13,21,36,0.98) 100%)",
-              border: `1px solid ${theme.colors.lineStrong}`,
-              boxShadow:
-                "0 28px 90px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.05)",
-              display: "grid",
-              gridTemplateColumns: isMobile ? "1fr" : "0.9fr 1.1fr",
-              position: "relative",
+              position: "fixed",
+              inset: 0,
+              zIndex: 2000,
+              background: "rgba(6, 10, 18, 0.78)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: isMobile ? "14px" : "20px",
             }}
           >
-            <button
-              onClick={() => setIsOpen(false)}
-              aria-label="Close form"
-              style={{
-                position: "absolute",
-                top: "16px",
-                right: "16px",
-                width: "42px",
-                height: "42px",
-                borderRadius: "50%",
-                border: `1px solid ${theme.colors.line}`,
-                background: "rgba(255,255,255,0.04)",
-                color: theme.colors.text,
-                fontSize: "20px",
-                cursor: "pointer",
-                zIndex: 5,
-              }}
-            >
-              ×
-            </button>
-
             <motion.div
-              variants={itemVariants}
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={(e) => e.stopPropagation()}
               style={{
-                position: "relative",
-                padding: isMobile ? "26px 22px 14px" : "34px 30px",
-                borderRight: isMobile ? "none" : `1px solid ${theme.colors.line}`,
-                borderBottom: isMobile ? `1px solid ${theme.colors.line}` : "none",
+                width: "100%",
+                maxWidth: "920px",
+                maxHeight: "92vh",
                 overflow: "hidden",
-                minHeight: isMobile ? "240px" : "100%",
+                borderRadius: isMobile ? "24px" : "30px",
+                background:
+                  "linear-gradient(135deg, rgba(18,28,44,0.98) 0%, rgba(13,21,36,0.98) 100%)",
+                border: `1px solid ${theme.colors.lineStrong}`,
+                boxShadow:
+                  "0 28px 90px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.05)",
+                display: "grid",
+                gridTemplateColumns: isMobile ? "1fr" : "0.9fr 1.1fr",
+                position: "relative",
               }}
             >
-              <div
+              <button
+                onClick={() => setIsOpen(false)}
+                aria-label="Close form"
                 style={{
                   position: "absolute",
-                  top: "-80px",
-                  left: "-60px",
-                  width: "220px",
-                  height: "220px",
+                  top: "16px",
+                  right: "16px",
+                  width: "42px",
+                  height: "42px",
                   borderRadius: "50%",
-                  background: "rgba(214,176,96,0.16)",
-                  filter: "blur(70px)",
-                  pointerEvents: "none",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "-70px",
-                  right: "-50px",
-                  width: "240px",
-                  height: "240px",
-                  borderRadius: "50%",
-                  background: "rgba(87,120,210,0.16)",
-                  filter: "blur(80px)",
-                  pointerEvents: "none",
-                }}
-              />
-
-              <div
-                style={{
-                  position: "relative",
-                  zIndex: 2,
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
+                  border: `1px solid ${theme.colors.line}`,
+                  background: "rgba(255,255,255,0.04)",
+                  color: theme.colors.text,
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  zIndex: 5,
                 }}
               >
-                <div>
+                ×
+              </button>
+
+              <motion.div
+                variants={itemVariants}
+                style={{
+                  position: "relative",
+                  padding: isMobile ? "26px 22px 14px" : "34px 30px",
+                  borderRight: isMobile
+                    ? "none"
+                    : `1px solid ${theme.colors.line}`,
+                  borderBottom: isMobile
+                    ? `1px solid ${theme.colors.line}`
+                    : "none",
+                  overflow: "hidden",
+                  minHeight: isMobile ? "240px" : "100%",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-80px",
+                    left: "-60px",
+                    width: "220px",
+                    height: "220px",
+                    borderRadius: "50%",
+                    background: "rgba(214,176,96,0.16)",
+                    filter: "blur(70px)",
+                    pointerEvents: "none",
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "-70px",
+                    right: "-50px",
+                    width: "240px",
+                    height: "240px",
+                    borderRadius: "50%",
+                    background: "rgba(87,120,210,0.16)",
+                    filter: "blur(80px)",
+                    pointerEvents: "none",
+                  }}
+                />
+
+                <div
+                  style={{
+                    position: "relative",
+                    zIndex: 2,
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        color: theme.colors.goldSoft,
+                        fontSize: "12px",
+                        letterSpacing: "2px",
+                        textTransform: "uppercase",
+                        marginBottom: "14px",
+                      }}
+                    >
+                      Start a Project
+                    </div>
+
+                    <h2
+                      style={{
+                        margin: "0 0 14px",
+                        color: theme.colors.text,
+                        fontSize: isMobile ? "34px" : "46px",
+                        lineHeight: 1.02,
+                        fontWeight: 800,
+                        maxWidth: "420px",
+                      }}
+                    >
+                      Let’s build something sharper.
+                    </h2>
+
+                    <p
+                      style={{
+                        margin: 0,
+                        color: theme.colors.textSoft,
+                        fontSize: isMobile ? "14px" : "15px",
+                        lineHeight: 1.85,
+                        maxWidth: "430px",
+                      }}
+                    >
+                      Share your requirement for editing, shoots, design, social
+                      media, or digital growth. This form is built for serious
+                      inquiries, not random browsing.
+                    </p>
+                  </div>
+
+                  <div
+                    style={{
+                      marginTop: isMobile ? "24px" : "36px",
+                      position: "relative",
+                      height: isMobile ? "120px" : "240px",
+                      borderRadius: isMobile ? "18px" : "24px",
+                      border: `1px solid ${theme.colors.line}`,
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <motion.div
+                      animate={{
+                        x: [0, 16, 0],
+                        y: [0, -10, 0],
+                        rotate: [0, 1.5, 0],
+                      }}
+                      transition={{
+                        duration: 5.5,
+                        ease: "easeInOut",
+                        repeat: Infinity,
+                      }}
+                      style={{
+                        position: "absolute",
+                        left: isMobile ? "18px" : "30px",
+                        top: isMobile ? "22px" : "38px",
+                        width: isMobile ? "72px" : "96px",
+                        height: isMobile ? "72px" : "96px",
+                        borderRadius: "20px",
+                        background:
+                          "linear-gradient(180deg, rgba(214,176,96,0.95), rgba(214,176,96,0.75))",
+                        boxShadow: "0 16px 40px rgba(214,176,96,0.28)",
+                      }}
+                    />
+
+                    <motion.div
+                      animate={{
+                        x: [0, -12, 0],
+                        y: [0, 10, 0],
+                      }}
+                      transition={{
+                        duration: 6.2,
+                        ease: "easeInOut",
+                        repeat: Infinity,
+                      }}
+                      style={{
+                        position: "absolute",
+                        right: isMobile ? "18px" : "30px",
+                        bottom: isMobile ? "18px" : "26px",
+                        width: isMobile ? "96px" : "160px",
+                        height: isMobile ? "54px" : "72px",
+                        borderRadius: "999px",
+                        background:
+                          "linear-gradient(180deg, rgba(87,120,210,0.9), rgba(87,120,210,0.68))",
+                        boxShadow: "0 16px 34px rgba(87,120,210,0.22)",
+                      }}
+                    />
+
+                    <motion.div
+                      animate={{ opacity: [0.45, 1, 0.45] }}
+                      transition={{ duration: 2.8, repeat: Infinity }}
+                      style={{
+                        position: "absolute",
+                        left: isMobile ? "106px" : "152px",
+                        top: isMobile ? "26px" : "46px",
+                        width: isMobile ? "110px" : "170px",
+                        height: isMobile ? "14px" : "18px",
+                        borderRadius: "999px",
+                        background: "rgba(255,255,255,0.08)",
+                      }}
+                    />
+
+                    <motion.div
+                      animate={{ opacity: [1, 0.35, 1] }}
+                      transition={{ duration: 3.2, repeat: Infinity }}
+                      style={{
+                        position: "absolute",
+                        left: isMobile ? "106px" : "152px",
+                        top: isMobile ? "52px" : "76px",
+                        width: isMobile ? "86px" : "130px",
+                        height: isMobile ? "10px" : "14px",
+                        borderRadius: "999px",
+                        background: "rgba(255,255,255,0.06)",
+                      }}
+                    />
+
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        background:
+                          "linear-gradient(180deg, rgba(255,255,255,0.02), transparent 30%, transparent 70%, rgba(0,0,0,0.14))",
+                      }}
+                    />
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                variants={itemVariants}
+                style={{
+                  padding: isMobile ? "22px 18px 22px" : "34px 30px",
+                  overflowY: "auto",
+                }}
+              >
+                <motion.div variants={itemVariants}>
                   <div
                     style={{
                       color: theme.colors.goldSoft,
                       fontSize: "12px",
                       letterSpacing: "2px",
                       textTransform: "uppercase",
-                      marginBottom: "14px",
+                      marginBottom: "12px",
                     }}
                   >
-                    Start a Project
+                    Contact Form
                   </div>
 
-                  <h2
+                  <h3
                     style={{
-                      margin: "0 0 14px",
-                      color: theme.colors.text,
-                      fontSize: isMobile ? "34px" : "46px",
-                      lineHeight: 1.02,
+                      margin: "0 0 10px",
+                      fontSize: isMobile ? "28px" : "34px",
+                      lineHeight: 1.06,
                       fontWeight: 800,
-                      maxWidth: "420px",
+                      color: theme.colors.text,
                     }}
                   >
-                    Let’s build something sharper.
-                  </h2>
+                    Tell us what you need.
+                  </h3>
 
                   <p
                     style={{
-                      margin: 0,
+                      margin: "0 0 22px",
                       color: theme.colors.textSoft,
-                      fontSize: isMobile ? "14px" : "15px",
-                      lineHeight: 1.85,
-                      maxWidth: "430px",
+                      fontSize: "14px",
+                      lineHeight: 1.8,
+                      maxWidth: "520px",
                     }}
                   >
-                    Share your requirement for editing, shoots, design, social
-                    media, or digital growth. This form is built for serious
-                    inquiries, not random browsing.
+                    Fill the essentials. We will get the inquiry on email, and
+                    from there the project discussion can move forward.
                   </p>
-                </div>
+                </motion.div>
 
-                <div
-                  style={{
-                    marginTop: isMobile ? "24px" : "36px",
-                    position: "relative",
-                    height: isMobile ? "120px" : "240px",
-                    borderRadius: isMobile ? "18px" : "24px",
-                    border: `1px solid ${theme.colors.line}`,
-                    background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))",
-                    overflow: "hidden",
-                  }}
-                >
-                  <motion.div
-                    animate={{ x: [0, 16, 0], y: [0, -10, 0], rotate: [0, 1.5, 0] }}
-                    transition={{ duration: 5.5, ease: "easeInOut", repeat: Infinity }}
-                    style={{
-                      position: "absolute",
-                      left: isMobile ? "18px" : "30px",
-                      top: isMobile ? "22px" : "38px",
-                      width: isMobile ? "72px" : "96px",
-                      height: isMobile ? "72px" : "96px",
-                      borderRadius: "20px",
-                      background:
-                        "linear-gradient(180deg, rgba(214,176,96,0.95), rgba(214,176,96,0.75))",
-                      boxShadow: "0 16px 40px rgba(214,176,96,0.28)",
-                    }}
-                  />
-
-                  <motion.div
-                    animate={{ x: [0, -12, 0], y: [0, 10, 0] }}
-                    transition={{ duration: 6.2, ease: "easeInOut", repeat: Infinity }}
-                    style={{
-                      position: "absolute",
-                      right: isMobile ? "18px" : "30px",
-                      bottom: isMobile ? "18px" : "26px",
-                      width: isMobile ? "96px" : "160px",
-                      height: isMobile ? "54px" : "72px",
-                      borderRadius: "999px",
-                      background:
-                        "linear-gradient(180deg, rgba(87,120,210,0.9), rgba(87,120,210,0.68))",
-                      boxShadow: "0 16px 34px rgba(87,120,210,0.22)",
-                    }}
-                  />
-
-                  <motion.div
-                    animate={{ opacity: [0.45, 1, 0.45] }}
-                    transition={{ duration: 2.8, repeat: Infinity }}
-                    style={{
-                      position: "absolute",
-                      left: isMobile ? "106px" : "152px",
-                      top: isMobile ? "26px" : "46px",
-                      width: isMobile ? "110px" : "170px",
-                      height: isMobile ? "14px" : "18px",
-                      borderRadius: "999px",
-                      background: "rgba(255,255,255,0.08)",
-                    }}
-                  />
-
-                  <motion.div
-                    animate={{ opacity: [1, 0.35, 1] }}
-                    transition={{ duration: 3.2, repeat: Infinity }}
-                    style={{
-                      position: "absolute",
-                      left: isMobile ? "106px" : "152px",
-                      top: isMobile ? "52px" : "76px",
-                      width: isMobile ? "86px" : "130px",
-                      height: isMobile ? "10px" : "14px",
-                      borderRadius: "999px",
-                      background: "rgba(255,255,255,0.06)",
-                    }}
-                  />
-
+                <form onSubmit={handleSubmit}>
                   <div
                     style={{
-                      position: "absolute",
-                      inset: 0,
-                      background:
-                        "linear-gradient(180deg, rgba(255,255,255,0.02), transparent 30%, transparent 70%, rgba(0,0,0,0.14))",
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(auto-fit, minmax(220px, 1fr))",
+                      gap: "14px",
                     }}
-                  />
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              variants={itemVariants}
-              style={{
-                padding: isMobile ? "22px 18px 22px" : "34px 30px",
-                overflowY: "auto",
-              }}
-            >
-              <motion.div variants={itemVariants}>
-                <div
-                  style={{
-                    color: theme.colors.goldSoft,
-                    fontSize: "12px",
-                    letterSpacing: "2px",
-                    textTransform: "uppercase",
-                    marginBottom: "12px",
-                  }}
-                >
-                  Contact Form
-                </div>
-
-                <h3
-                  style={{
-                    margin: "0 0 10px",
-                    fontSize: isMobile ? "28px" : "34px",
-                    lineHeight: 1.06,
-                    fontWeight: 800,
-                    color: theme.colors.text,
-                  }}
-                >
-                  Tell us what you need.
-                </h3>
-
-                <p
-                  style={{
-                    margin: "0 0 22px",
-                    color: theme.colors.textSoft,
-                    fontSize: "14px",
-                    lineHeight: 1.8,
-                    maxWidth: "520px",
-                  }}
-                >
-                  Fill the essentials. We will get the inquiry on email, and
-                  from there the project discussion can move forward.
-                </p>
-              </motion.div>
-
-              <form onSubmit={handleSubmit}>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                    gap: "14px",
-                  }}
-                >
-                  <AnimatedField>
+                  >
                     <Field
                       label="Full Name *"
                       name="name"
@@ -575,9 +605,7 @@ function ContactModal() {
                       onChange={handleChange}
                       placeholder="Enter your name"
                     />
-                  </AnimatedField>
 
-                  <AnimatedField>
                     <PhoneField
                       label="Mobile Number *"
                       selectedCountry={selectedCountry}
@@ -591,9 +619,7 @@ function ContactModal() {
                       handleCountrySelect={handleCountrySelect}
                       countryMenuRef={countryMenuRef}
                     />
-                  </AnimatedField>
 
-                  <AnimatedField>
                     <Field
                       label="Email"
                       name="email"
@@ -602,20 +628,16 @@ function ContactModal() {
                       placeholder="Enter email"
                       type="email"
                     />
-                  </AnimatedField>
 
-                  <AnimatedField>
                     <ServiceSelector
                       label="Service Needed *"
                       selected={formData.service}
                       onSelect={handleServiceSelect}
                     />
-                  </AnimatedField>
-                </div>
+                  </div>
 
-                {formData.service === "Other" && (
-                  <div style={{ marginTop: "14px" }}>
-                    <AnimatedField>
+                  {formData.service === "Other" && (
+                    <div style={{ marginTop: "14px" }}>
                       <Field
                         label="Other Service *"
                         name="otherService"
@@ -623,12 +645,10 @@ function ContactModal() {
                         onChange={handleChange}
                         placeholder="Write your required service"
                       />
-                    </AnimatedField>
-                  </div>
-                )}
+                    </div>
+                  )}
 
-                <div style={{ marginTop: "14px" }}>
-                  <AnimatedField>
+                  <div style={{ marginTop: "14px" }}>
                     <Field
                       label="Business / Brand Name"
                       name="business"
@@ -636,184 +656,71 @@ function ContactModal() {
                       onChange={handleChange}
                       placeholder="Your brand or business"
                     />
-                  </AnimatedField>
-                </div>
+                  </div>
 
-                <AnimatePresence mode="wait">
                   {status ? (
-  <motion.div
-    key={status}
-    initial={{ opacity: 0, y: 10, scale: 0.98 }}
-    animate={{ opacity: 1, y: 0, scale: 1 }}
-    exit={{ opacity: 0, y: -8 }}
-    transition={{ duration: 0.28, ease: "easeOut" }}
-    style={{
-      marginTop: "18px",
-      borderRadius: "18px",
-      padding: "16px 18px",
-      border:
-        status === "Form submitted successfully."
-          ? "1px solid rgba(214,176,96,0.28)"
-          : "1px solid rgba(214,176,96,0.18)",
-      background:
-        status === "Form submitted successfully."
-          ? "linear-gradient(180deg, rgba(214,176,96,0.08), rgba(255,255,255,0.02))"
-          : "rgba(255,255,255,0.03)",
-      boxShadow:
-        status === "Form submitted successfully."
-          ? "0 10px 30px rgba(214,176,96,0.10)"
-          : "none",
-    }}
-  >
-    <div
-      style={{
-        color:
-          status === "Form submitted successfully."
-            ? theme.colors.text
-            : theme.colors.goldSoft,
-        fontSize: "15px",
-        lineHeight: 1.7,
-        fontWeight: 600,
-      }}
-    >
-      {status === "Form submitted successfully."
-        ? "Thank you. Your inquiry has been received."
-        : status}
-    </div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      style={{
+                        marginTop: "16px",
+                        color: theme.colors.goldSoft,
+                        fontSize: "14px",
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      {status}
+                    </motion.div>
+                  ) : null}
 
-    {status === "Form submitted successfully." && (
-      <motion.div
-        initial={{ opacity: 0, x: -6 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.12, duration: 0.24 }}
-        style={{
-          marginTop: "10px",
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      >
-        <span
-          style={{
-            fontSize: "13px",
-            letterSpacing: "1.4px",
-            textTransform: "uppercase",
-            color: theme.colors.goldSoft,
-            opacity: 0.9,
-            fontStyle: "italic",
-          }}
-        >
-          — Mineworld Production
-        </span>
-      </motion.div>
-    )}
-  </motion.div>
-) : null}
-                </AnimatePresence>
-
-                <motion.div
-                  variants={itemVariants}
-                  style={{
-                    display: "flex",
-                    gap: "12px",
-                    flexWrap: "wrap",
-                    marginTop: "22px",
-                  }}
-                >
-                  <motion.button
-                    whileHover={{
-                      y: -3,
-                      scale: 1.02,
-                    }}
-                    whileTap={{
-                      scale: 0.96,
-                    }}
-                    type="submit"
-                    disabled={isSending}
+                  <motion.div
+                    variants={itemVariants}
                     style={{
-                      ...primaryButtonStyle,
-                      boxShadow: "0 16px 34px rgba(214,176,96,0.24)",
-                    }}
-                    animate={{
-                      boxShadow: [
-                        "0 16px 34px rgba(214,176,96,0.24)",
-                      ]
-                    }}
-                    transition={{
-                      duration: 0.28,
-                      ease: "easeOut",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow =
-                        "0 0 25px rgba(214,176,96,0.40), 0 16px 34px rgba(214,176,96,0.24)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow =
-                        "0 16px 34px rgba(214,176,96,0.24)";
+                      display: "flex",
+                      gap: "12px",
+                      flexWrap: "wrap",
+                      marginTop: "22px",
                     }}
                   >
-                    {isSending ? "Sending..." : "Submit Inquiry"}
-                  </motion.button>
+                    <motion.button
+                      whileHover={{ y: -2, scale: 1.01 }}
+                      whileTap={{ scale: 0.98 }}
+                      type="submit"
+                      disabled={isSending}
+                      style={primaryButtonStyle}
+                    >
+                      {isSending ? "Sending..." : "Submit Inquiry"}
+                    </motion.button>
 
-                  <motion.button
-                    whileHover={{
-                      y: -2,
-                      scale: 1.02,
-                    }}
-                    whileTap={{
-                      scale: 0.96,
-                    }}
-                    type="button"
-                    onClick={() => closeContactModal()}
-                    style={secondaryButtonStyle}
-                    animate={{
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-                    }}
-                    transition={{
-                      duration: 0.25,
-                      ease: "easeOut",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow =
-                        "0 0 15px rgba(255,255,255,0.10), 0 8px 16px rgba(0,0,0,0.16)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow =
-                        "0 2px 8px rgba(0,0,0,0.12)";
+                    <motion.button
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      type="button"
+                      onClick={() => closeContactModal()}
+                      style={secondaryButtonStyle}
+                    >
+                      Close
+                    </motion.button>
+                  </motion.div>
+
+                  <motion.div
+                    variants={itemVariants}
+                    style={{
+                      marginTop: "18px",
+                      color: "rgba(255,255,255,0.52)",
+                      fontSize: "12px",
+                      lineHeight: 1.7,
                     }}
                   >
-                    Close
-                  </motion.button>
-                </motion.div>
-
-                <motion.div
-                  variants={itemVariants}
-                  style={{
-                    marginTop: "18px",
-                    color: "rgba(255,255,255,0.52)",
-                    fontSize: "12px",
-                    lineHeight: 1.7,
-                  }}
-                >
-                  Required fields: name, mobile number, and service.
-                </motion.div>
-              </form>
+                    Required fields: name, mobile number, and service.
+                  </motion.div>
+                </form>
+              </motion.div>
             </motion.div>
           </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-function AnimatedField({ children }) {
-  return (
-    <motion.div
-      variants={itemVariants}
-      whileFocus={{ scale: 1.01 }}
-      transition={{ duration: 0.2 }}
-    >
-      {children}
-    </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -825,34 +732,17 @@ function Field({
   placeholder,
   type = "text",
 }) {
-  const [isFocused, setIsFocused] = useState(false);
-
   return (
     <label style={{ display: "block" }}>
       <div style={labelStyle}>{label}</div>
-      <motion.div
-        animate={{
-          boxShadow: isFocused
-            ? "0 0 20px 0 rgba(214,176,96,0.25), inset 0 0 20px 0 rgba(214,176,96,0.08)"
-            : "0 0 0px 0 rgba(214,176,96,0)",
-        }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        style={{
-          borderRadius: "16px",
-          overflow: "hidden",
-        }}
-      >
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          style={inputStyle}
-        />
-      </motion.div>
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        style={inputStyle}
+      />
     </label>
   );
 }
@@ -883,16 +773,9 @@ function PhoneField({
         }}
       >
         <div style={{ position: "relative" }} ref={countryMenuRef}>
-          <motion.button
+          <button
             type="button"
             onClick={() => setCountryMenuOpen((prev) => !prev)}
-            whileHover={{
-              boxShadow: "0 0 15px rgba(214,176,96,0.20), inset 0 0 15px rgba(214,176,96,0.06)",
-            }}
-            transition={{
-              duration: 0.25,
-              ease: "easeOut",
-            }}
             style={{
               ...inputStyle,
               display: "flex",
@@ -925,7 +808,7 @@ function PhoneField({
             >
               ▼
             </span>
-          </motion.button>
+          </button>
 
           <AnimatePresence>
             {countryMenuOpen && (
@@ -938,7 +821,7 @@ function PhoneField({
                   position: "absolute",
                   top: "calc(100% + 10px)",
                   left: 0,
-                  width: "320px",
+                  width: isMobile ? "280px" : "320px",
                   maxHeight: "280px",
                   borderRadius: "18px",
                   border: "1px solid rgba(255,255,255,0.10)",
@@ -982,34 +865,15 @@ function PhoneField({
                     </div>
                   ) : (
                     filteredCountries.map((country) => {
-                      const isSelected =
+                      const activeCountry =
                         selectedCountry.iso === country.iso &&
                         selectedCountry.dialCode === country.dialCode;
 
                       return (
-                        <motion.button
+                        <button
                           key={`${country.iso}-${country.dialCode}`}
                           type="button"
                           onClick={() => handleCountrySelect(country)}
-                          whileHover={{
-                            y: -2,
-                            scale: 1.02,
-                          }}
-                          whileTap={{
-                            scale: 0.98,
-                          }}
-                          animate={{
-                            background: isSelected
-                              ? "rgba(214,176,96,0.18)"
-                              : "transparent",
-                            boxShadow: isSelected
-                              ? "0 0 12px rgba(214,176,96,0.15), inset 0 0 12px rgba(214,176,96,0.05)"
-                              : "0 0 0px rgba(0,0,0,0)",
-                          }}
-                          transition={{
-                            duration: 0.2,
-                            ease: "easeOut",
-                          }}
                           style={{
                             width: "100%",
                             display: "flex",
@@ -1018,41 +882,46 @@ function PhoneField({
                             gap: "10px",
                             padding: "12px 12px",
                             borderRadius: "12px",
-                            border: "none",
+                            background: activeCountry
+                              ? "rgba(214,176,96,0.14)"
+                              : "transparent",
+                            border: activeCountry
+                              ? "1px solid rgba(214,176,96,0.28)"
+                              : "1px solid transparent",
                             color: "#FFFFFF",
                             cursor: "pointer",
                             textAlign: "left",
                           }}
                         >
-                        <span
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "10px",
-                            overflow: "hidden",
-                          }}
-                        >
-                          <span>{country.flag}</span>
                           <span
                             style={{
-                              whiteSpace: "nowrap",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "10px",
                               overflow: "hidden",
-                              textOverflow: "ellipsis",
                             }}
                           >
-                            {country.name}
+                            <span>{country.flag}</span>
+                            <span
+                              style={{
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {country.name}
+                            </span>
                           </span>
-                        </span>
 
-                        <span
-                          style={{
-                            color: "rgba(255,255,255,0.72)",
-                            flexShrink: 0,
-                          }}
-                        >
-                          {country.dialCode}
-                        </span>
-                        </motion.button>
+                          <span
+                            style={{
+                              color: "rgba(255,255,255,0.72)",
+                              flexShrink: 0,
+                            }}
+                          >
+                            {country.dialCode}
+                          </span>
+                        </button>
                       );
                     })
                   )}
@@ -1062,9 +931,13 @@ function PhoneField({
           </AnimatePresence>
         </div>
 
-        <PhoneInputField
-          phone={phone}
-          onPhoneChange={onPhoneChange}
+        <input
+          type="tel"
+          name="phone"
+          value={phone}
+          onChange={onPhoneChange}
+          placeholder="Enter mobile number"
+          style={inputStyle}
         />
       </div>
     </div>
@@ -1086,26 +959,10 @@ function ServiceSelector({ label, selected, onSelect }) {
           const active = selected === service;
 
           return (
-            <motion.button
+            <button
               key={service}
               type="button"
               onClick={() => onSelect(service)}
-              whileHover={{
-                y: -4,
-                scale: 1.04,
-              }}
-              whileTap={{
-                scale: 0.98,
-              }}
-              animate={{
-                boxShadow: active
-                  ? "0 0 20px 0 rgba(214,176,96,0.35), 0 8px 20px -4px rgba(214,176,96,0.20)"
-                  : "0 2px 8px rgba(0,0,0,0.12)",
-              }}
-              transition={{
-                duration: 0.25,
-                ease: "easeOut",
-              }}
               style={{
                 padding: "11px 14px",
                 borderRadius: "999px",
@@ -1119,44 +976,15 @@ function ServiceSelector({ label, selected, onSelect }) {
                 fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
+                transition: "all 0.22s ease",
               }}
             >
               {service}
-            </motion.button>
+            </button>
           );
         })}
       </div>
     </div>
-  );
-}
-
-function PhoneInputField({ phone, onPhoneChange }) {
-  const [isFocused, setIsFocused] = useState(false);
-
-  return (
-    <motion.div
-      animate={{
-        boxShadow: isFocused
-          ? "0 0 20px 0 rgba(214,176,96,0.25), inset 0 0 20px 0 rgba(214,176,96,0.08)"
-          : "0 0 0px 0 rgba(214,176,96,0)",
-      }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      style={{
-        borderRadius: "16px",
-        overflow: "hidden",
-      }}
-    >
-      <input
-        type="tel"
-        name="phone"
-        value={phone}
-        onChange={onPhoneChange}
-        placeholder="Enter mobile number"
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        style={inputStyle}
-      />
-    </motion.div>
   );
 }
 
