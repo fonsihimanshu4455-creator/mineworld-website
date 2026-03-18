@@ -56,7 +56,6 @@ function FounderSection() {
             alignItems: "stretch",
           }}
         >
-          {/* LEFT IMAGE PANEL */}
           <Reveal delay={0.12}>
             <motion.div
               whileHover={{ y: -6 }}
@@ -74,6 +73,7 @@ function FounderSection() {
               <img
                 src={founderImage}
                 alt="Himanshu Bhardwaj"
+                loading="lazy"
                 style={{
                   width: "100%",
                   height: "100%",
@@ -167,7 +167,6 @@ function FounderSection() {
             </motion.div>
           </Reveal>
 
-          {/* RIGHT CONTENT PANEL */}
           <Reveal delay={0.16}>
             <motion.div
               whileHover={{ y: -6 }}

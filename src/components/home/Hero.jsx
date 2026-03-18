@@ -78,7 +78,6 @@ function Hero() {
             gap: isMobile ? "36px" : "56px",
           }}
         >
-          {/* LEFT CONTENT */}
           <div style={{ textAlign: isMobile ? "center" : "left" }}>
             <Reveal>
               <div
@@ -198,7 +197,6 @@ function Hero() {
             </Reveal>
           </div>
 
-          {/* RIGHT VISUAL */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -268,6 +266,8 @@ function Hero() {
                 loop
                 muted
                 playsInline
+                preload="metadata"
+                poster="/src/assets/hero.png"
                 style={{
                   width: "100%",
                   height: "100%",

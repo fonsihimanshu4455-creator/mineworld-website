@@ -101,6 +101,7 @@ function EditingShowcase() {
               <img
                 src={showcaseItems[0].image}
                 alt={showcaseItems[0].title}
+                loading="lazy"
                 style={{
                   position: "absolute",
                   inset: 0,
@@ -246,6 +247,7 @@ function EditingShowcase() {
                   <img
                     src={item.image}
                     alt={item.title}
+                    loading="lazy"
                     style={{
                       position: "absolute",
                       inset: 0,

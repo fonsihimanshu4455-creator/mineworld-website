@@ -14,6 +14,7 @@ const portfolioItems = [
     description:
       "High-retention edits designed to make the brand feel sharper, more premium, and harder to ignore.",
     video: "/src/assets/portfolio-1.mp4",
+    poster: "/src/assets/production.JPG",
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const portfolioItems = [
     description:
       "Structured podcast content built for authority, clips, and premium multi-format distribution.",
     video: "/src/assets/portfolio-2.mp4",
+    poster: "/src/assets/podcast-showcase.jpg",
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ const portfolioItems = [
     description:
       "Ad content shaped for clarity, first-frame attention, and platform-native conversion flow.",
     video: "/src/assets/portfolio-3.mp4",
+    poster: "/src/assets/ads-showcase.jpg",
   },
   {
     id: 4,
@@ -38,6 +41,7 @@ const portfolioItems = [
     description:
       "Stylized edits and visual systems that turn ordinary content into strong digital presence.",
     video: "/src/assets/portfolio-4.mp4",
+    poster: "/src/assets/designer.JPG",
   },
 ];
 
@@ -93,7 +97,6 @@ function Portfolio() {
             alignItems: "stretch",
           }}
         >
-          {/* FEATURED VIDEO CARD */}
           <Reveal delay={0.12}>
             <motion.div
               whileHover={{ y: -8 }}
@@ -109,11 +112,12 @@ function Portfolio() {
               }}
             >
               <video
-                autoPlay
+                autoPlay={!isMobile}
                 loop
                 muted
                 playsInline
-                preload="metadata"
+                preload={isMobile ? "none" : "metadata"}
+                poster={featuredItem.poster}
                 style={{
                   position: "absolute",
                   inset: 0,
@@ -125,6 +129,37 @@ function Portfolio() {
               >
                 <source src={featuredItem.video} type="video/mp4" />
               </video>
+
+              {isMobile && (
+                <div
+                  style={{
+                    position: "absolute",
+                    left: "50%",
+                    top: "40%",
+                    transform: "translate(-50%, -50%)",
+                    width: "86px",
+                    height: "86px",
+                    borderRadius: "50%",
+                    background: "rgba(0,0,0,0.28)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 0,
+                      height: 0,
+                      borderTop: "15px solid transparent",
+                      borderBottom: "15px solid transparent",
+                      borderLeft: "24px solid #ffffff",
+                      marginLeft: "6px",
+                    }}
+                  />
+                </div>
+              )}
 
               <div
                 style={{
@@ -221,7 +256,6 @@ function Portfolio() {
             </motion.div>
           </Reveal>
 
-          {/* SIDE VIDEO CARDS */}
           <div
             style={{
               display: "grid",
@@ -245,11 +279,12 @@ function Portfolio() {
                   }}
                 >
                   <video
-                    autoPlay
+                    autoPlay={!isMobile}
                     loop
                     muted
                     playsInline
-                    preload="metadata"
+                    preload="none"
+                    poster={item.poster}
                     style={{
                       position: "absolute",
                       inset: 0,
@@ -261,6 +296,38 @@ function Portfolio() {
                   >
                     <source src={item.video} type="video/mp4" />
                   </video>
+
+                  {isMobile && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: "50%",
+                        top: "42%",
+                        transform: "translate(-50%, -50%)",
+                        width: "72px",
+                        height: "72px",
+                        borderRadius: "50%",
+                        background: "rgba(0,0,0,0.28)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backdropFilter: "blur(10px)",
+                        WebkitBackdropFilter: "blur(10px)",
+                        zIndex: 2,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 0,
+                          height: 0,
+                          borderTop: "12px solid transparent",
+                          borderBottom: "12px solid transparent",
+                          borderLeft: "20px solid #ffffff",
+                          marginLeft: "5px",
+                        }}
+                      />
+                    </div>
+                  )}
 
                   <div
                     style={{
