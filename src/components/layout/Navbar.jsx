@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Container from "../common/Container";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
+import logo from "../../assets/mineworld-logo.png";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -37,12 +38,7 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
+    document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
@@ -72,7 +68,7 @@ function Navbar() {
               gap: "20px",
               padding: scrolled ? (isMobile ? "12px 14px" : "14px 18px") : "6px 0",
               borderRadius: scrolled ? "24px" : "0px",
-              background: scrolled ? "rgba(22,32,51,0.68)" : "transparent",
+              background: scrolled ? "rgba(22,32,51,0.78)" : "transparent",
               backdropFilter: scrolled ? "blur(18px) saturate(135%)" : "none",
               WebkitBackdropFilter: scrolled
                 ? "blur(18px) saturate(135%)"
@@ -88,30 +84,85 @@ function Navbar() {
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "10px",
+                gap: isMobile ? "14px" : "16px",
                 color: theme.colors.text,
                 textDecoration: "none",
                 flexShrink: 0,
+                minWidth: 0,
               }}
             >
               <div
                 style={{
-                  width: "10px",
-                  height: "10px",
-                  borderRadius: "999px",
-                  background: theme.colors.goldSoft,
-                  boxShadow: `0 0 18px ${theme.colors.glow}`,
-                }}
-              />
-              <div
-                style={{
-                  fontSize: isMobile ? "18px" : "22px",
-                  fontWeight: 800,
-                  letterSpacing: "1px",
-                  lineHeight: 1,
+                  position: "relative",
+                  width: isMobile ? "72px" : "92px",
+                  height: isMobile ? "72px" : "92px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
                 }}
               >
-                MINEWORLD
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: "14%",
+                    borderRadius: "50%",
+                    background: "rgba(255,255,255,0.16)",
+                    filter: "blur(20px)",
+                    zIndex: 0,
+                    pointerEvents: "none",
+                  }}
+                />
+                <img
+                  src={logo}
+                  alt="Mineworld Production Logo"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    position: "relative",
+                    zIndex: 1,
+                    filter:
+                      "drop-shadow(0 0 10px rgba(255,255,255,0.22)) drop-shadow(0 0 22px rgba(255,255,255,0.12))",
+                  }}
+                />
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  lineHeight: 1,
+                  minWidth: 0,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: isMobile ? "22px" : "30px",
+                    fontWeight: 800,
+                    letterSpacing: isMobile ? "1px" : "1.4px",
+                    color: theme.colors.text,
+                    whiteSpace: "nowrap",
+                    textShadow: "0 2px 14px rgba(255,255,255,0.08)",
+                  }}
+                >
+                  MINEWORLD
+                </span>
+
+                <span
+                  style={{
+                    fontSize: isMobile ? "12px" : "16px",
+                    fontWeight: 700,
+                    letterSpacing: isMobile ? "2.2px" : "3px",
+                    textTransform: "uppercase",
+                    color: theme.colors.goldSoft,
+                    marginTop: isMobile ? "7px" : "9px",
+                    whiteSpace: "nowrap",
+                    textShadow: "0 2px 12px rgba(214,176,96,0.16)",
+                  }}
+                >
+                  Production
+                </span>
               </div>
             </a>
 
@@ -192,9 +243,9 @@ function Navbar() {
                 onClick={() => setMenuOpen((prev) => !prev)}
                 aria-label="Toggle menu"
                 style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "16px",
+                  width: "54px",
+                  height: "54px",
+                  borderRadius: "18px",
                   border: `1px solid ${theme.colors.lineStrong}`,
                   background: "rgba(34,49,77,0.72)",
                   backdropFilter: "blur(16px) saturate(130%)",
@@ -205,12 +256,13 @@ function Navbar() {
                   cursor: "pointer",
                   padding: 0,
                   flexShrink: 0,
+                  boxShadow: "0 0 16px rgba(255,255,255,0.06)",
                 }}
               >
                 <div
                   style={{
-                    width: "20px",
-                    height: "14px",
+                    width: "22px",
+                    height: "16px",
                     position: "relative",
                   }}
                 >
@@ -225,14 +277,14 @@ function Navbar() {
                       background: theme.colors.text,
                       transition: "all 0.25s ease",
                       transform: menuOpen
-                        ? "translateY(6px) rotate(45deg)"
+                        ? "translateY(7px) rotate(45deg)"
                         : "none",
                     }}
                   />
                   <span
                     style={{
                       position: "absolute",
-                      top: "6px",
+                      top: "7px",
                       left: 0,
                       width: "100%",
                       height: "2px",
@@ -253,7 +305,7 @@ function Navbar() {
                       background: theme.colors.text,
                       transition: "all 0.25s ease",
                       transform: menuOpen
-                        ? "translateY(-6px) rotate(-45deg)"
+                        ? "translateY(-7px) rotate(-45deg)"
                         : "none",
                     }}
                   />
@@ -264,7 +316,6 @@ function Navbar() {
         </Container>
       </header>
 
-      {/* MOBILE MENU */}
       {isMobile && menuOpen && (
         <div
           style={{
@@ -277,7 +328,7 @@ function Navbar() {
             display: "flex",
             alignItems: "flex-start",
             justifyContent: "center",
-            padding: "84px 16px 20px",
+            padding: "92px 16px 20px",
           }}
         >
           <div
@@ -340,10 +391,7 @@ function Navbar() {
               <a
                 href="#contact"
                 onClick={closeMenu}
-                style={{
-                  display: "block",
-                  textDecoration: "none",
-                }}
+                style={{ display: "block", textDecoration: "none" }}
               >
                 <div
                   style={{
@@ -358,31 +406,6 @@ function Navbar() {
                   }}
                 >
                   Start a Project
-                </div>
-              </a>
-
-              <a
-                href="#portfolio"
-                onClick={closeMenu}
-                style={{
-                  display: "block",
-                  textDecoration: "none",
-                }}
-              >
-                <div
-                  style={{
-                    width: "100%",
-                    padding: "16px 18px",
-                    borderRadius: "18px",
-                    border: `1px solid ${theme.colors.line}`,
-                    background: "transparent",
-                    color: theme.colors.text,
-                    fontSize: "16px",
-                    fontWeight: 600,
-                    textAlign: "center",
-                  }}
-                >
-                  View Work
                 </div>
               </a>
             </div>

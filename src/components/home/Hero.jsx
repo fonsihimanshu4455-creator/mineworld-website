@@ -3,8 +3,9 @@ import Container from "../common/Container";
 import MagneticButton from "../common/MagneticButton";
 import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
-import heroPoster from "../../assets/hero.png";
+
 import heroVideo from "../../assets/hero-video.mp4";
+import heroPoster from "../../assets/hero.png";
 
 function Hero() {
   const isMobile =
@@ -36,33 +37,6 @@ function Hero() {
           pointerEvents: "none",
         }}
       />
-
-      {!isMobile && (
-        <>
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              left: "6%",
-              width: "1px",
-              background: "rgba(255,255,255,0.06)",
-              pointerEvents: "none",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              right: "6%",
-              width: "1px",
-              background: "rgba(255,255,255,0.06)",
-              pointerEvents: "none",
-            }}
-          />
-        </>
-      )}
 
       <Container
         style={{
@@ -211,35 +185,6 @@ function Hero() {
               justifyContent: "center",
             }}
           >
-            {!isMobile && (
-              <>
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "55%",
-                    height: "55%",
-                    background: "rgba(214,176,96,0.22)",
-                    filter: "blur(120px)",
-                    borderRadius: "50%",
-                    zIndex: -2,
-                  }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "87%",
-                    height: "92%",
-                    borderRadius: "34px",
-                    background: "rgba(255,255,255,0.025)",
-                    top: "36px",
-                    left: "36px",
-                    filter: "blur(18px)",
-                    zIndex: -1,
-                  }}
-                />
-              </>
-            )}
-
             <motion.div
               animate={{ y: isMobile ? 0 : [0, -10, 0] }}
               transition={{
@@ -262,42 +207,70 @@ function Hero() {
                 `,
               }}
             >
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="metadata"
-                poster={heroPoster}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  opacity: 0.95,
-                  transform: "scale(1.12)",
-                  filter: "contrast(1.15) brightness(1.05) saturate(1.1)",
-                }}
-              >
-                <source src={heroVideo} type="video/mp4" />
-              </video>
-
-              {!isMobile && (
-                <motion.div
-                  animate={{ x: ["-100%", "130%"] }}
-                  transition={{
-                    duration: 3.2,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
+              {isMobile ? (
+                <img
+                  src={heroPoster}
+                  alt="Mineworld Hero"
+                  loading="eager"
                   style={{
-                    position: "absolute",
-                    top: 0,
-                    bottom: 0,
-                    width: "120px",
-                    background:
-                      "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    opacity: 0.95,
+                    transform: "scale(1.03)",
                   }}
                 />
+              ) : (
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  poster={heroPoster}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    opacity: 0.95,
+                    transform: "scale(1.12)",
+                    filter: "contrast(1.15) brightness(1.05) saturate(1.1)",
+                  }}
+                >
+                  <source src={heroVideo} type="video/mp4" />
+                </video>
+              )}
+
+              {isMobile && (
+                <div
+                  style={{
+                    position: "absolute",
+                    left: "50%",
+                    top: "46%",
+                    transform: "translate(-50%, -50%)",
+                    width: "86px",
+                    height: "86px",
+                    borderRadius: "50%",
+                    background: "rgba(0,0,0,0.28)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                    zIndex: 2,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 0,
+                      height: 0,
+                      borderTop: "15px solid transparent",
+                      borderBottom: "15px solid transparent",
+                      borderLeft: "24px solid #ffffff",
+                      marginLeft: "6px",
+                    }}
+                  />
+                </div>
               )}
 
               <div
@@ -308,35 +281,6 @@ function Hero() {
                     "linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.22) 35%, rgba(0,0,0,0.78))",
                 }}
               />
-
-              {!isMobile && (
-                <>
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "20px",
-                      left: "20px",
-                      width: "68px",
-                      height: "68px",
-                      borderTop: `1.5px solid ${theme.colors.goldSoft}`,
-                      borderLeft: `1.5px solid ${theme.colors.goldSoft}`,
-                      opacity: 0.95,
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "20px",
-                      right: "20px",
-                      width: "68px",
-                      height: "68px",
-                      borderBottom: `1.5px solid ${theme.colors.goldSoft}`,
-                      borderRight: `1.5px solid ${theme.colors.goldSoft}`,
-                      opacity: 0.95,
-                    }}
-                  />
-                </>
-              )}
 
               <div
                 style={{

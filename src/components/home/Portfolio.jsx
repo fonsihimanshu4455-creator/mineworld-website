@@ -6,15 +6,15 @@ import SectionTag from "../common/SectionTag";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
 
-import productionPoster from "../../assets/production.JPG";
-import podcastPoster from "../../assets/podcast-showcase.jpg";
-import adsPoster from "../../assets/ads-showcase.jpg";
-import creatorPoster from "../../assets/designer.JPG";
+import video1 from "../../assets/portfolio-1.mp4";
+import video2 from "../../assets/portfolio-2.mp4";
+import video3 from "../../assets/portfolio-3.mp4";
+import video4 from "../../assets/portfolio-4.mp4";
 
-import portfolioVideo1 from "../../assets/portfolio-1.mp4";
-import portfolioVideo2 from "../../assets/portfolio-2.mp4";
-import portfolioVideo3 from "../../assets/portfolio-3.mp4";
-import portfolioVideo4 from "../../assets/portfolio-4.mp4";
+import poster1 from "../../assets/production.JPG";
+import poster2 from "../../assets/podcast-showcase.jpg";
+import poster3 from "../../assets/ads-showcase.jpg";
+import poster4 from "../../assets/designer.JPG";
 
 const portfolioItems = [
   {
@@ -23,8 +23,8 @@ const portfolioItems = [
     category: "Editing + Brand Perception",
     description:
       "High-retention edits designed to make the brand feel sharper, more premium, and harder to ignore.",
-    video: portfolioVideo1,
-    poster: productionPoster,
+    video: video1,
+    poster: poster1,
   },
   {
     id: 2,
@@ -32,8 +32,8 @@ const portfolioItems = [
     category: "Studio + Content System",
     description:
       "Structured podcast content built for authority, clips, and premium multi-format distribution.",
-    video: portfolioVideo2,
-    poster: podcastPoster,
+    video: video2,
+    poster: poster2,
   },
   {
     id: 3,
@@ -41,8 +41,8 @@ const portfolioItems = [
     category: "Performance Visuals",
     description:
       "Ad content shaped for clarity, first-frame attention, and platform-native conversion flow.",
-    video: portfolioVideo3,
-    poster: adsPoster,
+    video: video3,
+    poster: poster3,
   },
   {
     id: 4,
@@ -50,8 +50,8 @@ const portfolioItems = [
     category: "Premium Social Content",
     description:
       "Stylized edits and visual systems that turn ordinary content into strong digital presence.",
-    video: portfolioVideo4,
-    poster: creatorPoster,
+    video: video4,
+    poster: poster4,
   },
 ];
 
@@ -121,31 +121,47 @@ function Portfolio() {
                 background: theme.colors.bg,
               }}
             >
-              <video
-                autoPlay={!isMobile}
-                loop
-                muted
-                playsInline
-                preload={isMobile ? "none" : "metadata"}
-                poster={featuredItem.poster}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  opacity: 0.78,
-                }}
-              >
-                <source src={featuredItem.video} type="video/mp4" />
-              </video>
+              {isMobile ? (
+                <img
+                  src={featuredItem.poster}
+                  alt={featuredItem.title}
+                  loading="eager"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    opacity: 0.78,
+                  }}
+                />
+              ) : (
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  poster={featuredItem.poster}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    opacity: 0.78,
+                  }}
+                >
+                  <source src={featuredItem.video} type="video/mp4" />
+                </video>
+              )}
 
               {isMobile && (
                 <div
                   style={{
                     position: "absolute",
                     left: "50%",
-                    top: "40%",
+                    top: "42%",
                     transform: "translate(-50%, -50%)",
                     width: "86px",
                     height: "86px",
@@ -289,24 +305,40 @@ function Portfolio() {
                     boxShadow: theme.shadow.soft,
                   }}
                 >
-                  <video
-                    autoPlay={!isMobile}
-                    loop
-                    muted
-                    playsInline
-                    preload="none"
-                    poster={item.poster}
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      opacity: 0.72,
-                    }}
-                  >
-                    <source src={item.video} type="video/mp4" />
-                  </video>
+                  {isMobile ? (
+                    <img
+                      src={item.poster}
+                      alt={item.title}
+                      loading="lazy"
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        opacity: 0.72,
+                      }}
+                    />
+                  ) : (
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="metadata"
+                      poster={item.poster}
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        opacity: 0.72,
+                      }}
+                    >
+                      <source src={item.video} type="video/mp4" />
+                    </video>
+                  )}
 
                   {isMobile && (
                     <div
