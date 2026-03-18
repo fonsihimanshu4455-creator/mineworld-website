@@ -8,55 +8,58 @@ import { theme } from "../../styles/theme";
 const services = [
   {
     id: 1,
-    title: "Video Editing.",
-    subtitle: "The core of Mineworld",
+    title: "Ads & Lead Generation",
+    subtitle: "Primary growth engine",
     description:
-      "Retention-first editing built for reels, podcasts, ads, branded content, and long-form visual systems.",
+      "Meta ad campaigns designed to generate real leads, real inquiries, and measurable business growth — not just reach.",
     items: [
-      "Reels Editing",
-      "Podcast Editing",
-      "Ad Creative Editing",
-      "YouTube / Long-form Edits",
-      "Cinematic Brand Content",
+      "Meta Ads Strategy",
+      "Lead Generation Campaigns",
+      "Clinic & Business Ads",
+      "Offer Testing",
+      "Creative + Funnel Alignment",
     ],
   },
   {
     id: 2,
-    title: "Digital Growth",
-    subtitle: "Strategy + execution",
+    title: "Video Editing",
+    subtitle: "Content that converts",
     description:
-      "Content systems, platform thinking, and ad-aware visual direction that helps brands grow sharper and faster.",
+      "High-retention edits for reels, ads, YouTube, podcasts, and branded content — built to turn attention into action.",
     items: [
-      "Social Media Direction",
-      "Content Strategy",
-      "Ad Creative Planning",
-      "Brand Positioning Support",
+      "Reels Editing",
+      "Ad Creative Editing",
+      "Podcast Editing",
+      "YouTube / Long-form",
+      "High-retention Hooks",
     ],
   },
   {
     id: 3,
-    title: "Studio Production",
-    subtitle: "In-house content environment",
+    title: "Social Media Management",
+    subtitle: "Page growth + consistency",
     description:
-      "Premium indoor production for podcasts, interviews, creator shoots, and controlled talking-head formats.",
+      "We don’t just post content. We build structured content systems that improve page perception, consistency, and engagement.",
     items: [
-      "Podcast Setup",
-      "Talking-Head Shoots",
-      "Creator Content",
-      "Interview Production",
+      "Monthly Content Planning",
+      "Posting Strategy",
+      "Brand Positioning",
+      "Engagement Direction",
+      "Page Management",
     ],
   },
   {
     id: 4,
-    title: "Creative Support",
-    subtitle: "Precision add-ons",
+    title: "Podcast & Content Shoots",
+    subtitle: "Authority-building content",
     description:
-      "Design support that strengthens content performance and visual consistency across platforms.",
+      "Professional podcast shoots, creator shoots, and business content sessions designed to build trust and reusable content assets.",
     items: [
-      "Thumbnails",
-      "Social Creatives",
-      "Brand Assets",
-      "Campaign Support",
+      "Podcast Shoots",
+      "Creator Shoots",
+      "Talking-head Content",
+      "Brand Content Sessions",
+      "Authority Content Production",
     ],
   },
 ];
@@ -102,8 +105,8 @@ function Services() {
 
         <Reveal delay={0.08}>
           <SectionHeading
-            title="Built with hierarchy. Not a menu of random services."
-            subtitle="Mineworld is positioned around editing-first execution. Everything else supports that core — from growth systems and ad thinking to studio-backed content production and visual support."
+            title="Built around growth, not just content production."
+            subtitle="Mineworld is not just here to make your content look premium. We help brands build visibility, authority, leads, and long-term growth through editing, ads, content systems, and digital execution."
           />
         </Reveal>
 
@@ -122,6 +125,7 @@ function Services() {
               gap: "26px",
             }}
           >
+            {/* PRIMARY */}
             <Reveal delay={0.12}>
               <motion.div
                 animate={{ y: isMobile ? 0 : [0, -6, 0] }}
@@ -222,6 +226,7 @@ function Services() {
               </motion.div>
             </Reveal>
 
+            {/* SUPPORT 2 CARDS */}
             <div
               style={{
                 display: "grid",
@@ -235,7 +240,7 @@ function Services() {
                     whileHover={{ y: -6 }}
                     transition={{ type: "spring", stiffness: 180, damping: 18 }}
                     style={{
-                      minHeight: isMobile ? "auto" : "270px",
+                      minHeight: isMobile ? "auto" : "290px",
                       borderRadius: isMobile ? "22px" : "26px",
                       padding: isMobile ? "22px" : "28px",
                       background:
@@ -309,6 +314,7 @@ function Services() {
             </div>
           </div>
 
+          {/* RIGHT CARD */}
           <Reveal delay={0.14}>
             <motion.div
               whileHover={{ y: -8 }}
@@ -410,8 +416,9 @@ function Services() {
                   fontSize: "14px",
                 }}
               >
-                Everything here supports a single goal: making the brand look
-                sharper, move better, and convert stronger.
+                Every service is meant to support one real goal: helping your
+                brand look stronger, reach better people, and convert more
+                leads.
               </div>
             </motion.div>
           </Reveal>

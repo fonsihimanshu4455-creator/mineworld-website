@@ -1,5 +1,6 @@
 import Navbar from "./components/layout/Navbar";
 import Hero from "./components/home/Hero";
+import GrowthSection from "./components/home/GrowthSection";
 import BrandStatement from "./components/home/BrandStatement";
 import EditingShowcase from "./components/home/EditingShowcase";
 import Services from "./components/home/Services";
@@ -15,6 +16,7 @@ function App() {
     <>
       <Navbar />
       <Hero />
+      <GrowthSection />
       <BrandStatement />
       <EditingShowcase />
       <Services />

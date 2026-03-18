@@ -19,37 +19,57 @@ import poster4 from "../../assets/designer.JPG";
 const portfolioItems = [
   {
     id: 1,
-    title: "Brand Reel System",
-    category: "Editing + Brand Perception",
+    title: "Lead Generation Creative System",
+    category: "Ads + Editing + Conversion",
     description:
-      "High-retention edits designed to make the brand feel sharper, more premium, and harder to ignore.",
+      "Creative assets built to help brands attract attention, generate leads, and convert viewers into inquiries.",
+    resultPoints: [
+      "High-retention ad creatives",
+      "Optimized for paid performance",
+      "Built for lead generation",
+    ],
     video: video1,
     poster: poster1,
   },
   {
     id: 2,
-    title: "Podcast Visual Identity",
-    category: "Studio + Content System",
+    title: "Podcast Authority Content",
+    category: "Content + Brand Trust",
     description:
-      "Structured podcast content built for authority, clips, and premium multi-format distribution.",
+      "Podcast shoots and edits designed to build authority, strengthen brand trust, and create multi-platform content.",
+    resultPoints: [
+      "Authority-driven content",
+      "Long-form + short clips",
+      "Repurposed for growth",
+    ],
     video: video2,
     poster: poster2,
   },
   {
     id: 3,
-    title: "Ad Creative Direction",
-    category: "Performance Visuals",
+    title: "Ad Performance Visuals",
+    category: "Meta Ads + Lead Flow",
     description:
-      "Ad content shaped for clarity, first-frame attention, and platform-native conversion flow.",
+      "Video assets shaped for first-frame attention, ad clarity, and better lead performance across campaigns.",
+    resultPoints: [
+      "Ad-ready creative direction",
+      "Fast hook-focused edits",
+      "Lead-focused visuals",
+    ],
     video: video3,
     poster: poster3,
   },
   {
     id: 4,
-    title: "Cinematic Creator Content",
-    category: "Premium Social Content",
+    title: "Social Media Growth Content",
+    category: "Page Management + Growth",
     description:
-      "Stylized edits and visual systems that turn ordinary content into strong digital presence.",
+      "Content systems made to improve consistency, engagement, and page-level growth for serious brands.",
+    resultPoints: [
+      "Engagement-first content",
+      "Better page perception",
+      "Growth-oriented posting assets",
+    ],
     video: video4,
     poster: poster4,
   },
@@ -94,8 +114,8 @@ function Portfolio() {
 
         <Reveal delay={0.08}>
           <SectionHeading
-            title="The work should feel premium before anyone reads the explanation."
-            subtitle="Mineworld’s portfolio is not meant to be a pile of uploads. It is meant to show visual taste, editing control, and strong digital presence."
+            title="Creative work is valuable only when it helps brands grow."
+            subtitle="Mineworld doesn’t just make content look premium. We build editing, content, and ad systems that support visibility, leads, and brand growth."
           />
         </Reveal>
 
@@ -107,13 +127,14 @@ function Portfolio() {
             alignItems: "stretch",
           }}
         >
+          {/* FEATURED CARD */}
           <Reveal delay={0.12}>
             <motion.div
               whileHover={{ y: -8 }}
               transition={{ type: "spring", stiffness: 180, damping: 18 }}
               style={{
                 position: "relative",
-                minHeight: isMobile ? "460px" : "700px",
+                minHeight: isMobile ? "520px" : "720px",
                 borderRadius: isMobile ? "24px" : "32px",
                 overflow: "hidden",
                 border: "1px solid rgba(214,176,96,0.3)",
@@ -161,7 +182,7 @@ function Portfolio() {
                   style={{
                     position: "absolute",
                     left: "50%",
-                    top: "42%",
+                    top: "34%",
                     transform: "translate(-50%, -50%)",
                     width: "86px",
                     height: "86px",
@@ -193,7 +214,7 @@ function Portfolio() {
                   position: "absolute",
                   inset: 0,
                   background:
-                    "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.2) 35%, rgba(0,0,0,0.9) 100%)",
+                    "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.2) 35%, rgba(0,0,0,0.92) 100%)",
                 }}
               />
 
@@ -251,6 +272,7 @@ function Portfolio() {
                     fontWeight: 800,
                     lineHeight: 1.02,
                     color: theme.colors.text,
+                    maxWidth: "92%",
                   }}
                 >
                   {featuredItem.title}
@@ -262,11 +284,33 @@ function Portfolio() {
                     color: theme.colors.textSoft,
                     fontSize: isMobile ? "15px" : "16px",
                     lineHeight: 1.8,
-                    maxWidth: isMobile ? "100%" : "80%",
+                    maxWidth: isMobile ? "100%" : "82%",
                   }}
                 >
                   {featuredItem.description}
                 </p>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gap: "8px",
+                    marginTop: "20px",
+                    maxWidth: isMobile ? "100%" : "75%",
+                  }}
+                >
+                  {featuredItem.resultPoints.map((point) => (
+                    <div
+                      key={point}
+                      style={{
+                        color: theme.colors.text,
+                        fontSize: "14px",
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      • {point}
+                    </div>
+                  ))}
+                </div>
 
                 <div
                   style={{
@@ -276,13 +320,14 @@ function Portfolio() {
                     flexWrap: "wrap",
                   }}
                 >
-                  <MagneticButton>View Project</MagneticButton>
-                  <MagneticButton secondary>Similar Build</MagneticButton>
+                  <MagneticButton>Get Leads Now</MagneticButton>
+                  <MagneticButton secondary>View Work</MagneticButton>
                 </div>
               </div>
             </motion.div>
           </Reveal>
 
+          {/* SIDE STACK */}
           <div
             style={{
               display: "grid",
@@ -297,7 +342,7 @@ function Portfolio() {
                   transition={{ type: "spring", stiffness: 180, damping: 18 }}
                   style={{
                     position: "relative",
-                    minHeight: isMobile ? "250px" : "216px",
+                    minHeight: isMobile ? "280px" : "235px",
                     borderRadius: isMobile ? "22px" : "26px",
                     overflow: "hidden",
                     border: `1px solid ${theme.colors.line}`,
@@ -345,7 +390,7 @@ function Portfolio() {
                       style={{
                         position: "absolute",
                         left: "50%",
-                        top: "42%",
+                        top: "34%",
                         transform: "translate(-50%, -50%)",
                         width: "72px",
                         height: "72px",
@@ -377,7 +422,7 @@ function Portfolio() {
                       position: "absolute",
                       inset: 0,
                       background:
-                        "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%)",
+                        "linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.88) 100%)",
                     }}
                   />
 
@@ -403,7 +448,7 @@ function Portfolio() {
 
                     <h3
                       style={{
-                        margin: "0 0 6px",
+                        margin: "0 0 8px",
                         fontSize: isMobile ? "24px" : "26px",
                         fontWeight: 800,
                         lineHeight: 1.08,
@@ -423,6 +468,27 @@ function Portfolio() {
                     >
                       {item.description}
                     </p>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gap: "6px",
+                        marginTop: "12px",
+                      }}
+                    >
+                      {item.resultPoints.map((point) => (
+                        <div
+                          key={point}
+                          style={{
+                            color: theme.colors.text,
+                            fontSize: "12px",
+                            lineHeight: 1.6,
+                          }}
+                        >
+                          • {point}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               </Reveal>

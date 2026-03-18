@@ -14,6 +14,7 @@ const navLinks = [
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
   const isMobile =
     typeof window !== "undefined" ? window.innerWidth <= 768 : false;
 
@@ -235,7 +236,7 @@ function Navbar() {
                 </div>
 
                 <MagneticButton style={{ padding: "12px 20px" }}>
-                  Start a Project
+                  Get Leads Now
                 </MagneticButton>
               </nav>
             ) : (
@@ -405,7 +406,7 @@ function Navbar() {
                     textAlign: "center",
                   }}
                 >
-                  Start a Project
+                  Get Leads Now
                 </div>
               </a>
             </div>

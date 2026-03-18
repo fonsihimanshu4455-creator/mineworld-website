@@ -65,7 +65,7 @@ function Hero() {
                   marginBottom: "24px",
                 }}
               >
-                Delhi’s Most Authentic New-Age Production Studio
+                Video Editing + Digital Growth Agency
               </div>
             </Reveal>
 
@@ -73,18 +73,18 @@ function Hero() {
               <h1
                 style={{
                   margin: 0,
-                  fontSize: isMobile ? "54px" : "clamp(54px, 7.5vw, 104px)",
-                  lineHeight: isMobile ? 0.96 : 0.93,
+                  fontSize: isMobile ? "48px" : "clamp(54px, 7vw, 98px)",
+                  lineHeight: isMobile ? 0.98 : 0.92,
                   fontWeight: 800,
-                  letterSpacing: isMobile ? "-2px" : "-2.8px",
-                  maxWidth: isMobile ? "100%" : "760px",
+                  letterSpacing: isMobile ? "-1.8px" : "-2.8px",
+                  maxWidth: isMobile ? "100%" : "860px",
                   color: theme.colors.text,
                   textShadow: "0 6px 30px rgba(0,0,0,0.18)",
                 }}
               >
-                We Edit
+                We Don’t Just Edit Content.
                 <br />
-                Attention.
+                We Generate Leads & Grow Brands.
               </h1>
             </Reveal>
 
@@ -93,18 +93,18 @@ function Hero() {
                 style={{
                   marginTop: "28px",
                   marginBottom: 0,
-                  maxWidth: isMobile ? "100%" : "640px",
+                  maxWidth: isMobile ? "100%" : "720px",
                   marginLeft: isMobile ? "auto" : 0,
                   marginRight: isMobile ? "auto" : 0,
                   color: theme.colors.textSoft,
                   fontSize: isMobile ? "17px" : "19px",
-                  lineHeight: 1.85,
+                  lineHeight: 1.9,
                 }}
               >
-                Mineworld builds cinematic digital presence for brands that
-                refuse to look ordinary. We don’t just edit content — we
-                engineer attention, retention, and perception across every
-                frame.
+                From high-retention video editing to full-scale ad campaigns,
+                Mineworld builds content and digital systems that don’t just
+                look premium — they bring real business results, real
+                visibility, and real leads.
               </p>
             </Reveal>
 
@@ -118,7 +118,7 @@ function Hero() {
                   justifyContent: isMobile ? "center" : "flex-start",
                 }}
               >
-                <MagneticButton>Start a Project</MagneticButton>
+                <MagneticButton>Get Leads Now</MagneticButton>
                 <MagneticButton secondary>View Work</MagneticButton>
               </div>
             </Reveal>
@@ -134,10 +134,11 @@ function Hero() {
                 }}
               >
                 {[
+                  "Meta Ads",
+                  "Lead Generation",
                   "Video Editing",
-                  "Ad Creatives",
-                  "Podcast Production",
-                  "Brand Growth",
+                  "Page Management",
+                  "Podcast Shoots",
                 ].map((item) => (
                   <div
                     key={item}
@@ -168,7 +169,7 @@ function Hero() {
                   textTransform: "uppercase",
                 }}
               >
-                Built for brands that want to dominate attention, not blend in.
+                Content. Ads. Growth. All in one system.
               </div>
             </Reveal>
           </div>
@@ -299,7 +300,7 @@ function Hero() {
                     marginBottom: "12px",
                   }}
                 >
-                  Editing-First Identity
+                  Editing + Ads + Growth
                 </div>
 
                 <div
@@ -314,7 +315,7 @@ function Hero() {
                 >
                   Premium content systems
                   <br />
-                  built to command attention
+                  built to generate real business results
                 </div>
               </div>
             </motion.div>
