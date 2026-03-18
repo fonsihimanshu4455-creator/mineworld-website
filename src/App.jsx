@@ -10,6 +10,8 @@ import ResultsSection from "./components/home/ResultsSection";
 import Portfolio from "./components/home/Portfolio";
 import CTA from "./components/home/CTA";
 import Footer from "./components/layout/Footer";
+import FloatingWhatsApp from "./components/common/FloatingWhatsApp";
+import ContactModal from "./components/common/ContactModal";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
       <Portfolio />
       <CTA />
       <Footer />
+      <FloatingWhatsApp />
+      <ContactModal />
     </>
   );
 }

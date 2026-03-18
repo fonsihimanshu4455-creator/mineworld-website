@@ -5,51 +5,62 @@ import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 
-const teamMembers = [
+const teamBlocks = [
   {
     id: 1,
-    name: "Lead Editor",
+    eyebrow: "Featured capability",
+    title: "Lead Editor",
     role: "Motion + Retention Specialist",
     description:
-      "Builds sharp, fast-paced edits designed for retention, rhythm, and premium content perception.",
+      "Builds sharp, fast-paced edits designed for retention, rhythm, premium finish, and stronger content perception across reels, ads, podcasts, and branded formats.",
     tags: ["Reels", "Pacing", "Retention"],
+    large: true,
+    footer:
+      "This role represents the editing standard Mineworld is built on: precision, speed, premium finish, and platform-aware visual control.",
   },
   {
     id: 2,
-    name: "Growth Strategist",
-    role: "Content System Architect",
+    eyebrow: "Content system architect",
+    title: "Growth Strategist",
+    role: "Ads + Social Direction",
     description:
-      "Connects content, campaigns, and platform behavior so visuals don’t just look good — they perform.",
+      "Connects content, campaigns, page management, and platform behavior so visuals don’t just look good — they support reach, inquiries, and brand growth.",
     tags: ["Strategy", "Ads", "Content"],
   },
   {
     id: 3,
-    name: "Studio Producer",
-    role: "Shoot Flow Controller",
+    eyebrow: "Shoot flow controller",
+    title: "Studio Producer",
+    role: "Shoot + Setup Execution",
     description:
-      "Handles indoor production standards, setup quality, and content environments built for authority.",
+      "Handles indoor production standards, setup quality, podcast shoot flow, and content environments built for authority and polished delivery.",
     tags: ["Studio", "Podcast", "Production"],
   },
   {
     id: 4,
-    name: "Creative Support",
-    role: "Visual Consistency Layer",
+    eyebrow: "Visual consistency layer",
+    title: "Creative Support",
+    role: "Design + Asset Support",
     description:
-      "Supports every content system with thumbnails, social assets, campaign creatives, and visual cleanup.",
+      "Supports every content system with thumbnails, social assets, campaign creatives, layout cleanup, and presentation consistency across platforms.",
     tags: ["Design", "Assets", "Support"],
   },
 ];
 
 function TeamSection() {
+  const featured = teamBlocks[0];
+  const supportBlocks = teamBlocks.slice(1);
+
   const isMobile =
     typeof window !== "undefined" ? window.innerWidth <= 768 : false;
 
   return (
     <section
+      id="team"
       style={{
         position: "relative",
         padding: isMobile ? "80px 0" : "120px 0",
-        background: theme.colors.bgSoft,
+        background: theme.colors.bg,
         borderBottom: `1px solid ${theme.colors.line}`,
         overflow: "hidden",
       }}
@@ -58,12 +69,12 @@ function TeamSection() {
         style={{
           position: "absolute",
           right: "-8%",
-          top: "10%",
-          width: isMobile ? "220px" : "320px",
-          height: isMobile ? "220px" : "320px",
+          top: "14%",
+          width: isMobile ? "220px" : "360px",
+          height: isMobile ? "220px" : "360px",
           borderRadius: "50%",
-          background: "rgba(214,176,96,0.08)",
-          filter: "blur(130px)",
+          background: "rgba(214,176,96,0.07)",
+          filter: "blur(140px)",
           pointerEvents: "none",
         }}
       />
@@ -76,44 +87,44 @@ function TeamSection() {
         <Reveal delay={0.08}>
           <SectionHeading
             title="Mineworld is designed as a specialist machine."
-            subtitle="Not a random team. Not a vague agency structure. Every role exists to sharpen quality, speed, perception, and execution."
+            subtitle="Not a random team. Not a vague agency structure. Every role exists to sharpen quality, speed, perception, and execution across editing, content, shoots, and digital growth."
           />
         </Reveal>
 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "1.2fr 0.8fr",
+            gridTemplateColumns: isMobile ? "1fr" : "1.15fr 0.85fr",
             gap: "26px",
             alignItems: "stretch",
           }}
         >
-          {/* FEATURED LEFT */}
+          {/* FEATURED */}
           <Reveal delay={0.12}>
             <motion.div
               whileHover={{ y: -8 }}
               transition={{ type: "spring", stiffness: 180, damping: 18 }}
               style={{
-                position: "relative",
-                minHeight: isMobile ? "auto" : "420px",
+                minHeight: isMobile ? "auto" : "520px",
                 borderRadius: isMobile ? "24px" : "30px",
                 padding: isMobile ? "24px" : "34px",
                 background:
                   "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025))",
-                border: "1px solid rgba(214,176,96,0.35)",
+                border: "1px solid rgba(214,176,96,0.34)",
                 boxShadow: theme.shadow.deep,
+                position: "relative",
                 overflow: "hidden",
               }}
             >
               <div
                 style={{
                   position: "absolute",
-                  top: "-30px",
-                  right: "-30px",
-                  width: isMobile ? "160px" : "220px",
-                  height: isMobile ? "160px" : "220px",
+                  top: "-42px",
+                  right: "-32px",
+                  width: isMobile ? "150px" : "220px",
+                  height: isMobile ? "150px" : "220px",
                   borderRadius: "50%",
-                  background: "rgba(214,176,96,0.18)",
+                  background: "rgba(214,176,96,0.10)",
                   filter: "blur(90px)",
                   pointerEvents: "none",
                 }}
@@ -128,42 +139,43 @@ function TeamSection() {
                   marginBottom: "16px",
                 }}
               >
-                Featured capability
+                {featured.eyebrow}
               </div>
 
               <h3
                 style={{
-                  margin: "0 0 14px",
-                  fontSize: isMobile ? "38px" : "clamp(34px, 4vw, 56px)",
+                  margin: "0 0 8px",
+                  fontSize: isMobile ? "42px" : "clamp(38px, 4vw, 62px)",
                   lineHeight: 1,
                   fontWeight: 800,
                   color: theme.colors.text,
                 }}
               >
-                {teamMembers[0].name}
+                {featured.title}
               </h3>
 
               <div
                 style={{
-                  fontSize: isMobile ? "17px" : "18px",
                   color: theme.colors.goldSoft,
+                  fontSize: isMobile ? "18px" : "24px",
+                  fontWeight: 700,
+                  lineHeight: 1.3,
                   marginBottom: "18px",
-                  fontWeight: 600,
                 }}
               >
-                {teamMembers[0].role}
+                {featured.role}
               </div>
 
               <p
                 style={{
                   margin: 0,
-                  maxWidth: "700px",
                   color: theme.colors.textSoft,
                   fontSize: isMobile ? "16px" : "17px",
                   lineHeight: 1.9,
+                  maxWidth: "90%",
                 }}
               >
-                {teamMembers[0].description}
+                {featured.description}
               </p>
 
               <div
@@ -171,10 +183,10 @@ function TeamSection() {
                   display: "flex",
                   flexWrap: "wrap",
                   gap: "12px",
-                  marginTop: "28px",
+                  marginTop: "22px",
                 }}
               >
-                {teamMembers[0].tags.map((tag) => (
+                {featured.tags.map((tag) => (
                   <div
                     key={tag}
                     style={{
@@ -182,8 +194,8 @@ function TeamSection() {
                       borderRadius: "999px",
                       border: `1px solid ${theme.colors.line}`,
                       background: theme.colors.bgCard,
-                      fontSize: "13px",
                       color: theme.colors.text,
+                      fontSize: "13px",
                     }}
                   >
                     {tag}
@@ -193,18 +205,16 @@ function TeamSection() {
 
               <div
                 style={{
-                  marginTop: "30px",
-                  paddingTop: "20px",
+                  marginTop: "28px",
+                  paddingTop: "22px",
                   borderTop: `1px solid ${theme.colors.line}`,
                   color: theme.colors.textSoft,
                   fontSize: "14px",
-                  lineHeight: 1.8,
-                  maxWidth: "700px",
+                  lineHeight: 1.85,
+                  maxWidth: "92%",
                 }}
               >
-                This role represents the editing standard Mineworld is built on:
-                precision, speed, premium finish, and platform-aware visual
-                control.
+                {featured.footer}
               </div>
             </motion.div>
           </Reveal>
@@ -214,22 +224,24 @@ function TeamSection() {
             style={{
               display: "grid",
               gridTemplateRows: isMobile ? "auto" : "repeat(3, 1fr)",
-              gap: "26px",
+              gap: "22px",
             }}
           >
-            {teamMembers.slice(1).map((member, index) => (
-              <Reveal key={member.id} delay={0.16 + index * 0.08}>
+            {supportBlocks.map((block, index) => (
+              <Reveal key={block.id} delay={0.16 + index * 0.06}>
                 <motion.div
                   whileHover={{ y: -6 }}
                   transition={{ type: "spring", stiffness: 180, damping: 18 }}
                   style={{
-                    minHeight: isMobile ? "auto" : "122px",
+                    minHeight: isMobile ? "auto" : "155px",
                     borderRadius: isMobile ? "22px" : "24px",
                     padding: isMobile ? "22px" : "24px",
                     background:
                       "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025))",
                     border: `1px solid ${theme.colors.line}`,
                     boxShadow: theme.shadow.soft,
+                    position: "relative",
+                    overflow: "hidden",
                   }}
                 >
                   <div
@@ -241,30 +253,41 @@ function TeamSection() {
                       marginBottom: "10px",
                     }}
                   >
-                    {member.role}
+                    {block.eyebrow}
                   </div>
 
                   <h3
                     style={{
-                      margin: "0 0 10px",
-                      fontSize: isMobile ? "24px" : "26px",
+                      margin: "0 0 6px",
+                      fontSize: isMobile ? "28px" : "34px",
                       lineHeight: 1.05,
                       fontWeight: 800,
                       color: theme.colors.text,
                     }}
                   >
-                    {member.name}
+                    {block.title}
                   </h3>
+
+                  <div
+                    style={{
+                      color: theme.colors.goldSoft,
+                      fontSize: "15px",
+                      fontWeight: 700,
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {block.role}
+                  </div>
 
                   <p
                     style={{
                       margin: 0,
                       color: theme.colors.textSoft,
                       fontSize: "14px",
-                      lineHeight: 1.75,
+                      lineHeight: 1.8,
                     }}
                   >
-                    {member.description}
+                    {block.description}
                   </p>
 
                   <div
@@ -275,7 +298,7 @@ function TeamSection() {
                       marginTop: "16px",
                     }}
                   >
-                    {member.tags.map((tag) => (
+                    {block.tags.map((tag) => (
                       <div
                         key={tag}
                         style={{
@@ -283,8 +306,8 @@ function TeamSection() {
                           borderRadius: "999px",
                           border: `1px solid ${theme.colors.line}`,
                           background: theme.colors.bgCard,
-                          fontSize: "11px",
                           color: theme.colors.text,
+                          fontSize: "11px",
                         }}
                       >
                         {tag}

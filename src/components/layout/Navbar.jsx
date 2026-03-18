@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import Container from "../common/Container";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
+import { openContactModal, scrollToSection } from "../../utils/contactActions";
 import logo from "../../assets/mineworld-logo.png";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", target: "home" },
+  { label: "Services", target: "services" },
+  { label: "Portfolio", target: "portfolio" },
+  { label: "Contact", target: "contact" },
 ];
 
 function Navbar() {
@@ -19,9 +20,7 @@ function Navbar() {
     typeof window !== "undefined" ? window.innerWidth <= 768 : false;
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 24);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 24);
 
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -46,6 +45,11 @@ function Navbar() {
   }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
+
+  const handleNavClick = (target) => {
+    scrollToSection(target);
+    closeMenu();
+  };
 
   return (
     <>
@@ -79,15 +83,17 @@ function Navbar() {
               transition: "all 0.3s ease",
             }}
           >
-            <a
-              href="#home"
-              onClick={closeMenu}
+            <button
+              onClick={() => handleNavClick("home")}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: isMobile ? "14px" : "16px",
                 color: theme.colors.text,
-                textDecoration: "none",
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
                 flexShrink: 0,
                 minWidth: 0,
               }}
@@ -165,7 +171,7 @@ function Navbar() {
                   Production
                 </span>
               </div>
-            </a>
+            </button>
 
             {!isMobile ? (
               <nav
@@ -183,16 +189,18 @@ function Navbar() {
                   }}
                 >
                   {navLinks.map((link) => (
-                    <a
+                    <button
                       key={link.label}
-                      href={link.href}
+                      onClick={() => handleNavClick(link.target)}
                       style={{
                         position: "relative",
                         color: theme.colors.textSoft,
                         fontSize: "14px",
                         fontWeight: 500,
                         letterSpacing: "0.2px",
-                        textDecoration: "none",
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
                         paddingBottom: "6px",
                         transition: "color 0.25s ease",
                       }}
@@ -231,13 +239,23 @@ function Navbar() {
                           transition: "all 0.25s ease",
                         }}
                       />
-                    </a>
+                    </button>
                   ))}
                 </div>
 
-                <MagneticButton style={{ padding: "12px 20px" }}>
-                  Get Leads Now
-                </MagneticButton>
+                <button
+                  onClick={openContactModal}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                  }}
+                >
+                  <MagneticButton style={{ padding: "12px 20px" }}>
+                    Start a Project
+                  </MagneticButton>
+                </button>
               </nav>
             ) : (
               <button
@@ -362,10 +380,9 @@ function Navbar() {
               }}
             >
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.label}
-                  href={link.href}
-                  onClick={closeMenu}
+                  onClick={() => handleNavClick(link.target)}
                   style={{
                     padding: "16px 18px",
                     borderRadius: "18px",
@@ -374,11 +391,12 @@ function Navbar() {
                     color: theme.colors.text,
                     fontSize: "16px",
                     fontWeight: 600,
-                    textDecoration: "none",
+                    textAlign: "left",
+                    cursor: "pointer",
                   }}
                 >
                   {link.label}
-                </a>
+                </button>
               ))}
             </div>
 
@@ -389,26 +407,26 @@ function Navbar() {
                 gap: "12px",
               }}
             >
-              <a
-                href="#contact"
-                onClick={closeMenu}
-                style={{ display: "block", textDecoration: "none" }}
+              <button
+                onClick={() => {
+                  closeMenu();
+                  openContactModal();
+                }}
+                style={{
+                  width: "100%",
+                  padding: "16px 18px",
+                  borderRadius: "18px",
+                  background: theme.colors.goldSoft,
+                  color: "#1B1B1B",
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  cursor: "pointer",
+                  border: "none",
+                }}
               >
-                <div
-                  style={{
-                    width: "100%",
-                    padding: "16px 18px",
-                    borderRadius: "18px",
-                    background: theme.colors.goldSoft,
-                    color: "#1B1B1B",
-                    fontSize: "16px",
-                    fontWeight: 700,
-                    textAlign: "center",
-                  }}
-                >
-                  Get Leads Now
-                </div>
-              </a>
+                Start a Project
+              </button>
             </div>
           </div>
         </div>

@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import Container from "../common/Container";
-import Reveal from "../common/Reveal";
 import MagneticButton from "../common/MagneticButton";
-import SectionTag from "../common/SectionTag";
+import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
+import { openContactModal } from "../../utils/contactActions";
 
 function CTA() {
   const isMobile =
@@ -15,7 +15,7 @@ function CTA() {
       style={{
         position: "relative",
         padding: isMobile ? "80px 0" : "120px 0",
-        background: theme.colors.bg,
+        background: theme.colors.bgSoft,
         borderBottom: `1px solid ${theme.colors.line}`,
         overflow: "hidden",
       }}
@@ -23,56 +23,68 @@ function CTA() {
       <div
         style={{
           position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(circle at 20% 30%, rgba(214,176,96,0.10), transparent 25%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.04), transparent 20%)",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+          width: isMobile ? "260px" : "420px",
+          height: isMobile ? "260px" : "420px",
+          borderRadius: "50%",
+          background: "rgba(214,176,96,0.10)",
+          filter: "blur(140px)",
           pointerEvents: "none",
         }}
       />
 
       <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          style={{
-            position: "relative",
-            borderRadius: isMobile ? "24px" : "34px",
-            padding: isMobile ? "24px" : "48px",
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025))",
-            border: "1px solid rgba(214,176,96,0.28)",
-            boxShadow: theme.shadow.deep,
-            overflow: "hidden",
-          }}
-        >
-          <div
+        <Reveal>
+          <motion.div
+            whileHover={{ y: -4 }}
+            transition={{ type: "spring", stiffness: 180, damping: 18 }}
             style={{
-              position: "absolute",
-              top: "-40px",
-              right: "-20px",
-              width: isMobile ? "160px" : "240px",
-              height: isMobile ? "160px" : "240px",
-              borderRadius: "50%",
-              background: "rgba(214,176,96,0.14)",
-              filter: "blur(100px)",
-              pointerEvents: "none",
+              position: "relative",
+              borderRadius: isMobile ? "26px" : "34px",
+              padding: isMobile ? "28px 22px" : "42px 40px",
+              background:
+                "linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025))",
+              border: "1px solid rgba(214,176,96,0.30)",
+              boxShadow: theme.shadow.deep,
+              overflow: "hidden",
+              textAlign: "center",
             }}
-          />
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: "-45px",
+                right: "-35px",
+                width: isMobile ? "130px" : "220px",
+                height: isMobile ? "130px" : "220px",
+                borderRadius: "50%",
+                background: "rgba(214,176,96,0.12)",
+                filter: "blur(90px)",
+                pointerEvents: "none",
+              }}
+            />
 
-          <Reveal>
-            <SectionTag>Start With Mineworld</SectionTag>
-          </Reveal>
+            <div
+              style={{
+                color: theme.colors.goldSoft,
+                fontSize: isMobile ? "11px" : "12px",
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                marginBottom: "16px",
+              }}
+            >
+              Start with Mineworld
+            </div>
 
-          <Reveal delay={0.08}>
             <h2
               style={{
-                margin: "0 0 18px",
-                fontSize: isMobile ? "52px" : "clamp(38px, 5vw, 72px)",
-                lineHeight: 1.02,
-                fontWeight: 800,
+                margin: "0 auto 18px",
                 maxWidth: "980px",
+                fontSize: isMobile ? "40px" : "clamp(44px, 5vw, 76px)",
+                lineHeight: isMobile ? 1.02 : 0.98,
+                fontWeight: 800,
                 color: theme.colors.text,
               }}
             >
@@ -80,46 +92,62 @@ function CTA() {
               <br />
               that’s the problem.
             </h2>
-          </Reveal>
 
-          <Reveal delay={0.14}>
             <p
               style={{
-                margin: 0,
-                maxWidth: "760px",
+                margin: "0 auto",
+                maxWidth: "840px",
                 color: theme.colors.textSoft,
                 fontSize: isMobile ? "16px" : "18px",
                 lineHeight: 1.9,
               }}
             >
-              Mineworld is built for brands, creators, and businesses that want
-              to look sharper, feel more premium, and hold stronger attention
-              across digital platforms. The goal is not more noise. The goal is
-              a version people remember.
+              Mineworld is built for brands, creators, clinics, and businesses
+              that want stronger content, sharper editing, better digital
+              presence, and more premium brand perception across platforms.
             </p>
-          </Reveal>
 
-          <Reveal delay={0.2}>
             <div
               style={{
                 display: "flex",
-                gap: "16px",
+                justifyContent: "center",
+                gap: "14px",
                 flexWrap: "wrap",
                 marginTop: "30px",
               }}
             >
-              <MagneticButton>Start a Project</MagneticButton>
-              <MagneticButton secondary>Book a Strategy Call</MagneticButton>
-            </div>
-          </Reveal>
+              <button
+                onClick={openContactModal}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                }}
+              >
+                <MagneticButton>Start a Project</MagneticButton>
+              </button>
 
-          <Reveal delay={0.26}>
+              <button
+                onClick={openContactModal}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                }}
+              >
+                <MagneticButton secondary>Book a Strategy Call</MagneticButton>
+              </button>
+            </div>
+
             <div
               style={{
                 display: "flex",
+                justifyContent: "center",
                 gap: "12px",
                 flexWrap: "wrap",
-                marginTop: "28px",
+                marginTop: "24px",
               }}
             >
               {[
@@ -142,8 +170,8 @@ function CTA() {
                 </div>
               ))}
             </div>
-          </Reveal>
-        </motion.div>
+          </motion.div>
+        </Reveal>
       </Container>
     </section>
   );

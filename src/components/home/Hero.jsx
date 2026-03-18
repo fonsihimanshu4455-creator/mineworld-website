@@ -3,6 +3,7 @@ import Container from "../common/Container";
 import MagneticButton from "../common/MagneticButton";
 import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
+import { openContactModal, scrollToSection } from "../../utils/contactActions";
 
 import heroVideo from "../../assets/hero-video.mp4";
 import heroPoster from "../../assets/hero.png";
@@ -65,7 +66,7 @@ function Hero() {
                   marginBottom: "24px",
                 }}
               >
-                Video Editing + Digital Growth Agency
+                Editing + Content + Digital Growth
               </div>
             </Reveal>
 
@@ -73,38 +74,38 @@ function Hero() {
               <h1
                 style={{
                   margin: 0,
-                  fontSize: isMobile ? "48px" : "clamp(54px, 7vw, 98px)",
-                  lineHeight: isMobile ? 0.98 : 0.92,
+                  fontSize: isMobile ? "44px" : "clamp(48px, 6vw, 82px)",
+                  lineHeight: isMobile ? 0.98 : 0.94,
                   fontWeight: 800,
-                  letterSpacing: isMobile ? "-1.8px" : "-2.8px",
-                  maxWidth: isMobile ? "100%" : "860px",
+                  letterSpacing: isMobile ? "-1.5px" : "-2.2px",
+                  maxWidth: isMobile ? "100%" : "760px",
                   color: theme.colors.text,
                   textShadow: "0 6px 30px rgba(0,0,0,0.18)",
                 }}
               >
-                We Don’t Just Edit Content.
+                We Don’t Just Edit.
                 <br />
-                We Generate Leads & Grow Brands.
+                We Build Brand Presence.
               </h1>
             </Reveal>
 
             <Reveal delay={0.2}>
               <p
                 style={{
-                  marginTop: "28px",
+                  marginTop: "26px",
                   marginBottom: 0,
                   maxWidth: isMobile ? "100%" : "720px",
                   marginLeft: isMobile ? "auto" : 0,
                   marginRight: isMobile ? "auto" : 0,
                   color: theme.colors.textSoft,
-                  fontSize: isMobile ? "17px" : "19px",
+                  fontSize: isMobile ? "16px" : "18px",
                   lineHeight: 1.9,
                 }}
               >
-                From high-retention video editing to full-scale ad campaigns,
-                Mineworld builds content and digital systems that don’t just
-                look premium — they bring real business results, real
-                visibility, and real leads.
+                Mineworld Production helps brands grow through premium video
+                editing, podcast shoots, graphic design support, social media
+                management, and digital campaigns — built to make your brand
+                look sharper, stronger, and harder to ignore.
               </p>
             </Reveal>
 
@@ -113,13 +114,34 @@ function Hero() {
                 style={{
                   display: "flex",
                   gap: "16px",
-                  marginTop: "36px",
+                  marginTop: "34px",
                   flexWrap: "wrap",
                   justifyContent: isMobile ? "center" : "flex-start",
                 }}
               >
-                <MagneticButton>Get Leads Now</MagneticButton>
-                <MagneticButton secondary>View Work</MagneticButton>
+                <button
+                  onClick={openContactModal}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                  }}
+                >
+                  <MagneticButton>Start a Project</MagneticButton>
+                </button>
+
+                <button
+                  onClick={() => scrollToSection("portfolio")}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                  }}
+                >
+                  <MagneticButton secondary>View Work</MagneticButton>
+                </button>
               </div>
             </Reveal>
 
@@ -129,16 +151,16 @@ function Hero() {
                   display: "flex",
                   gap: "14px",
                   flexWrap: "wrap",
-                  marginTop: "42px",
+                  marginTop: "38px",
                   justifyContent: isMobile ? "center" : "flex-start",
                 }}
               >
                 {[
-                  "Meta Ads",
-                  "Lead Generation",
                   "Video Editing",
-                  "Page Management",
                   "Podcast Shoots",
+                  "Graphic Design",
+                  "Social Media",
+                  "Meta Ads",
                 ].map((item) => (
                   <div
                     key={item}
@@ -161,7 +183,7 @@ function Hero() {
             <Reveal delay={0.5}>
               <div
                 style={{
-                  marginTop: "30px",
+                  marginTop: "28px",
                   fontSize: isMobile ? "12px" : "13px",
                   letterSpacing: isMobile ? "1.2px" : "1.8px",
                   color: theme.colors.textSoft,
@@ -169,7 +191,7 @@ function Hero() {
                   textTransform: "uppercase",
                 }}
               >
-                Content. Ads. Growth. All in one system.
+                Content. Design. Ads. Presence.
               </div>
             </Reveal>
           </div>
@@ -300,7 +322,7 @@ function Hero() {
                     marginBottom: "12px",
                   }}
                 >
-                  Editing + Ads + Growth
+                  Video + Design + Digital
                 </div>
 
                 <div
@@ -315,7 +337,7 @@ function Hero() {
                 >
                   Premium content systems
                   <br />
-                  built to generate real business results
+                  built to strengthen brand presence
                 </div>
               </div>
             </motion.div>
