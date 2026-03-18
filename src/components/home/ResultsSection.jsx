@@ -66,7 +66,7 @@ function ProofCard({ item }) {
         borderRadius: "28px",
         padding: "28px 24px 24px",
         background:
-          "linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.02) 100%)",
+  "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)",
         border: `1px solid ${theme.colors.lineStrong}`,
         boxShadow: "0 14px 34px rgba(0,0,0,0.16)",
         overflow: "hidden",
@@ -173,7 +173,7 @@ function SupportCard({ item }) {
         borderRadius: "28px",
         padding: "28px 24px",
         background:
-          "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.015) 100%)",
+  "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)",
         border: `1px solid ${theme.colors.line}`,
       }}
     >
@@ -221,12 +221,13 @@ function SupportCard({ item }) {
 export default function ResultsSection() {
   return (
     <section
-      id="results"
-      style={{
-        padding: "110px 0",
-        borderTop: `1px solid ${theme.colors.line}`,
-      }}
-    >
+  id="results"
+  style={{
+    padding: "110px 0",
+    background: "#0b0f1a", // dark background fix
+    borderTop: `1px solid rgba(255,255,255,0.08)`,
+  }}
+>
       <motion.div
         style={sectionWrap}
         initial="hidden"

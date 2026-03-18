@@ -1,438 +1,323 @@
 import { useEffect, useState } from "react";
-import Container from "../common/Container";
-import MagneticButton from "../common/MagneticButton";
-import { theme } from "../../styles/theme";
-import { openContactModal, scrollToSection } from "../../utils/contactActions";
-import logo from "../../assets/mineworld-logo.png";
+import { motion, AnimatePresence } from "framer-motion";
+import { openContactModal } from "../../utils/contactActions";
 
-const navLinks = [
+const navItems = [
   { label: "Home", target: "home" },
   { label: "Services", target: "services" },
   { label: "Portfolio", target: "portfolio" },
-  { label: "Contact", target: "contact" },
+  { label: "Contact", target: "footer" },
 ];
 
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  el.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}
+
+export default function Navbar() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
-
     const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setMenuOpen(false);
-      }
+      setIsMobile(window.innerWidth <= 900);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 16);
+    };
+
+    handleResize();
+    handleScroll();
+
     window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
-
-  const closeMenu = () => setMenuOpen(false);
-
-  const handleNavClick = (target) => {
-    scrollToSection(target);
-    closeMenu();
-  };
-
   return (
-    <>
-      <header
+    <div
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 1200,
+        padding: isMobile ? "10px 14px 0" : "12px 22px 0",
+        background:
+          "linear-gradient(180deg, rgba(17,24,39,0.98) 0%, rgba(17,24,39,0.96) 58%, rgba(17,24,39,0.72) 82%, rgba(17,24,39,0) 100%)",
+      }}
+    >
+      <motion.nav
+        initial={{ opacity: 0, y: -18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          zIndex: 1000,
-          padding: isMobile ? "14px 0" : "18px 0",
-          transition: "all 0.3s ease",
+          width: "min(1240px, 100%)",
+          margin: "0 auto",
+          borderRadius: isMobile ? "24px" : "28px",
+          border: "1px solid rgba(255,255,255,0.10)",
+          background: scrolled
+            ? "linear-gradient(180deg, rgba(20,28,46,0.96), rgba(20,28,46,0.93))"
+            : "linear-gradient(180deg, rgba(20,28,46,0.90), rgba(20,28,46,0.86))",
+          boxShadow: scrolled
+            ? "0 18px 42px rgba(0,0,0,0.28)"
+            : "0 10px 28px rgba(0,0,0,0.16)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+          padding: isMobile ? "14px 16px" : "15px 22px",
         }}
       >
-        <Container>
-          <div
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "16px",
+          }}
+        >
+          <button
+            onClick={() => scrollToSection("home")}
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
-              gap: "20px",
-              padding: scrolled ? (isMobile ? "12px 14px" : "14px 18px") : "6px 0",
-              borderRadius: scrolled ? "24px" : "0px",
-              background: scrolled ? "rgba(22,32,51,0.78)" : "transparent",
-              backdropFilter: scrolled ? "blur(18px) saturate(135%)" : "none",
-              WebkitBackdropFilter: scrolled
-                ? "blur(18px) saturate(135%)"
-                : "none",
-              border: scrolled ? `1px solid ${theme.colors.lineStrong}` : "none",
-              boxShadow: scrolled ? theme.shadow.soft : "none",
-              transition: "all 0.3s ease",
+              gap: isMobile ? "12px" : "15px",
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
             }}
           >
-            <button
-              onClick={() => handleNavClick("home")}
+            <div
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: isMobile ? "14px" : "16px",
-                color: theme.colors.text,
-                background: "transparent",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
+                width: isMobile ? "46px" : "56px",
+                height: isMobile ? "46px" : "56px",
+                borderRadius: "50%",
+                background:
+                  "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.98), rgba(235,235,235,0.93))",
+                display: "grid",
+                placeItems: "center",
+                boxShadow:
+                  "0 0 0 1px rgba(255,255,255,0.08), 0 10px 28px rgba(255,255,255,0.08)",
+                overflow: "hidden",
                 flexShrink: 0,
-                minWidth: 0,
               }}
             >
-              <div
+              <img
+                src="/src/assets/mineworld-logo.png"
+                alt="Mineworld Production Logo"
                 style={{
-                  position: "relative",
-                  width: isMobile ? "72px" : "92px",
-                  height: isMobile ? "72px" : "92px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
+  width: isMobile ? "34px" : "40px",
+  height: "auto",
+  objectFit: "contain",
+  transform: "scale(1.7)",
+}}
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
                 }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: "14%",
-                    borderRadius: "50%",
-                    background: "rgba(255,255,255,0.16)",
-                    filter: "blur(20px)",
-                    zIndex: 0,
-                    pointerEvents: "none",
-                  }}
-                />
-                <img
-                  src={logo}
-                  alt="Mineworld Production Logo"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                    position: "relative",
-                    zIndex: 1,
-                    filter:
-                      "drop-shadow(0 0 10px rgba(255,255,255,0.22)) drop-shadow(0 0 22px rgba(255,255,255,0.12))",
-                  }}
-                />
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  lineHeight: 1,
-                  minWidth: 0,
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: isMobile ? "22px" : "30px",
-                    fontWeight: 800,
-                    letterSpacing: isMobile ? "1px" : "1.4px",
-                    color: theme.colors.text,
-                    whiteSpace: "nowrap",
-                    textShadow: "0 2px 14px rgba(255,255,255,0.08)",
-                  }}
-                >
-                  MINEWORLD
-                </span>
-
-                <span
-                  style={{
-                    fontSize: isMobile ? "12px" : "16px",
-                    fontWeight: 700,
-                    letterSpacing: isMobile ? "2.2px" : "3px",
-                    textTransform: "uppercase",
-                    color: theme.colors.goldSoft,
-                    marginTop: isMobile ? "7px" : "9px",
-                    whiteSpace: "nowrap",
-                    textShadow: "0 2px 12px rgba(214,176,96,0.16)",
-                  }}
-                >
-                  Production
-                </span>
-              </div>
-            </button>
-
-            {!isMobile ? (
-              <nav
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "28px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "22px",
-                  }}
-                >
-                  {navLinks.map((link) => (
-                    <button
-                      key={link.label}
-                      onClick={() => handleNavClick(link.target)}
-                      style={{
-                        position: "relative",
-                        color: theme.colors.textSoft,
-                        fontSize: "14px",
-                        fontWeight: 500,
-                        letterSpacing: "0.2px",
-                        background: "transparent",
-                        border: "none",
-                        cursor: "pointer",
-                        paddingBottom: "6px",
-                        transition: "color 0.25s ease",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.color = theme.colors.text;
-                        const underline =
-                          e.currentTarget.querySelector(".nav-underline");
-                        if (underline) {
-                          underline.style.transform = "scaleX(1)";
-                          underline.style.opacity = "1";
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.color = theme.colors.textSoft;
-                        const underline =
-                          e.currentTarget.querySelector(".nav-underline");
-                        if (underline) {
-                          underline.style.transform = "scaleX(0)";
-                          underline.style.opacity = "0";
-                        }
-                      }}
-                    >
-                      {link.label}
-                      <span
-                        className="nav-underline"
-                        style={{
-                          position: "absolute",
-                          left: 0,
-                          bottom: 0,
-                          width: "100%",
-                          height: "1px",
-                          background: theme.colors.goldSoft,
-                          transform: "scaleX(0)",
-                          transformOrigin: "left",
-                          opacity: 0,
-                          transition: "all 0.25s ease",
-                        }}
-                      />
-                    </button>
-                  ))}
-                </div>
-
-                <button
-                  onClick={openContactModal}
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    padding: 0,
-                    cursor: "pointer",
-                  }}
-                >
-                  <MagneticButton style={{ padding: "12px 20px" }}>
-                    Start a Project
-                  </MagneticButton>
-                </button>
-              </nav>
-            ) : (
-              <button
-                onClick={() => setMenuOpen((prev) => !prev)}
-                aria-label="Toggle menu"
-                style={{
-                  width: "54px",
-                  height: "54px",
-                  borderRadius: "18px",
-                  border: `1px solid ${theme.colors.lineStrong}`,
-                  background: "rgba(34,49,77,0.72)",
-                  backdropFilter: "blur(16px) saturate(130%)",
-                  WebkitBackdropFilter: "blur(16px) saturate(130%)",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  padding: 0,
-                  flexShrink: 0,
-                  boxShadow: "0 0 16px rgba(255,255,255,0.06)",
-                }}
-              >
-                <div
-                  style={{
-                    width: "22px",
-                    height: "16px",
-                    position: "relative",
-                  }}
-                >
-                  <span
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "2px",
-                      borderRadius: "999px",
-                      background: theme.colors.text,
-                      transition: "all 0.25s ease",
-                      transform: menuOpen
-                        ? "translateY(7px) rotate(45deg)"
-                        : "none",
-                    }}
-                  />
-                  <span
-                    style={{
-                      position: "absolute",
-                      top: "7px",
-                      left: 0,
-                      width: "100%",
-                      height: "2px",
-                      borderRadius: "999px",
-                      background: theme.colors.text,
-                      opacity: menuOpen ? 0 : 1,
-                      transition: "all 0.25s ease",
-                    }}
-                  />
-                  <span
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "2px",
-                      borderRadius: "999px",
-                      background: theme.colors.text,
-                      transition: "all 0.25s ease",
-                      transform: menuOpen
-                        ? "translateY(-7px) rotate(-45deg)"
-                        : "none",
-                    }}
-                  />
-                </div>
-              </button>
-            )}
-          </div>
-        </Container>
-      </header>
-
-      {isMobile && menuOpen && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 999,
-            background: "rgba(10,16,28,0.72)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            padding: "92px 16px 20px",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              maxWidth: "560px",
-              borderRadius: "28px",
-              background: "rgba(22,32,51,0.94)",
-              border: `1px solid ${theme.colors.lineStrong}`,
-              boxShadow: theme.shadow.deep,
-              padding: "24px",
-            }}
-          >
-            <div
-              style={{
-                color: theme.colors.goldSoft,
-                fontSize: "12px",
-                letterSpacing: "2px",
-                textTransform: "uppercase",
-                marginBottom: "18px",
-              }}
-            >
-              Navigation
+              />
             </div>
 
             <div
               style={{
-                display: "grid",
-                gap: "12px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                justifyContent: "center",
+                lineHeight: 1,
               }}
             >
-              {navLinks.map((link) => (
-                <button
-                  key={link.label}
-                  onClick={() => handleNavClick(link.target)}
-                  style={{
-                    padding: "16px 18px",
-                    borderRadius: "18px",
-                    border: `1px solid ${theme.colors.line}`,
-                    background: theme.colors.bgCard,
-                    color: theme.colors.text,
-                    fontSize: "16px",
-                    fontWeight: 600,
-                    textAlign: "left",
-                    cursor: "pointer",
-                  }}
-                >
-                  {link.label}
-                </button>
-              ))}
-            </div>
-
-            <div
-              style={{
-                marginTop: "18px",
-                display: "grid",
-                gap: "12px",
-              }}
-            >
-              <button
-                onClick={() => {
-                  closeMenu();
-                  openContactModal();
-                }}
+              <div
                 style={{
-                  width: "100%",
-                  padding: "16px 18px",
-                  borderRadius: "18px",
-                  background: theme.colors.goldSoft,
-                  color: "#1B1B1B",
-                  fontSize: "16px",
+                  color: "#F5F1E9",
+                  fontSize: isMobile ? "21px" : "27px",
+                  fontWeight: 650,
+                  letterSpacing: "-0.3px",
+                  fontFamily:
+                    '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                }}
+              >
+                Mineworld
+              </div>
+              <div
+                style={{
+                  color: "#D6B060",
+                  fontSize: isMobile ? "10px" : "12px",
                   fontWeight: 700,
-                  textAlign: "center",
-                  cursor: "pointer",
+                  letterSpacing: isMobile ? "1.8px" : "2.4px",
+                  textTransform: "uppercase",
+                  marginTop: isMobile ? "5px" : "6px",
+                  fontFamily:
+                    '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                }}
+              >
+                Production
+              </div>
+            </div>
+          </button>
+
+          {!isMobile ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "24px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "24px",
+                }}
+              >
+                {navItems.map((item) => (
+                  <motion.button
+                    key={item.target}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => scrollToSection(item.target)}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      color: "#F3EFE7",
+                      fontSize: "16px",
+                      fontWeight: 700,
+                      letterSpacing: "0.1px",
+                      cursor: "pointer",
+                      padding: "8px 4px",
+                      fontFamily:
+                        '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                    }}
+                  >
+                    {item.label}
+                  </motion.button>
+                ))}
+              </div>
+
+              <motion.button
+                whileHover={{ y: -2, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => openContactModal()}
+                style={{
                   border: "none",
+                  borderRadius: "999px",
+                  padding: "14px 22px",
+                  background:
+                    "linear-gradient(180deg, rgba(214,176,96,1), rgba(214,176,96,0.90))",
+                  color: "#171717",
+                  fontSize: "15px",
+                  fontWeight: 800,
+                  letterSpacing: "0.1px",
+                  cursor: "pointer",
+                  boxShadow: "0 14px 30px rgba(214,176,96,0.22)",
+                  fontFamily:
+                    '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
                 }}
               >
                 Start a Project
-              </button>
+              </motion.button>
             </div>
-          </div>
+          ) : (
+            <button
+              onClick={() => setMenuOpen((prev) => !prev)}
+              style={{
+                width: "52px",
+                height: "52px",
+                borderRadius: "16px",
+                border: "1px solid rgba(255,255,255,0.10)",
+                background: "rgba(255,255,255,0.03)",
+                color: "#F5F0E8",
+                fontSize: "24px",
+                cursor: "pointer",
+                flexShrink: 0,
+              }}
+            >
+              ☰
+            </button>
+          )}
         </div>
-      )}
-    </>
+
+        <AnimatePresence>
+          {isMobile && menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0, y: -6 }}
+              animate={{ opacity: 1, height: "auto", y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -6 }}
+              transition={{ duration: 0.26, ease: "easeOut" }}
+              style={{
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  marginTop: "16px",
+                  paddingTop: "16px",
+                  borderTop: "1px solid rgba(255,255,255,0.10)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                {navItems.map((item) => (
+                  <button
+                    key={item.target}
+                    onClick={() => {
+                      scrollToSection(item.target);
+                      setMenuOpen(false);
+                    }}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      color: "#F5F0E8",
+                      textAlign: "left",
+                      fontSize: "18px",
+                      fontWeight: 700,
+                      padding: "10px 4px",
+                      cursor: "pointer",
+                      fontFamily:
+                        '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                    }}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => {
+                    openContactModal();
+                    setMenuOpen(false);
+                  }}
+                  style={{
+                    marginTop: "6px",
+                    border: "none",
+                    borderRadius: "999px",
+                    padding: "14px 18px",
+                    background:
+                      "linear-gradient(180deg, rgba(214,176,96,1), rgba(214,176,96,0.90))",
+                    color: "#171717",
+                    fontSize: "15px",
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    fontFamily:
+                      '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                  }}
+                >
+                  Start a Project
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
+    </div>
   );
 }
-
-export default Navbar;

@@ -43,7 +43,7 @@ function Hero() {
         style={{
           position: "relative",
           zIndex: 2,
-          paddingTop: isMobile ? "110px" : "120px",
+          paddingTop: isMobile ? "108px" : "118px",
           paddingBottom: isMobile ? "60px" : "80px",
         }}
       >
@@ -192,6 +192,43 @@ function Hero() {
                 }}
               >
                 Content. Design. Ads. Presence.
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.58}>
+              <div
+                style={{
+                  marginTop: "34px",
+                  display: "inline-flex",
+                  flexDirection: "column",
+                  alignItems: isMobile ? "center" : "flex-start",
+                  gap: "6px",
+                }}
+              >
+                <div
+                  style={{
+                    color: "rgba(214,176,96,0.96)",
+                    fontSize: isMobile ? "34px" : "44px",
+                    lineHeight: 1,
+                    fontStyle: "italic",
+                    fontWeight: 500,
+                    fontFamily:
+                      '"Brush Script MT", "Lucida Handwriting", "Segoe Script", cursive',
+                    letterSpacing: "0.3px",
+                    textShadow: "0 0 16px rgba(214,176,96,0.10)",
+                  }}
+                >
+                  Mineworld Production
+                </div>
+
+                <div
+                  style={{
+                    width: isMobile ? "180px" : "240px",
+                    height: "1px",
+                    background:
+                      "linear-gradient(90deg, rgba(214,176,96,0.72), rgba(214,176,96,0.16), transparent)",
+                  }}
+                />
               </div>
             </Reveal>
           </div>

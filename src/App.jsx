@@ -1,36 +1,42 @@
 import Navbar from "./components/layout/Navbar";
 import Hero from "./components/home/Hero";
-import GrowthSection from "./components/home/GrowthSection";
-import BrandStatement from "./components/home/BrandStatement";
-import EditingShowcase from "./components/home/EditingShowcase";
+import ResultsSection from "./components/home/ResultsSection";
 import Services from "./components/home/Services";
+import Portfolio from "./components/home/Portfolio";
 import FounderSection from "./components/home/FounderSection";
 import TeamSection from "./components/home/TeamSection";
-import ResultsSection from "./components/home/ResultsSection";
-import Portfolio from "./components/home/Portfolio";
+import BrandStatement from "./components/home/BrandStatement";
+import GrowthSection from "./components/home/GrowthSection";
+import EditingShowcase from "./components/home/EditingShowcase";
 import CTA from "./components/home/CTA";
 import Footer from "./components/layout/Footer";
-import FloatingWhatsApp from "./components/common/FloatingWhatsApp";
 import ContactModal from "./components/common/ContactModal";
+import FloatingWhatsApp from "./components/common/FloatingWhatsApp";
 
 function App() {
   return (
-    <>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#111827",
+        color: "#fff",
+      }}
+    >
       <Navbar />
       <Hero />
-      <GrowthSection />
-      <BrandStatement />
-      <EditingShowcase />
+      <ResultsSection />
       <Services />
+      <Portfolio />
       <FounderSection />
       <TeamSection />
-      <ResultsSection />
-      <Portfolio />
+      <BrandStatement />
+      <GrowthSection />
+      <EditingShowcase />
       <CTA />
       <Footer />
-      <FloatingWhatsApp />
       <ContactModal />
-    </>
+      <FloatingWhatsApp />
+    </div>
   );
 }
 
