@@ -5,6 +5,10 @@ import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 
+import reelsShowcase from "../../assets/reels-showcase.jpg";
+import podcastShowcase from "../../assets/podcast-showcase.jpg";
+import adsShowcase from "../../assets/ads-showcase.jpg";
+
 const showcaseItems = [
   {
     id: 1,
@@ -12,7 +16,7 @@ const showcaseItems = [
     category: "High-Retention Visuals",
     description:
       "Fast-paced premium edits designed to stop scroll, shape perception, and build a sharp brand image.",
-    image: "/src/assets/reels-showcase.jpg",
+    image: reelsShowcase,
     tags: ["Hooks", "Motion Cuts", "Retention"],
   },
   {
@@ -21,7 +25,7 @@ const showcaseItems = [
     category: "Studio + Post Production",
     description:
       "Full podcast cutdowns, clean pacing, premium framing, and platform-ready short-form outputs.",
-    image: "/src/assets/podcast-showcase.jpg",
+    image: podcastShowcase,
     tags: ["Long-form", "Short Clips", "Authority"],
   },
   {
@@ -30,7 +34,7 @@ const showcaseItems = [
     category: "Performance Content",
     description:
       "Ad visuals built for clarity, conversion, and strong first-frame attention across paid campaigns.",
-    image: "/src/assets/ads-showcase.jpg",
+    image: adsShowcase,
     tags: ["Meta Ads", "Performance", "Conversion"],
   },
 ];

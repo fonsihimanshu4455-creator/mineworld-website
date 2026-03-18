@@ -6,6 +6,16 @@ import SectionTag from "../common/SectionTag";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
 
+import productionPoster from "../../assets/production.JPG";
+import podcastPoster from "../../assets/podcast-showcase.jpg";
+import adsPoster from "../../assets/ads-showcase.jpg";
+import creatorPoster from "../../assets/designer.JPG";
+
+import portfolioVideo1 from "../../assets/portfolio-1.mp4";
+import portfolioVideo2 from "../../assets/portfolio-2.mp4";
+import portfolioVideo3 from "../../assets/portfolio-3.mp4";
+import portfolioVideo4 from "../../assets/portfolio-4.mp4";
+
 const portfolioItems = [
   {
     id: 1,
@@ -13,8 +23,8 @@ const portfolioItems = [
     category: "Editing + Brand Perception",
     description:
       "High-retention edits designed to make the brand feel sharper, more premium, and harder to ignore.",
-    video: "/src/assets/portfolio-1.mp4",
-    poster: "/src/assets/production.JPG",
+    video: portfolioVideo1,
+    poster: productionPoster,
   },
   {
     id: 2,
@@ -22,8 +32,8 @@ const portfolioItems = [
     category: "Studio + Content System",
     description:
       "Structured podcast content built for authority, clips, and premium multi-format distribution.",
-    video: "/src/assets/portfolio-2.mp4",
-    poster: "/src/assets/podcast-showcase.jpg",
+    video: portfolioVideo2,
+    poster: podcastPoster,
   },
   {
     id: 3,
@@ -31,8 +41,8 @@ const portfolioItems = [
     category: "Performance Visuals",
     description:
       "Ad content shaped for clarity, first-frame attention, and platform-native conversion flow.",
-    video: "/src/assets/portfolio-3.mp4",
-    poster: "/src/assets/ads-showcase.jpg",
+    video: portfolioVideo3,
+    poster: adsPoster,
   },
   {
     id: 4,
@@ -40,8 +50,8 @@ const portfolioItems = [
     category: "Premium Social Content",
     description:
       "Stylized edits and visual systems that turn ordinary content into strong digital presence.",
-    video: "/src/assets/portfolio-4.mp4",
-    poster: "/src/assets/designer.JPG",
+    video: portfolioVideo4,
+    poster: creatorPoster,
   },
 ];
 
@@ -146,6 +156,7 @@ function Portfolio() {
                     justifyContent: "center",
                     backdropFilter: "blur(10px)",
                     WebkitBackdropFilter: "blur(10px)",
+                    zIndex: 2,
                   }}
                 >
                   <div

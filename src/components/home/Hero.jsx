@@ -3,6 +3,8 @@ import Container from "../common/Container";
 import MagneticButton from "../common/MagneticButton";
 import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
+import heroPoster from "../../assets/hero.png";
+import heroVideo from "../../assets/hero-video.mp4";
 
 function Hero() {
   const isMobile =
@@ -222,7 +224,6 @@ function Hero() {
                     zIndex: -2,
                   }}
                 />
-
                 <div
                   style={{
                     position: "absolute",
@@ -267,7 +268,7 @@ function Hero() {
                 muted
                 playsInline
                 preload="metadata"
-                poster="/src/assets/hero.png"
+                poster={heroPoster}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -277,7 +278,7 @@ function Hero() {
                   filter: "contrast(1.15) brightness(1.05) saturate(1.1)",
                 }}
               >
-                <source src="/src/assets/hero-video.mp4" type="video/mp4" />
+                <source src={heroVideo} type="video/mp4" />
               </video>
 
               {!isMobile && (
@@ -373,105 +374,6 @@ function Hero() {
                 </div>
               </div>
             </motion.div>
-
-            {!isMobile && (
-              <>
-                <motion.div
-                  animate={{ x: [0, 6, 0], y: [0, -8, 0] }}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{
-                    duration: 4.6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  style={{
-                    position: "absolute",
-                    top: "70px",
-                    left: "-16px",
-                    width: "224px",
-                    padding: "20px",
-                    borderRadius: "24px",
-                    background: "rgba(34,49,77,0.72)",
-                    border: "1px solid rgba(255,255,255,0.18)",
-                    boxShadow: "0 20px 50px rgba(0,0,0,0.45)",
-                    backdropFilter: "blur(18px) saturate(130%)",
-                    WebkitBackdropFilter: "blur(18px) saturate(130%)",
-                  }}
-                >
-                  <div
-                    style={{
-                      color: theme.colors.goldSoft,
-                      fontSize: "11px",
-                      letterSpacing: "2px",
-                      textTransform: "uppercase",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Retention Focus
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: 700,
-                      color: theme.colors.text,
-                    }}
-                  >
-                    Reels, ads, podcasts,
-                    <br />
-                    brand edits
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ x: [0, -8, 0], y: [0, 10, 0] }}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{
-                    duration: 5.2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  style={{
-                    position: "absolute",
-                    bottom: "58px",
-                    right: "-8px",
-                    width: "236px",
-                    padding: "20px",
-                    borderRadius: "24px",
-                    background: "rgba(34,49,77,0.72)",
-                    border: "1px solid rgba(255,255,255,0.18)",
-                    boxShadow: "0 20px 50px rgba(0,0,0,0.45)",
-                    backdropFilter: "blur(18px) saturate(130%)",
-                    WebkitBackdropFilter: "blur(18px) saturate(130%)",
-                  }}
-                >
-                  <div
-                    style={{
-                      color: theme.colors.goldSoft,
-                      fontSize: "11px",
-                      letterSpacing: "2px",
-                      textTransform: "uppercase",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Studio + Strategy
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: 700,
-                      color: theme.colors.text,
-                      lineHeight: 1.35,
-                    }}
-                  >
-                    Designed for brands
-                    <br />
-                    that refuse to look
-                    <br />
-                    ordinary
-                  </div>
-                </motion.div>
-              </>
-            )}
           </motion.div>
         </div>
       </Container>
