@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import emailjs from "@emailjs/browser";
 import { theme } from "../../styles/theme";
 import { closeContactModal } from "../../utils/contactActions";
-import { siteConfig } from "../../data/siteConfig";
 import { countryCodes } from "../../data/countryCodes";
 import SuccessScreen from "./SuccessScreen";
 
@@ -79,17 +79,10 @@ function ContactModal() {
     business: "",
   });
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
-
   const countryMenuRef = useRef(null);
 
-  const endpointReady = useMemo(() => {
-    return (
-      !!siteConfig?.form?.endpoint &&
-      !siteConfig.form.endpoint.includes("YOUR_FORM_ID")
-    );
-  }, []);
+  const isMobile =
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
 
   const selectedCountry = useMemo(() => {
     return (
@@ -228,17 +221,12 @@ function ContactModal() {
     setStatus("");
 
     if (!formData.name || !formData.phone || !formData.service) {
-      setStatus("Please fill name, mobile number, and service.");
+      setStatus("Please fill required fields.");
       return;
     }
 
     if (formData.service === "Other" && !formData.otherService.trim()) {
       setStatus("Please enter your other service.");
-      return;
-    }
-
-    if (!endpointReady) {
-      setStatus("Form endpoint abhi set nahi hua hai.");
       return;
     }
 
@@ -250,31 +238,26 @@ function ContactModal() {
     try {
       setIsSending(true);
 
-      const response = await fetch(siteConfig.form.endpoint, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      await emailjs.send(
+        "service_1zpxdxe",
+        "template_6zw86b6",
+        {
           name: formData.name,
           phone: `${selectedCountry.flag} ${formData.countryCode} ${formData.phone}`,
-          email: formData.email,
+          email: formData.email || "Not provided",
           service: finalService,
-          business: formData.business,
+          business: formData.business || "Not provided",
           country: selectedCountry.name,
-        }),
-      });
+        },
+        "gA9nXoTRWrmiNsnON"
+      );
 
-      if (response.ok) {
-        resetForm();
-        setIsOpen(false);
-        setShowSuccess(true);
-      } else {
-        setStatus("Submission failed. Please try again.");
-      }
+      resetForm();
+      setIsOpen(false);
+      setShowSuccess(true);
     } catch (error) {
-      setStatus("Something went wrong. Please try again.");
+      console.log("EmailJS error:", error);
+      setStatus("Something went wrong. Try again.");
     } finally {
       setIsSending(false);
     }
@@ -618,6 +601,7 @@ function ContactModal() {
                       filteredCountries={filteredCountries}
                       handleCountrySelect={handleCountrySelect}
                       countryMenuRef={countryMenuRef}
+                      isMobile={isMobile}
                     />
 
                     <Field
@@ -636,17 +620,25 @@ function ContactModal() {
                     />
                   </div>
 
-                  {formData.service === "Other" && (
-                    <div style={{ marginTop: "14px" }}>
-                      <Field
-                        label="Other Service *"
-                        name="otherService"
-                        value={formData.otherService}
-                        onChange={handleChange}
-                        placeholder="Write your required service"
-                      />
-                    </div>
-                  )}
+                  <AnimatePresence>
+                    {formData.service === "Other" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, height: 0 }}
+                        animate={{ opacity: 1, y: 0, height: "auto" }}
+                        exit={{ opacity: 0, y: -6, height: 0 }}
+                        transition={{ duration: 0.24 }}
+                        style={{ marginTop: "14px", overflow: "hidden" }}
+                      >
+                        <Field
+                          label="Other Service *"
+                          name="otherService"
+                          value={formData.otherService}
+                          onChange={handleChange}
+                          placeholder="Write your required service"
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   <div style={{ marginTop: "14px" }}>
                     <Field
@@ -759,6 +751,7 @@ function PhoneField({
   filteredCountries,
   handleCountrySelect,
   countryMenuRef,
+  isMobile,
 }) {
   return (
     <div>
@@ -767,7 +760,7 @@ function PhoneField({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "190px 1fr",
+          gridTemplateColumns: isMobile ? "1fr" : "190px 1fr",
           gap: "10px",
           alignItems: "start",
         }}
@@ -821,7 +814,8 @@ function PhoneField({
                   position: "absolute",
                   top: "calc(100% + 10px)",
                   left: 0,
-                  width: isMobile ? "280px" : "320px",
+                  width: isMobile ? "100%" : "320px",
+                  minWidth: isMobile ? "100%" : "320px",
                   maxHeight: "280px",
                   borderRadius: "18px",
                   border: "1px solid rgba(255,255,255,0.10)",
