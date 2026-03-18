@@ -20,24 +20,18 @@ const defaultCountry =
 
 const overlayVariants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.28, ease: "easeOut" },
-  },
-  exit: {
-    opacity: 0,
-    transition: { duration: 0.2, ease: "easeOut" },
-  },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 },
 };
 
 const modalVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.94 },
+  hidden: { opacity: 0, y: 24, scale: 0.96 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.42,
+      duration: 0.35,
       ease: [0.22, 1, 0.36, 1],
       when: "beforeChildren",
       staggerChildren: 0.05,
@@ -45,8 +39,8 @@ const modalVariants = {
   },
   exit: {
     opacity: 0,
-    y: 18,
-    scale: 0.97,
+    y: 16,
+    scale: 0.98,
     transition: { duration: 0.22, ease: "easeOut" },
   },
 };
@@ -66,7 +60,6 @@ function ContactModal() {
   const [status, setStatus] = useState("");
   const [countryMenuOpen, setCountryMenuOpen] = useState(false);
   const [countrySearch, setCountrySearch] = useState("");
-  const [focusedField, setFocusedField] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     countryCode: defaultCountry.dialCode,
@@ -94,8 +87,7 @@ function ContactModal() {
     return (
       countryCodes.find(
         (item) =>
-          item.iso === formData.countryIso &&
-          item.dialCode === formData.countryCode
+          item.iso === formData.countryIso && item.dialCode === formData.countryCode
       ) || defaultCountry
     );
   }, [formData.countryIso, formData.countryCode]);
@@ -220,7 +212,6 @@ function ContactModal() {
       otherService: "",
       business: "",
     });
-    setFocusedField("");
   };
 
   const handleSubmit = async (e) => {
@@ -273,7 +264,7 @@ function ContactModal() {
         setTimeout(() => {
           setIsOpen(false);
           setStatus("");
-        }, 1600);
+        }, 1400);
       } else {
         setStatus("Submission failed. Please try again.");
       }
@@ -297,9 +288,9 @@ function ContactModal() {
             position: "fixed",
             inset: 0,
             zIndex: 2000,
-            background: "rgba(6, 10, 18, 0.72)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
+            background: "rgba(6, 10, 18, 0.78)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -314,7 +305,7 @@ function ContactModal() {
             onClick={(e) => e.stopPropagation()}
             style={{
               width: "100%",
-              maxWidth: "940px",
+              maxWidth: "920px",
               maxHeight: "92vh",
               overflow: "hidden",
               borderRadius: isMobile ? "24px" : "30px",
@@ -328,11 +319,7 @@ function ContactModal() {
               position: "relative",
             }}
           >
-            <AmbientBackground isMobile={isMobile} />
-
-            <motion.button
-              whileHover={{ scale: 1.06, rotate: 90 }}
-              whileTap={{ scale: 0.95 }}
+            <button
               onClick={() => setIsOpen(false)}
               aria-label="Close form"
               style={{
@@ -347,12 +334,11 @@ function ContactModal() {
                 color: theme.colors.text,
                 fontSize: "20px",
                 cursor: "pointer",
-                zIndex: 8,
-                boxShadow: "0 0 18px rgba(255,255,255,0.06)",
+                zIndex: 5,
               }}
             >
               ×
-            </motion.button>
+            </button>
 
             <motion.div
               variants={itemVariants}
@@ -362,10 +348,36 @@ function ContactModal() {
                 borderRight: isMobile ? "none" : `1px solid ${theme.colors.line}`,
                 borderBottom: isMobile ? `1px solid ${theme.colors.line}` : "none",
                 overflow: "hidden",
-                minHeight: isMobile ? "250px" : "100%",
-                zIndex: 2,
+                minHeight: isMobile ? "240px" : "100%",
               }}
             >
+              <div
+                style={{
+                  position: "absolute",
+                  top: "-80px",
+                  left: "-60px",
+                  width: "220px",
+                  height: "220px",
+                  borderRadius: "50%",
+                  background: "rgba(214,176,96,0.16)",
+                  filter: "blur(70px)",
+                  pointerEvents: "none",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "-70px",
+                  right: "-50px",
+                  width: "240px",
+                  height: "240px",
+                  borderRadius: "50%",
+                  background: "rgba(87,120,210,0.16)",
+                  filter: "blur(80px)",
+                  pointerEvents: "none",
+                }}
+              />
+
               <div
                 style={{
                   position: "relative",
@@ -377,16 +389,7 @@ function ContactModal() {
                 }}
               >
                 <div>
-                  <motion.div
-                    animate={{
-                      opacity: [0.8, 1, 0.8],
-                      letterSpacing: ["2px", "2.5px", "2px"],
-                    }}
-                    transition={{
-                      duration: 3.2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
+                  <div
                     style={{
                       color: theme.colors.goldSoft,
                       fontSize: "12px",
@@ -396,15 +399,9 @@ function ContactModal() {
                     }}
                   >
                     Start a Project
-                  </motion.div>
+                  </div>
 
-                  <motion.h2
-                    animate={{ y: [0, -3, 0] }}
-                    transition={{
-                      duration: 5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
+                  <h2
                     style={{
                       margin: "0 0 14px",
                       color: theme.colors.text,
@@ -415,7 +412,7 @@ function ContactModal() {
                     }}
                   >
                     Let’s build something sharper.
-                  </motion.h2>
+                  </h2>
 
                   <p
                     style={{
@@ -432,37 +429,21 @@ function ContactModal() {
                   </p>
                 </div>
 
-                <motion.div
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{
-                    duration: 6.2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
+                <div
                   style={{
                     marginTop: isMobile ? "24px" : "36px",
                     position: "relative",
-                    height: isMobile ? "125px" : "240px",
+                    height: isMobile ? "120px" : "240px",
                     borderRadius: isMobile ? "18px" : "24px",
                     border: `1px solid ${theme.colors.line}`,
                     background:
                       "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))",
                     overflow: "hidden",
-                    boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.02)",
                   }}
                 >
                   <motion.div
-                    animate={{
-                      x: [0, 18, 0],
-                      y: [0, -12, 0],
-                      rotate: [0, 2, 0],
-                      scale: [1, 1.05, 1],
-                    }}
-                    transition={{
-                      duration: 6,
-                      ease: "easeInOut",
-                      repeat: Infinity,
-                    }}
+                    animate={{ x: [0, 16, 0], y: [0, -10, 0], rotate: [0, 1.5, 0] }}
+                    transition={{ duration: 5.5, ease: "easeInOut", repeat: Infinity }}
                     style={{
                       position: "absolute",
                       left: isMobile ? "18px" : "30px",
@@ -471,23 +452,14 @@ function ContactModal() {
                       height: isMobile ? "72px" : "96px",
                       borderRadius: "20px",
                       background:
-                        "linear-gradient(180deg, rgba(214,176,96,0.95), rgba(214,176,96,0.74))",
-                      boxShadow:
-                        "0 16px 40px rgba(214,176,96,0.32), 0 0 28px rgba(214,176,96,0.18)",
+                        "linear-gradient(180deg, rgba(214,176,96,0.95), rgba(214,176,96,0.75))",
+                      boxShadow: "0 16px 40px rgba(214,176,96,0.28)",
                     }}
                   />
 
                   <motion.div
-                    animate={{
-                      x: [0, -14, 0],
-                      y: [0, 10, 0],
-                      scale: [1, 1.04, 1],
-                    }}
-                    transition={{
-                      duration: 7,
-                      ease: "easeInOut",
-                      repeat: Infinity,
-                    }}
+                    animate={{ x: [0, -12, 0], y: [0, 10, 0] }}
+                    transition={{ duration: 6.2, ease: "easeInOut", repeat: Infinity }}
                     style={{
                       position: "absolute",
                       right: isMobile ? "18px" : "30px",
@@ -497,21 +469,13 @@ function ContactModal() {
                       borderRadius: "999px",
                       background:
                         "linear-gradient(180deg, rgba(87,120,210,0.9), rgba(87,120,210,0.68))",
-                      boxShadow:
-                        "0 16px 34px rgba(87,120,210,0.28), 0 0 28px rgba(87,120,210,0.12)",
+                      boxShadow: "0 16px 34px rgba(87,120,210,0.22)",
                     }}
                   />
 
                   <motion.div
-                    animate={{
-                      opacity: [0.35, 1, 0.35],
-                      x: [0, 12, 0],
-                    }}
-                    transition={{
-                      duration: 3.4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
+                    animate={{ opacity: [0.45, 1, 0.45] }}
+                    transition={{ duration: 2.8, repeat: Infinity }}
                     style={{
                       position: "absolute",
                       left: isMobile ? "106px" : "152px",
@@ -524,15 +488,8 @@ function ContactModal() {
                   />
 
                   <motion.div
-                    animate={{
-                      opacity: [1, 0.25, 1],
-                      x: [0, -8, 0],
-                    }}
-                    transition={{
-                      duration: 3.8,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
+                    animate={{ opacity: [1, 0.35, 1] }}
+                    transition={{ duration: 3.2, repeat: Infinity }}
                     style={{
                       position: "absolute",
                       left: isMobile ? "106px" : "152px",
@@ -544,26 +501,6 @@ function ContactModal() {
                     }}
                   />
 
-                  <motion.div
-                    animate={{
-                      x: ["-10%", "110%"],
-                    }}
-                    transition={{
-                      duration: 4.6,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      bottom: 0,
-                      width: "32%",
-                      background:
-                        "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)",
-                      filter: "blur(10px)",
-                    }}
-                  />
-
                   <div
                     style={{
                       position: "absolute",
@@ -572,7 +509,7 @@ function ContactModal() {
                         "linear-gradient(180deg, rgba(255,255,255,0.02), transparent 30%, transparent 70%, rgba(0,0,0,0.14))",
                     }}
                   />
-                </motion.div>
+                </div>
               </div>
             </motion.div>
 
@@ -581,20 +518,10 @@ function ContactModal() {
               style={{
                 padding: isMobile ? "22px 18px 22px" : "34px 30px",
                 overflowY: "auto",
-                position: "relative",
-                zIndex: 2,
               }}
             >
               <motion.div variants={itemVariants}>
-                <motion.div
-                  animate={{
-                    opacity: [0.75, 1, 0.75],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
+                <div
                   style={{
                     color: theme.colors.goldSoft,
                     fontSize: "12px",
@@ -604,15 +531,9 @@ function ContactModal() {
                   }}
                 >
                   Contact Form
-                </motion.div>
+                </div>
 
-                <motion.h3
-                  animate={{ y: [0, -2, 0] }}
-                  transition={{
-                    duration: 4.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
+                <h3
                   style={{
                     margin: "0 0 10px",
                     fontSize: isMobile ? "28px" : "34px",
@@ -622,7 +543,7 @@ function ContactModal() {
                   }}
                 >
                   Tell us what you need.
-                </motion.h3>
+                </h3>
 
                 <p
                   style={{
@@ -653,8 +574,6 @@ function ContactModal() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Enter your name"
-                      focusedField={focusedField}
-                      setFocusedField={setFocusedField}
                     />
                   </AnimatedField>
 
@@ -671,8 +590,6 @@ function ContactModal() {
                       filteredCountries={filteredCountries}
                       handleCountrySelect={handleCountrySelect}
                       countryMenuRef={countryMenuRef}
-                      focusedField={focusedField}
-                      setFocusedField={setFocusedField}
                     />
                   </AnimatedField>
 
@@ -684,8 +601,6 @@ function ContactModal() {
                       onChange={handleChange}
                       placeholder="Enter email"
                       type="email"
-                      focusedField={focusedField}
-                      setFocusedField={setFocusedField}
                     />
                   </AnimatedField>
 
@@ -698,29 +613,19 @@ function ContactModal() {
                   </AnimatedField>
                 </div>
 
-                <AnimatePresence>
-                  {formData.service === "Other" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, height: 0 }}
-                      animate={{ opacity: 1, y: 0, height: "auto" }}
-                      exit={{ opacity: 0, y: -6, height: 0 }}
-                      transition={{ duration: 0.24 }}
-                      style={{ marginTop: "14px", overflow: "hidden" }}
-                    >
-                      <AnimatedField>
-                        <Field
-                          label="Other Service *"
-                          name="otherService"
-                          value={formData.otherService}
-                          onChange={handleChange}
-                          placeholder="Write your required service"
-                          focusedField={focusedField}
-                          setFocusedField={setFocusedField}
-                        />
-                      </AnimatedField>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {formData.service === "Other" && (
+                  <div style={{ marginTop: "14px" }}>
+                    <AnimatedField>
+                      <Field
+                        label="Other Service *"
+                        name="otherService"
+                        value={formData.otherService}
+                        onChange={handleChange}
+                        placeholder="Write your required service"
+                      />
+                    </AnimatedField>
+                  </div>
+                )}
 
                 <div style={{ marginTop: "14px" }}>
                   <AnimatedField>
@@ -730,32 +635,79 @@ function ContactModal() {
                       value={formData.business}
                       onChange={handleChange}
                       placeholder="Your brand or business"
-                      focusedField={focusedField}
-                      setFocusedField={setFocusedField}
                     />
                   </AnimatedField>
                 </div>
 
                 <AnimatePresence mode="wait">
                   {status ? (
-                    <motion.div
-                      key={status}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      style={{
-                        marginTop: "16px",
-                        color:
-                          status === "Form submitted successfully."
-                            ? "#7CFF9E"
-                            : theme.colors.goldSoft,
-                        fontSize: "14px",
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      {status}
-                    </motion.div>
-                  ) : null}
+  <motion.div
+    key={status}
+    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    exit={{ opacity: 0, y: -8 }}
+    transition={{ duration: 0.28, ease: "easeOut" }}
+    style={{
+      marginTop: "18px",
+      borderRadius: "18px",
+      padding: "16px 18px",
+      border:
+        status === "Form submitted successfully."
+          ? "1px solid rgba(214,176,96,0.28)"
+          : "1px solid rgba(214,176,96,0.18)",
+      background:
+        status === "Form submitted successfully."
+          ? "linear-gradient(180deg, rgba(214,176,96,0.08), rgba(255,255,255,0.02))"
+          : "rgba(255,255,255,0.03)",
+      boxShadow:
+        status === "Form submitted successfully."
+          ? "0 10px 30px rgba(214,176,96,0.10)"
+          : "none",
+    }}
+  >
+    <div
+      style={{
+        color:
+          status === "Form submitted successfully."
+            ? theme.colors.text
+            : theme.colors.goldSoft,
+        fontSize: "15px",
+        lineHeight: 1.7,
+        fontWeight: 600,
+      }}
+    >
+      {status === "Form submitted successfully."
+        ? "Thank you. Your inquiry has been received."
+        : status}
+    </div>
+
+    {status === "Form submitted successfully." && (
+      <motion.div
+        initial={{ opacity: 0, x: -6 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.12, duration: 0.24 }}
+        style={{
+          marginTop: "10px",
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <span
+          style={{
+            fontSize: "13px",
+            letterSpacing: "1.4px",
+            textTransform: "uppercase",
+            color: theme.colors.goldSoft,
+            opacity: 0.9,
+            fontStyle: "italic",
+          }}
+        >
+          — Mineworld Production
+        </span>
+      </motion.div>
+    )}
+  </motion.div>
+) : null}
                 </AnimatePresence>
 
                 <motion.div
@@ -768,28 +720,36 @@ function ContactModal() {
                   }}
                 >
                   <motion.button
-                    animate={{
-                      boxShadow: [
-                        "0 14px 28px rgba(214,176,96,0.18)",
-                        "0 18px 38px rgba(214,176,96,0.34)",
-                        "0 14px 28px rgba(214,176,96,0.18)",
-                      ],
-                      scale: [1, 1.015, 1],
-                    }}
-                    transition={{
-                      duration: 2.4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
                     whileHover={{
                       y: -3,
-                      scale: 1.03,
-                      boxShadow: "0 18px 46px rgba(214,176,96,0.42)",
+                      scale: 1.02,
                     }}
-                    whileTap={{ scale: 0.96 }}
+                    whileTap={{
+                      scale: 0.96,
+                    }}
                     type="submit"
                     disabled={isSending}
-                    style={primaryButtonStyle}
+                    style={{
+                      ...primaryButtonStyle,
+                      boxShadow: "0 16px 34px rgba(214,176,96,0.24)",
+                    }}
+                    animate={{
+                      boxShadow: [
+                        "0 16px 34px rgba(214,176,96,0.24)",
+                      ]
+                    }}
+                    transition={{
+                      duration: 0.28,
+                      ease: "easeOut",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.boxShadow =
+                        "0 0 25px rgba(214,176,96,0.40), 0 16px 34px rgba(214,176,96,0.24)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.boxShadow =
+                        "0 16px 34px rgba(214,176,96,0.24)";
+                    }}
                   >
                     {isSending ? "Sending..." : "Submit Inquiry"}
                   </motion.button>
@@ -798,20 +758,34 @@ function ContactModal() {
                     whileHover={{
                       y: -2,
                       scale: 1.02,
-                      boxShadow: "0 10px 24px rgba(255,255,255,0.08)",
                     }}
-                    whileTap={{ scale: 0.98 }}
+                    whileTap={{
+                      scale: 0.96,
+                    }}
                     type="button"
                     onClick={() => closeContactModal()}
                     style={secondaryButtonStyle}
+                    animate={{
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                    }}
+                    transition={{
+                      duration: 0.25,
+                      ease: "easeOut",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.boxShadow =
+                        "0 0 15px rgba(255,255,255,0.10), 0 8px 16px rgba(0,0,0,0.16)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.boxShadow =
+                        "0 2px 8px rgba(0,0,0,0.12)";
+                    }}
                   >
                     Close
                   </motion.button>
                 </motion.div>
 
                 <motion.div
-                  animate={{ opacity: [0.45, 0.75, 0.45] }}
-                  transition={{ duration: 2.6, repeat: Infinity }}
                   variants={itemVariants}
                   style={{
                     marginTop: "18px",
@@ -831,110 +805,12 @@ function ContactModal() {
   );
 }
 
-function AmbientBackground({ isMobile }) {
-  return (
-    <>
-      <motion.div
-        animate={{
-          x: [0, 30, 0],
-          y: [0, -24, 0],
-          scale: [1, 1.08, 1],
-          opacity: [0.16, 0.24, 0.16],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={{
-          position: "absolute",
-          top: "-80px",
-          left: "-80px",
-          width: isMobile ? "180px" : "260px",
-          height: isMobile ? "180px" : "260px",
-          borderRadius: "50%",
-          background: "rgba(214,176,96,0.18)",
-          filter: "blur(80px)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <motion.div
-        animate={{
-          x: [0, -28, 0],
-          y: [0, 24, 0],
-          scale: [1, 1.06, 1],
-          opacity: [0.16, 0.22, 0.16],
-        }}
-        transition={{
-          duration: 9,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={{
-          position: "absolute",
-          right: "-60px",
-          bottom: "-80px",
-          width: isMobile ? "200px" : "280px",
-          height: isMobile ? "200px" : "280px",
-          borderRadius: "50%",
-          background: "rgba(87,120,210,0.18)",
-          filter: "blur(90px)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <motion.div
-        animate={{ x: ["-15%", "120%"] }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        style={{
-          position: "absolute",
-          top: "18%",
-          width: "26%",
-          height: "2px",
-          background:
-            "linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent)",
-          filter: "blur(2px)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <motion.div
-        animate={{ x: ["120%", "-15%"] }}
-        transition={{
-          duration: 7.5,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        style={{
-          position: "absolute",
-          top: "68%",
-          width: "22%",
-          height: "2px",
-          background:
-            "linear-gradient(90deg, transparent, rgba(214,176,96,0.16), transparent)",
-          filter: "blur(2px)",
-          pointerEvents: "none",
-        }}
-      />
-    </>
-  );
-}
-
 function AnimatedField({ children }) {
   return (
     <motion.div
       variants={itemVariants}
-      animate={{ y: [0, -1.5, 0] }}
-      transition={{
-        duration: 4.2,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
+      whileFocus={{ scale: 1.01 }}
+      transition={{ duration: 0.2 }}
     >
       {children}
     </motion.div>
@@ -948,48 +824,35 @@ function Field({
   onChange,
   placeholder,
   type = "text",
-  focusedField,
-  setFocusedField,
 }) {
-  const active = focusedField === name;
-  const filled = String(value || "").trim().length > 0;
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <label style={{ display: "block" }}>
+      <div style={labelStyle}>{label}</div>
       <motion.div
         animate={{
-          color: active ? theme.colors.goldSoft : "#EAE6DD",
-          opacity: filled ? 1 : 0.92,
+          boxShadow: isFocused
+            ? "0 0 20px 0 rgba(214,176,96,0.25), inset 0 0 20px 0 rgba(214,176,96,0.08)"
+            : "0 0 0px 0 rgba(214,176,96,0)",
         }}
-        transition={{ duration: 0.2 }}
-        style={labelStyle}
-      >
-        {label}
-      </motion.div>
-
-      <motion.input
-        whileFocus={{ y: -2, scale: 1.01 }}
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        onFocus={() => setFocusedField(name)}
-        onBlur={() => setFocusedField("")}
-        placeholder={placeholder}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         style={{
-          ...inputStyle,
-          border: active
-            ? "1px solid rgba(214,176,96,0.75)"
-            : filled
-            ? "1px solid rgba(255,255,255,0.16)"
-            : "1px solid rgba(255,255,255,0.10)",
-          boxShadow: active
-            ? "0 0 0 1px rgba(214,176,96,0.18), 0 0 22px rgba(214,176,96,0.18)"
-            : filled
-            ? "0 0 0 1px rgba(255,255,255,0.03)"
-            : "none",
+          borderRadius: "16px",
+          overflow: "hidden",
         }}
-      />
+      >
+        <input
+          type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          style={inputStyle}
+        />
+      </motion.div>
     </label>
   );
 }
@@ -1006,23 +869,10 @@ function PhoneField({
   filteredCountries,
   handleCountrySelect,
   countryMenuRef,
-  focusedField,
-  setFocusedField,
 }) {
-  const active = focusedField === "phone";
-  const filled = String(phone || "").trim().length > 0;
-
   return (
     <div>
-      <motion.div
-        animate={{
-          color: active ? theme.colors.goldSoft : "#EAE6DD",
-        }}
-        transition={{ duration: 0.2 }}
-        style={labelStyle}
-      >
-        {label}
-      </motion.div>
+      <div style={labelStyle}>{label}</div>
 
       <div
         style={{
@@ -1034,10 +884,15 @@ function PhoneField({
       >
         <div style={{ position: "relative" }} ref={countryMenuRef}>
           <motion.button
-            whileHover={{ y: -2, scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
             type="button"
             onClick={() => setCountryMenuOpen((prev) => !prev)}
+            whileHover={{
+              boxShadow: "0 0 15px rgba(214,176,96,0.20), inset 0 0 15px rgba(214,176,96,0.06)",
+            }}
+            transition={{
+              duration: 0.25,
+              ease: "easeOut",
+            }}
             style={{
               ...inputStyle,
               display: "flex",
@@ -1062,16 +917,14 @@ function PhoneField({
               <span>{selectedCountry.dialCode}</span>
             </span>
 
-            <motion.span
-              animate={{ rotate: countryMenuOpen ? 180 : 0 }}
-              transition={{ duration: 0.18 }}
+            <span
               style={{
                 fontSize: "12px",
                 opacity: 0.8,
               }}
             >
               ▼
-            </motion.span>
+            </span>
           </motion.button>
 
           <AnimatePresence>
@@ -1085,7 +938,7 @@ function PhoneField({
                   position: "absolute",
                   top: "calc(100% + 10px)",
                   left: 0,
-                  width: isNaN(window?.innerWidth) || window.innerWidth > 768 ? "320px" : "280px",
+                  width: "320px",
                   maxHeight: "280px",
                   borderRadius: "18px",
                   border: "1px solid rgba(255,255,255,0.10)",
@@ -1098,9 +951,7 @@ function PhoneField({
                 }}
               >
                 <div style={{ padding: "12px" }}>
-                  <motion.input
-                    autoFocus
-                    whileFocus={{ scale: 1.01 }}
+                  <input
                     type="text"
                     value={countrySearch}
                     onChange={(e) => setCountrySearch(e.target.value)}
@@ -1108,7 +959,6 @@ function PhoneField({
                     style={{
                       ...inputStyle,
                       padding: "12px 14px",
-                      boxShadow: "0 0 18px rgba(255,255,255,0.03)",
                     }}
                   />
                 </div>
@@ -1132,17 +982,34 @@ function PhoneField({
                     </div>
                   ) : (
                     filteredCountries.map((country) => {
-                      const activeCountry =
+                      const isSelected =
                         selectedCountry.iso === country.iso &&
                         selectedCountry.dialCode === country.dialCode;
 
                       return (
                         <motion.button
-                          whileHover={{ x: 4, scale: 1.01 }}
-                          whileTap={{ scale: 0.98 }}
                           key={`${country.iso}-${country.dialCode}`}
                           type="button"
                           onClick={() => handleCountrySelect(country)}
+                          whileHover={{
+                            y: -2,
+                            scale: 1.02,
+                          }}
+                          whileTap={{
+                            scale: 0.98,
+                          }}
+                          animate={{
+                            background: isSelected
+                              ? "rgba(214,176,96,0.18)"
+                              : "transparent",
+                            boxShadow: isSelected
+                              ? "0 0 12px rgba(214,176,96,0.15), inset 0 0 12px rgba(214,176,96,0.05)"
+                              : "0 0 0px rgba(0,0,0,0)",
+                          }}
+                          transition={{
+                            duration: 0.2,
+                            ease: "easeOut",
+                          }}
                           style={{
                             width: "100%",
                             display: "flex",
@@ -1151,48 +1018,40 @@ function PhoneField({
                             gap: "10px",
                             padding: "12px 12px",
                             borderRadius: "12px",
-                            background: activeCountry
-                              ? "rgba(214,176,96,0.14)"
-                              : "transparent",
-                            border: activeCountry
-                              ? "1px solid rgba(214,176,96,0.28)"
-                              : "1px solid transparent",
+                            border: "none",
                             color: "#FFFFFF",
                             cursor: "pointer",
                             textAlign: "left",
-                            boxShadow: activeCountry
-                              ? "inset 0 0 16px rgba(214,176,96,0.08)"
-                              : "none",
                           }}
                         >
+                        <span
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <span>{country.flag}</span>
                           <span
                             style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "10px",
+                              whiteSpace: "nowrap",
                               overflow: "hidden",
+                              textOverflow: "ellipsis",
                             }}
                           >
-                            <span>{country.flag}</span>
-                            <span
-                              style={{
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                              }}
-                            >
-                              {country.name}
-                            </span>
+                            {country.name}
                           </span>
+                        </span>
 
-                          <span
-                            style={{
-                              color: "rgba(255,255,255,0.72)",
-                              flexShrink: 0,
-                            }}
-                          >
-                            {country.dialCode}
-                          </span>
+                        <span
+                          style={{
+                            color: "rgba(255,255,255,0.72)",
+                            flexShrink: 0,
+                          }}
+                        >
+                          {country.dialCode}
+                        </span>
                         </motion.button>
                       );
                     })
@@ -1203,28 +1062,9 @@ function PhoneField({
           </AnimatePresence>
         </div>
 
-        <motion.input
-          whileFocus={{ y: -2, scale: 1.01 }}
-          type="tel"
-          name="phone"
-          value={phone}
-          onChange={onPhoneChange}
-          onFocus={() => setFocusedField("phone")}
-          onBlur={() => setFocusedField("")}
-          placeholder="Enter mobile number"
-          style={{
-            ...inputStyle,
-            border: active
-              ? "1px solid rgba(214,176,96,0.75)"
-              : filled
-              ? "1px solid rgba(255,255,255,0.16)"
-              : "1px solid rgba(255,255,255,0.10)",
-            boxShadow: active
-              ? "0 0 0 1px rgba(214,176,96,0.18), 0 0 22px rgba(214,176,96,0.18)"
-              : filled
-              ? "0 0 0 1px rgba(255,255,255,0.03)"
-              : "none",
-          }}
+        <PhoneInputField
+          phone={phone}
+          onPhoneChange={onPhoneChange}
         />
       </div>
     </div>
@@ -1251,34 +1091,21 @@ function ServiceSelector({ label, selected, onSelect }) {
               type="button"
               onClick={() => onSelect(service)}
               whileHover={{
-                y: -3,
-                scale: 1.03,
-                boxShadow: active
-                  ? "0 10px 26px rgba(214,176,96,0.20)"
-                  : "0 8px 20px rgba(255,255,255,0.05)",
+                y: -4,
+                scale: 1.04,
               }}
-              whileTap={{ scale: 0.97 }}
-              animate={
-                active
-                  ? {
-                      boxShadow: [
-                        "0 0 0 rgba(214,176,96,0.00)",
-                        "0 0 22px rgba(214,176,96,0.20)",
-                        "0 0 0 rgba(214,176,96,0.00)",
-                      ],
-                      scale: [1, 1.015, 1],
-                    }
-                  : {}
-              }
-              transition={
-                active
-                  ? {
-                      duration: 1.9,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }
-                  : { duration: 0.18 }
-              }
+              whileTap={{
+                scale: 0.98,
+              }}
+              animate={{
+                boxShadow: active
+                  ? "0 0 20px 0 rgba(214,176,96,0.35), 0 8px 20px -4px rgba(214,176,96,0.20)"
+                  : "0 2px 8px rgba(0,0,0,0.12)",
+              }}
+              transition={{
+                duration: 0.25,
+                ease: "easeOut",
+              }}
               style={{
                 padding: "11px 14px",
                 borderRadius: "999px",
@@ -1292,10 +1119,6 @@ function ServiceSelector({ label, selected, onSelect }) {
                 fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
-                transition: "all 0.22s ease",
-                boxShadow: active
-                  ? "inset 0 0 14px rgba(214,176,96,0.08)"
-                  : "none",
               }}
             >
               {service}
@@ -1304,6 +1127,36 @@ function ServiceSelector({ label, selected, onSelect }) {
         })}
       </div>
     </div>
+  );
+}
+
+function PhoneInputField({ phone, onPhoneChange }) {
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <motion.div
+      animate={{
+        boxShadow: isFocused
+          ? "0 0 20px 0 rgba(214,176,96,0.25), inset 0 0 20px 0 rgba(214,176,96,0.08)"
+          : "0 0 0px 0 rgba(214,176,96,0)",
+      }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      style={{
+        borderRadius: "16px",
+        overflow: "hidden",
+      }}
+    >
+      <input
+        type="tel"
+        name="phone"
+        value={phone}
+        onChange={onPhoneChange}
+        placeholder="Enter mobile number"
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        style={inputStyle}
+      />
+    </motion.div>
   );
 }
 
@@ -1336,6 +1189,7 @@ const primaryButtonStyle = {
   fontSize: "15px",
   fontWeight: 700,
   cursor: "pointer",
+  boxShadow: "0 16px 34px rgba(214,176,96,0.24)",
 };
 
 const secondaryButtonStyle = {
