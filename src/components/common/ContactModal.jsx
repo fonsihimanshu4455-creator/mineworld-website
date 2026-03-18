@@ -11,6 +11,19 @@ const serviceOptions = [
   "Social Media Management",
   "Meta Ads / Lead Generation",
   "Full Brand Support",
+  "Other",
+];
+
+const countryOptions = [
+  { code: "+91", label: "India", flag: "🇮🇳" },
+  { code: "+971", label: "UAE", flag: "🇦🇪" },
+  { code: "+1", label: "USA", flag: "🇺🇸" },
+  { code: "+44", label: "UK", flag: "🇬🇧" },
+  { code: "+61", label: "Australia", flag: "🇦🇺" },
+  { code: "+966", label: "Saudi Arabia", flag: "🇸🇦" },
+  { code: "+974", label: "Qatar", flag: "🇶🇦" },
+  { code: "+968", label: "Oman", flag: "🇴🇲" },
+  { code: "+965", label: "Kuwait", flag: "🇰🇼" },
 ];
 
 const overlayVariants = {
@@ -42,7 +55,11 @@ const modalVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 14 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.28, ease: "easeOut" } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.28, ease: "easeOut" },
+  },
 };
 
 function ContactModal() {
@@ -51,11 +68,12 @@ function ContactModal() {
   const [status, setStatus] = useState("");
   const [formData, setFormData] = useState({
     name: "",
+    countryCode: "+91",
     phone: "",
     email: "",
     service: "",
+    otherService: "",
     business: "",
-    message: "",
   });
 
   const isMobile =
@@ -108,20 +126,39 @@ function ContactModal() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "phone") {
+      const onlyDigits = value.replace(/\D/g, "");
+      setFormData((prev) => ({
+        ...prev,
+        [name]: onlyDigits,
+      }));
+      return;
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
+  const handleServiceSelect = (service) => {
+    setFormData((prev) => ({
+      ...prev,
+      service,
+      otherService: service === "Other" ? prev.otherService : "",
+    }));
+  };
+
   const resetForm = () => {
     setFormData({
       name: "",
+      countryCode: "+91",
       phone: "",
       email: "",
       service: "",
+      otherService: "",
       business: "",
-      message: "",
     });
   };
 
@@ -134,10 +171,20 @@ function ContactModal() {
       return;
     }
 
+    if (formData.service === "Other" && !formData.otherService.trim()) {
+      setStatus("Please enter your other service.");
+      return;
+    }
+
     if (!endpointReady) {
       setStatus("Form endpoint abhi set nahi hua hai.");
       return;
     }
+
+    const finalService =
+      formData.service === "Other"
+        ? `Other - ${formData.otherService}`
+        : formData.service;
 
     try {
       setIsSending(true);
@@ -150,11 +197,10 @@ function ContactModal() {
         },
         body: JSON.stringify({
           name: formData.name,
-          phone: formData.phone,
+          phone: `${formData.countryCode} ${formData.phone}`,
           email: formData.email,
-          service: formData.service,
+          service: finalService,
           business: formData.business,
-          message: formData.message,
         }),
       });
 
@@ -241,7 +287,6 @@ function ContactModal() {
               ×
             </button>
 
-            {/* LEFT VISUAL PANEL */}
             <motion.div
               variants={itemVariants}
               style={{
@@ -403,6 +448,7 @@ function ContactModal() {
                       background: "rgba(255,255,255,0.08)",
                     }}
                   />
+
                   <motion.div
                     animate={{ opacity: [1, 0.35, 1] }}
                     transition={{ duration: 3.2, repeat: Infinity }}
@@ -429,7 +475,6 @@ function ContactModal() {
               </div>
             </motion.div>
 
-            {/* RIGHT FORM PANEL */}
             <motion.div
               variants={itemVariants}
               style={{
@@ -495,12 +540,11 @@ function ContactModal() {
                   </AnimatedField>
 
                   <AnimatedField>
-                    <Field
+                    <PhoneField
                       label="Mobile Number *"
-                      name="phone"
-                      value={formData.phone}
+                      countryCode={formData.countryCode}
+                      phone={formData.phone}
                       onChange={handleChange}
-                      placeholder="Enter mobile number"
                     />
                   </AnimatedField>
 
@@ -516,15 +560,27 @@ function ContactModal() {
                   </AnimatedField>
 
                   <AnimatedField>
-                    <SelectField
+                    <ServiceSelector
                       label="Service Needed *"
-                      name="service"
-                      value={formData.service}
-                      onChange={handleChange}
-                      options={serviceOptions}
+                      selected={formData.service}
+                      onSelect={handleServiceSelect}
                     />
                   </AnimatedField>
                 </div>
+
+                {formData.service === "Other" && (
+                  <div style={{ marginTop: "14px" }}>
+                    <AnimatedField>
+                      <Field
+                        label="Other Service *"
+                        name="otherService"
+                        value={formData.otherService}
+                        onChange={handleChange}
+                        placeholder="Write your required service"
+                      />
+                    </AnimatedField>
+                  </div>
+                )}
 
                 <div style={{ marginTop: "14px" }}>
                   <AnimatedField>
@@ -534,18 +590,6 @@ function ContactModal() {
                       value={formData.business}
                       onChange={handleChange}
                       placeholder="Your brand or business"
-                    />
-                  </AnimatedField>
-                </div>
-
-                <div style={{ marginTop: "14px" }}>
-                  <AnimatedField>
-                    <TextAreaField
-                      label="Project Details"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Tell us what kind of work you need..."
                     />
                   </AnimatedField>
                 </div>
@@ -657,44 +701,84 @@ function Field({
   );
 }
 
-function SelectField({ label, name, value, onChange, options }) {
+function PhoneField({ label, countryCode, phone, onChange }) {
   return (
     <label style={{ display: "block" }}>
       <div style={labelStyle}>{label}</div>
-      <select
-        name={name}
-        value={value}
-        onChange={onChange}
-        style={inputStyle}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "132px 1fr",
+          gap: "10px",
+        }}
       >
-        <option value="">Select service</option>
-        {options.map((item) => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </select>
+        <select
+          name="countryCode"
+          value={countryCode}
+          onChange={onChange}
+          style={inputStyle}
+        >
+          {countryOptions.map((item) => (
+            <option key={item.code} value={item.code}>
+              {item.flag} {item.code}
+            </option>
+          ))}
+        </select>
+
+        <input
+          type="tel"
+          name="phone"
+          value={phone}
+          onChange={onChange}
+          placeholder="Enter mobile number"
+          style={inputStyle}
+        />
+      </div>
     </label>
   );
 }
 
-function TextAreaField({ label, name, value, onChange, placeholder }) {
+function ServiceSelector({ label, selected, onSelect }) {
   return (
-    <label style={{ display: "block" }}>
+    <div>
       <div style={labelStyle}>{label}</div>
-      <textarea
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        rows={6}
+      <div
         style={{
-          ...inputStyle,
-          resize: "vertical",
-          minHeight: "140px",
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
         }}
-      />
-    </label>
+      >
+        {serviceOptions.map((service) => {
+          const active = selected === service;
+
+          return (
+            <button
+              key={service}
+              type="button"
+              onClick={() => onSelect(service)}
+              style={{
+                padding: "11px 14px",
+                borderRadius: "999px",
+                border: active
+                  ? "1px solid rgba(214,176,96,0.85)"
+                  : "1px solid rgba(255,255,255,0.10)",
+                background: active
+                  ? "rgba(214,176,96,0.16)"
+                  : "rgba(255,255,255,0.04)",
+                color: active ? theme.colors.goldSoft : theme.colors.text,
+                fontSize: "14px",
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.22s ease",
+              }}
+            >
+              {service}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
