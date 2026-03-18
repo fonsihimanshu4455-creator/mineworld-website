@@ -4,6 +4,7 @@ import emailjs from "@emailjs/browser";
 import { theme } from "../../styles/theme";
 import { closeContactModal } from "../../utils/contactActions";
 import { countryCodes } from "../../data/countryCodes";
+import { siteConfig } from "../../data/siteConfig";
 import SuccessScreen from "./SuccessScreen";
 
 const serviceOptions = [
@@ -235,28 +236,41 @@ function ContactModal() {
         ? `Other - ${formData.otherService}`
         : formData.service;
 
+    const payload = {
+      name: formData.name,
+      phone: `${selectedCountry.flag} ${formData.countryCode} ${formData.phone}`,
+      email: formData.email || "Not provided",
+      service: finalService,
+      business: formData.business || "Not provided",
+      country: selectedCountry.name,
+      source: "Mineworld Website",
+    };
+
     try {
       setIsSending(true);
 
       await emailjs.send(
         "service_1zpxdxe",
         "template_6zw86b6",
-        {
-          name: formData.name,
-          phone: `${selectedCountry.flag} ${formData.countryCode} ${formData.phone}`,
-          email: formData.email || "Not provided",
-          service: finalService,
-          business: formData.business || "Not provided",
-          country: selectedCountry.name,
-        },
+        payload,
         "gA9nXoTRWrmiNsnON"
       );
+
+      if (siteConfig?.integrations?.sheetWebhook) {
+        await fetch(siteConfig.integrations.sheetWebhook, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify(payload),
+        });
+      }
 
       resetForm();
       setIsOpen(false);
       setShowSuccess(true);
     } catch (error) {
-      console.log("EmailJS error:", error);
+      console.log("Submit error:", error);
       setStatus("Something went wrong. Try again.");
     } finally {
       setIsSending(false);
@@ -485,43 +499,6 @@ function ContactModal() {
                         boxShadow: "0 16px 34px rgba(87,120,210,0.22)",
                       }}
                     />
-
-                    <motion.div
-                      animate={{ opacity: [0.45, 1, 0.45] }}
-                      transition={{ duration: 2.8, repeat: Infinity }}
-                      style={{
-                        position: "absolute",
-                        left: isMobile ? "106px" : "152px",
-                        top: isMobile ? "26px" : "46px",
-                        width: isMobile ? "110px" : "170px",
-                        height: isMobile ? "14px" : "18px",
-                        borderRadius: "999px",
-                        background: "rgba(255,255,255,0.08)",
-                      }}
-                    />
-
-                    <motion.div
-                      animate={{ opacity: [1, 0.35, 1] }}
-                      transition={{ duration: 3.2, repeat: Infinity }}
-                      style={{
-                        position: "absolute",
-                        left: isMobile ? "106px" : "152px",
-                        top: isMobile ? "52px" : "76px",
-                        width: isMobile ? "86px" : "130px",
-                        height: isMobile ? "10px" : "14px",
-                        borderRadius: "999px",
-                        background: "rgba(255,255,255,0.06)",
-                      }}
-                    />
-
-                    <div
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.02), transparent 30%, transparent 70%, rgba(0,0,0,0.14))",
-                      }}
-                    />
                   </div>
                 </div>
               </motion.div>
@@ -533,44 +510,42 @@ function ContactModal() {
                   overflowY: "auto",
                 }}
               >
-                <motion.div variants={itemVariants}>
-                  <div
-                    style={{
-                      color: theme.colors.goldSoft,
-                      fontSize: "12px",
-                      letterSpacing: "2px",
-                      textTransform: "uppercase",
-                      marginBottom: "12px",
-                    }}
-                  >
-                    Contact Form
-                  </div>
+                <div
+                  style={{
+                    color: theme.colors.goldSoft,
+                    fontSize: "12px",
+                    letterSpacing: "2px",
+                    textTransform: "uppercase",
+                    marginBottom: "12px",
+                  }}
+                >
+                  Contact Form
+                </div>
 
-                  <h3
-                    style={{
-                      margin: "0 0 10px",
-                      fontSize: isMobile ? "28px" : "34px",
-                      lineHeight: 1.06,
-                      fontWeight: 800,
-                      color: theme.colors.text,
-                    }}
-                  >
-                    Tell us what you need.
-                  </h3>
+                <h3
+                  style={{
+                    margin: "0 0 10px",
+                    fontSize: isMobile ? "28px" : "34px",
+                    lineHeight: 1.06,
+                    fontWeight: 800,
+                    color: theme.colors.text,
+                  }}
+                >
+                  Tell us what you need.
+                </h3>
 
-                  <p
-                    style={{
-                      margin: "0 0 22px",
-                      color: theme.colors.textSoft,
-                      fontSize: "14px",
-                      lineHeight: 1.8,
-                      maxWidth: "520px",
-                    }}
-                  >
-                    Fill the essentials. We will get the inquiry on email, and
-                    from there the project discussion can move forward.
-                  </p>
-                </motion.div>
+                <p
+                  style={{
+                    margin: "0 0 22px",
+                    color: theme.colors.textSoft,
+                    fontSize: "14px",
+                    lineHeight: 1.8,
+                    maxWidth: "520px",
+                  }}
+                >
+                  Fill the essentials. We will get the inquiry on email, and
+                  from there the project discussion can move forward.
+                </p>
 
                 <form onSubmit={handleSubmit}>
                   <div
@@ -665,8 +640,7 @@ function ContactModal() {
                     </motion.div>
                   ) : null}
 
-                  <motion.div
-                    variants={itemVariants}
+                  <div
                     style={{
                       display: "flex",
                       gap: "12px",
@@ -693,10 +667,9 @@ function ContactModal() {
                     >
                       Close
                     </motion.button>
-                  </motion.div>
+                  </div>
 
-                  <motion.div
-                    variants={itemVariants}
+                  <div
                     style={{
                       marginTop: "18px",
                       color: "rgba(255,255,255,0.52)",
@@ -705,7 +678,7 @@ function ContactModal() {
                     }}
                   >
                     Required fields: name, mobile number, and service.
-                  </motion.div>
+                  </div>
                 </form>
               </motion.div>
             </motion.div>
@@ -793,14 +766,7 @@ function PhoneField({
               <span>{selectedCountry.dialCode}</span>
             </span>
 
-            <span
-              style={{
-                fontSize: "12px",
-                opacity: 0.8,
-              }}
-            >
-              ▼
-            </span>
+            <span style={{ fontSize: "12px", opacity: 0.8 }}>▼</span>
           </button>
 
           <AnimatePresence>

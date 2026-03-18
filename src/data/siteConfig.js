@@ -2,32 +2,22 @@ export const siteConfig = {
   brand: {
     name: "Mineworld Production",
     shortName: "Mineworld",
-    tagline: "Content + Editing + Digital Growth Studio",
     website: "https://mineworldproduction.com",
   },
 
   contact: {
     whatsappNumber: "919758850933",
-    whatsappMessage:
-      "Hi Mineworld Production, I want to discuss a project for editing, content, podcast shoots, design, or digital growth.",
-    email: "mineworldproduction@gmail.com",
+    email: "mineworldproduction4455@gmail.com",
     address: "Mayur Vihar Phase 1, Delhi, 110091",
   },
 
   social: {
     instagram:
       "https://www.instagram.com/mineworld.production?igsh=MTIyYzZpOXdicXl6aw==",
-    facebook: "",
-    youtube: "",
   },
 
-  form: {
-    // Formspree dashboard se apna real endpoint yahan daalna
-    // Example: https://formspree.io/f/xblyqzzz
-    endpoint: "https://formspree.io/f/mjgajgnd",
+  integrations: {
+    sheetWebhook:
+      "https://script.google.com/macros/s/AKfycby-F_y5bbvEwCapMtOn74W7j9t65l9KnL1-bzY1gpeeS7Tbr0xc3YQrQYnW3pdi8E_bvg/exec",
   },
 };
-
-export const whatsappLink = `https://wa.me/${siteConfig.contact.whatsappNumber}?text=${encodeURIComponent(
-  siteConfig.contact.whatsappMessage
-)}`;

@@ -1,238 +1,345 @@
 import { motion } from "framer-motion";
-import Container from "../common/Container";
-import Reveal from "../common/Reveal";
-import SectionHeading from "../common/SectionHeading";
-import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 
-const resultCards = [
+const sectionWrap = {
+  width: "min(1180px, calc(100% - 32px))",
+  margin: "0 auto",
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const proofCards = [
   {
-    id: "01",
-    title: "Stronger Brand Presence",
-    text: "Content systems designed to make the brand look more premium, more serious, and more trustworthy across platforms.",
+    number: "01",
+    stat: "+32 Leads in 7 Days",
+    title: "Aesthetic Clinic Campaign",
+    description:
+      "Creative reels and Meta ads aligned for lead capture, not just reach.",
+    tags: ["Reels + Ads", "Lead Generation", "Clinic Growth"],
   },
   {
-    id: "02",
-    title: "Better Attention Retention",
-    text: "Editing logic focused on hook strength, pacing, rhythm, and viewer attention instead of random cuts and filler motion.",
+    number: "02",
+    stat: "2.5M Views Reel",
+    title: "Personal Brand Content",
+    description:
+      "Retention-first editing structure built to hold attention and drive profile interest.",
+    tags: ["Retention Editing", "Reel Strategy", "Personal Brand"],
   },
   {
-    id: "03",
-    title: "Sharpened Digital Perception",
-    text: "Visuals, campaigns, and content direction aligned to help the brand appear clearer, stronger, and more valuable online.",
+    number: "03",
+    stat: "₹1.8L Revenue Driven",
+    title: "Local Business Promotion",
+    description:
+      "Offer-led creative direction and paid campaign execution focused on business outcome.",
+    tags: ["Offer Creative", "Paid Growth", "Revenue Focus"],
   },
 ];
 
-const proofBlocks = [
+const supportCards = [
   {
     eyebrow: "Retention-first execution",
-    title: "Designed to hold attention, not just fill timelines.",
-    text: "Mineworld’s standard is not volume for the sake of content. The output is meant to stop scroll, increase watch intent, and make the brand feel more deliberate in every frame.",
-  },
-  {
-    eyebrow: "Premium brand perception",
-    title: "Sharper visuals change how a brand is judged.",
-    text: "People decide fast. Better content framing, stronger editing, and cleaner brand presentation instantly improve how serious the business feels.",
+    title: "Attention is the first conversion layer.",
+    text:
+      "Before leads come clicks. Before clicks come stronger visuals, clearer hooks, and sharper content behavior.",
   },
   {
     eyebrow: "System thinking",
-    title: "Content works better when it behaves like a system.",
-    text: "Instead of isolated posts, the goal is structured output — edits, clips, campaigns, shoots, and design all working together.",
-  },
-  {
-    eyebrow: "Execution speed",
-    title: "Fast delivery means nothing without control.",
-    text: "The standard is not just speed. It is speed with rhythm, consistency, and visual discipline across formats.",
+    title: "Content performs better when it works like a system.",
+    text:
+      "Editing, ad creatives, page consistency, shoots, and design support should work together — not as isolated services.",
   },
 ];
 
-function ResultsSection() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
-
+function ProofCard({ item }) {
   return (
-    <section
-      id="results"
+    <motion.div
+      variants={fadeUp}
       style={{
         position: "relative",
-        padding: isMobile ? "80px 0" : "120px 0",
-        background: theme.colors.bgSoft,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        borderRadius: "28px",
+        padding: "28px 24px 24px",
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.02) 100%)",
+        border: `1px solid ${theme.colors.lineStrong}`,
+        boxShadow: "0 14px 34px rgba(0,0,0,0.16)",
         overflow: "hidden",
       }}
     >
       <div
         style={{
           position: "absolute",
-          left: "-8%",
-          top: "10%",
-          width: isMobile ? "220px" : "340px",
-          height: isMobile ? "220px" : "340px",
+          top: "-60px",
+          right: "-40px",
+          width: "160px",
+          height: "160px",
           borderRadius: "50%",
-          background: "rgba(214,176,96,0.07)",
-          filter: "blur(140px)",
+          background: "rgba(87,120,210,0.10)",
+          filter: "blur(55px)",
           pointerEvents: "none",
         }}
       />
 
-      <Container>
-        <Reveal>
-          <SectionTag>Results</SectionTag>
-        </Reveal>
+      <div
+        style={{
+          color: theme.colors.gold,
+          fontSize: "42px",
+          fontWeight: 800,
+          lineHeight: 1,
+          marginBottom: "18px",
+          letterSpacing: "-1px",
+        }}
+      >
+        {item.number}
+      </div>
 
-        <Reveal delay={0.08}>
-          <SectionHeading
-            title="The goal is not more content. The goal is stronger impact."
-            subtitle="Mineworld is built around outcomes that matter — attention, perception, structure, and sharper digital execution. This section is about how the work is meant to perform, not just how it looks."
-          />
-        </Reveal>
+      <div
+        style={{
+          color: theme.colors.text,
+          fontSize: "28px",
+          lineHeight: 1.08,
+          fontWeight: 700,
+          marginBottom: "12px",
+          maxWidth: "280px",
+        }}
+      >
+        {item.stat}
+      </div>
 
-        {/* TOP 3 RESULT CARDS */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
-            gap: "22px",
-            marginTop: "14px",
-          }}
-        >
-          {resultCards.map((card, index) => (
-            <Reveal key={card.id} delay={0.12 + index * 0.06}>
-              <motion.div
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 180, damping: 18 }}
-                style={{
-                  minHeight: isMobile ? "auto" : "220px",
-                  borderRadius: isMobile ? "22px" : "26px",
-                  padding: isMobile ? "22px" : "28px",
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025))",
-                  border: `1px solid ${theme.colors.line}`,
-                  boxShadow: theme.shadow.soft,
-                }}
-              >
-                <div
-                  style={{
-                    color: theme.colors.goldSoft,
-                    fontSize: isMobile ? "44px" : "52px",
-                    fontWeight: 800,
-                    lineHeight: 1,
-                    marginBottom: "18px",
-                  }}
-                >
-                  {card.id}
-                </div>
+      <div
+        style={{
+          color: theme.colors.goldSoft,
+          fontSize: "12px",
+          letterSpacing: "2px",
+          textTransform: "uppercase",
+          marginBottom: "10px",
+          fontWeight: 700,
+        }}
+      >
+        {item.title}
+      </div>
 
-                <h3
-                  style={{
-                    margin: "0 0 12px",
-                    fontSize: isMobile ? "26px" : "28px",
-                    lineHeight: 1.08,
-                    fontWeight: 800,
-                    color: theme.colors.text,
-                  }}
-                >
-                  {card.title}
-                </h3>
+      <p
+        style={{
+          color: theme.colors.textSoft,
+          fontSize: "15px",
+          lineHeight: 1.8,
+          margin: "0 0 18px",
+          maxWidth: "320px",
+        }}
+      >
+        {item.description}
+      </p>
 
-                <p
-                  style={{
-                    margin: 0,
-                    color: theme.colors.textSoft,
-                    fontSize: "15px",
-                    lineHeight: 1.8,
-                  }}
-                >
-                  {card.text}
-                </p>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-
-        {/* LOWER 2x2 BLOCKS */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-            gap: "24px",
-            marginTop: "28px",
-          }}
-        >
-          {proofBlocks.map((block, index) => (
-            <Reveal key={block.title} delay={0.18 + index * 0.06}>
-              <motion.div
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 180, damping: 18 }}
-                style={{
-                  minHeight: isMobile ? "auto" : "250px",
-                  borderRadius: isMobile ? "22px" : "28px",
-                  padding: isMobile ? "24px" : "30px",
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025))",
-                  border: `1px solid ${theme.colors.line}`,
-                  boxShadow: theme.shadow.soft,
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    right: "-40px",
-                    bottom: "-40px",
-                    width: isMobile ? "120px" : "160px",
-                    height: isMobile ? "120px" : "160px",
-                    borderRadius: "50%",
-                    background: "rgba(214,176,96,0.05)",
-                    filter: "blur(70px)",
-                    pointerEvents: "none",
-                  }}
-                />
-
-                <div
-                  style={{
-                    color: theme.colors.goldSoft,
-                    fontSize: "12px",
-                    letterSpacing: "2px",
-                    textTransform: "uppercase",
-                    marginBottom: "14px",
-                  }}
-                >
-                  {block.eyebrow}
-                </div>
-
-                <h3
-                  style={{
-                    margin: "0 0 14px",
-                    fontSize: isMobile ? "28px" : "clamp(28px, 2.4vw, 42px)",
-                    lineHeight: 1.08,
-                    fontWeight: 800,
-                    color: theme.colors.text,
-                    maxWidth: "95%",
-                  }}
-                >
-                  {block.title}
-                </h3>
-
-                <p
-                  style={{
-                    margin: 0,
-                    color: theme.colors.textSoft,
-                    fontSize: isMobile ? "15px" : "16px",
-                    lineHeight: 1.9,
-                    maxWidth: "95%",
-                  }}
-                >
-                  {block.text}
-                </p>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </Container>
-    </section>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+        }}
+      >
+        {item.tags.map((tag) => (
+          <span
+            key={tag}
+            style={{
+              padding: "10px 14px",
+              borderRadius: "999px",
+              fontSize: "13px",
+              fontWeight: 600,
+              color: theme.colors.text,
+              border: `1px solid ${theme.colors.line}`,
+              background: "rgba(255,255,255,0.03)",
+            }}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </motion.div>
   );
 }
 
-export default ResultsSection;
+function SupportCard({ item }) {
+  return (
+    <motion.div
+      variants={fadeUp}
+      style={{
+        borderRadius: "28px",
+        padding: "28px 24px",
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.015) 100%)",
+        border: `1px solid ${theme.colors.line}`,
+      }}
+    >
+      <div
+        style={{
+          color: theme.colors.goldSoft,
+          fontSize: "12px",
+          letterSpacing: "2px",
+          textTransform: "uppercase",
+          marginBottom: "12px",
+          fontWeight: 700,
+        }}
+      >
+        {item.eyebrow}
+      </div>
+
+      <h3
+        style={{
+          margin: "0 0 12px",
+          color: theme.colors.text,
+          fontSize: "30px",
+          lineHeight: 1.12,
+          fontWeight: 700,
+          maxWidth: "540px",
+        }}
+      >
+        {item.title}
+      </h3>
+
+      <p
+        style={{
+          margin: 0,
+          color: theme.colors.textSoft,
+          fontSize: "15px",
+          lineHeight: 1.85,
+          maxWidth: "620px",
+        }}
+      >
+        {item.text}
+      </p>
+    </motion.div>
+  );
+}
+
+export default function ResultsSection() {
+  return (
+    <section
+      id="results"
+      style={{
+        padding: "110px 0",
+        borderTop: `1px solid ${theme.colors.line}`,
+      }}
+    >
+      <motion.div
+        style={sectionWrap}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.18 }}
+        variants={{
+          visible: { transition: { staggerChildren: 0.12 } },
+        }}
+      >
+        <motion.div
+          variants={fadeUp}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.1fr 0.9fr",
+            gap: "28px",
+            alignItems: "end",
+            marginBottom: "34px",
+          }}
+        >
+          <div>
+            <div
+              style={{
+                color: theme.colors.goldSoft,
+                fontSize: "12px",
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                marginBottom: "14px",
+                fontWeight: 700,
+              }}
+            >
+              Proof of Outcome
+            </div>
+
+            <h2
+              style={{
+                margin: 0,
+                color: theme.colors.text,
+                fontSize: "clamp(40px, 6vw, 72px)",
+                lineHeight: 0.98,
+                letterSpacing: "-2px",
+                fontWeight: 800,
+                maxWidth: "780px",
+              }}
+            >
+              Real results.{" "}
+              <span style={{ color: theme.colors.gold }}>Not just content.</span>
+            </h2>
+          </div>
+
+          <p
+            style={{
+              margin: 0,
+              color: theme.colors.textSoft,
+              fontSize: "15px",
+              lineHeight: 1.9,
+              maxWidth: "430px",
+              justifySelf: "end",
+            }}
+          >
+            Mineworld is not being built to make content look busy. It is being
+            built to make brands look sharper, convert stronger, and feel more
+            difficult to ignore.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={fadeUp}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+            gap: "18px",
+            marginBottom: "20px",
+          }}
+        >
+          {proofCards.map((item) => (
+            <ProofCard key={item.number} item={item} />
+          ))}
+        </motion.div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+            gap: "18px",
+          }}
+        >
+          {supportCards.map((item) => (
+            <SupportCard key={item.title} item={item} />
+          ))}
+        </div>
+      </motion.div>
+
+      <style>{`
+        @media (max-width: 980px) {
+          #results .results-top-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 1024px) {
+          section#results [style*="grid-template-columns: 1.1fr 0.9fr"] {
+            grid-template-columns: 1fr !important;
+          }
+
+          section#results [style*="repeat(3, minmax(0, 1fr))"] {
+            grid-template-columns: 1fr !important;
+          }
+
+          section#results [style*="repeat(2, minmax(0, 1fr))"] {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
