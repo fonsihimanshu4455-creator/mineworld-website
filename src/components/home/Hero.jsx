@@ -83,9 +83,9 @@ function Hero() {
                   textShadow: "0 6px 30px rgba(0,0,0,0.18)",
                 }}
               >
-                We Don’t Just Edit.
+                Video Editing & Digital Growth
                 <br />
-                We Build Brand Presence.
+                Agency in Delhi
               </h1>
             </Reveal>
 
@@ -102,10 +102,10 @@ function Hero() {
                   lineHeight: 1.9,
                 }}
               >
-                Mineworld Production helps brands grow through premium video
-                editing, podcast shoots, graphic design support, social media
-                management, and digital campaigns — built to make your brand
-                look sharper, stronger, and harder to ignore.
+                Mineworld Production is a Delhi-based video editing and digital
+                growth agency helping brands, creators, clinics, and businesses
+                grow through premium video editing, podcast shoots, graphic
+                design support, social media management, and Meta ads services.
               </p>
             </Reveal>
 
@@ -270,7 +270,7 @@ function Hero() {
               {isMobile ? (
                 <img
                   src={heroPoster}
-                  alt="Mineworld Hero"
+                  alt="Mineworld Production video editing and digital growth agency in Delhi"
                   loading="eager"
                   style={{
                     width: "100%",

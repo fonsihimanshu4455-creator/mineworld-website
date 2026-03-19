@@ -8,10 +8,10 @@ import { theme } from "../../styles/theme";
 const services = [
   {
     id: 1,
-    title: "Ads & Lead Generation",
+    title: "Meta Ads & Lead Generation in Delhi",
     subtitle: "Primary growth engine",
     description:
-      "Meta ad campaigns designed to generate real leads, real inquiries, and measurable business growth — not empty reach or vanity numbers.",
+      "Meta ad campaigns designed to generate real leads, real inquiries, and measurable business growth for brands, clinics, creators, and businesses in Delhi — not empty reach or vanity numbers.",
     items: [
       "Meta Ads Strategy",
       "Lead Generation Campaigns",
@@ -22,10 +22,10 @@ const services = [
   },
   {
     id: 2,
-    title: "Video Editing",
+    title: "Video Editing Services in Delhi",
     subtitle: "Content that converts",
     description:
-      "High-retention edits for reels, ads, YouTube, podcasts, and branded content — built to turn attention into action and strengthen perception.",
+      "High-retention edits for reels, ads, YouTube, podcasts, and branded content — built to turn attention into action and strengthen brand perception.",
     items: [
       "Reels Editing",
       "Ad Creative Editing",
@@ -36,10 +36,10 @@ const services = [
   },
   {
     id: 3,
-    title: "Social Media Management",
+    title: "Social Media Management in Delhi",
     subtitle: "Page growth + consistency",
     description:
-      "We don’t just post content. We build structured content systems that improve page perception, consistency, and audience trust over time.",
+      "We don’t just post content. We build structured content systems that improve page perception, consistency, and audience trust over time for brands that want long-term digital growth.",
     items: [
       "Monthly Content Planning",
       "Posting Strategy",
@@ -50,7 +50,7 @@ const services = [
   },
   {
     id: 4,
-    title: "Podcast & Content Shoots",
+    title: "Podcast & Content Shoots in Delhi",
     subtitle: "Authority-building content",
     description:
       "Professional podcast shoots, creator shoots, and brand content sessions designed to create reusable authority assets — not random footage.",
@@ -122,8 +122,8 @@ function Services() {
 
         <Reveal delay={0.08}>
           <SectionHeading
-            title="Built around growth, not just content production."
-            subtitle="Mineworld is not here to make your content look expensive for no reason. We help brands build visibility, authority, leads, and stronger market perception through editing, ads, content systems, and digital execution."
+            title="Video editing, ads, podcast production, and digital growth services in Delhi."
+            subtitle="Mineworld Production helps brands, clinics, creators, and businesses in Delhi grow through video editing, Meta ads, podcast production, content systems, and social media management built for visibility, authority, and lead generation."
           />
         </Reveal>
 
@@ -266,7 +266,8 @@ function Services() {
                   >
                     This service exists to do one thing properly: bring serious
                     business opportunity through sharper creative and smarter
-                    paid execution.
+                    paid execution for businesses that want real lead generation
+                    in Delhi.
                   </div>
                 </div>
               </motion.div>
@@ -478,8 +479,8 @@ function Services() {
                   }}
                 >
                   Strong editing is not decoration here. It is the engine that
-                  controls retention, perception, and how seriously your brand
-                  gets taken.
+                  controls retention, brand perception, and how seriously your
+                  business gets taken online.
                 </div>
               </div>
             </motion.div>

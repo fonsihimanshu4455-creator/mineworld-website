@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { openContactModal } from "../../utils/contactActions";
 
@@ -13,9 +13,13 @@ function scrollToSection(id) {
   const el = document.getElementById(id);
   if (!el) return;
 
-  el.scrollIntoView({
+  const navbarOffset = 110;
+  const top =
+    el.getBoundingClientRect().top + window.pageYOffset - navbarOffset;
+
+  window.scrollTo({
+    top,
     behavior: "smooth",
-    block: "start",
   });
 }
 
@@ -23,6 +27,9 @@ export default function Navbar() {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+
+  const sectionIds = useMemo(() => navItems.map((item) => item.target), []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,19 +38,44 @@ export default function Navbar() {
 
     const handleScroll = () => {
       setScrolled(window.scrollY > 16);
+
+      const scrollPosition = window.scrollY + 160;
+      let currentSection = "home";
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+
+        const top = el.offsetTop;
+        const bottom = top + el.offsetHeight;
+
+        if (scrollPosition >= top && scrollPosition < bottom) {
+          currentSection = id;
+          break;
+        }
+      }
+
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 40
+      ) {
+        currentSection = "footer";
+      }
+
+      setActiveSection(currentSection);
     };
 
     handleResize();
     handleScroll();
 
     window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [sectionIds]);
 
   return (
     <div
@@ -115,11 +147,11 @@ export default function Navbar() {
                 src="/src/assets/mineworld-logo.png"
                 alt="Mineworld Production Logo"
                 style={{
-  width: isMobile ? "34px" : "40px",
-  height: "auto",
-  objectFit: "contain",
-  transform: "scale(1.7)",
-}}
+                  width: isMobile ? "34px" : "40px",
+                  height: "auto",
+                  objectFit: "contain",
+                  transform: "scale(1.7)",
+                }}
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                 }}
@@ -176,31 +208,63 @@ export default function Navbar() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "24px",
+                  gap: "8px",
                 }}
               >
-                {navItems.map((item) => (
-                  <motion.button
-                    key={item.target}
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => scrollToSection(item.target)}
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      color: "#F3EFE7",
-                      fontSize: "16px",
-                      fontWeight: 700,
-                      letterSpacing: "0.1px",
-                      cursor: "pointer",
-                      padding: "8px 4px",
-                      fontFamily:
-                        '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
-                    }}
-                  >
-                    {item.label}
-                  </motion.button>
-                ))}
+                {navItems.map((item) => {
+                  const isActive = activeSection === item.target;
+
+                  return (
+                    <motion.button
+                      key={item.target}
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => scrollToSection(item.target)}
+                      style={{
+                        position: "relative",
+                        background: isActive
+                          ? "rgba(214,176,96,0.10)"
+                          : "transparent",
+                        border: "none",
+                        color: isActive ? "#F7D58A" : "#F3EFE7",
+                        fontSize: "16px",
+                        fontWeight: isActive ? 800 : 700,
+                        letterSpacing: "0.1px",
+                        cursor: "pointer",
+                        padding: "10px 14px",
+                        borderRadius: "999px",
+                        transition: "all 0.28s ease",
+                        fontFamily:
+                          '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                        boxShadow: isActive
+                          ? "inset 0 0 0 1px rgba(214,176,96,0.18), 0 8px 20px rgba(214,176,96,0.08)"
+                          : "none",
+                      }}
+                    >
+                      {item.label}
+
+                      <motion.span
+                        initial={false}
+                        animate={{
+                          opacity: isActive ? 1 : 0,
+                          scaleX: isActive ? 1 : 0.6,
+                        }}
+                        transition={{ duration: 0.24, ease: "easeOut" }}
+                        style={{
+                          position: "absolute",
+                          left: "18px",
+                          right: "18px",
+                          bottom: "5px",
+                          height: "2px",
+                          borderRadius: "999px",
+                          background:
+                            "linear-gradient(90deg, rgba(214,176,96,0.15), rgba(214,176,96,0.98), rgba(214,176,96,0.15))",
+                          transformOrigin: "center",
+                        }}
+                      />
+                    </motion.button>
+                  );
+                })}
               </div>
 
               <motion.button
@@ -267,29 +331,39 @@ export default function Navbar() {
                   gap: "10px",
                 }}
               >
-                {navItems.map((item) => (
-                  <button
-                    key={item.target}
-                    onClick={() => {
-                      scrollToSection(item.target);
-                      setMenuOpen(false);
-                    }}
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      color: "#F5F0E8",
-                      textAlign: "left",
-                      fontSize: "18px",
-                      fontWeight: 700,
-                      padding: "10px 4px",
-                      cursor: "pointer",
-                      fontFamily:
-                        '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
-                    }}
-                  >
-                    {item.label}
-                  </button>
-                ))}
+                {navItems.map((item) => {
+                  const isActive = activeSection === item.target;
+
+                  return (
+                    <button
+                      key={item.target}
+                      onClick={() => {
+                        scrollToSection(item.target);
+                        setMenuOpen(false);
+                      }}
+                      style={{
+                        background: isActive
+                          ? "rgba(214,176,96,0.10)"
+                          : "transparent",
+                        border: isActive
+                          ? "1px solid rgba(214,176,96,0.18)"
+                          : "1px solid transparent",
+                        color: isActive ? "#F7D58A" : "#F5F0E8",
+                        textAlign: "left",
+                        fontSize: "18px",
+                        fontWeight: isActive ? 800 : 700,
+                        padding: "12px 14px",
+                        borderRadius: "16px",
+                        cursor: "pointer",
+                        transition: "all 0.25s ease",
+                        fontFamily:
+                          '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
 
                 <button
                   onClick={() => {

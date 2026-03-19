@@ -17,10 +17,10 @@ function Footer() {
   ];
 
   const services = [
-    "Video Editing",
-    "Podcast Shoots",
+    "Video Editing Services in Delhi",
+    "Podcast Production in Delhi",
     "Graphic Design Support",
-    "Social Media Management",
+    "Social Media Management in Delhi",
     "Meta Ads & Digital Growth",
   ];
 
@@ -233,7 +233,7 @@ function Footer() {
                 >
                   <img
                     src="/src/assets/mineworld-logo.png"
-                    alt="Mineworld Logo"
+                    alt="Mineworld Production logo"
                     style={{
                       width: isMobile ? "36px" : "44px",
                       height: "auto",
@@ -281,9 +281,10 @@ function Footer() {
                   lineHeight: 1.95,
                 }}
               >
-                Mineworld Production is a premium content, editing, and digital
-                growth studio built for brands that want stronger presence,
-                sharper execution, and better perception across platforms.
+                Mineworld Production is a Delhi-based video editing and digital
+                growth agency helping brands, creators, clinics, and businesses
+                through content production, social media management, podcast
+                shoots, and Meta ads services.
               </p>
 
               <div
@@ -596,7 +597,7 @@ function Footer() {
               lineHeight: 1.7,
             }}
           >
-            © 2026 Mineworld Production. All rights reserved.
+            ©️ 2026 Mineworld Production. All rights reserved.
           </div>
 
           <div
@@ -605,9 +606,13 @@ function Footer() {
               fontSize: "13px",
               lineHeight: 1.7,
               textAlign: isMobile ? "left" : "right",
+              maxWidth: isMobile ? "100%" : "620px",
             }}
           >
-            Built to look sharper. Built to be remembered.
+            Mineworld Production is a video editing and digital growth agency in
+            Delhi offering podcast production, social media management, graphic
+            design support, and Meta ads services for brands, creators, clinics,
+            and businesses.
           </div>
         </div>
       </Container>
