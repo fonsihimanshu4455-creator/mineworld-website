@@ -17,11 +17,13 @@ function FloatingWhatsApp() {
       href={whatsappLink}
       target="_blank"
       rel="noreferrer"
+      aria-label="Chat with Mineworld Production on WhatsApp"
       initial={{ opacity: 0, scale: 0.9, y: 18 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       whileHover={{ scale: 1.06 }}
       whileTap={{ scale: 0.96 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
+      transition={{ delay: 0.4, duration: 0.35, ease: "easeOut" }}
+      className="mw-whatsapp-pulse"
       style={{
         position: "fixed",
         right: "18px",

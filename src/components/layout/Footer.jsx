@@ -1,13 +1,22 @@
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
 import { openContactModal } from "../../utils/contactActions";
+import { siteConfig } from "../../data/siteConfig";
+import logoImg from "../../assets/mineworld-logo.png";
 
 function Footer() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false
+  );
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   const navItems = [
     { label: "Home", target: "home" },
@@ -46,6 +55,7 @@ function Footer() {
     textDecoration: "none",
     lineHeight: 1.9,
     fontSize: "15px",
+    transition: "color 0.25s ease",
   };
 
   return (
@@ -232,7 +242,7 @@ function Footer() {
                   }}
                 >
                   <img
-                    src="/src/assets/mineworld-logo.png"
+                    src={logoImg}
                     alt="Mineworld Production logo"
                     style={{
                       width: isMobile ? "36px" : "44px",
@@ -346,6 +356,7 @@ function Footer() {
                   <button
                     key={item.target}
                     onClick={() => scrollToSection(item.target)}
+                    className="mw-link"
                     style={{
                       background: "transparent",
                       border: "none",
@@ -355,6 +366,7 @@ function Footer() {
                       color: theme.colors.text,
                       fontSize: "15px",
                       lineHeight: 1.85,
+                      width: "fit-content",
                     }}
                   >
                     {item.label}
@@ -438,6 +450,7 @@ function Footer() {
                     href="https://maps.google.com/?q=Mayur+Vihar+Phase+1+Delhi+110091"
                     target="_blank"
                     rel="noreferrer"
+                    className="mw-link"
                     style={linkStyle}
                   >
                     Mayur Vihar Phase 1, Delhi, 110091
@@ -458,6 +471,7 @@ function Footer() {
                   </div>
                   <a
                     href="mailto:mineworldproduction4455@gmail.com"
+                    className="mw-link"
                     style={linkStyle}
                   >
                     mineworldproduction4455@gmail.com
@@ -479,13 +493,7 @@ function Footer() {
                   <div style={linkStyle}>
                     <a
                       href="tel:+919758850933"
-                      style={{ ...linkStyle, display: "inline" }}
-                    >
-                      +91 9758850933
-                    </a>
-                    {", "}
-                    <a
-                      href="tel:+919758850933"
+                      className="mw-link"
                       style={{ ...linkStyle, display: "inline" }}
                     >
                       +91 9758850933
@@ -506,9 +514,10 @@ function Footer() {
                     </svg>
                   </div>
                   <a
-                    href="https://instagram.com/"
+                    href={siteConfig.social.instagram}
                     target="_blank"
                     rel="noreferrer"
+                    className="mw-link"
                     style={linkStyle}
                   >
                     Instagram
@@ -533,6 +542,7 @@ function Footer() {
                     href="https://www.mineworldproduction.com"
                     target="_blank"
                     rel="noreferrer"
+                    className="mw-link"
                     style={linkStyle}
                   >
                     www.mineworldproduction.com
@@ -556,6 +566,7 @@ function Footer() {
                     href="https://wa.me/919758850933"
                     target="_blank"
                     rel="noreferrer"
+                    className="mw-link"
                     style={linkStyle}
                   >
                     WhatsApp
@@ -597,7 +608,7 @@ function Footer() {
               lineHeight: 1.7,
             }}
           >
-            ©️ 2026 Mineworld Production. All rights reserved.
+            © 2026 Mineworld Production. All rights reserved.
           </div>
 
           <div

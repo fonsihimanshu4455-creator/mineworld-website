@@ -237,6 +237,7 @@ function Services() {
                     {primary.items.map((item) => (
                       <div
                         key={item}
+                        className="mw-tag-hover"
                         style={{
                           padding: "14px 16px",
                           borderRadius: "18px",
@@ -285,6 +286,7 @@ function Services() {
                   <motion.div
                     whileHover={{ y: -6 }}
                     transition={{ type: "spring", stiffness: 180, damping: 18 }}
+                    className="mw-shine"
                     style={{
                       minHeight: isMobile ? "auto" : "300px",
                       borderRadius: isMobile ? "22px" : "26px",
@@ -293,6 +295,7 @@ function Services() {
                         "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025))",
                       border: `1px solid ${theme.colors.line}`,
                       boxShadow: theme.shadow.soft,
+                      position: "relative",
                     }}
                   >
                     <div
@@ -345,6 +348,7 @@ function Services() {
                       {service.items.map((item) => (
                         <div
                           key={item}
+                          className="mw-tag-hover"
                           style={{
                             padding: "8px 12px",
                             borderRadius: "999px",

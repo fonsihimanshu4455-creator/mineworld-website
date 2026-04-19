@@ -12,6 +12,7 @@ import CTA from "./components/home/CTA";
 import Footer from "./components/layout/Footer";
 import ContactModal from "./components/common/ContactModal";
 import FloatingWhatsApp from "./components/common/FloatingWhatsApp";
+import ScrollProgress from "./components/common/ScrollProgress";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         color: "#fff",
       }}
     >
+      <ScrollProgress />
       <Navbar />
       <Hero />
       <ResultsSection />

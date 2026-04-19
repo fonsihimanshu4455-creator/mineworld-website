@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { theme } from "../../styles/theme";
+import AnimatedCounter from "../common/AnimatedCounter";
 
 const sectionWrap = {
   width: "min(1180px, calc(100% - 32px))",
@@ -18,7 +19,8 @@ const fadeUp = {
 const proofCards = [
   {
     number: "01",
-    stat: "+32 Leads in 7 Days",
+    counter: "+32",
+    statSuffix: " Leads in 7 Days",
     title: "Aesthetic Clinic Campaign",
     description:
       "Creative reels and Meta ads aligned for lead capture, not just reach.",
@@ -26,7 +28,8 @@ const proofCards = [
   },
   {
     number: "02",
-    stat: "2.5M Views Reel",
+    counter: "2.5M",
+    statSuffix: " Views Reel",
     title: "Personal Brand Content",
     description:
       "Retention-first editing structure built to hold attention and drive profile interest.",
@@ -34,7 +37,8 @@ const proofCards = [
   },
   {
     number: "03",
-    stat: "₹1.8L Revenue Driven",
+    counter: "₹1.8L",
+    statSuffix: " Revenue Driven",
     title: "Local Business Promotion",
     description:
       "Offer-led creative direction and paid campaign execution focused on business outcome.",
@@ -61,12 +65,15 @@ function ProofCard({ item }) {
   return (
     <motion.div
       variants={fadeUp}
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 220, damping: 20 }}
+      className="mw-card-hover mw-shine"
       style={{
         position: "relative",
         borderRadius: "28px",
         padding: "28px 24px 24px",
         background:
-  "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)",
+          "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)",
         border: `1px solid ${theme.colors.lineStrong}`,
         boxShadow: "0 14px 34px rgba(0,0,0,0.16)",
         overflow: "hidden",
@@ -109,7 +116,17 @@ function ProofCard({ item }) {
           maxWidth: "280px",
         }}
       >
-        {item.stat}
+        <AnimatedCounter
+          value={item.counter}
+          style={{
+            background:
+              "linear-gradient(90deg, #F7D58A 0%, #D6B060 55%, #F7D58A 100%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent",
+          }}
+        />
+        {item.statSuffix}
       </div>
 
       <div
@@ -147,6 +164,7 @@ function ProofCard({ item }) {
         {item.tags.map((tag) => (
           <span
             key={tag}
+            className="mw-tag-hover"
             style={{
               padding: "10px 14px",
               borderRadius: "999px",
@@ -155,6 +173,7 @@ function ProofCard({ item }) {
               color: theme.colors.text,
               border: `1px solid ${theme.colors.line}`,
               background: "rgba(255,255,255,0.03)",
+              cursor: "default",
             }}
           >
             {tag}
@@ -169,11 +188,14 @@ function SupportCard({ item }) {
   return (
     <motion.div
       variants={fadeUp}
+      whileHover={{ y: -4 }}
+      transition={{ type: "spring", stiffness: 220, damping: 20 }}
+      className="mw-card-hover"
       style={{
         borderRadius: "28px",
         padding: "28px 24px",
         background:
-  "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)",
+          "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)",
         border: `1px solid ${theme.colors.line}`,
       }}
     >
@@ -221,13 +243,16 @@ function SupportCard({ item }) {
 export default function ResultsSection() {
   return (
     <section
-  id="results"
-  style={{
-    padding: "110px 0",
-    background: "#0b0f1a", // dark background fix
-    borderTop: `1px solid rgba(255,255,255,0.08)`,
-  }}
->
+      id="results"
+      style={{
+        padding: "110px 0",
+        background: `
+          radial-gradient(circle at 80% 10%, rgba(87,120,210,0.08), transparent 40%),
+          linear-gradient(180deg, ${theme.colors.bg} 0%, #0b0f1a 60%, ${theme.colors.bg} 100%)
+        `,
+        borderTop: `1px solid ${theme.colors.line}`,
+      }}
+    >
       <motion.div
         style={sectionWrap}
         initial="hidden"

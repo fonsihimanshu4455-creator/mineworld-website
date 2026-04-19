@@ -221,13 +221,28 @@ function ContactModal() {
     e.preventDefault();
     setStatus("");
 
-    if (!formData.name || !formData.phone || !formData.service) {
-      setStatus("Please fill required fields.");
+    const trimmedName = formData.name.trim();
+
+    if (!trimmedName || !formData.phone || !formData.service) {
+      setStatus("Please fill name, mobile number, and service.");
+      return;
+    }
+
+    if (formData.phone.length < 7) {
+      setStatus("Please enter a valid mobile number.");
+      return;
+    }
+
+    if (
+      formData.email &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())
+    ) {
+      setStatus("Please enter a valid email address.");
       return;
     }
 
     if (formData.service === "Other" && !formData.otherService.trim()) {
-      setStatus("Please enter your other service.");
+      setStatus("Please tell us what service you need.");
       return;
     }
 
@@ -269,9 +284,8 @@ function ContactModal() {
       resetForm();
       setIsOpen(false);
       setShowSuccess(true);
-    } catch (error) {
-      console.log("Submit error:", error);
-      setStatus("Something went wrong. Try again.");
+    } catch {
+      setStatus("Something went wrong. Please try again.");
     } finally {
       setIsSending(false);
     }
@@ -310,6 +324,9 @@ function ContactModal() {
               initial="hidden"
               animate="visible"
               exit="exit"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="contact-modal-title"
               onClick={(e) => e.stopPropagation()}
               style={{
                 width: "100%",
@@ -414,6 +431,7 @@ function ContactModal() {
                     </div>
 
                     <h2
+                      id="contact-modal-title"
                       style={{
                         margin: "0 0 14px",
                         color: theme.colors.text,
@@ -562,6 +580,8 @@ function ContactModal() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Enter your name"
+                      autoComplete="name"
+                      required
                     />
 
                     <PhoneField
@@ -586,6 +606,7 @@ function ContactModal() {
                       onChange={handleChange}
                       placeholder="Enter email"
                       type="email"
+                      autoComplete="email"
                     />
 
                     <ServiceSelector
@@ -610,6 +631,7 @@ function ContactModal() {
                           value={formData.otherService}
                           onChange={handleChange}
                           placeholder="Write your required service"
+                          required
                         />
                       </motion.div>
                     )}
@@ -622,23 +644,35 @@ function ContactModal() {
                       value={formData.business}
                       onChange={handleChange}
                       placeholder="Your brand or business"
+                      autoComplete="organization"
                     />
                   </div>
 
-                  {status ? (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      style={{
-                        marginTop: "16px",
-                        color: theme.colors.goldSoft,
-                        fontSize: "14px",
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      {status}
-                    </motion.div>
-                  ) : null}
+                  <AnimatePresence>
+                    {status ? (
+                      <motion.div
+                        key={status}
+                        role="alert"
+                        initial={{ opacity: 0, y: 8, height: 0 }}
+                        animate={{ opacity: 1, y: 0, height: "auto" }}
+                        exit={{ opacity: 0, y: -4, height: 0 }}
+                        transition={{ duration: 0.25 }}
+                        style={{
+                          marginTop: "16px",
+                          color: "#FFB4A2",
+                          fontSize: "14px",
+                          lineHeight: 1.6,
+                          background: "rgba(255, 99, 71, 0.08)",
+                          border: "1px solid rgba(255, 99, 71, 0.28)",
+                          padding: "10px 14px",
+                          borderRadius: "12px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {status}
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
 
                   <div
                     style={{
@@ -649,13 +683,38 @@ function ContactModal() {
                     }}
                   >
                     <motion.button
-                      whileHover={{ y: -2, scale: 1.01 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={isSending ? {} : { y: -2, scale: 1.01 }}
+                      whileTap={isSending ? {} : { scale: 0.98 }}
                       type="submit"
                       disabled={isSending}
-                      style={primaryButtonStyle}
+                      style={{
+                        ...primaryButtonStyle,
+                        opacity: isSending ? 0.7 : 1,
+                        cursor: isSending ? "not-allowed" : "pointer",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
                     >
-                      {isSending ? "Sending..." : "Submit Inquiry"}
+                      {isSending ? (
+                        <>
+                          <span
+                            aria-hidden="true"
+                            style={{
+                              width: "14px",
+                              height: "14px",
+                              borderRadius: "50%",
+                              border: "2px solid rgba(27,27,27,0.25)",
+                              borderTopColor: "#1B1B1B",
+                              animation: "mw-spin 0.7s linear infinite",
+                              display: "inline-block",
+                            }}
+                          />
+                          Sending...
+                        </>
+                      ) : (
+                        "Submit Inquiry"
+                      )}
                     </motion.button>
 
                     <motion.button
@@ -696,6 +755,8 @@ function Field({
   onChange,
   placeholder,
   type = "text",
+  autoComplete,
+  required = false,
 }) {
   return (
     <label style={{ display: "block" }}>
@@ -706,6 +767,9 @@ function Field({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        autoComplete={autoComplete}
+        required={required}
+        aria-required={required || undefined}
         style={inputStyle}
       />
     </label>
@@ -742,6 +806,9 @@ function PhoneField({
           <button
             type="button"
             onClick={() => setCountryMenuOpen((prev) => !prev)}
+            aria-haspopup="listbox"
+            aria-expanded={countryMenuOpen}
+            aria-label={`Country code, currently ${selectedCountry.name} ${selectedCountry.dialCode}`}
             style={{
               ...inputStyle,
               display: "flex",
@@ -894,9 +961,14 @@ function PhoneField({
         <input
           type="tel"
           name="phone"
+          inputMode="numeric"
+          autoComplete="tel-national"
           value={phone}
           onChange={onPhoneChange}
           placeholder="Enter mobile number"
+          aria-label="Mobile number"
+          aria-required="true"
+          required
           style={inputStyle}
         />
       </div>

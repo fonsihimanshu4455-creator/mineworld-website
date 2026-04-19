@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { openContactModal } from "../../utils/contactActions";
+import logoImg from "../../assets/mineworld-logo.png";
 
 const navItems = [
   { label: "Home", target: "home" },
@@ -89,6 +90,7 @@ export default function Navbar() {
       }}
     >
       <motion.nav
+        aria-label="Primary"
         initial={{ opacity: 0, y: -18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
@@ -118,6 +120,7 @@ export default function Navbar() {
         >
           <button
             onClick={() => scrollToSection("home")}
+            aria-label="Go to top — Mineworld Production home"
             style={{
               display: "flex",
               alignItems: "center",
@@ -144,7 +147,7 @@ export default function Navbar() {
               }}
             >
               <img
-                src="/src/assets/mineworld-logo.png"
+                src={logoImg}
                 alt="Mineworld Production Logo"
                 style={{
                   width: isMobile ? "34px" : "40px",
@@ -291,22 +294,36 @@ export default function Navbar() {
               </motion.button>
             </div>
           ) : (
-            <button
+            <motion.button
               onClick={() => setMenuOpen((prev) => !prev)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              whileTap={{ scale: 0.92 }}
               style={{
                 width: "52px",
                 height: "52px",
                 borderRadius: "16px",
                 border: "1px solid rgba(255,255,255,0.10)",
-                background: "rgba(255,255,255,0.03)",
-                color: "#F5F0E8",
-                fontSize: "24px",
+                background: menuOpen
+                  ? "rgba(214,176,96,0.14)"
+                  : "rgba(255,255,255,0.03)",
+                color: menuOpen ? "#F7D58A" : "#F5F0E8",
+                fontSize: "22px",
                 cursor: "pointer",
                 flexShrink: 0,
+                display: "grid",
+                placeItems: "center",
+                transition: "background 0.3s ease, color 0.3s ease",
               }}
             >
-              ☰
-            </button>
+              <motion.span
+                animate={{ rotate: menuOpen ? 90 : 0 }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                style={{ display: "inline-block", lineHeight: 1 }}
+              >
+                {menuOpen ? "✕" : "☰"}
+              </motion.span>
+            </motion.button>
           )}
         </div>
 
@@ -316,12 +333,21 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0, y: -6 }}
               animate={{ opacity: 1, height: "auto", y: 0 }}
               exit={{ opacity: 0, height: 0, y: -6 }}
-              transition={{ duration: 0.26, ease: "easeOut" }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 overflow: "hidden",
               }}
             >
-              <div
+              <motion.div
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                variants={{
+                  show: {
+                    transition: { staggerChildren: 0.05, delayChildren: 0.06 },
+                  },
+                  hidden: { transition: { staggerChildren: 0.02 } },
+                }}
                 style={{
                   marginTop: "16px",
                   paddingTop: "16px",
@@ -335,8 +361,13 @@ export default function Navbar() {
                   const isActive = activeSection === item.target;
 
                   return (
-                    <button
+                    <motion.button
                       key={item.target}
+                      variants={{
+                        hidden: { opacity: 0, x: -12 },
+                        show: { opacity: 1, x: 0 },
+                      }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => {
                         scrollToSection(item.target);
                         setMenuOpen(false);
@@ -361,11 +392,16 @@ export default function Navbar() {
                       }}
                     >
                       {item.label}
-                    </button>
+                    </motion.button>
                   );
                 })}
 
-                <button
+                <motion.button
+                  variants={{
+                    hidden: { opacity: 0, x: -12 },
+                    show: { opacity: 1, x: 0 },
+                  }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => {
                     openContactModal();
                     setMenuOpen(false);
@@ -386,8 +422,8 @@ export default function Navbar() {
                   }}
                 >
                   Start a Project
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
