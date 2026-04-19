@@ -150,92 +150,97 @@ function Hero() {
               </div>
             </Reveal>
 
-            <Reveal delay={0.4}>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "14px",
-                  flexWrap: "wrap",
-                  marginTop: "38px",
-                  justifyContent: isMobile ? "center" : "flex-start",
-                }}
-              >
-                {hero.badges
-                  .filter((b) => (typeof b === "object" ? b.visible !== false : true))
-                  .map((b) => {
-                    const label = typeof b === "object" ? b.label : b;
-                    const key = typeof b === "object" ? b.id || label : b;
-                    return (
-                      <div
-                        key={key}
-                        style={{
-                          padding: "11px 16px",
-                          border: `1px solid ${theme.colors.line}`,
-                          borderRadius: "999px",
-                          color: theme.colors.text,
-                          fontSize: isMobile ? "13px" : "14px",
-                          background: "rgba(58,78,115,0.75)",
-                          boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
-                        }}
-                      >
-                        {label}
-                      </div>
-                    );
-                  })}
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.5}>
-              <div
-                style={{
-                  marginTop: "28px",
-                  fontSize: isMobile ? "12px" : "13px",
-                  letterSpacing: isMobile ? "1.2px" : "1.8px",
-                  color: theme.colors.textSoft,
-                  opacity: 0.85,
-                  textTransform: "uppercase",
-                }}
-              >
-                {hero.captionLine}
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.58}>
-              <div
-                style={{
-                  marginTop: "34px",
-                  display: "inline-flex",
-                  flexDirection: "column",
-                  alignItems: isMobile ? "center" : "flex-start",
-                  gap: "6px",
-                }}
-              >
+            {!isMobile && (
+              <Reveal delay={0.4}>
                 <div
                   style={{
-                    color: "rgba(214,176,96,0.96)",
-                    fontSize: isMobile ? "34px" : "44px",
-                    lineHeight: 1,
-                    fontStyle: "italic",
-                    fontWeight: 500,
-                    fontFamily:
-                      '"Brush Script MT", "Lucida Handwriting", "Segoe Script", cursive',
-                    letterSpacing: "0.3px",
-                    textShadow: "0 0 16px rgba(214,176,96,0.10)",
+                    display: "flex",
+                    gap: "14px",
+                    flexWrap: "wrap",
+                    marginTop: "38px",
                   }}
                 >
-                  Mineworld Production
+                  {hero.badges
+                    .filter((b) => (typeof b === "object" ? b.visible !== false : true))
+                    .map((b) => {
+                      const label = typeof b === "object" ? b.label : b;
+                      const key = typeof b === "object" ? b.id || label : b;
+                      return (
+                        <div
+                          key={key}
+                          style={{
+                            padding: "11px 16px",
+                            border: `1px solid ${theme.colors.line}`,
+                            borderRadius: "999px",
+                            color: theme.colors.text,
+                            fontSize: "14px",
+                            background: "rgba(58,78,115,0.75)",
+                            boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
+                          }}
+                        >
+                          {label}
+                        </div>
+                      );
+                    })}
                 </div>
+              </Reveal>
+            )}
 
+            {!isMobile && (
+              <Reveal delay={0.5}>
                 <div
                   style={{
-                    width: isMobile ? "180px" : "240px",
-                    height: "1px",
-                    background:
-                      "linear-gradient(90deg, rgba(214,176,96,0.72), rgba(214,176,96,0.16), transparent)",
+                    marginTop: "28px",
+                    fontSize: "13px",
+                    letterSpacing: "1.8px",
+                    color: theme.colors.textSoft,
+                    opacity: 0.85,
+                    textTransform: "uppercase",
                   }}
-                />
-              </div>
-            </Reveal>
+                >
+                  {hero.captionLine}
+                </div>
+              </Reveal>
+            )}
+
+            {!isMobile && (
+              <Reveal delay={0.58}>
+                <div
+                  style={{
+                    marginTop: "34px",
+                    display: "inline-flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: "6px",
+                  }}
+                >
+                  <div
+                    style={{
+                      color: "rgba(214,176,96,0.96)",
+                      fontSize: "44px",
+                      lineHeight: 1,
+                      fontStyle: "italic",
+                      fontWeight: 500,
+                      fontFamily:
+                        '"Brush Script MT", "Lucida Handwriting", "Segoe Script", cursive',
+                      letterSpacing: "0.3px",
+                      textShadow: "0 0 16px rgba(214,176,96,0.10)",
+                    }}
+                  >
+                    Mineworld Production
+                  </div>
+
+                  <div
+                    style={{
+                      width: "240px",
+                      height: "1px",
+                      background:
+                        "linear-gradient(90deg, rgba(214,176,96,0.72), rgba(214,176,96,0.16), transparent)",
+                    }}
+                  />
+                </div>
+              </Reveal>
+            )}
           </div>
 
           <motion.div

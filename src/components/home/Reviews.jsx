@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import SectionTag from "../common/SectionTag";
@@ -152,6 +153,7 @@ export default function Reviews() {
   const { content } = useSiteContent();
   const r = content.reviews || {};
   const items = (r.items || []).filter((i) => i.visible !== false);
+  const [locked, setLocked] = useState(false);
 
   if (!items.length) return null;
 
@@ -188,6 +190,7 @@ export default function Reviews() {
       </Container>
 
       <div
+        onClick={() => setLocked((v) => !v)}
         style={{
           position: "relative",
           marginTop: isMobile ? "28px" : "40px",
@@ -195,8 +198,9 @@ export default function Reviews() {
             "linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%)",
           WebkitMaskImage:
             "linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%)",
+          cursor: "pointer",
         }}
-        className="mw-review-track-wrap"
+        className={`mw-review-track-wrap${locked ? " is-locked" : ""}`}
       >
         <div
           className="mw-review-track"
@@ -250,7 +254,8 @@ export default function Reviews() {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
         }
-        .mw-review-track-wrap:hover .mw-review-track {
+        .mw-review-track-wrap:hover .mw-review-track,
+        .mw-review-track-wrap.is-locked .mw-review-track {
           animation-play-state: paused;
         }
         @media (prefers-reduced-motion: reduce) {

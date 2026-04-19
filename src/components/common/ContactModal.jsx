@@ -314,9 +314,11 @@ function ContactModal() {
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
               display: "flex",
-              alignItems: "center",
+              alignItems: isMobile ? "flex-start" : "center",
               justifyContent: "center",
-              padding: isMobile ? "14px" : "20px",
+              padding: isMobile ? "10px" : "20px",
+              overflowY: "auto",
+              WebkitOverflowScrolling: "touch",
             }}
           >
             <motion.div
@@ -331,9 +333,9 @@ function ContactModal() {
               style={{
                 width: "100%",
                 maxWidth: "920px",
-                maxHeight: "92vh",
-                overflow: "hidden",
-                borderRadius: isMobile ? "24px" : "30px",
+                maxHeight: isMobile ? "none" : "92vh",
+                overflow: isMobile ? "visible" : "hidden",
+                borderRadius: isMobile ? "22px" : "30px",
                 background:
                   "linear-gradient(135deg, rgba(18,28,44,0.98) 0%, rgba(13,21,36,0.98) 100%)",
                 border: `1px solid ${theme.colors.lineStrong}`,
@@ -342,6 +344,7 @@ function ContactModal() {
                 display: "grid",
                 gridTemplateColumns: isMobile ? "1fr" : "0.9fr 1.1fr",
                 position: "relative",
+                marginBottom: isMobile ? "20px" : 0,
               }}
             >
               <button
@@ -379,7 +382,7 @@ function ContactModal() {
                 variants={itemVariants}
                 style={{
                   position: "relative",
-                  padding: isMobile ? "26px 22px 14px" : "34px 30px",
+                  padding: isMobile ? "26px 20px 20px" : "34px 30px",
                   borderRight: isMobile
                     ? "none"
                     : `1px solid ${theme.colors.line}`,
@@ -387,7 +390,7 @@ function ContactModal() {
                     ? `1px solid ${theme.colors.line}`
                     : "none",
                   overflow: "hidden",
-                  minHeight: isMobile ? "240px" : "100%",
+                  minHeight: isMobile ? "auto" : "100%",
                 }}
               >
                 <div
@@ -472,10 +475,11 @@ function ContactModal() {
 
                   <div
                     style={{
-                      marginTop: isMobile ? "24px" : "36px",
+                      display: isMobile ? "none" : "block",
+                      marginTop: "36px",
                       position: "relative",
-                      height: isMobile ? "120px" : "240px",
-                      borderRadius: isMobile ? "18px" : "24px",
+                      height: "240px",
+                      borderRadius: "24px",
                       border: `1px solid ${theme.colors.line}`,
                       background:
                         "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))",
@@ -536,7 +540,7 @@ function ContactModal() {
                 variants={itemVariants}
                 style={{
                   padding: isMobile ? "22px 18px 22px" : "34px 30px",
-                  overflowY: "auto",
+                  overflowY: isMobile ? "visible" : "auto",
                 }}
               >
                 <div

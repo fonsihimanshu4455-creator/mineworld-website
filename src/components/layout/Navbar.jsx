@@ -8,7 +8,8 @@ import logoImg from "../../assets/mineworld-logo.png";
 const navItems = [
   { label: "Home", target: "home" },
   { label: "Services", target: "services" },
-  { label: "Portfolio", target: "portfolio" },
+  { label: "Work", target: "portfolio" },
+  { label: "About", target: "about", route: "/about" },
   { label: "Contact", target: "footer" },
 ];
 
@@ -25,6 +26,7 @@ export default function Navbar() {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
   const navigate = useNavigate();
@@ -42,6 +44,20 @@ export default function Navbar() {
 
   const isHome = location.pathname === "/";
 
+  const handleNav = (item) => {
+    if (item.route) {
+      navigate(item.route);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    if (!isHome) {
+      navigate("/");
+      setTimeout(() => scrollToSectionById(item.target), 80);
+    } else {
+      scrollToSectionById(item.target);
+    }
+  };
+
   const scrollToSection = (id) => {
     if (!isHome) {
       navigate("/");
@@ -58,10 +74,29 @@ export default function Navbar() {
       setIsMobile(window.innerWidth <= 900);
     };
 
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 16);
+    let lastY = window.scrollY;
+    let lastDir = 0;
 
-      const scrollPosition = window.scrollY + 160;
+    const handleScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 16);
+
+      // Smart header: hide when scrolling down past 240px, show when scrolling up
+      const delta = y - lastY;
+      if (Math.abs(delta) > 4) {
+        const dir = delta > 0 ? 1 : -1;
+        if (dir !== lastDir) {
+          lastDir = dir;
+          if (y > 240 && dir === 1) {
+            setHidden(true);
+          } else if (dir === -1 || y <= 240) {
+            setHidden(false);
+          }
+        }
+        lastY = y;
+      }
+
+      const scrollPosition = y + 160;
       let currentSection = "home";
 
       for (const id of sectionIds) {
@@ -78,7 +113,7 @@ export default function Navbar() {
       }
 
       if (
-        window.innerHeight + window.scrollY >=
+        window.innerHeight + y >=
         document.documentElement.scrollHeight - 40
       ) {
         currentSection = "footer";
@@ -99,6 +134,9 @@ export default function Navbar() {
     };
   }, [sectionIds]);
 
+  // If menu is open we never hide the nav (user is interacting)
+  const effectiveHidden = hidden && !menuOpen;
+
   return (
     <div
       style={{
@@ -106,6 +144,9 @@ export default function Navbar() {
         top: 0,
         zIndex: 1200,
         padding: isMobile ? "10px 14px 0" : "12px 22px 0",
+        transform: effectiveHidden ? "translateY(-120%)" : "translateY(0)",
+        transition: "transform 0.38s cubic-bezier(0.22, 1, 0.36, 1)",
+        willChange: "transform",
         background:
           "linear-gradient(180deg, rgba(17,24,39,0.98) 0%, rgba(17,24,39,0.96) 58%, rgba(17,24,39,0.72) 82%, rgba(17,24,39,0) 100%)",
       }}
@@ -246,14 +287,16 @@ export default function Navbar() {
                 }}
               >
                 {navItems.map((item) => {
-                  const isActive = activeSection === item.target;
+                  const isActive = item.route
+                    ? location.pathname === item.route
+                    : isHome && activeSection === item.target;
 
                   return (
                     <motion.button
                       key={item.target}
                       whileHover={{ y: -2 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => scrollToSection(item.target)}
+                      onClick={() => handleNav(item)}
                       style={{
                         position: "relative",
                         background: isActive
@@ -389,7 +432,9 @@ export default function Navbar() {
                 }}
               >
                 {navItems.map((item) => {
-                  const isActive = activeSection === item.target;
+                  const isActive = item.route
+                    ? location.pathname === item.route
+                    : isHome && activeSection === item.target;
 
                   return (
                     <motion.button
@@ -400,7 +445,7 @@ export default function Navbar() {
                       }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => {
-                        scrollToSection(item.target);
+                        handleNav(item);
                         setMenuOpen(false);
                       }}
                       style={{

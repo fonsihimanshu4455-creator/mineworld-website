@@ -26,7 +26,7 @@ function FloatingWhatsApp() {
       className="mw-whatsapp-pulse"
       style={{
         position: "fixed",
-        right: "18px",
+        left: "18px",
         bottom: "18px",
         zIndex: 1300,
         display: "flex",

@@ -39,22 +39,22 @@ export const defaultContent = {
   },
 
   hero: {
-    eyebrow: "Digital Marketing · Video Editing · Shoots",
-    headlineLineOne: "We grow your business",
-    headlineLineTwo: "with ads, videos & shoots.",
+    eyebrow: "Digital Marketing · Delhi",
+    headlineLineOne: "We grow your business.",
+    headlineLineTwo: "Ads. Videos. Shoots.",
     description:
-      "Mineworld runs ads that bring real customers, edits videos that people actually watch, and shoots content that makes your brand look premium — all from one team in Delhi.",
+      "One team. Real results. No fluff.",
     badges: [
       { id: "b1", visible: true, label: "Meta Ads" },
       { id: "b2", visible: true, label: "Video Editing" },
-      { id: "b3", visible: true, label: "Podcast Shoots" },
-      { id: "b4", visible: true, label: "Reels & Shorts" },
+      { id: "b3", visible: true, label: "Shoots" },
+      { id: "b4", visible: true, label: "Reels" },
       { id: "b5", visible: true, label: "Social Media" },
     ],
-    captionLine: "Ads. Videos. Shoots. One team.",
-    overlayEyebrow: "Ads · Videos · Shoots",
+    captionLine: "One team. One mission. Growth.",
+    overlayEyebrow: "Mineworld",
     overlayLineOne: "Content that sells.",
-    overlayLineTwo: "Ads that bring leads.",
+    overlayLineTwo: "Ads that convert.",
     videoUrl: "",
     posterUrl: "",
   },
@@ -73,11 +73,10 @@ export const defaultContent = {
   },
 
   results: {
-    eyebrow: "Our Work in Numbers",
+    eyebrow: "Numbers That Matter",
     headlinePrefix: "Real results.",
     headlineHighlight: "Not just posts.",
-    description:
-      "We don’t chase vanity metrics. Every client project is built around one thing — actual business growth.",
+    description: "A few recent wins from real client projects.",
     proofCards: [
       {
         id: "p1",
@@ -123,9 +122,9 @@ export const defaultContent = {
   // Services — 3 core pillars + extras. Each service opens its own page.
   services: {
     sectionTag: "What We Do",
-    sectionTitle: "Three things we do really well.",
+    sectionTitle: "Three things. Done right.",
     sectionSubtitle:
-      "Run ads that bring customers. Edit videos people watch. Shoot content that looks premium. Pick one, or let us handle all three.",
+      "Tap any card to see the full list of what’s included.",
     items: [
       {
         id: "digital-marketing",
@@ -345,6 +344,30 @@ export const defaultContent = {
         ],
       },
     ],
+  },
+
+  // Client logos — shown in a right-to-left marquee above Reviews.
+  clients: {
+    sectionTag: "Our Clients",
+    sectionTitle: "Brands that trust us.",
+    items: [
+      { id: "cl1", visible: true, name: "Atelier Clinic", logo: "" },
+      { id: "cl2", visible: true, name: "Lumina Studios", logo: "" },
+      { id: "cl3", visible: true, name: "Nova Fitness", logo: "" },
+      { id: "cl4", visible: true, name: "Kairos Coach", logo: "" },
+      { id: "cl5", visible: true, name: "Mehra Silks", logo: "" },
+      { id: "cl6", visible: true, name: "Orbit Cafe", logo: "" },
+      { id: "cl7", visible: true, name: "Verve Skincare", logo: "" },
+      { id: "cl8", visible: true, name: "Apex D2C", logo: "" },
+    ],
+  },
+
+  // Floating side "Book Appointment" pill
+  appointment: {
+    enabled: true,
+    delaySeconds: 4,
+    label: "Book Appointment",
+    caption: "Free 15-min call",
   },
 
   // Customer reviews — shown in the right-to-left marquee.
