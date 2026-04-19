@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
@@ -5,73 +6,17 @@ import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 import { useIsMobile } from "../../hooks/useIsMobile";
-
-const services = [
-  {
-    id: 1,
-    title: "Meta Ads & Lead Generation in Delhi",
-    subtitle: "Primary growth engine",
-    description:
-      "Meta ad campaigns designed to generate real leads, real inquiries, and measurable business growth for brands, clinics, creators, and businesses in Delhi — not empty reach or vanity numbers.",
-    items: [
-      "Meta Ads Strategy",
-      "Lead Generation Campaigns",
-      "Clinic & Business Ads",
-      "Offer Testing",
-      "Creative + Funnel Alignment",
-    ],
-  },
-  {
-    id: 2,
-    title: "Video Editing Services in Delhi",
-    subtitle: "Content that converts",
-    description:
-      "High-retention edits for reels, ads, YouTube, podcasts, and branded content — built to turn attention into action and strengthen brand perception.",
-    items: [
-      "Reels Editing",
-      "Ad Creative Editing",
-      "Podcast Editing",
-      "YouTube / Long-form",
-      "High-retention Hooks",
-    ],
-  },
-  {
-    id: 3,
-    title: "Social Media Management in Delhi",
-    subtitle: "Page growth + consistency",
-    description:
-      "We don’t just post content. We build structured content systems that improve page perception, consistency, and audience trust over time for brands that want long-term digital growth.",
-    items: [
-      "Monthly Content Planning",
-      "Posting Strategy",
-      "Brand Positioning",
-      "Engagement Direction",
-      "Page Management",
-    ],
-  },
-  {
-    id: 4,
-    title: "Podcast & Content Shoots in Delhi",
-    subtitle: "Authority-building content",
-    description:
-      "Professional podcast shoots, creator shoots, and brand content sessions designed to create reusable authority assets — not random footage.",
-    items: [
-      "Podcast Shoots",
-      "Creator Shoots",
-      "Talking-head Content",
-      "Brand Content Sessions",
-      "Authority Content Production",
-    ],
-  },
-];
+import { useSiteContent } from "../../context/useSiteContent";
 
 function Services() {
-  const primary = services[0];
-  const secondary = services[1];
-  const supportA = services[2];
-  const supportB = services[3];
-
   const isMobile = useIsMobile();
+  const { content } = useSiteContent();
+  const s = content.services || {};
+  const allItems = (s.items || []).filter((it) => it.visible !== false);
+  const featured = allItems.find((it) => it.featured) || allItems[0];
+  const others = allItems.filter((it) => it !== featured);
+
+  if (!featured) return null;
 
   return (
     <section
@@ -100,7 +45,6 @@ function Services() {
           pointerEvents: "none",
         }}
       />
-
       <div
         style={{
           position: "absolute",
@@ -117,385 +61,209 @@ function Services() {
 
       <Container>
         <Reveal>
-          <SectionTag>Services</SectionTag>
+          <SectionTag>{s.sectionTag || "Services"}</SectionTag>
         </Reveal>
 
         <Reveal delay={0.08}>
           <SectionHeading
-            title="Video editing, ads, podcast production, and digital growth services in Delhi."
-            subtitle="Mineworld Production helps brands, clinics, creators, and businesses in Delhi grow through video editing, Meta ads, podcast production, content systems, and social media management built for visibility, authority, and lead generation."
+            title={s.sectionTitle}
+            subtitle={s.sectionSubtitle}
           />
         </Reveal>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "1.18fr 0.82fr",
-            gap: isMobile ? "22px" : "26px",
-            alignItems: "stretch",
-          }}
-        >
+        <Reveal delay={0.12}>
+          <ServiceCard
+            service={featured}
+            variant="featured"
+            isMobile={isMobile}
+          />
+        </Reveal>
+
+        {others.length > 0 && (
           <div
             style={{
+              marginTop: isMobile ? "22px" : "26px",
               display: "grid",
-              gridTemplateRows: isMobile ? "auto" : "1fr auto",
-              gap: isMobile ? "22px" : "26px",
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : others.length === 1
+                  ? "1fr"
+                  : others.length === 2
+                    ? "repeat(2, minmax(0, 1fr))"
+                    : "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: isMobile ? "18px" : "22px",
             }}
           >
-            <Reveal delay={0.12}>
-              <motion.div
-                animate={{ y: isMobile ? 0 : [0, -5, 0] }}
-                whileHover={{ y: -8 }}
-                transition={{
-                  duration: 6,
-                  repeat: isMobile ? 0 : Infinity,
-                  ease: "easeInOut",
-                }}
-                style={{
-                  position: "relative",
-                  minHeight: isMobile ? "auto" : "420px",
-                  borderRadius: isMobile ? "24px" : "30px",
-                  padding: isMobile ? "24px" : "34px",
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.025))",
-                  border: "1px solid rgba(214,176,96,0.34)",
-                  boxShadow: theme.shadow.deep,
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "-40px",
-                    right: "-40px",
-                    width: isMobile ? "160px" : "220px",
-                    height: isMobile ? "160px" : "220px",
-                    borderRadius: "50%",
-                    background: "rgba(214,176,96,0.18)",
-                    filter: "blur(90px)",
-                    pointerEvents: "none",
-                  }}
+            {others.map((service, idx) => (
+              <Reveal key={service.id || service.slug} delay={0.16 + idx * 0.06}>
+                <ServiceCard
+                  service={service}
+                  variant="support"
+                  isMobile={isMobile}
                 />
-
-                <div
-                  style={{
-                    position: "relative",
-                    zIndex: 2,
-                  }}
-                >
-                  <div
-                    style={{
-                      color: theme.colors.goldSoft,
-                      fontSize: "12px",
-                      letterSpacing: "2px",
-                      textTransform: "uppercase",
-                      marginBottom: "16px",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {primary.subtitle}
-                  </div>
-
-                  <h3
-                    style={{
-                      margin: "0 0 16px",
-                      fontSize: isMobile
-                        ? "clamp(26px, 7vw, 36px)"
-                        : "clamp(34px, 4vw, 54px)",
-                      lineHeight: isMobile ? 1.05 : 0.98,
-                      fontWeight: 800,
-                      color: theme.colors.text,
-                      letterSpacing: isMobile ? "-0.6px" : "-1.2px",
-                      maxWidth: "720px",
-                      wordBreak: "break-word",
-                      fontFamily:
-                        '"Playfair Display", Georgia, "Times New Roman", serif',
-                    }}
-                  >
-                    {primary.title}
-                  </h3>
-
-                  <p
-                    style={{
-                      margin: 0,
-                      maxWidth: "760px",
-                      color: theme.colors.textSoft,
-                      fontSize: isMobile ? "15px" : "17px",
-                      lineHeight: 1.9,
-                    }}
-                  >
-                    {primary.description}
-                  </p>
-
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: isMobile
-                        ? "1fr"
-                        : "repeat(2, minmax(0, 1fr))",
-                      gap: "14px",
-                      marginTop: "30px",
-                    }}
-                  >
-                    {primary.items.map((item) => (
-                      <div
-                        key={item}
-                        className="mw-tag-hover"
-                        style={{
-                          padding: "14px 16px",
-                          borderRadius: "18px",
-                          border: `1px solid ${theme.colors.line}`,
-                          background:
-                            "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))",
-                          color: theme.colors.text,
-                          fontSize: "14px",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div
-                    style={{
-                      marginTop: "28px",
-                      paddingTop: "22px",
-                      borderTop: `1px solid ${theme.colors.line}`,
-                      color: "rgba(243,239,231,0.78)",
-                      lineHeight: 1.8,
-                      fontSize: "14px",
-                      maxWidth: "760px",
-                    }}
-                  >
-                    This service exists to do one thing properly: bring serious
-                    business opportunity through sharper creative and smarter
-                    paid execution for businesses that want real lead generation
-                    in Delhi.
-                  </div>
-                </div>
-              </motion.div>
-            </Reveal>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-                gap: isMobile ? "22px" : "26px",
-              }}
-            >
-              {[supportA, supportB].map((service, index) => (
-                <Reveal key={service.id} delay={0.16 + index * 0.08}>
-                  <motion.div
-                    whileHover={{ y: -6 }}
-                    transition={{ type: "spring", stiffness: 180, damping: 18 }}
-                    className="mw-shine"
-                    style={{
-                      minHeight: isMobile ? "auto" : "300px",
-                      borderRadius: isMobile ? "22px" : "26px",
-                      padding: isMobile ? "22px" : "28px",
-                      background:
-                        "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025))",
-                      border: `1px solid ${theme.colors.line}`,
-                      boxShadow: theme.shadow.soft,
-                      position: "relative",
-                    }}
-                  >
-                    <div
-                      style={{
-                        color: theme.colors.goldSoft,
-                        fontSize: "11px",
-                        letterSpacing: "2px",
-                        textTransform: "uppercase",
-                        marginBottom: "14px",
-                        fontWeight: 700,
-                      }}
-                    >
-                      {service.subtitle}
-                    </div>
-
-                    <h3
-                      style={{
-                        margin: "0 0 12px",
-                        fontSize: isMobile ? "22px" : "31px",
-                        lineHeight: 1.1,
-                        fontWeight: 800,
-                        color: theme.colors.text,
-                        letterSpacing: "-0.6px",
-                        wordBreak: "break-word",
-                        fontFamily:
-                          '"Playfair Display", Georgia, "Times New Roman", serif',
-                      }}
-                    >
-                      {service.title}
-                    </h3>
-
-                    <p
-                      style={{
-                        margin: 0,
-                        color: theme.colors.textSoft,
-                        fontSize: "15px",
-                        lineHeight: 1.85,
-                      }}
-                    >
-                      {service.description}
-                    </p>
-
-                    <div
-                      style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: "10px",
-                        marginTop: "22px",
-                      }}
-                    >
-                      {service.items.map((item) => (
-                        <div
-                          key={item}
-                          className="mw-tag-hover"
-                          style={{
-                            padding: "8px 12px",
-                            borderRadius: "999px",
-                            border: `1px solid ${theme.colors.line}`,
-                            fontSize: "12px",
-                            color: theme.colors.text,
-                            background:
-                              "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))",
-                          }}
-                        >
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                </Reveal>
-              ))}
-            </div>
+              </Reveal>
+            ))}
           </div>
-
-          <Reveal delay={0.14}>
-            <motion.div
-              whileHover={{ y: -8 }}
-              transition={{ type: "spring", stiffness: 180, damping: 18 }}
-              style={{
-                minHeight: isMobile ? "auto" : "100%",
-                borderRadius: isMobile ? "24px" : "30px",
-                padding: isMobile ? "24px" : "32px",
-                background:
-                  "linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.025))",
-                border: `1px solid ${theme.colors.line}`,
-                boxShadow: theme.shadow.deep,
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "-40px",
-                  left: "-20px",
-                  width: isMobile ? "140px" : "200px",
-                  height: isMobile ? "140px" : "200px",
-                  borderRadius: "50%",
-                  background: "rgba(214,176,96,0.08)",
-                  filter: "blur(75px)",
-                  pointerEvents: "none",
-                }}
-              />
-
-              <div
-                style={{
-                  position: "relative",
-                  zIndex: 2,
-                }}
-              >
-                <div
-                  style={{
-                    color: theme.colors.goldSoft,
-                    fontSize: "12px",
-                    letterSpacing: "2px",
-                    textTransform: "uppercase",
-                    marginBottom: "16px",
-                    fontWeight: 700,
-                  }}
-                >
-                  {secondary.subtitle}
-                </div>
-
-                <h3
-                  style={{
-                    margin: "0 0 16px",
-                    fontSize: isMobile ? "34px" : "clamp(34px, 4vw, 48px)",
-                    lineHeight: 1.02,
-                    fontWeight: 800,
-                    maxWidth: "420px",
-                    color: theme.colors.text,
-                    letterSpacing: "-1px",
-                    fontFamily:
-                      '"Playfair Display", Georgia, "Times New Roman", serif',
-                  }}
-                >
-                  {secondary.title}
-                </h3>
-
-                <p
-                  style={{
-                    margin: 0,
-                    color: theme.colors.textSoft,
-                    lineHeight: 1.9,
-                    fontSize: "16px",
-                    maxWidth: isMobile ? "100%" : "440px",
-                  }}
-                >
-                  {secondary.description}
-                </p>
-
-                <div
-                  style={{
-                    marginTop: "30px",
-                    display: "grid",
-                    gap: "14px",
-                  }}
-                >
-                  {secondary.items.map((item) => (
-                    <div
-                      key={item}
-                      style={{
-                        padding: "16px 16px",
-                        borderRadius: "18px",
-                        border: `1px solid ${theme.colors.line}`,
-                        background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))",
-                        color: theme.colors.text,
-                        fontSize: "14px",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-
-                <div
-                  style={{
-                    marginTop: "34px",
-                    paddingTop: "22px",
-                    borderTop: `1px solid ${theme.colors.line}`,
-                    color: theme.colors.textSoft,
-                    lineHeight: 1.85,
-                    fontSize: "14px",
-                  }}
-                >
-                  Strong editing is not decoration here. It is the engine that
-                  controls retention, brand perception, and how seriously your
-                  business gets taken online.
-                </div>
-              </div>
-            </motion.div>
-          </Reveal>
-        </div>
+        )}
       </Container>
     </section>
+  );
+}
+
+function ServiceCard({ service, variant, isMobile }) {
+  const quickItems = (service.quickItems || [])
+    .filter((q) => (typeof q === "object" ? q.visible !== false : true))
+    .map((q) => (typeof q === "object" ? q.label : q));
+
+  const isFeatured = variant === "featured";
+
+  return (
+    <motion.div
+      whileHover={{ y: isFeatured ? -4 : -6 }}
+      transition={{ type: "spring", stiffness: 220, damping: 20 }}
+      className="mw-card-hover mw-shine"
+      style={{
+        position: "relative",
+        minHeight: isFeatured ? (isMobile ? "auto" : "420px") : "auto",
+        borderRadius: isMobile ? "24px" : isFeatured ? "30px" : "24px",
+        padding: isMobile
+          ? isFeatured
+            ? "26px 22px"
+            : "22px 20px"
+          : isFeatured
+            ? "36px"
+            : "26px",
+        background: isFeatured
+          ? "linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.025))"
+          : "linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.02))",
+        border: isFeatured
+          ? "1px solid rgba(214,176,96,0.38)"
+          : `1px solid ${theme.colors.line}`,
+        boxShadow: isFeatured ? theme.shadow.deep : theme.shadow.soft,
+        overflow: "hidden",
+      }}
+    >
+      {isFeatured && (
+        <div
+          style={{
+            position: "absolute",
+            top: "-40px",
+            right: "-40px",
+            width: isMobile ? "160px" : "220px",
+            height: isMobile ? "160px" : "220px",
+            borderRadius: "50%",
+            background: "rgba(214,176,96,0.18)",
+            filter: "blur(90px)",
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
+      <div style={{ position: "relative", zIndex: 2 }}>
+        <div
+          style={{
+            color: theme.colors.goldSoft,
+            fontSize: isFeatured ? "12px" : "11px",
+            letterSpacing: "2px",
+            textTransform: "uppercase",
+            marginBottom: isFeatured ? "16px" : "14px",
+            fontWeight: 700,
+          }}
+        >
+          {service.subtitle}
+        </div>
+
+        <h3
+          style={{
+            margin: "0 0 14px",
+            fontSize: isMobile
+              ? isFeatured
+                ? "clamp(26px, 7vw, 36px)"
+                : "clamp(20px, 6vw, 26px)"
+              : isFeatured
+                ? "clamp(34px, 4vw, 54px)"
+                : "clamp(24px, 2.4vw, 30px)",
+            lineHeight: 1.08,
+            fontWeight: 800,
+            color: theme.colors.text,
+            letterSpacing: isFeatured ? "-1px" : "-0.5px",
+            wordBreak: "break-word",
+            fontFamily:
+              '"Playfair Display", Georgia, "Times New Roman", serif',
+          }}
+        >
+          {service.title}
+        </h3>
+
+        <p
+          style={{
+            margin: 0,
+            color: theme.colors.textSoft,
+            fontSize: isFeatured ? (isMobile ? "15px" : "17px") : "15px",
+            lineHeight: 1.85,
+          }}
+        >
+          {service.shortDescription}
+        </p>
+
+        {quickItems.length > 0 && (
+          <div
+            style={{
+              display: isFeatured ? "grid" : "flex",
+              gridTemplateColumns: isFeatured
+                ? isMobile
+                  ? "1fr"
+                  : "repeat(2, minmax(0, 1fr))"
+                : undefined,
+              flexWrap: isFeatured ? undefined : "wrap",
+              gap: isFeatured ? "12px" : "8px",
+              marginTop: "22px",
+            }}
+          >
+            {quickItems.map((item, idx) => (
+              <div
+                key={idx}
+                className="mw-tag-hover"
+                style={{
+                  padding: isFeatured ? "12px 14px" : "8px 12px",
+                  borderRadius: isFeatured ? "16px" : "999px",
+                  border: `1px solid ${theme.colors.line}`,
+                  background:
+                    "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))",
+                  color: theme.colors.text,
+                  fontSize: isFeatured ? "13.5px" : "12px",
+                  fontWeight: 500,
+                }}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <Link
+          to={`/services/${service.slug}`}
+          aria-label={`Learn more about ${service.title}`}
+          className="mw-link"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            marginTop: "24px",
+            padding: "10px 16px 10px 0",
+            color: theme.colors.goldSoft,
+            fontSize: "13px",
+            fontWeight: 700,
+            letterSpacing: "0.4px",
+            textTransform: "uppercase",
+            textDecoration: "none",
+          }}
+        >
+          Explore service
+          <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+    </motion.div>
   );
 }
 

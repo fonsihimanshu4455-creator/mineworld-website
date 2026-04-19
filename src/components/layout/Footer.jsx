@@ -22,7 +22,9 @@ function Footer() {
     { label: "Contact", target: "footer" },
   ];
 
-  const services = f.services;
+  const services = (f.services || [])
+    .filter((s) => (typeof s === "object" ? s.visible !== false : true))
+    .map((s) => (typeof s === "object" ? s.label : s));
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);

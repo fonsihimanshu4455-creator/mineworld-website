@@ -219,7 +219,7 @@ export default function ResultsSection() {
   const isTablet = useIsMobile(1024);
   const { content } = useSiteContent();
   const r = content.results;
-  const proofCards = r.proofCards;
+  const proofCards = (r.proofCards || []).filter((p) => p.visible !== false);
 
   return (
     <section
@@ -313,7 +313,7 @@ export default function ResultsSection() {
           }}
         >
           {proofCards.map((item) => (
-            <ProofCard key={item.number} item={item} isMobile={isMobile} />
+            <ProofCard key={item.id || item.number} item={item} isMobile={isMobile} />
           ))}
         </motion.div>
 

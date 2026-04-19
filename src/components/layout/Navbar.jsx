@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate, useLocation } from "react-router-dom";
 import { openContactModal } from "../../utils/contactActions";
+import { useSiteContent } from "../../context/useSiteContent";
 import logoImg from "../../assets/mineworld-logo.png";
 
 const navItems = [
@@ -10,18 +12,13 @@ const navItems = [
   { label: "Contact", target: "footer" },
 ];
 
-function scrollToSection(id) {
+function scrollToSectionById(id) {
   const el = document.getElementById(id);
   if (!el) return;
-
   const navbarOffset = 110;
   const top =
     el.getBoundingClientRect().top + window.pageYOffset - navbarOffset;
-
-  window.scrollTo({
-    top,
-    behavior: "smooth",
-  });
+  window.scrollTo({ top, behavior: "smooth" });
 }
 
 export default function Navbar() {
@@ -29,6 +26,30 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { content } = useSiteContent();
+  const branding = content.branding || {};
+  const logoSrc = branding.logoUrl || logoImg;
+  const logoCircle = branding.logoCircleSize || 56;
+  const logoSize = branding.logoSize || 40;
+  const logoScale = branding.logoScale || 1.7;
+  const showName = branding.showName !== false;
+  const showSubtitle = branding.showSubtitle !== false;
+  const subtitle = branding.subtitle ?? "Production";
+  const navAlign = branding.navAlign || "space-between";
+
+  const isHome = location.pathname === "/";
+
+  const scrollToSection = (id) => {
+    if (!isHome) {
+      navigate("/");
+      setTimeout(() => scrollToSectionById(id), 80);
+    } else {
+      scrollToSectionById(id);
+    }
+  };
 
   const sectionIds = useMemo(() => navItems.map((item) => item.target), []);
 
@@ -114,7 +135,7 @@ export default function Navbar() {
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: navAlign,
             gap: "16px",
           }}
         >
@@ -133,8 +154,12 @@ export default function Navbar() {
           >
             <div
               style={{
-                width: isMobile ? "46px" : "56px",
-                height: isMobile ? "46px" : "56px",
+                width: isMobile
+                  ? Math.max(38, logoCircle - 10) + "px"
+                  : logoCircle + "px",
+                height: isMobile
+                  ? Math.max(38, logoCircle - 10) + "px"
+                  : logoCircle + "px",
                 borderRadius: "50%",
                 background:
                   "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.98), rgba(235,235,235,0.93))",
@@ -144,16 +169,18 @@ export default function Navbar() {
                   "0 0 0 1px rgba(255,255,255,0.08), 0 10px 28px rgba(255,255,255,0.08)",
                 overflow: "hidden",
                 flexShrink: 0,
+                transition: "width 0.28s ease, height 0.28s ease",
               }}
             >
               <img
-                src={logoImg}
-                alt="Mineworld Production Logo"
+                src={logoSrc}
+                alt={content.brand?.name || "Logo"}
                 style={{
-                  width: isMobile ? "34px" : "40px",
+                  width: (isMobile ? Math.max(26, logoSize - 6) : logoSize) + "px",
                   height: "auto",
                   objectFit: "contain",
-                  transform: "scale(1.7)",
+                  transform: `scale(${logoScale})`,
+                  transition: "transform 0.28s ease",
                 }}
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
@@ -161,42 +188,46 @@ export default function Navbar() {
               />
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                justifyContent: "center",
-                lineHeight: 1,
-              }}
-            >
+            {showName && (
               <div
                 style={{
-                  color: "#F5F1E9",
-                  fontSize: isMobile ? "21px" : "27px",
-                  fontWeight: 650,
-                  letterSpacing: "-0.3px",
-                  fontFamily:
-                    '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  justifyContent: "center",
+                  lineHeight: 1,
                 }}
               >
-                Mineworld
+                <div
+                  style={{
+                    color: "#F5F1E9",
+                    fontSize: isMobile ? "21px" : "27px",
+                    fontWeight: 650,
+                    letterSpacing: "-0.3px",
+                    fontFamily:
+                      '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                  }}
+                >
+                  {content.brand?.shortName || "Mineworld"}
+                </div>
+                {showSubtitle && subtitle && (
+                  <div
+                    style={{
+                      color: "#D6B060",
+                      fontSize: isMobile ? "10px" : "12px",
+                      fontWeight: 700,
+                      letterSpacing: isMobile ? "1.8px" : "2.4px",
+                      textTransform: "uppercase",
+                      marginTop: isMobile ? "5px" : "6px",
+                      fontFamily:
+                        '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                    }}
+                  >
+                    {subtitle}
+                  </div>
+                )}
               </div>
-              <div
-                style={{
-                  color: "#D6B060",
-                  fontSize: isMobile ? "10px" : "12px",
-                  fontWeight: 700,
-                  letterSpacing: isMobile ? "1.8px" : "2.4px",
-                  textTransform: "uppercase",
-                  marginTop: isMobile ? "5px" : "6px",
-                  fontFamily:
-                    '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
-                }}
-              >
-                Production
-              </div>
-            </div>
+            )}
           </button>
 
           {!isMobile ? (

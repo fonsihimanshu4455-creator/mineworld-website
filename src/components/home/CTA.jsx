@@ -154,21 +154,27 @@ function CTA() {
                 marginTop: "24px",
               }}
             >
-              {cta.chips.map((item) => (
-                <div
-                  key={item}
-                  style={{
-                    padding: "10px 14px",
-                    borderRadius: "999px",
-                    border: `1px solid ${theme.colors.line}`,
-                    background: theme.colors.bgCard,
-                    color: theme.colors.text,
-                    fontSize: "13px",
-                  }}
-                >
-                  {item}
-                </div>
-              ))}
+              {cta.chips
+                .filter((c) => (typeof c === "object" ? c.visible !== false : true))
+                .map((c) => {
+                  const label = typeof c === "object" ? c.label : c;
+                  const key = typeof c === "object" ? c.id || label : c;
+                  return (
+                    <div
+                      key={key}
+                      style={{
+                        padding: "10px 14px",
+                        borderRadius: "999px",
+                        border: `1px solid ${theme.colors.line}`,
+                        background: theme.colors.bgCard,
+                        color: theme.colors.text,
+                        fontSize: "13px",
+                      }}
+                    >
+                      {label}
+                    </div>
+                  );
+                })}
             </div>
           </motion.div>
         </Reveal>

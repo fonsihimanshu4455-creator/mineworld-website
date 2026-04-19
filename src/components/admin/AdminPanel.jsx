@@ -1,20 +1,30 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSiteContent } from "../../context/SiteContent";
-import { theme } from "../../styles/theme";
+import { useSiteContent } from "../../context/useSiteContent";
+import { adminTheme } from "./ui/adminTheme";
+import BrandingEditor from "./sections/BrandingEditor";
+import ContactEditor from "./sections/ContactEditor";
+import HeroEditor from "./sections/HeroEditor";
+import CTAEditor from "./sections/CTAEditor";
+import ResultsEditor from "./sections/ResultsEditor";
+import ServicesEditor from "./sections/ServicesEditor";
+import PortfolioEditor from "./sections/PortfolioEditor";
+import FooterEditor from "./sections/FooterEditor";
+import DataEditor from "./sections/DataEditor";
 
 const ADMIN_PASS_KEY = "mw_admin_unlocked_v1";
 const ADMIN_PASSWORD = "mineworld2026"; // client-side gate; not real security
 
-const TABS = [
-  { id: "contact", label: "Contact" },
-  { id: "social", label: "Social" },
-  { id: "hero", label: "Hero" },
-  { id: "cta", label: "CTA" },
-  { id: "results", label: "Results" },
-  { id: "footer", label: "Footer" },
-  { id: "portfolio", label: "Portfolio" },
-  { id: "advanced", label: "Import / Export" },
+const SECTIONS = [
+  { id: "branding", label: "Branding & Logo", icon: "🅼", component: BrandingEditor },
+  { id: "contact", label: "Contact", icon: "☏", component: ContactEditor },
+  { id: "hero", label: "Hero Section", icon: "★", component: HeroEditor },
+  { id: "services", label: "Services & Pages", icon: "⚙", component: ServicesEditor },
+  { id: "portfolio", label: "Portfolio", icon: "▶", component: PortfolioEditor },
+  { id: "results", label: "Results / Proof", icon: "📈", component: ResultsEditor },
+  { id: "cta", label: "Call to Action", icon: "✦", component: CTAEditor },
+  { id: "footer", label: "Footer", icon: "⌘", component: FooterEditor },
+  { id: "data", label: "Import / Export", icon: "⇅", component: DataEditor },
 ];
 
 function isAdminHash() {
@@ -28,7 +38,8 @@ export default function AdminPanel() {
     if (typeof window === "undefined") return false;
     return window.sessionStorage.getItem(ADMIN_PASS_KEY) === "1";
   });
-  const [activeTab, setActiveTab] = useState("contact");
+  const [activeId, setActiveId] = useState("branding");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const onHash = () => setOpen(isAdminHash());
@@ -48,7 +59,11 @@ export default function AdminPanel() {
 
   const close = () => {
     if (window.location.hash === "#admin") {
-      history.replaceState(null, "", window.location.pathname + window.location.search);
+      history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search
+      );
     }
     setOpen(false);
   };
@@ -60,19 +75,14 @@ export default function AdminPanel() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.22 }}
+          transition={{ duration: 0.24 }}
           style={{
             position: "fixed",
             inset: 0,
             zIndex: 5000,
-            background: "rgba(4, 8, 18, 0.86)",
+            background: "rgba(4, 8, 18, 0.88)",
             backdropFilter: "blur(14px)",
             WebkitBackdropFilter: "blur(14px)",
-            display: "flex",
-            alignItems: "stretch",
-            justifyContent: "center",
-            padding: "10px",
-            overflowY: "auto",
           }}
         >
           {!unlocked ? (
@@ -84,9 +94,11 @@ export default function AdminPanel() {
               onClose={close}
             />
           ) : (
-            <AdminEditor
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
+            <AdminShell
+              activeId={activeId}
+              setActiveId={setActiveId}
+              sidebarOpen={sidebarOpen}
+              setSidebarOpen={setSidebarOpen}
               onClose={close}
             />
           )}
@@ -115,926 +127,438 @@ function PasswordGate({ onUnlock, onClose }) {
   };
 
   return (
-    <motion.form
-      initial={{ y: 20, scale: 0.98, opacity: 0 }}
-      animate={{ y: 0, scale: 1, opacity: 1 }}
-      exit={{ y: 16, scale: 0.98, opacity: 0 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      onSubmit={submit}
+    <div
       style={{
-        margin: "auto",
-        width: "100%",
-        maxWidth: "420px",
-        background: "linear-gradient(180deg, #1a2238 0%, #131a2c 100%)",
-        border: `1px solid ${theme.colors.lineStrong}`,
-        borderRadius: "24px",
-        padding: "32px 26px",
-        boxShadow: "0 30px 80px rgba(0,0,0,0.55)",
+        position: "absolute",
+        inset: 0,
+        display: "grid",
+        placeItems: "center",
+        padding: "20px",
       }}
     >
-      <div
+      <motion.form
+        initial={{ y: 24, scale: 0.96, opacity: 0 }}
+        animate={{ y: 0, scale: 1, opacity: 1 }}
+        exit={{ y: 16, scale: 0.98, opacity: 0 }}
+        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+        onSubmit={submit}
         style={{
-          color: theme.colors.goldSoft,
-          fontSize: "12px",
-          letterSpacing: "2.5px",
-          textTransform: "uppercase",
-          fontWeight: 700,
-          marginBottom: "12px",
+          width: "100%",
+          maxWidth: "440px",
+          background:
+            "linear-gradient(180deg, #1a2238 0%, #0f1626 100%)",
+          border: `1px solid ${adminTheme.colors.borderStrong}`,
+          borderRadius: "24px",
+          padding: "34px 28px",
+          boxShadow: "0 30px 80px rgba(0,0,0,0.55)",
         }}
       >
-        Mineworld Admin
-      </div>
-      <h2
-        style={{
-          margin: 0,
-          color: theme.colors.text,
-          fontSize: "26px",
-          fontWeight: 800,
-          letterSpacing: "-0.4px",
-        }}
-      >
-        Unlock site editor
-      </h2>
-      <p style={{ color: theme.colors.textSoft, marginTop: "10px", fontSize: "14px", lineHeight: 1.7 }}>
-        Enter the admin password to edit content, contact info and links. Changes are saved on this device.
-      </p>
-
-      <input
-        ref={inputRef}
-        type="password"
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-          setError("");
-        }}
-        placeholder="Admin password"
-        style={inputStyle()}
-      />
-
-      {error && (
         <div
-          role="alert"
           style={{
-            marginTop: "12px",
-            color: "#FFB4A2",
-            fontSize: "13px",
-            background: "rgba(255,99,71,0.08)",
-            border: "1px solid rgba(255,99,71,0.28)",
-            padding: "10px 12px",
-            borderRadius: "12px",
+            width: "56px",
+            height: "56px",
+            borderRadius: "18px",
+            background:
+              "linear-gradient(135deg, rgba(214,176,96,0.9), rgba(231,201,138,0.6))",
+            display: "grid",
+            placeItems: "center",
+            fontSize: "22px",
+            fontWeight: 900,
+            color: "#1B1B1B",
+            marginBottom: "18px",
+            boxShadow: "0 14px 34px rgba(214,176,96,0.25)",
           }}
         >
-          {error}
+          M
         </div>
-      )}
 
-      <div style={{ display: "flex", gap: "10px", marginTop: "18px" }}>
-        <button type="submit" style={primaryBtn()}>Unlock</button>
-        <button type="button" onClick={onClose} style={secondaryBtn()}>Close</button>
-      </div>
+        <div
+          style={{
+            color: adminTheme.colors.goldSoft,
+            fontSize: "11px",
+            letterSpacing: "2.8px",
+            textTransform: "uppercase",
+            fontWeight: 700,
+            marginBottom: "8px",
+          }}
+        >
+          Mineworld Admin
+        </div>
+        <h2
+          style={{
+            margin: 0,
+            color: adminTheme.colors.text,
+            fontSize: "28px",
+            fontWeight: 800,
+            letterSpacing: "-0.5px",
+          }}
+        >
+          Unlock the site editor
+        </h2>
+        <p
+          style={{
+            color: adminTheme.colors.textSoft,
+            marginTop: "10px",
+            fontSize: "14px",
+            lineHeight: 1.7,
+          }}
+        >
+          Enter the admin password to edit content, media, contact info, services,
+          and the portfolio. Changes are saved to this browser.
+        </p>
 
-      <div style={{ marginTop: "18px", fontSize: "12px", color: "rgba(255,255,255,0.5)" }}>
-        Default password: <span style={{ color: theme.colors.goldSoft }}>{ADMIN_PASSWORD}</span> (change in <code>AdminPanel.jsx</code>).
-      </div>
-    </motion.form>
+        <input
+          ref={inputRef}
+          type="password"
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+            setError("");
+          }}
+          placeholder="Admin password"
+          style={{ ...adminTheme.input, marginTop: "18px" }}
+        />
+
+        {error && (
+          <div
+            role="alert"
+            style={{
+              marginTop: "12px",
+              color: "#FFB4A2",
+              fontSize: "13px",
+              background: "rgba(255,99,71,0.08)",
+              border: "1px solid rgba(255,99,71,0.28)",
+              padding: "10px 12px",
+              borderRadius: "12px",
+            }}
+          >
+            {error}
+          </div>
+        )}
+
+        <div style={{ display: "flex", gap: "10px", marginTop: "18px" }}>
+          <button type="submit" style={adminTheme.btnPrimary}>
+            Unlock
+          </button>
+          <button type="button" onClick={onClose} style={adminTheme.btnSecondary}>
+            Close
+          </button>
+        </div>
+
+        <div
+          style={{
+            marginTop: "20px",
+            padding: "10px 12px",
+            border: `1px dashed ${adminTheme.colors.border}`,
+            borderRadius: "12px",
+            fontSize: "12px",
+            color: "rgba(255,255,255,0.55)",
+            lineHeight: 1.6,
+          }}
+        >
+          Default password:{" "}
+          <span style={{ color: adminTheme.colors.goldSoft, fontWeight: 700 }}>
+            {ADMIN_PASSWORD}
+          </span>
+          <br />
+          Change it in <code>src/components/admin/AdminPanel.jsx</code> before launch.
+        </div>
+      </motion.form>
+    </div>
   );
 }
 
-function AdminEditor({ activeTab, setActiveTab, onClose }) {
-  const { content, updateContent, replaceOverrides, resetContent, overrides } =
-    useSiteContent();
+function AdminShell({ activeId, setActiveId, sidebarOpen, setSidebarOpen, onClose }) {
+  const { overrides, resetContent } = useSiteContent();
+  const hasOverrides =
+    overrides && typeof overrides === "object" && Object.keys(overrides).length > 0;
 
-  const tabContent = useMemo(() => {
-    switch (activeTab) {
-      case "contact":
-        return (
-          <Section title="Contact information">
-            <Row>
-              <TextField
-                label="Primary phone"
-                value={content.contact.phonePrimary}
-                onChange={(v) =>
-                  updateContent({ contact: { phonePrimary: v } })
-                }
-                placeholder="+91 9758850933"
-              />
-              <TextField
-                label="WhatsApp number (digits only, with country code)"
-                value={content.contact.whatsappNumber}
-                onChange={(v) =>
-                  updateContent({ contact: { whatsappNumber: v.replace(/\D/g, "") } })
-                }
-                placeholder="919758850933"
-              />
-            </Row>
-            <TextField
-              label="Email address"
-              value={content.contact.email}
-              onChange={(v) => updateContent({ contact: { email: v } })}
-              placeholder="hello@example.com"
-            />
-            <TextArea
-              label="Office address"
-              value={content.contact.address}
-              onChange={(v) => updateContent({ contact: { address: v } })}
-              rows={2}
-            />
-            <TextField
-              label="Address Google Maps URL"
-              value={content.contact.addressMapUrl}
-              onChange={(v) => updateContent({ contact: { addressMapUrl: v } })}
-              placeholder="https://maps.google.com/..."
-            />
-          </Section>
-        );
+  const ActiveComponent = useMemo(() => {
+    const found = SECTIONS.find((s) => s.id === activeId);
+    return found?.component || (() => null);
+  }, [activeId]);
 
-      case "social":
-        return (
-          <Section title="Social & web links">
-            <TextField
-              label="Instagram URL"
-              value={content.social.instagram}
-              onChange={(v) => updateContent({ social: { instagram: v } })}
-            />
-            <TextField
-              label="Public website URL"
-              value={content.social.websiteUrl}
-              onChange={(v) => updateContent({ social: { websiteUrl: v } })}
-            />
-          </Section>
-        );
-
-      case "hero":
-        return (
-          <Section title="Hero section">
-            <TextField
-              label="Eyebrow (small uppercase text above headline)"
-              value={content.hero.eyebrow}
-              onChange={(v) => updateContent({ hero: { eyebrow: v } })}
-            />
-            <Row>
-              <TextField
-                label="Headline — line 1"
-                value={content.hero.headlineLineOne}
-                onChange={(v) =>
-                  updateContent({ hero: { headlineLineOne: v } })
-                }
-              />
-              <TextField
-                label="Headline — line 2"
-                value={content.hero.headlineLineTwo}
-                onChange={(v) =>
-                  updateContent({ hero: { headlineLineTwo: v } })
-                }
-              />
-            </Row>
-            <TextArea
-              label="Description paragraph"
-              value={content.hero.description}
-              onChange={(v) => updateContent({ hero: { description: v } })}
-              rows={4}
-            />
-            <ListEditor
-              label="Service badges"
-              items={content.hero.badges}
-              onChange={(arr) => updateContent({ hero: { badges: arr } })}
-            />
-            <TextField
-              label="Caption line"
-              value={content.hero.captionLine}
-              onChange={(v) => updateContent({ hero: { captionLine: v } })}
-            />
-            <Row>
-              <TextField
-                label="Video overlay eyebrow"
-                value={content.hero.overlayEyebrow}
-                onChange={(v) =>
-                  updateContent({ hero: { overlayEyebrow: v } })
-                }
-              />
-            </Row>
-            <Row>
-              <TextField
-                label="Video overlay — line 1"
-                value={content.hero.overlayLineOne}
-                onChange={(v) =>
-                  updateContent({ hero: { overlayLineOne: v } })
-                }
-              />
-              <TextField
-                label="Video overlay — line 2"
-                value={content.hero.overlayLineTwo}
-                onChange={(v) =>
-                  updateContent({ hero: { overlayLineTwo: v } })
-                }
-              />
-            </Row>
-            <TextField
-              label="Hero video URL (overrides bundled video — paste a hosted .mp4 link or leave empty)"
-              value={content.hero.videoUrl}
-              onChange={(v) => updateContent({ hero: { videoUrl: v } })}
-              placeholder="https://cdn.example.com/hero.mp4"
-            />
-            <TextField
-              label="Hero poster image URL (mobile thumbnail)"
-              value={content.hero.posterUrl}
-              onChange={(v) => updateContent({ hero: { posterUrl: v } })}
-              placeholder="https://cdn.example.com/poster.png"
-            />
-          </Section>
-        );
-
-      case "cta":
-        return (
-          <Section title="Call-to-action section">
-            <TextField
-              label="Eyebrow"
-              value={content.cta.eyebrow}
-              onChange={(v) => updateContent({ cta: { eyebrow: v } })}
-            />
-            <Row>
-              <TextField
-                label="Headline — line 1"
-                value={content.cta.headlineLineOne}
-                onChange={(v) =>
-                  updateContent({ cta: { headlineLineOne: v } })
-                }
-              />
-              <TextField
-                label="Headline — line 2"
-                value={content.cta.headlineLineTwo}
-                onChange={(v) =>
-                  updateContent({ cta: { headlineLineTwo: v } })
-                }
-              />
-            </Row>
-            <TextArea
-              label="Description"
-              value={content.cta.description}
-              onChange={(v) => updateContent({ cta: { description: v } })}
-              rows={4}
-            />
-            <ListEditor
-              label="Chip labels"
-              items={content.cta.chips}
-              onChange={(arr) => updateContent({ cta: { chips: arr } })}
-            />
-          </Section>
-        );
-
-      case "results":
-        return (
-          <Section title="Results / proof">
-            <TextField
-              label="Eyebrow"
-              value={content.results.eyebrow}
-              onChange={(v) => updateContent({ results: { eyebrow: v } })}
-            />
-            <Row>
-              <TextField
-                label="Headline prefix"
-                value={content.results.headlinePrefix}
-                onChange={(v) =>
-                  updateContent({ results: { headlinePrefix: v } })
-                }
-              />
-              <TextField
-                label="Headline highlight (gold)"
-                value={content.results.headlineHighlight}
-                onChange={(v) =>
-                  updateContent({ results: { headlineHighlight: v } })
-                }
-              />
-            </Row>
-            <TextArea
-              label="Description"
-              value={content.results.description}
-              onChange={(v) => updateContent({ results: { description: v } })}
-              rows={3}
-            />
-
-            <div style={{ marginTop: "18px" }}>
-              {content.results.proofCards.map((card, idx) => (
-                <ProofCardEditor
-                  key={idx}
-                  card={card}
-                  onChange={(next) => {
-                    const proofCards = [...content.results.proofCards];
-                    proofCards[idx] = next;
-                    updateContent({ results: { proofCards } });
-                  }}
-                />
-              ))}
-            </div>
-          </Section>
-        );
-
-      case "footer":
-        return (
-          <Section title="Footer">
-            <TextArea
-              label="Footer description"
-              value={content.footer.description}
-              onChange={(v) =>
-                updateContent({ footer: { description: v } })
-              }
-              rows={3}
-            />
-            <ListEditor
-              label="Services list"
-              items={content.footer.services}
-              onChange={(arr) =>
-                updateContent({ footer: { services: arr } })
-              }
-            />
-            <TextField
-              label="Legal / copyright line"
-              value={content.footer.legal}
-              onChange={(v) => updateContent({ footer: { legal: v } })}
-            />
-          </Section>
-        );
-
-      case "portfolio":
-        return (
-          <Section title="Portfolio overrides">
-            <p
-              style={{
-                color: theme.colors.textSoft,
-                fontSize: "13px",
-                lineHeight: 1.7,
-                marginBottom: "12px",
-              }}
-            >
-              Override portfolio item titles, descriptions, or video URLs. Leave a field empty to keep the original. Video URL must point to a hosted <code>.mp4</code>.
-            </p>
-            {[1, 2, 3, 4].map((id) => {
-              const o = content.portfolioOverrides?.[id] || {};
-              return (
-                <div
-                  key={id}
-                  style={{
-                    border: `1px solid ${theme.colors.line}`,
-                    borderRadius: "16px",
-                    padding: "16px",
-                    marginBottom: "12px",
-                    background: "rgba(255,255,255,0.02)",
-                  }}
-                >
-                  <div
-                    style={{
-                      color: theme.colors.goldSoft,
-                      fontSize: "11px",
-                      letterSpacing: "2px",
-                      textTransform: "uppercase",
-                      marginBottom: "10px",
-                      fontWeight: 700,
-                    }}
-                  >
-                    Portfolio Item #{id}
-                  </div>
-                  <TextField
-                    label="Override title"
-                    value={o.title || ""}
-                    onChange={(v) =>
-                      updateContent({
-                        portfolioOverrides: { [id]: { ...o, title: v } },
-                      })
-                    }
-                  />
-                  <TextArea
-                    label="Override description"
-                    value={o.description || ""}
-                    onChange={(v) =>
-                      updateContent({
-                        portfolioOverrides: { [id]: { ...o, description: v } },
-                      })
-                    }
-                    rows={3}
-                  />
-                  <TextField
-                    label="Override video URL (hosted .mp4)"
-                    value={o.videoUrl || ""}
-                    onChange={(v) =>
-                      updateContent({
-                        portfolioOverrides: { [id]: { ...o, videoUrl: v } },
-                      })
-                    }
-                    placeholder="https://cdn.example.com/video.mp4"
-                  />
-                </div>
-              );
-            })}
-          </Section>
-        );
-
-      case "advanced":
-        return (
-          <Section title="Import / export / reset">
-            <p style={{ color: theme.colors.textSoft, fontSize: "14px", lineHeight: 1.7 }}>
-              Changes are saved in your browser only. To publish them for everyone, export the JSON and send it to your developer to commit into <code>defaultContent.js</code>.
-            </p>
-            <ImportExport
-              overrides={overrides}
-              replaceOverrides={replaceOverrides}
-              resetContent={resetContent}
-            />
-          </Section>
-        );
-
-      default:
-        return null;
-    }
-  }, [activeTab, content, overrides, updateContent, replaceOverrides, resetContent]);
+  const activeLabel = SECTIONS.find((s) => s.id === activeId)?.label || "";
 
   return (
     <motion.div
-      initial={{ y: 24, scale: 0.98, opacity: 0 }}
+      initial={{ y: 24, scale: 0.985, opacity: 0 }}
       animate={{ y: 0, scale: 1, opacity: 1 }}
-      exit={{ y: 16, scale: 0.98, opacity: 0 }}
+      exit={{ y: 16, scale: 0.99, opacity: 0 }}
       transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
       style={{
-        margin: "auto",
-        width: "100%",
-        maxWidth: "1100px",
-        background: "linear-gradient(180deg, #131a2c 0%, #0f1626 100%)",
-        border: `1px solid ${theme.colors.lineStrong}`,
-        borderRadius: "24px",
-        boxShadow: "0 30px 90px rgba(0,0,0,0.6)",
-        display: "grid",
-        gridTemplateColumns: "minmax(0, 1fr)",
+        position: "absolute",
+        inset: "16px",
+        background: "linear-gradient(180deg, #131a2c 0%, #0b101c 100%)",
+        border: `1px solid ${adminTheme.colors.borderStrong}`,
+        borderRadius: "22px",
+        boxShadow: "0 30px 90px rgba(0,0,0,0.62)",
         overflow: "hidden",
-        maxHeight: "min(96vh, 1000px)",
+        display: "grid",
+        gridTemplateRows: "auto 1fr",
       }}
     >
-      <div
+      <header
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "16px 18px",
-          borderBottom: `1px solid ${theme.colors.line}`,
+          padding: "14px 18px",
+          borderBottom: `1px solid ${adminTheme.colors.border}`,
           background: "rgba(255,255,255,0.02)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", minWidth: 0 }}>
+          <button
+            type="button"
+            onClick={() => setSidebarOpen((v) => !v)}
+            aria-label="Toggle navigation"
+            style={{
+              ...adminTheme.iconBtn,
+              display: "grid",
+              placeItems: "center",
+            }}
+            className="mw-admin-menu-btn"
+          >
+            ☰
+          </button>
           <div
             style={{
-              width: "10px",
-              height: "10px",
-              borderRadius: "50%",
-              background: "#7CFFB2",
-              boxShadow: "0 0 10px rgba(124,255,178,0.7)",
+              width: "36px",
+              height: "36px",
+              borderRadius: "12px",
+              background:
+                "linear-gradient(135deg, rgba(214,176,96,1), rgba(231,201,138,0.7))",
+              display: "grid",
+              placeItems: "center",
+              color: "#1B1B1B",
+              fontSize: "15px",
+              fontWeight: 900,
+              flexShrink: 0,
             }}
-          />
-          <div>
+          >
+            M
+          </div>
+          <div style={{ minWidth: 0 }}>
             <div
               style={{
-                color: theme.colors.text,
+                color: adminTheme.colors.text,
                 fontWeight: 800,
-                fontSize: "16px",
+                fontSize: "15px",
                 lineHeight: 1.1,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               Mineworld Admin
             </div>
             <div
               style={{
-                color: theme.colors.textSoft,
-                fontSize: "12px",
+                color: adminTheme.colors.textSoft,
+                fontSize: "11.5px",
+                marginTop: "2px",
               }}
             >
-              Edit content, links and contact info
+              {activeLabel}
             </div>
           </div>
         </div>
-        <button onClick={onClose} aria-label="Close admin" style={iconBtn()}>×</button>
-      </div>
+
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          {hasOverrides && (
+            <div
+              style={{
+                ...adminTheme.chip,
+                color: adminTheme.colors.ok,
+                background: "rgba(124,255,178,0.08)",
+                border: "1px solid rgba(124,255,178,0.3)",
+              }}
+              className="mw-admin-saved-chip"
+            >
+              Saved
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={() => {
+              if (
+                window.confirm(
+                  "Reset ALL content to defaults? This wipes every change you've made in the admin."
+                )
+              ) {
+                resetContent();
+              }
+            }}
+            style={{
+              ...adminTheme.btnSecondary,
+              padding: "9px 12px",
+              fontSize: "12px",
+            }}
+          >
+            Reset
+          </button>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              onClose();
+            }}
+            style={{
+              ...adminTheme.btnPrimary,
+              padding: "9px 16px",
+              fontSize: "12px",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+            }}
+          >
+            View site →
+          </a>
+        </div>
+      </header>
 
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "minmax(0, 1fr)",
-          gap: 0,
+          gridTemplateColumns: "240px minmax(0, 1fr)",
+          minHeight: 0,
         }}
+        className="mw-admin-body"
       >
-        <div
+        <aside
           style={{
-            display: "flex",
-            gap: "8px",
-            padding: "12px 12px 0",
-            overflowX: "auto",
-            borderBottom: `1px solid ${theme.colors.line}`,
-            scrollbarWidth: "thin",
-          }}
-        >
-          {TABS.map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setActiveTab(t.id)}
-              style={{
-                background:
-                  activeTab === t.id
-                    ? "rgba(214,176,96,0.16)"
-                    : "transparent",
-                border:
-                  activeTab === t.id
-                    ? "1px solid rgba(214,176,96,0.34)"
-                    : "1px solid transparent",
-                color: activeTab === t.id ? "#F7D58A" : theme.colors.text,
-                fontWeight: 700,
-                padding: "10px 14px",
-                borderRadius: "12px 12px 0 0",
-                cursor: "pointer",
-                whiteSpace: "nowrap",
-                fontSize: "13px",
-                transition: "all 0.2s ease",
-              }}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-
-        <div
-          style={{
-            padding: "20px",
+            borderRight: `1px solid ${adminTheme.colors.border}`,
+            background: "rgba(0,0,0,0.22)",
+            padding: "14px 10px",
             overflowY: "auto",
-            maxHeight: "calc(min(96vh, 1000px) - 130px)",
           }}
+          className={sidebarOpen ? "mw-admin-sidebar open" : "mw-admin-sidebar"}
         >
-          {tabContent}
-        </div>
+          <nav style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+            {SECTIONS.map((s) => {
+              const active = s.id === activeId;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => {
+                    setActiveId(s.id);
+                    setSidebarOpen(false);
+                  }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "10px 12px",
+                    borderRadius: "12px",
+                    border: "1px solid transparent",
+                    background: active
+                      ? "linear-gradient(135deg, rgba(214,176,96,0.18), rgba(214,176,96,0.06))"
+                      : "transparent",
+                    color: active ? "#F7D58A" : adminTheme.colors.text,
+                    fontSize: "13.5px",
+                    fontWeight: active ? 800 : 600,
+                    cursor: "pointer",
+                    textAlign: "left",
+                    transition: "all 0.2s ease",
+                    borderColor: active
+                      ? "rgba(214,176,96,0.32)"
+                      : "transparent",
+                  }}
+                >
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      width: "22px",
+                      display: "grid",
+                      placeItems: "center",
+                      color: active ? "#F7D58A" : adminTheme.colors.goldSoft,
+                      fontSize: "14px",
+                    }}
+                  >
+                    {s.icon}
+                  </span>
+                  {s.label}
+                </button>
+              );
+            })}
+          </nav>
+
+          <div
+            style={{
+              marginTop: "20px",
+              padding: "12px",
+              border: `1px solid ${adminTheme.colors.border}`,
+              borderRadius: "12px",
+              background: "rgba(255,255,255,0.02)",
+              fontSize: "11.5px",
+              color: "rgba(255,255,255,0.55)",
+              lineHeight: 1.55,
+            }}
+          >
+            Changes are saved automatically in this browser.
+            <br />
+            <br />
+            To publish them for all visitors, go to{" "}
+            <strong style={{ color: adminTheme.colors.goldSoft }}>
+              Import / Export
+            </strong>{" "}
+            and download the JSON for your developer.
+          </div>
+        </aside>
+
+        <main
+          style={{
+            overflowY: "auto",
+            padding: "24px 24px 40px",
+            background:
+              "radial-gradient(circle at 10% 0%, rgba(214,176,96,0.04), transparent 35%), rgba(0,0,0,0.18)",
+          }}
+          className="mw-admin-main"
+        >
+          <motion.div
+            key={activeId}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.22 }}
+            style={{ maxWidth: "880px", margin: "0 auto" }}
+          >
+            <ActiveComponent />
+          </motion.div>
+        </main>
       </div>
+
+      <style>{`
+        @media (max-width: 820px) {
+          .mw-admin-body {
+            grid-template-columns: minmax(0, 1fr) !important;
+          }
+          .mw-admin-sidebar {
+            position: absolute;
+            inset: 68px 0 0 0;
+            width: 280px;
+            z-index: 4;
+            transform: translateX(-110%);
+            transition: transform 0.28s ease;
+            background: #0b101c !important;
+          }
+          .mw-admin-sidebar.open {
+            transform: translateX(0);
+          }
+        }
+        @media (min-width: 821px) {
+          .mw-admin-menu-btn {
+            display: none !important;
+          }
+        }
+        @media (max-width: 560px) {
+          .mw-admin-saved-chip {
+            display: none !important;
+          }
+        }
+      `}</style>
     </motion.div>
   );
-}
-
-function Section({ title, children }) {
-  return (
-    <div>
-      <div
-        style={{
-          color: theme.colors.goldSoft,
-          fontSize: "11px",
-          letterSpacing: "2.5px",
-          textTransform: "uppercase",
-          fontWeight: 700,
-          marginBottom: "10px",
-        }}
-      >
-        Section
-      </div>
-      <h3
-        style={{
-          margin: "0 0 18px",
-          color: theme.colors.text,
-          fontSize: "22px",
-          fontWeight: 800,
-        }}
-      >
-        {title}
-      </h3>
-      <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function Row({ children }) {
-  return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-        gap: "14px",
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-function TextField({ label, value, onChange, placeholder, type = "text" }) {
-  return (
-    <label style={{ display: "block" }}>
-      <div style={labelStyle()}>{label}</div>
-      <input
-        type={type}
-        value={value ?? ""}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        style={inputStyle()}
-      />
-    </label>
-  );
-}
-
-function TextArea({ label, value, onChange, rows = 3, placeholder }) {
-  return (
-    <label style={{ display: "block" }}>
-      <div style={labelStyle()}>{label}</div>
-      <textarea
-        value={value ?? ""}
-        onChange={(e) => onChange(e.target.value)}
-        rows={rows}
-        placeholder={placeholder}
-        style={{ ...inputStyle(), resize: "vertical", minHeight: "80px" }}
-      />
-    </label>
-  );
-}
-
-function ListEditor({ label, items, onChange }) {
-  const list = Array.isArray(items) ? items : [];
-  const update = (idx, val) => {
-    const next = [...list];
-    next[idx] = val;
-    onChange(next);
-  };
-  const remove = (idx) => onChange(list.filter((_, i) => i !== idx));
-  const add = () => onChange([...list, ""]);
-
-  return (
-    <div>
-      <div style={labelStyle()}>{label}</div>
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-        {list.map((item, idx) => (
-          <div key={idx} style={{ display: "flex", gap: "8px" }}>
-            <input
-              value={item}
-              onChange={(e) => update(idx, e.target.value)}
-              style={{ ...inputStyle(), marginBottom: 0 }}
-            />
-            <button
-              type="button"
-              onClick={() => remove(idx)}
-              aria-label={`Remove item ${idx + 1}`}
-              style={iconBtn()}
-            >
-              ×
-            </button>
-          </div>
-        ))}
-        <button type="button" onClick={add} style={ghostBtn()}>
-          + Add item
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function ProofCardEditor({ card, onChange }) {
-  return (
-    <div
-      style={{
-        border: `1px solid ${theme.colors.line}`,
-        borderRadius: "16px",
-        padding: "16px",
-        marginBottom: "12px",
-        background: "rgba(255,255,255,0.02)",
-      }}
-    >
-      <div
-        style={{
-          color: theme.colors.goldSoft,
-          fontSize: "11px",
-          letterSpacing: "2px",
-          textTransform: "uppercase",
-          marginBottom: "10px",
-          fontWeight: 700,
-        }}
-      >
-        Proof card {card.number}
-      </div>
-      <Row>
-        <TextField
-          label="Number label"
-          value={card.number}
-          onChange={(v) => onChange({ ...card, number: v })}
-        />
-        <TextField
-          label="Counter (animates up — e.g. +32, 2.5M, ₹1.8L)"
-          value={card.counter}
-          onChange={(v) => onChange({ ...card, counter: v })}
-        />
-        <TextField
-          label="Stat suffix"
-          value={card.statSuffix}
-          onChange={(v) => onChange({ ...card, statSuffix: v })}
-        />
-      </Row>
-      <TextField
-        label="Card title"
-        value={card.title}
-        onChange={(v) => onChange({ ...card, title: v })}
-      />
-      <TextArea
-        label="Description"
-        value={card.description}
-        onChange={(v) => onChange({ ...card, description: v })}
-        rows={2}
-      />
-      <ListEditor
-        label="Tags"
-        items={card.tags}
-        onChange={(arr) => onChange({ ...card, tags: arr })}
-      />
-    </div>
-  );
-}
-
-function ImportExport({ overrides, replaceOverrides, resetContent }) {
-  const fileRef = useRef(null);
-  const [msg, setMsg] = useState("");
-
-  const exportJson = () => {
-    const data = JSON.stringify(overrides, null, 2);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `mineworld-content-${new Date().toISOString().slice(0, 10)}.json`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    setMsg("Downloaded.");
-  };
-
-  const importJson = async (file) => {
-    if (!file) return;
-    try {
-      const text = await file.text();
-      const parsed = JSON.parse(text);
-      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-        throw new Error("Invalid file");
-      }
-      replaceOverrides(parsed);
-      setMsg("Imported successfully.");
-    } catch {
-      setMsg("Could not import — make sure it’s a valid Mineworld JSON.");
-    }
-  };
-
-  const reset = () => {
-    if (window.confirm("Reset all content to defaults? This cannot be undone.")) {
-      resetContent();
-      setMsg("Reset to defaults.");
-    }
-  };
-
-  return (
-    <div>
-      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-        <button type="button" onClick={exportJson} style={primaryBtn()}>
-          Export JSON
-        </button>
-        <button
-          type="button"
-          onClick={() => fileRef.current?.click()}
-          style={secondaryBtn()}
-        >
-          Import JSON
-        </button>
-        <button type="button" onClick={reset} style={dangerBtn()}>
-          Reset to defaults
-        </button>
-        <input
-          type="file"
-          ref={fileRef}
-          accept="application/json"
-          style={{ display: "none" }}
-          onChange={(e) => importJson(e.target.files?.[0])}
-        />
-      </div>
-      {msg && (
-        <div
-          style={{
-            marginTop: "12px",
-            color: theme.colors.goldSoft,
-            fontSize: "13px",
-          }}
-        >
-          {msg}
-        </div>
-      )}
-
-      <pre
-        style={{
-          marginTop: "18px",
-          padding: "14px",
-          background: "rgba(0,0,0,0.35)",
-          border: `1px solid ${theme.colors.line}`,
-          borderRadius: "14px",
-          color: theme.colors.text,
-          fontSize: "12px",
-          lineHeight: 1.55,
-          overflow: "auto",
-          maxHeight: "260px",
-        }}
-      >
-        {JSON.stringify(overrides, null, 2) || "{}"}
-      </pre>
-    </div>
-  );
-}
-
-/* ---------- styles ---------- */
-
-function inputStyle() {
-  return {
-    width: "100%",
-    borderRadius: "12px",
-    border: "1px solid rgba(255,255,255,0.10)",
-    background: "rgba(255,255,255,0.04)",
-    color: "#FFFFFF",
-    padding: "12px 14px",
-    fontSize: "14px",
-    outline: "none",
-    boxSizing: "border-box",
-    transition: "border-color 0.2s ease, box-shadow 0.2s ease",
-    fontFamily: "inherit",
-  };
-}
-
-function labelStyle() {
-  return {
-    marginBottom: "6px",
-    color: "#EAE6DD",
-    fontSize: "12px",
-    fontWeight: 700,
-    letterSpacing: "0.2px",
-  };
-}
-
-function primaryBtn() {
-  return {
-    border: "none",
-    borderRadius: "999px",
-    padding: "12px 20px",
-    background: "linear-gradient(135deg, #C9A25D, #E7C98B)",
-    color: "#1B1B1B",
-    fontSize: "13px",
-    fontWeight: 800,
-    cursor: "pointer",
-    boxShadow: "0 12px 26px rgba(214,176,96,0.22)",
-  };
-}
-
-function secondaryBtn() {
-  return {
-    border: "1px solid rgba(255,255,255,0.14)",
-    borderRadius: "999px",
-    padding: "12px 18px",
-    background: "rgba(255,255,255,0.04)",
-    color: "#FFFFFF",
-    fontSize: "13px",
-    fontWeight: 700,
-    cursor: "pointer",
-  };
-}
-
-function ghostBtn() {
-  return {
-    border: "1px dashed rgba(214,176,96,0.45)",
-    borderRadius: "12px",
-    padding: "10px 14px",
-    background: "transparent",
-    color: theme.colors.goldSoft,
-    fontSize: "13px",
-    fontWeight: 700,
-    cursor: "pointer",
-    width: "fit-content",
-  };
-}
-
-function dangerBtn() {
-  return {
-    border: "1px solid rgba(255,99,71,0.42)",
-    borderRadius: "999px",
-    padding: "12px 18px",
-    background: "rgba(255,99,71,0.08)",
-    color: "#FFB4A2",
-    fontSize: "13px",
-    fontWeight: 700,
-    cursor: "pointer",
-  };
-}
-
-function iconBtn() {
-  return {
-    width: "38px",
-    height: "38px",
-    borderRadius: "12px",
-    border: `1px solid ${theme.colors.line}`,
-    background: "rgba(255,255,255,0.04)",
-    color: theme.colors.text,
-    fontSize: "18px",
-    cursor: "pointer",
-    flexShrink: 0,
-    display: "grid",
-    placeItems: "center",
-  };
 }

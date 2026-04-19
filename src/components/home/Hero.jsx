@@ -160,22 +160,28 @@ function Hero() {
                   justifyContent: isMobile ? "center" : "flex-start",
                 }}
               >
-                {hero.badges.map((item) => (
-                  <div
-                    key={item}
-                    style={{
-                      padding: "11px 16px",
-                      border: `1px solid ${theme.colors.line}`,
-                      borderRadius: "999px",
-                      color: theme.colors.text,
-                      fontSize: isMobile ? "13px" : "14px",
-                      background: "rgba(58,78,115,0.75)",
-                      boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
-                    }}
-                  >
-                    {item}
-                  </div>
-                ))}
+                {hero.badges
+                  .filter((b) => (typeof b === "object" ? b.visible !== false : true))
+                  .map((b) => {
+                    const label = typeof b === "object" ? b.label : b;
+                    const key = typeof b === "object" ? b.id || label : b;
+                    return (
+                      <div
+                        key={key}
+                        style={{
+                          padding: "11px 16px",
+                          border: `1px solid ${theme.colors.line}`,
+                          borderRadius: "999px",
+                          color: theme.colors.text,
+                          fontSize: isMobile ? "13px" : "14px",
+                          background: "rgba(58,78,115,0.75)",
+                          boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
+                        }}
+                      >
+                        {label}
+                      </div>
+                    );
+                  })}
               </div>
             </Reveal>
 
