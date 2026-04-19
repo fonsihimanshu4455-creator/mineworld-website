@@ -4,6 +4,7 @@ import Reveal from "../common/Reveal";
 import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 const services = [
   {
@@ -70,8 +71,7 @@ function Services() {
   const supportA = services[2];
   const supportB = services[3];
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile();
 
   return (
     <section
@@ -199,12 +199,15 @@ function Services() {
                   <h3
                     style={{
                       margin: "0 0 16px",
-                      fontSize: isMobile ? "38px" : "clamp(34px, 4vw, 54px)",
-                      lineHeight: 0.98,
+                      fontSize: isMobile
+                        ? "clamp(26px, 7vw, 36px)"
+                        : "clamp(34px, 4vw, 54px)",
+                      lineHeight: isMobile ? 1.05 : 0.98,
                       fontWeight: 800,
                       color: theme.colors.text,
-                      letterSpacing: "-1.2px",
+                      letterSpacing: isMobile ? "-0.6px" : "-1.2px",
                       maxWidth: "720px",
+                      wordBreak: "break-word",
                       fontFamily:
                         '"Playfair Display", Georgia, "Times New Roman", serif',
                     }}
@@ -314,11 +317,12 @@ function Services() {
                     <h3
                       style={{
                         margin: "0 0 12px",
-                        fontSize: isMobile ? "28px" : "31px",
-                        lineHeight: 1.05,
+                        fontSize: isMobile ? "22px" : "31px",
+                        lineHeight: 1.1,
                         fontWeight: 800,
                         color: theme.colors.text,
-                        letterSpacing: "-0.8px",
+                        letterSpacing: "-0.6px",
+                        wordBreak: "break-word",
                         fontFamily:
                           '"Playfair Display", Georgia, "Times New Roman", serif',
                       }}

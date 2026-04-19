@@ -5,11 +5,11 @@ import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import founderImage from "../../assets/himanshu.JPG";
 
 function FounderSection() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile();
 
   return (
     <section

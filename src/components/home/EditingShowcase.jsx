@@ -4,6 +4,7 @@ import Reveal from "../common/Reveal";
 import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 import reelsShowcase from "../../assets/reels-showcase.jpg";
 import podcastShowcase from "../../assets/podcast-showcase.jpg";
@@ -40,8 +41,7 @@ const showcaseItems = [
 ];
 
 function EditingShowcase() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile();
 
   return (
     <section

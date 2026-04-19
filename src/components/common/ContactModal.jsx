@@ -5,6 +5,7 @@ import { theme } from "../../styles/theme";
 import { closeContactModal } from "../../utils/contactActions";
 import { countryCodes } from "../../data/countryCodes";
 import { siteConfig } from "../../data/siteConfig";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import SuccessScreen from "./SuccessScreen";
 
 const serviceOptions = [
@@ -82,8 +83,7 @@ function ContactModal() {
 
   const countryMenuRef = useRef(null);
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile();
 
   const selectedCountry = useMemo(() => {
     return (
@@ -349,17 +349,27 @@ function ContactModal() {
                 aria-label="Close form"
                 style={{
                   position: "absolute",
-                  top: "16px",
-                  right: "16px",
-                  width: "42px",
-                  height: "42px",
+                  top: isMobile ? "12px" : "16px",
+                  right: isMobile ? "12px" : "16px",
+                  width: "46px",
+                  height: "46px",
                   borderRadius: "50%",
                   border: `1px solid ${theme.colors.line}`,
-                  background: "rgba(255,255,255,0.04)",
+                  background: "rgba(0,0,0,0.32)",
+                  backdropFilter: "blur(8px)",
+                  WebkitBackdropFilter: "blur(8px)",
                   color: theme.colors.text,
-                  fontSize: "20px",
+                  fontSize: "22px",
+                  lineHeight: 1,
                   cursor: "pointer",
                   zIndex: 5,
+                  transition: "background 0.25s ease, transform 0.25s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "rotate(90deg)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "rotate(0deg)";
                 }}
               >
                 ×
@@ -435,10 +445,11 @@ function ContactModal() {
                       style={{
                         margin: "0 0 14px",
                         color: theme.colors.text,
-                        fontSize: isMobile ? "34px" : "46px",
-                        lineHeight: 1.02,
+                        fontSize: isMobile ? "28px" : "46px",
+                        lineHeight: 1.04,
                         fontWeight: 800,
                         maxWidth: "420px",
+                        wordBreak: "break-word",
                       }}
                     >
                       Let’s build something sharper.
@@ -543,10 +554,11 @@ function ContactModal() {
                 <h3
                   style={{
                     margin: "0 0 10px",
-                    fontSize: isMobile ? "28px" : "34px",
-                    lineHeight: 1.06,
+                    fontSize: isMobile ? "24px" : "34px",
+                    lineHeight: 1.08,
                     fontWeight: 800,
                     color: theme.colors.text,
+                    wordBreak: "break-word",
                   }}
                 >
                   Tell us what you need.
@@ -569,8 +581,9 @@ function ContactModal() {
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns:
-                        "repeat(auto-fit, minmax(220px, 1fr))",
+                      gridTemplateColumns: isMobile
+                        ? "1fr"
+                        : "repeat(auto-fit, minmax(220px, 1fr))",
                       gap: "14px",
                     }}
                   >

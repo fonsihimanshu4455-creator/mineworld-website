@@ -4,10 +4,13 @@ import MagneticButton from "../common/MagneticButton";
 import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
 import { openContactModal } from "../../utils/contactActions";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useSiteContent } from "../../context/SiteContent";
 
 function CTA() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile();
+  const { content } = useSiteContent();
+  const cta = content.cta;
 
   return (
     <section
@@ -75,22 +78,25 @@ function CTA() {
                 marginBottom: "16px",
               }}
             >
-              Start with Mineworld
+              {cta.eyebrow}
             </div>
 
             <h2
               style={{
                 margin: "0 auto 18px",
                 maxWidth: "980px",
-                fontSize: isMobile ? "40px" : "clamp(44px, 5vw, 76px)",
-                lineHeight: isMobile ? 1.02 : 0.98,
+                fontSize: isMobile
+                  ? "clamp(28px, 8vw, 40px)"
+                  : "clamp(44px, 5vw, 76px)",
+                lineHeight: isMobile ? 1.06 : 0.98,
                 fontWeight: 800,
                 color: theme.colors.text,
+                wordBreak: "break-word",
               }}
             >
-              If your brand still looks ordinary,
+              {cta.headlineLineOne}
               <br />
-              that’s the problem.
+              {cta.headlineLineTwo}
             </h2>
 
             <p
@@ -102,9 +108,7 @@ function CTA() {
                 lineHeight: 1.9,
               }}
             >
-              Mineworld is built for brands, creators, clinics, and businesses
-              that want stronger content, sharper editing, better digital
-              presence, and more premium brand perception across platforms.
+              {cta.description}
             </p>
 
             <div
@@ -150,11 +154,7 @@ function CTA() {
                 marginTop: "24px",
               }}
             >
-              {[
-                "Editing-First Execution",
-                "Premium Brand Presence",
-                "Studio + Digital Integration",
-              ].map((item) => (
+              {cta.chips.map((item) => (
                 <div
                   key={item}
                   style={{

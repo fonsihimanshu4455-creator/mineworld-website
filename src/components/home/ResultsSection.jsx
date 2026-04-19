@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { theme } from "../../styles/theme";
 import AnimatedCounter from "../common/AnimatedCounter";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useSiteContent } from "../../context/SiteContent";
 
 const sectionWrap = {
   width: "min(1180px, calc(100% - 32px))",
@@ -15,36 +17,6 @@ const fadeUp = {
     transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
   },
 };
-
-const proofCards = [
-  {
-    number: "01",
-    counter: "+32",
-    statSuffix: " Leads in 7 Days",
-    title: "Aesthetic Clinic Campaign",
-    description:
-      "Creative reels and Meta ads aligned for lead capture, not just reach.",
-    tags: ["Reels + Ads", "Lead Generation", "Clinic Growth"],
-  },
-  {
-    number: "02",
-    counter: "2.5M",
-    statSuffix: " Views Reel",
-    title: "Personal Brand Content",
-    description:
-      "Retention-first editing structure built to hold attention and drive profile interest.",
-    tags: ["Retention Editing", "Reel Strategy", "Personal Brand"],
-  },
-  {
-    number: "03",
-    counter: "₹1.8L",
-    statSuffix: " Revenue Driven",
-    title: "Local Business Promotion",
-    description:
-      "Offer-led creative direction and paid campaign execution focused on business outcome.",
-    tags: ["Offer Creative", "Paid Growth", "Revenue Focus"],
-  },
-];
 
 const supportCards = [
   {
@@ -61,7 +33,7 @@ const supportCards = [
   },
 ];
 
-function ProofCard({ item }) {
+function ProofCard({ item, isMobile }) {
   return (
     <motion.div
       variants={fadeUp}
@@ -70,8 +42,8 @@ function ProofCard({ item }) {
       className="mw-card-hover mw-shine"
       style={{
         position: "relative",
-        borderRadius: "28px",
-        padding: "28px 24px 24px",
+        borderRadius: isMobile ? "22px" : "28px",
+        padding: isMobile ? "22px 18px 18px" : "28px 24px 24px",
         background:
           "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)",
         border: `1px solid ${theme.colors.lineStrong}`,
@@ -96,7 +68,7 @@ function ProofCard({ item }) {
       <div
         style={{
           color: theme.colors.gold,
-          fontSize: "42px",
+          fontSize: isMobile ? "34px" : "42px",
           fontWeight: 800,
           lineHeight: 1,
           marginBottom: "18px",
@@ -109,11 +81,12 @@ function ProofCard({ item }) {
       <div
         style={{
           color: theme.colors.text,
-          fontSize: "28px",
-          lineHeight: 1.08,
+          fontSize: isMobile ? "24px" : "28px",
+          lineHeight: 1.1,
           fontWeight: 700,
           marginBottom: "12px",
-          maxWidth: "280px",
+          maxWidth: "100%",
+          wordBreak: "break-word",
         }}
       >
         <AnimatedCounter
@@ -184,7 +157,7 @@ function ProofCard({ item }) {
   );
 }
 
-function SupportCard({ item }) {
+function SupportCard({ item, isMobile }) {
   return (
     <motion.div
       variants={fadeUp}
@@ -192,8 +165,8 @@ function SupportCard({ item }) {
       transition={{ type: "spring", stiffness: 220, damping: 20 }}
       className="mw-card-hover"
       style={{
-        borderRadius: "28px",
-        padding: "28px 24px",
+        borderRadius: isMobile ? "22px" : "28px",
+        padding: isMobile ? "22px 20px" : "28px 24px",
         background:
           "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)",
         border: `1px solid ${theme.colors.line}`,
@@ -216,10 +189,11 @@ function SupportCard({ item }) {
         style={{
           margin: "0 0 12px",
           color: theme.colors.text,
-          fontSize: "30px",
-          lineHeight: 1.12,
+          fontSize: isMobile ? "22px" : "30px",
+          lineHeight: 1.15,
           fontWeight: 700,
           maxWidth: "540px",
+          wordBreak: "break-word",
         }}
       >
         {item.title}
@@ -241,11 +215,17 @@ function SupportCard({ item }) {
 }
 
 export default function ResultsSection() {
+  const isMobile = useIsMobile();
+  const isTablet = useIsMobile(1024);
+  const { content } = useSiteContent();
+  const r = content.results;
+  const proofCards = r.proofCards;
+
   return (
     <section
       id="results"
       style={{
-        padding: "110px 0",
+        padding: isMobile ? "70px 0" : "110px 0",
         background: `
           radial-gradient(circle at 80% 10%, rgba(87,120,210,0.08), transparent 40%),
           linear-gradient(180deg, ${theme.colors.bg} 0%, #0b0f1a 60%, ${theme.colors.bg} 100%)
@@ -266,10 +246,10 @@ export default function ResultsSection() {
           variants={fadeUp}
           style={{
             display: "grid",
-            gridTemplateColumns: "1.1fr 0.9fr",
-            gap: "28px",
+            gridTemplateColumns: isTablet ? "1fr" : "1.1fr 0.9fr",
+            gap: isMobile ? "18px" : "28px",
             alignItems: "end",
-            marginBottom: "34px",
+            marginBottom: isMobile ? "26px" : "34px",
           }}
         >
           <div>
@@ -283,22 +263,25 @@ export default function ResultsSection() {
                 fontWeight: 700,
               }}
             >
-              Proof of Outcome
+              {r.eyebrow}
             </div>
 
             <h2
               style={{
                 margin: 0,
                 color: theme.colors.text,
-                fontSize: "clamp(40px, 6vw, 72px)",
-                lineHeight: 0.98,
-                letterSpacing: "-2px",
+                fontSize: isMobile
+                  ? "clamp(32px, 9vw, 44px)"
+                  : "clamp(40px, 6vw, 72px)",
+                lineHeight: isMobile ? 1.02 : 0.98,
+                letterSpacing: isMobile ? "-1px" : "-2px",
                 fontWeight: 800,
                 maxWidth: "780px",
+                wordBreak: "break-word",
               }}
             >
-              Real results.{" "}
-              <span style={{ color: theme.colors.gold }}>Not just content.</span>
+              {r.headlinePrefix}{" "}
+              <span style={{ color: theme.colors.gold }}>{r.headlineHighlight}</span>
             </h2>
           </div>
 
@@ -309,12 +292,10 @@ export default function ResultsSection() {
               fontSize: "15px",
               lineHeight: 1.9,
               maxWidth: "430px",
-              justifySelf: "end",
+              justifySelf: isTablet ? "start" : "end",
             }}
           >
-            Mineworld is not being built to make content look busy. It is being
-            built to make brands look sharper, convert stronger, and feel more
-            difficult to ignore.
+            {r.description}
           </p>
         </motion.div>
 
@@ -322,50 +303,34 @@ export default function ResultsSection() {
           variants={fadeUp}
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-            gap: "18px",
-            marginBottom: "20px",
+            gridTemplateColumns: isMobile
+              ? "1fr"
+              : isTablet
+                ? "repeat(2, minmax(0, 1fr))"
+                : "repeat(3, minmax(0, 1fr))",
+            gap: isMobile ? "14px" : "18px",
+            marginBottom: isMobile ? "14px" : "20px",
           }}
         >
           {proofCards.map((item) => (
-            <ProofCard key={item.number} item={item} />
+            <ProofCard key={item.number} item={item} isMobile={isMobile} />
           ))}
         </motion.div>
 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-            gap: "18px",
+            gridTemplateColumns: isMobile
+              ? "1fr"
+              : "repeat(2, minmax(0, 1fr))",
+            gap: isMobile ? "14px" : "18px",
           }}
         >
           {supportCards.map((item) => (
-            <SupportCard key={item.title} item={item} />
+            <SupportCard key={item.title} item={item} isMobile={isMobile} />
           ))}
         </div>
       </motion.div>
-
-      <style>{`
-        @media (max-width: 980px) {
-          #results .results-top-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        @media (max-width: 1024px) {
-          section#results [style*="grid-template-columns: 1.1fr 0.9fr"] {
-            grid-template-columns: 1fr !important;
-          }
-
-          section#results [style*="repeat(3, minmax(0, 1fr))"] {
-            grid-template-columns: 1fr !important;
-          }
-
-          section#results [style*="repeat(2, minmax(0, 1fr))"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

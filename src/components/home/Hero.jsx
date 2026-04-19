@@ -4,13 +4,18 @@ import MagneticButton from "../common/MagneticButton";
 import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
 import { openContactModal, scrollToSection } from "../../utils/contactActions";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useSiteContent } from "../../context/SiteContent";
 
 import heroVideo from "../../assets/hero-video.mp4";
 import heroPoster from "../../assets/hero.png";
 
 function Hero() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile();
+  const { content } = useSiteContent();
+  const hero = content.hero;
+  const videoSrc = hero.videoUrl || heroVideo;
+  const posterSrc = hero.posterUrl || heroPoster;
 
   return (
     <section
@@ -43,8 +48,8 @@ function Hero() {
         style={{
           position: "relative",
           zIndex: 2,
-          paddingTop: isMobile ? "108px" : "118px",
-          paddingBottom: isMobile ? "60px" : "80px",
+          paddingTop: isMobile ? "100px" : "118px",
+          paddingBottom: isMobile ? "50px" : "80px",
         }}
       >
         <div
@@ -66,7 +71,7 @@ function Hero() {
                   marginBottom: "24px",
                 }}
               >
-                Editing + Content + Digital Growth
+                {hero.eyebrow}
               </div>
             </Reveal>
 
@@ -74,18 +79,21 @@ function Hero() {
               <h1
                 style={{
                   margin: 0,
-                  fontSize: isMobile ? "44px" : "clamp(48px, 6vw, 82px)",
-                  lineHeight: isMobile ? 0.98 : 0.94,
+                  fontSize: isMobile
+                    ? "clamp(34px, 10vw, 46px)"
+                    : "clamp(48px, 6vw, 82px)",
+                  lineHeight: isMobile ? 1.02 : 0.94,
                   fontWeight: 800,
-                  letterSpacing: isMobile ? "-1.5px" : "-2.2px",
+                  letterSpacing: isMobile ? "-1px" : "-2.2px",
                   maxWidth: isMobile ? "100%" : "760px",
                   color: theme.colors.text,
                   textShadow: "0 6px 30px rgba(0,0,0,0.18)",
+                  wordBreak: "break-word",
                 }}
               >
-                Video Editing & Digital Growth
+                {hero.headlineLineOne}
                 <br />
-                Agency in Delhi
+                {hero.headlineLineTwo}
               </h1>
             </Reveal>
 
@@ -102,10 +110,7 @@ function Hero() {
                   lineHeight: 1.9,
                 }}
               >
-                Mineworld Production is a Delhi-based video editing and digital
-                growth agency helping brands, creators, clinics, and businesses
-                grow through premium video editing, podcast shoots, graphic
-                design support, social media management, and Meta ads services.
+                {hero.description}
               </p>
             </Reveal>
 
@@ -155,13 +160,7 @@ function Hero() {
                   justifyContent: isMobile ? "center" : "flex-start",
                 }}
               >
-                {[
-                  "Video Editing",
-                  "Podcast Shoots",
-                  "Graphic Design",
-                  "Social Media",
-                  "Meta Ads",
-                ].map((item) => (
+                {hero.badges.map((item) => (
                   <div
                     key={item}
                     style={{
@@ -191,7 +190,7 @@ function Hero() {
                   textTransform: "uppercase",
                 }}
               >
-                Content. Design. Ads. Presence.
+                {hero.captionLine}
               </div>
             </Reveal>
 
@@ -239,7 +238,7 @@ function Hero() {
             transition={{ duration: 0.9, ease: "easeOut", delay: 0.25 }}
             style={{
               position: "relative",
-              minHeight: isMobile ? "420px" : "660px",
+              minHeight: isMobile ? "360px" : "660px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -255,7 +254,7 @@ function Hero() {
               style={{
                 width: "100%",
                 maxWidth: isMobile ? "100%" : "540px",
-                height: isMobile ? "420px" : "580px",
+                height: isMobile ? "360px" : "580px",
                 borderRadius: isMobile ? "24px" : "34px",
                 overflow: "hidden",
                 position: "relative",
@@ -269,7 +268,7 @@ function Hero() {
             >
               {isMobile ? (
                 <img
-                  src={heroPoster}
+                  src={posterSrc}
                   alt="Mineworld Production video editing and digital growth agency in Delhi"
                   loading="eager"
                   style={{
@@ -282,12 +281,13 @@ function Hero() {
                 />
               ) : (
                 <video
+                  key={videoSrc}
                   autoPlay
                   loop
                   muted
                   playsInline
                   preload="metadata"
-                  poster={heroPoster}
+                  poster={posterSrc}
                   style={{
                     width: "100%",
                     height: "100%",
@@ -297,7 +297,7 @@ function Hero() {
                     filter: "contrast(1.15) brightness(1.05) saturate(1.1)",
                   }}
                 >
-                  <source src={heroVideo} type="video/mp4" />
+                  <source src={videoSrc} type="video/mp4" />
                 </video>
               )}
 
@@ -359,22 +359,23 @@ function Hero() {
                     marginBottom: "12px",
                   }}
                 >
-                  Video + Design + Digital
+                  {hero.overlayEyebrow}
                 </div>
 
                 <div
                   style={{
-                    fontSize: isMobile ? "22px" : "24px",
+                    fontSize: isMobile ? "18px" : "24px",
                     fontWeight: 800,
-                    lineHeight: 1.18,
+                    lineHeight: 1.22,
                     color: theme.colors.text,
                     textShadow: "0 4px 18px rgba(0,0,0,0.22)",
-                    maxWidth: isMobile ? "88%" : "100%",
+                    maxWidth: isMobile ? "100%" : "100%",
+                    wordBreak: "break-word",
                   }}
                 >
-                  Premium content systems
+                  {hero.overlayLineOne}
                   <br />
-                  built to strengthen brand presence
+                  {hero.overlayLineTwo}
                 </div>
               </div>
             </motion.div>

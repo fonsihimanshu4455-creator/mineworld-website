@@ -6,6 +6,8 @@ import SectionTag from "../common/SectionTag";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
 import { openContactModal, scrollToSection } from "../../utils/contactActions";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useSiteContent } from "../../context/SiteContent";
 
 import video1 from "../../assets/portfolio-1.mp4";
 import video2 from "../../assets/portfolio-2.mp4";
@@ -77,11 +79,22 @@ const portfolioItems = [
 ];
 
 function Portfolio() {
-  const featuredItem = portfolioItems[0];
-  const sideItems = portfolioItems.slice(1);
+  const isMobile = useIsMobile();
+  const { content } = useSiteContent();
+  const overrides = content.portfolioOverrides || {};
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const items = portfolioItems.map((item) => {
+    const o = overrides[item.id] || {};
+    return {
+      ...item,
+      title: o.title || item.title,
+      description: o.description || item.description,
+      video: o.videoUrl || item.video,
+    };
+  });
+
+  const featuredItem = items[0];
+  const sideItems = items.slice(1);
 
   return (
     <section
@@ -287,12 +300,15 @@ function Portfolio() {
                 <h3
                   style={{
                     margin: "0 0 14px",
-                    fontSize: isMobile ? "34px" : "clamp(34px, 4vw, 52px)",
+                    fontSize: isMobile
+                      ? "clamp(24px, 7vw, 32px)"
+                      : "clamp(34px, 4vw, 52px)",
                     fontWeight: 800,
-                    lineHeight: 1.02,
+                    lineHeight: isMobile ? 1.08 : 1.02,
                     color: theme.colors.text,
-                    maxWidth: "92%",
-                    letterSpacing: "-1px",
+                    maxWidth: isMobile ? "100%" : "92%",
+                    letterSpacing: isMobile ? "-0.4px" : "-1px",
+                    wordBreak: "break-word",
                     fontFamily:
                       '"Playfair Display", Georgia, "Times New Roman", serif',
                   }}

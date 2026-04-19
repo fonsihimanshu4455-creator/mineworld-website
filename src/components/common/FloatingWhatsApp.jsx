@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { theme } from "../../styles/theme";
-import { siteConfig } from "../../data/siteConfig";
+import { useSiteContent } from "../../context/SiteContent";
 
 function FloatingWhatsApp() {
-  const whatsappNumber =
-    siteConfig?.contact?.whatsappNumber || "919758850933";
+  const { content } = useSiteContent();
+  const whatsappNumber = content.contact.whatsappNumber || "919758850933";
 
   const message = encodeURIComponent(
     "Hi Mineworld Production, I want to discuss a project."

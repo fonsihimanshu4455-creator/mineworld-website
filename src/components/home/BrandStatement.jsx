@@ -2,13 +2,16 @@ import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 function BrandStatement() {
+  const isMobile = useIsMobile();
+
   return (
     <section
       style={{
         position: "relative",
-        padding: "110px 0",
+        padding: isMobile ? "70px 0" : "110px 0",
         background: theme.colors.bg,
         borderBottom: `1px solid ${theme.colors.line}`,
       }}
@@ -52,7 +55,7 @@ function BrandStatement() {
               style={{
                 margin: 0,
                 color: theme.colors.textSoft,
-                fontSize: "18px",
+                fontSize: isMobile ? "15px" : "18px",
                 lineHeight: 1.9,
               }}
             >

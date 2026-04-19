@@ -1,10 +1,10 @@
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 function GrowthSection() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile();
 
   return (
     <section

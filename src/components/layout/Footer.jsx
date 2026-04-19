@@ -1,22 +1,19 @@
-import { useEffect, useState } from "react";
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
 import { openContactModal } from "../../utils/contactActions";
-import { siteConfig } from "../../data/siteConfig";
+import { useIsMobile } from "../../hooks/useIsMobile";
+import { useSiteContent } from "../../context/SiteContent";
 import logoImg from "../../assets/mineworld-logo.png";
 
 function Footer() {
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false
-  );
-
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  const isMobile = useIsMobile();
+  const { content } = useSiteContent();
+  const c = content.contact;
+  const f = content.footer;
+  const phoneTel = "tel:" + c.phonePrimary.replace(/\s+/g, "");
+  const waLink = "https://wa.me/" + c.whatsappNumber.replace(/\D/g, "");
 
   const navItems = [
     { label: "Home", target: "home" },
@@ -25,13 +22,7 @@ function Footer() {
     { label: "Contact", target: "footer" },
   ];
 
-  const services = [
-    "Video Editing Services in Delhi",
-    "Podcast Production in Delhi",
-    "Graphic Design Support",
-    "Social Media Management in Delhi",
-    "Meta Ads & Digital Growth",
-  ];
+  const services = f.services;
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -121,17 +112,20 @@ function Footer() {
               style={{
                 margin: 0,
                 color: theme.colors.text,
-                fontSize: isMobile ? "38px" : "clamp(40px, 5vw, 72px)",
-                lineHeight: isMobile ? 1.02 : 0.98,
+                fontSize: isMobile
+                  ? "clamp(28px, 8vw, 38px)"
+                  : "clamp(40px, 5vw, 72px)",
+                lineHeight: isMobile ? 1.06 : 0.98,
                 fontWeight: 800,
-                letterSpacing: "-1.8px",
+                letterSpacing: isMobile ? "-1px" : "-1.8px",
                 fontFamily:
                   '"Playfair Display", Georgia, "Times New Roman", serif',
+                wordBreak: "break-word",
               }}
             >
-              If your brand still looks ordinary,
+              {content.cta.headlineLineOne}
               <br />
-              that’s the problem.
+              {content.cta.headlineLineTwo}
             </h2>
 
             <p
@@ -169,7 +163,7 @@ function Footer() {
                 <MagneticButton>Start a Project</MagneticButton>
               </button>
 
-              <a href="tel:+919758850933" style={{ textDecoration: "none" }}>
+              <a href={phoneTel} style={{ textDecoration: "none" }}>
                 <MagneticButton secondary>Book a Strategy Call</MagneticButton>
               </a>
             </div>
@@ -291,10 +285,7 @@ function Footer() {
                   lineHeight: 1.95,
                 }}
               >
-                Mineworld Production is a Delhi-based video editing and digital
-                growth agency helping brands, creators, clinics, and businesses
-                through content production, social media management, podcast
-                shoots, and Meta ads services.
+                {f.description}
               </p>
 
               <div
@@ -447,13 +438,13 @@ function Footer() {
                     </svg>
                   </div>
                   <a
-                    href="https://maps.google.com/?q=Mayur+Vihar+Phase+1+Delhi+110091"
+                    href={c.addressMapUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="mw-link"
                     style={linkStyle}
                   >
-                    Mayur Vihar Phase 1, Delhi, 110091
+                    {c.address}
                   </a>
                 </div>
 
@@ -470,11 +461,11 @@ function Footer() {
                     </svg>
                   </div>
                   <a
-                    href="mailto:mineworldproduction4455@gmail.com"
+                    href={"mailto:" + c.email}
                     className="mw-link"
                     style={linkStyle}
                   >
-                    mineworldproduction4455@gmail.com
+                    {c.email}
                   </a>
                 </div>
 
@@ -492,11 +483,11 @@ function Footer() {
                   </div>
                   <div style={linkStyle}>
                     <a
-                      href="tel:+919758850933"
+                      href={phoneTel}
                       className="mw-link"
                       style={{ ...linkStyle, display: "inline" }}
                     >
-                      +91 9758850933
+                      {c.phonePrimary}
                     </a>
                   </div>
                 </div>
@@ -514,7 +505,7 @@ function Footer() {
                     </svg>
                   </div>
                   <a
-                    href={siteConfig.social.instagram}
+                    href={content.social.instagram}
                     target="_blank"
                     rel="noreferrer"
                     className="mw-link"
@@ -539,13 +530,13 @@ function Footer() {
                     </svg>
                   </div>
                   <a
-                    href="https://www.mineworldproduction.com"
+                    href={content.social.websiteUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="mw-link"
                     style={linkStyle}
                   >
-                    www.mineworldproduction.com
+                    {content.social.websiteUrl.replace(/^https?:\/\//, "")}
                   </a>
                 </div>
 
@@ -563,7 +554,7 @@ function Footer() {
                     </svg>
                   </div>
                   <a
-                    href="https://wa.me/919758850933"
+                    href={waLink}
                     target="_blank"
                     rel="noreferrer"
                     className="mw-link"
@@ -608,7 +599,20 @@ function Footer() {
               lineHeight: 1.7,
             }}
           >
-            © 2026 Mineworld Production. All rights reserved.
+            {f.legal}
+            {" · "}
+            <a
+              href="#admin"
+              style={{
+                color: "rgba(255,255,255,0.32)",
+                textDecoration: "none",
+                fontSize: "12px",
+                letterSpacing: "0.4px",
+              }}
+              aria-label="Open Mineworld admin panel"
+            >
+              Admin
+            </a>
           </div>
 
           <div

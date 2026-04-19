@@ -4,6 +4,7 @@ import Reveal from "../common/Reveal";
 import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 const teamBlocks = [
   {
@@ -51,8 +52,7 @@ function TeamSection() {
   const featured = teamBlocks[0];
   const supportBlocks = teamBlocks.slice(1);
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile();
 
   return (
     <section
