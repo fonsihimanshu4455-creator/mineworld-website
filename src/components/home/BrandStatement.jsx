@@ -37,9 +37,9 @@ function BrandStatement() {
                 color: theme.colors.text,
               }}
             >
-              Most agencies deliver content.
+              Most agencies just make posts.
               <br />
-              Mineworld builds perception systems.
+              We make your business grow.
             </h2>
           </div>
         </Reveal>
@@ -59,9 +59,9 @@ function BrandStatement() {
                 lineHeight: 1.9,
               }}
             >
-              We combine editing intelligence, cinematic execution, and
-              digital growth thinking to create a brand presence that feels
-              sharper, more premium, and harder to ignore.
+              Ads that bring real leads. Videos people actually watch. Shoots that
+              make you look premium. All from one team — so you’re not chasing three
+              different vendors.
             </p>
           </div>
         </Reveal>

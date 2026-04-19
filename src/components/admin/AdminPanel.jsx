@@ -9,6 +9,8 @@ import CTAEditor from "./sections/CTAEditor";
 import ResultsEditor from "./sections/ResultsEditor";
 import ServicesEditor from "./sections/ServicesEditor";
 import PortfolioEditor from "./sections/PortfolioEditor";
+import ReviewsEditor from "./sections/ReviewsEditor";
+import FAQEditor from "./sections/FAQEditor";
 import FooterEditor from "./sections/FooterEditor";
 import DataEditor from "./sections/DataEditor";
 
@@ -21,6 +23,8 @@ const SECTIONS = [
   { id: "hero", label: "Hero Section", icon: "★", component: HeroEditor },
   { id: "services", label: "Services & Pages", icon: "⚙", component: ServicesEditor },
   { id: "portfolio", label: "Portfolio", icon: "▶", component: PortfolioEditor },
+  { id: "reviews", label: "Reviews", icon: "★", component: ReviewsEditor },
+  { id: "faq", label: "FAQ", icon: "?", component: FAQEditor },
   { id: "results", label: "Results / Proof", icon: "📈", component: ResultsEditor },
   { id: "cta", label: "Call to Action", icon: "✦", component: CTAEditor },
   { id: "footer", label: "Footer", icon: "⌘", component: FooterEditor },

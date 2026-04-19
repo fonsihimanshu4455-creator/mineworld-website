@@ -39,45 +39,45 @@ export const defaultContent = {
   },
 
   hero: {
-    eyebrow: "Editing + Content + Digital Growth",
-    headlineLineOne: "Video Editing & Digital Growth",
-    headlineLineTwo: "Agency in Delhi",
+    eyebrow: "Digital Marketing · Video Editing · Shoots",
+    headlineLineOne: "We grow your business",
+    headlineLineTwo: "with ads, videos & shoots.",
     description:
-      "Mineworld Production is a Delhi-based video editing and digital growth agency helping brands, creators, clinics, and businesses grow through premium video editing, podcast shoots, graphic design support, social media management, and Meta ads services.",
+      "Mineworld runs ads that bring real customers, edits videos that people actually watch, and shoots content that makes your brand look premium — all from one team in Delhi.",
     badges: [
-      { id: "b1", visible: true, label: "Video Editing" },
-      { id: "b2", visible: true, label: "Podcast Shoots" },
-      { id: "b3", visible: true, label: "Graphic Design" },
-      { id: "b4", visible: true, label: "Social Media" },
-      { id: "b5", visible: true, label: "Meta Ads" },
+      { id: "b1", visible: true, label: "Meta Ads" },
+      { id: "b2", visible: true, label: "Video Editing" },
+      { id: "b3", visible: true, label: "Podcast Shoots" },
+      { id: "b4", visible: true, label: "Reels & Shorts" },
+      { id: "b5", visible: true, label: "Social Media" },
     ],
-    captionLine: "Content. Design. Ads. Presence.",
-    overlayEyebrow: "Video + Design + Digital",
-    overlayLineOne: "Premium content systems",
-    overlayLineTwo: "built to strengthen brand presence",
+    captionLine: "Ads. Videos. Shoots. One team.",
+    overlayEyebrow: "Ads · Videos · Shoots",
+    overlayLineOne: "Content that sells.",
+    overlayLineTwo: "Ads that bring leads.",
     videoUrl: "",
     posterUrl: "",
   },
 
   cta: {
-    eyebrow: "Start with Mineworld",
-    headlineLineOne: "If your brand still looks ordinary,",
-    headlineLineTwo: "that’s the problem.",
+    eyebrow: "Let’s get started",
+    headlineLineOne: "Ready to grow your business?",
+    headlineLineTwo: "Let’s talk.",
     description:
-      "Mineworld is built for brands, creators, clinics, and businesses that want stronger content, sharper editing, better digital presence, and more premium brand perception across platforms.",
+      "Tell us what you need — ads, videos, shoots, or all of it. We’ll get back within a day with a clear plan.",
     chips: [
-      { id: "c1", visible: true, label: "Editing-First Execution" },
-      { id: "c2", visible: true, label: "Premium Brand Presence" },
-      { id: "c3", visible: true, label: "Studio + Digital Integration" },
+      { id: "c1", visible: true, label: "Fast Reply" },
+      { id: "c2", visible: true, label: "Clear Pricing" },
+      { id: "c3", visible: true, label: "No Long Contracts" },
     ],
   },
 
   results: {
-    eyebrow: "Proof of Outcome",
+    eyebrow: "Our Work in Numbers",
     headlinePrefix: "Real results.",
-    headlineHighlight: "Not just content.",
+    headlineHighlight: "Not just posts.",
     description:
-      "Mineworld is not being built to make content look busy. It is being built to make brands look sharper, convert stronger, and feel more difficult to ignore.",
+      "We don’t chase vanity metrics. Every client project is built around one thing — actual business growth.",
     proofCards: [
       {
         id: "p1",
@@ -120,64 +120,76 @@ export const defaultContent = {
     role: "Founder, Mineworld Production",
   },
 
-  // Services section + detail pages. Every service has its own sub-services
-  // list that is rendered on /services/:slug.
+  // Services — 3 core pillars + extras. Each service opens its own page.
   services: {
-    sectionTag: "Services",
-    sectionTitle:
-      "Video editing, ads, podcast production, and digital growth services in Delhi.",
+    sectionTag: "What We Do",
+    sectionTitle: "Three things we do really well.",
     sectionSubtitle:
-      "Mineworld Production helps brands, clinics, creators, and businesses in Delhi grow through video editing, Meta ads, podcast production, content systems, and social media management built for visibility, authority, and lead generation.",
+      "Run ads that bring customers. Edit videos people watch. Shoot content that looks premium. Pick one, or let us handle all three.",
     items: [
       {
-        id: "meta-ads",
-        slug: "meta-ads",
+        id: "digital-marketing",
+        slug: "digital-marketing",
         visible: true,
         featured: true,
-        title: "Meta Ads & Lead Generation in Delhi",
-        subtitle: "Primary growth engine",
+        title: "Digital Marketing & Ads",
+        subtitle: "Our core — get real customers",
         shortDescription:
-          "Meta ad campaigns designed to generate real leads, real inquiries, and measurable business growth for brands, clinics, creators, and businesses in Delhi — not empty reach or vanity numbers.",
+          "We run Meta, Google and Instagram ads that actually bring paying customers. No vanity numbers — only real leads and sales.",
         longDescription:
-          "We build Meta ad campaigns that are designed to convert. From creative direction, to funnel alignment, to offer testing and audience research — every layer is optimised for actual business outcome. Whether you run a clinic, a personal brand, a local service, or an e-commerce store, our ads are engineered to bring the right people to your door.",
+          "This is our main thing. We set up ad accounts, build the creatives, write the copy, target the right people, and optimise every week — so your budget brings in real business. Works for clinics, local shops, coaches, brands, and service businesses.",
         heroImage: "",
         featuredNote:
-          "This service exists to do one thing properly: bring serious business opportunity through sharper creative and smarter paid execution for businesses that want real lead generation in Delhi.",
+          "Our specialty. If you want your business to grow through ads — this is what we do best.",
         quickItems: [
-          { id: "qi1", visible: true, label: "Meta Ads Strategy" },
-          { id: "qi2", visible: true, label: "Lead Generation Campaigns" },
-          { id: "qi3", visible: true, label: "Clinic & Business Ads" },
-          { id: "qi4", visible: true, label: "Offer Testing" },
-          { id: "qi5", visible: true, label: "Creative + Funnel Alignment" },
+          { id: "qi1", visible: true, label: "Meta Ads" },
+          { id: "qi2", visible: true, label: "Google Ads" },
+          { id: "qi3", visible: true, label: "Lead Generation" },
+          { id: "qi4", visible: true, label: "Retargeting" },
+          { id: "qi5", visible: true, label: "Landing Pages" },
         ],
         subServices: [
           {
-            id: "ss1",
+            id: "dm1",
             visible: true,
-            title: "Lead Generation Ads",
+            title: "Meta (Facebook + Instagram) Ads",
             description:
-              "High-intent lead gen campaigns with instant forms, landing pages, and WhatsApp flow integration for clinics, coaches, and services.",
+              "Full campaign setup — audience research, creatives, copy, testing, and weekly optimisation.",
           },
           {
-            id: "ss2",
+            id: "dm2",
             visible: true,
-            title: "Brand Awareness Campaigns",
+            title: "Google Ads (Search + YouTube)",
             description:
-              "Reach-first campaigns that put your brand in front of the exact audience you want to be perceived as premium by.",
+              "High-intent Search ads and video ads on YouTube for brands ready to scale.",
           },
           {
-            id: "ss3",
+            id: "dm3",
             visible: true,
-            title: "Conversion & Retargeting",
+            title: "Lead Generation Campaigns",
             description:
-              "Warm-audience retargeting with offer-led creatives to convert page visitors and video viewers into paying customers.",
+              "Instant forms, WhatsApp click-to-chat, and landing page funnels for clinics, coaches, local services.",
           },
           {
-            id: "ss4",
+            id: "dm4",
             visible: true,
-            title: "Creative Testing System",
+            title: "Retargeting & Conversion",
             description:
-              "Structured A/B testing across hooks, visuals, copy, and CTAs so every rupee is spent on winning creatives only.",
+              "Turn page visitors and video viewers into actual buyers with warm-audience ads.",
+          },
+          {
+            id: "dm5",
+            visible: true,
+            title: "Landing Page Design",
+            description:
+              "Fast, mobile-first pages built to convert — so your ad traffic doesn’t go to waste.",
+          },
+          {
+            id: "dm6",
+            visible: true,
+            title: "Social Media Management",
+            description:
+              "Content calendar, posting, story flow, and page growth — all handled monthly.",
           },
         ],
       },
@@ -186,143 +198,99 @@ export const defaultContent = {
         slug: "video-editing",
         visible: true,
         featured: false,
-        title: "Video Editing Services in Delhi",
-        subtitle: "Content that converts",
+        title: "Video Editing",
+        subtitle: "All types — reels to long-form",
         shortDescription:
-          "High-retention edits for reels, ads, YouTube, podcasts, and branded content — built to turn attention into action and strengthen brand perception.",
+          "Reels, YouTube videos, ads, podcasts, brand films — any type of edit, done with a premium finish.",
         longDescription:
-          "Our editing room treats every cut as a strategic decision. Retention, rhythm, sound design, colour, and brand tone — nothing is left to luck. We edit reels and shorts for creators, ad creatives for performance marketers, long-form for YouTube, and full podcast flows for brands that want to sound authoritative.",
+          "We edit every type of video. Short reels for Instagram, long-form for YouTube, ads that convert, podcast episodes with clean audio, brand films that look cinematic. Fast turnaround, clean finish.",
         heroImage: "",
         featuredNote: "",
         quickItems: [
-          { id: "vq1", visible: true, label: "Reels Editing" },
-          { id: "vq2", visible: true, label: "Ad Creative Editing" },
-          { id: "vq3", visible: true, label: "Podcast Editing" },
-          { id: "vq4", visible: true, label: "YouTube / Long-form" },
-          { id: "vq5", visible: true, label: "High-retention Hooks" },
+          { id: "vq1", visible: true, label: "Reels & Shorts" },
+          { id: "vq2", visible: true, label: "YouTube Long-form" },
+          { id: "vq3", visible: true, label: "Ad Creatives" },
+          { id: "vq4", visible: true, label: "Podcast Edits" },
+          { id: "vq5", visible: true, label: "Brand Films" },
         ],
         subServices: [
           {
             id: "ve1",
             visible: true,
-            title: "Reels & Short-form Editing",
+            title: "Reels & Instagram Shorts",
             description:
-              "Fast-paced cuts with hooks, motion graphics, captions, and retention-driven pacing designed for Instagram and YouTube Shorts.",
+              "Fast cuts, hooks, captions, motion graphics — built to stop the scroll.",
           },
           {
             id: "ve2",
             visible: true,
-            title: "YouTube Long-form Editing",
+            title: "YouTube Long-form",
             description:
-              "Full episode edits with B-roll pacing, chapters, thumbnails, and retention structuring for channels that want to grow watch-time.",
+              "Full episode edits with B-roll, chapters, thumbnails — optimised for watch time.",
           },
           {
             id: "ve3",
             visible: true,
-            title: "Podcast Post-production",
+            title: "Ad Creative Editing",
             description:
-              "Multicam sync, noise cleanup, dynamic captions, highlight clip cutdowns, and multi-platform export for podcast shows.",
+              "Performance edits for Meta, Google, YouTube — first-frame hooks, clear CTAs.",
           },
           {
             id: "ve4",
             visible: true,
-            title: "Ad Creative Editing",
+            title: "Podcast Post-production",
             description:
-              "Performance-first edits for Meta, Google, and YouTube ads with first-frame hooks, clarity, and proven ad structures.",
+              "Multi-cam sync, noise cleanup, captions, short-clip cutdowns.",
           },
           {
             id: "ve5",
             visible: true,
             title: "Cinematic Brand Films",
             description:
-              "Colour-graded brand films, product reveals, and campaign films with cinematic motion, sound design, and premium finish.",
+              "Colour grading, sound design, and motion — for launches, campaigns, product reveals.",
           },
           {
             id: "ve6",
             visible: true,
             title: "Talking-head & Testimonials",
             description:
-              "Clean multi-camera cuts for CEO clips, talking-head scripts, client testimonials, and service explainers.",
+              "Clean multi-camera cuts for founder clips, client testimonials, explainers.",
+          },
+          {
+            id: "ve7",
+            visible: true,
+            title: "Wedding & Event Edits",
+            description:
+              "Cinematic wedding highlights, event recaps, and social cutdowns.",
+          },
+          {
+            id: "ve8",
+            visible: true,
+            title: "Motion Graphics & Animation",
+            description:
+              "Logo reveals, animated lower-thirds, kinetic typography, infographics.",
           },
         ],
       },
       {
-        id: "social-media",
-        slug: "social-media",
+        id: "shoots",
+        slug: "shoots",
         visible: true,
         featured: false,
-        title: "Social Media Management in Delhi",
-        subtitle: "Page growth + consistency",
+        title: "Podcast & Content Shoots",
+        subtitle: "Studio + on-location",
         shortDescription:
-          "We don’t just post content. We build structured content systems that improve page perception, consistency, and audience trust over time for brands that want long-term digital growth.",
+          "Podcast shoots, creator shoots, product shoots, brand content days — all with pro gear and a full crew.",
         longDescription:
-          "Social media works when it’s treated like a system, not a random posting schedule. We plan, shoot, edit, publish, and track — all under one roof, all aligned to the brand’s growth goal.",
-        heroImage: "",
-        featuredNote: "",
-        quickItems: [
-          { id: "sq1", visible: true, label: "Monthly Content Planning" },
-          { id: "sq2", visible: true, label: "Posting Strategy" },
-          { id: "sq3", visible: true, label: "Brand Positioning" },
-          { id: "sq4", visible: true, label: "Engagement Direction" },
-          { id: "sq5", visible: true, label: "Page Management" },
-        ],
-        subServices: [
-          {
-            id: "sm1",
-            visible: true,
-            title: "Monthly Content Calendars",
-            description:
-              "Strategic 30-day calendars with reel, carousel, story, and post concepts aligned to brand positioning.",
-          },
-          {
-            id: "sm2",
-            visible: true,
-            title: "Instagram Page Management",
-            description:
-              "Full page handling — content, hashtags, scheduling, story flow, and engagement replies for consistent growth.",
-          },
-          {
-            id: "sm3",
-            visible: true,
-            title: "Content Shoots + Posting",
-            description:
-              "Monthly content shoots paired with editing and posting so the brand shows up consistently on every platform.",
-          },
-          {
-            id: "sm4",
-            visible: true,
-            title: "Analytics & Growth Reporting",
-            description:
-              "Monthly performance reports covering reach, saves, shares, profile visits, follower quality, and content wins.",
-          },
-          {
-            id: "sm5",
-            visible: true,
-            title: "Brand Positioning Direction",
-            description:
-              "Tone, visual identity, content pillars, and audience framing — so the page feels like a brand, not a feed.",
-          },
-        ],
-      },
-      {
-        id: "podcast-shoots",
-        slug: "podcast-shoots",
-        visible: true,
-        featured: false,
-        title: "Podcast & Content Shoots in Delhi",
-        subtitle: "Authority-building content",
-        shortDescription:
-          "Professional podcast shoots, creator shoots, and brand content sessions designed to create reusable authority assets — not random footage.",
-        longDescription:
-          "Our studio and on-location setups are built for founders, coaches, clinics, and creators who want their content to feel premium. We handle lighting, audio, multicam, and a steady flow of shoot prompts so you leave with a month of usable content in one day.",
+          "We shoot in our studio or come to your location. Pro cameras, lighting, lav mics, and a producer to keep things moving. Leave with a month of content in one day.",
         heroImage: "",
         featuredNote: "",
         quickItems: [
           { id: "pq1", visible: true, label: "Podcast Shoots" },
           { id: "pq2", visible: true, label: "Creator Shoots" },
-          { id: "pq3", visible: true, label: "Talking-head Content" },
-          { id: "pq4", visible: true, label: "Brand Content Sessions" },
-          { id: "pq5", visible: true, label: "Authority Content Production" },
+          { id: "pq3", visible: true, label: "Product Shoots" },
+          { id: "pq4", visible: true, label: "Brand Content Days" },
+          { id: "pq5", visible: true, label: "Event Coverage" },
         ],
         subServices: [
           {
@@ -330,44 +298,181 @@ export const defaultContent = {
             visible: true,
             title: "Podcast Shoots (Multi-cam)",
             description:
-              "2–4 camera setups with pro lighting, lav mics, and a producer to keep the flow tight and shoot-ready.",
+              "2–4 cameras, pro audio, lighting, and a producer. Ready-to-edit footage.",
           },
           {
             id: "ps2",
             visible: true,
             title: "Creator & Personal Brand Shoots",
             description:
-              "Structured content days for creators and personal brands — talking-head scripts, reels batches, and b-roll.",
+              "Content days for creators — scripts, reels batches, b-roll.",
           },
           {
             id: "ps3",
             visible: true,
-            title: "Clinic & Doctor Content Shoots",
+            title: "Clinic & Doctor Shoots",
             description:
-              "Specialised shoots for clinics and medical brands — patient testimonials, treatment explainers, and authority content.",
+              "Patient testimonials, treatment explainers, authority content.",
           },
           {
             id: "ps4",
             visible: true,
-            title: "Event & Launch Coverage",
+            title: "Product & E-commerce Shoots",
             description:
-              "Product launches, brand events, and workshops covered with multi-angle coverage, interviews, and quick-turnaround edits.",
+              "Clean product shots, lifestyle imagery, unboxing videos for ads and listings.",
           },
           {
             id: "ps5",
             visible: true,
-            title: "Studio Rental + Crew",
+            title: "Event & Launch Coverage",
             description:
-              "Book our studio with crew — for in-house shoots, interviews, or your own production sessions.",
+              "Multi-angle coverage of launches, conferences, workshops, with quick edits.",
+          },
+          {
+            id: "ps6",
+            visible: true,
+            title: "Studio Rental with Crew",
+            description:
+              "Book our studio with our team for your own sessions.",
+          },
+          {
+            id: "ps7",
+            visible: true,
+            title: "Graphic Design Support",
+            description:
+              "Thumbnails, posters, menu cards, social assets — on-demand design.",
           },
         ],
       },
     ],
   },
 
+  // Customer reviews — shown in the right-to-left marquee.
+  reviews: {
+    sectionTag: "Reviews",
+    sectionTitle: "What our clients say.",
+    sectionSubtitle:
+      "Real feedback from brands and creators we've worked with.",
+    googleUrl: "",
+    items: [
+      {
+        id: "r1",
+        visible: true,
+        name: "Dr. Anjali Sharma",
+        role: "Aesthetic Clinic, Delhi",
+        rating: 5,
+        text:
+          "Got 32 leads in the first week of ads. Their team handles everything — ads, reels, posting. Finally someone who understood our clinic.",
+        avatar: "",
+      },
+      {
+        id: "r2",
+        visible: true,
+        name: "Rahul Mehta",
+        role: "Fitness Creator",
+        rating: 5,
+        text:
+          "My reels started hitting 2M+ views after Mineworld started editing. Fast turnaround, clean cuts. Worth every rupee.",
+        avatar: "",
+      },
+      {
+        id: "r3",
+        visible: true,
+        name: "Priya Kapoor",
+        role: "Boutique Owner",
+        rating: 5,
+        text:
+          "They ran ads for my Diwali campaign — did ₹1.8L in sales in 10 days. No big agency fluff, just results.",
+        avatar: "",
+      },
+      {
+        id: "r4",
+        visible: true,
+        name: "Vikram Singh",
+        role: "Podcast Host",
+        rating: 5,
+        text:
+          "Booked their studio for a 6-episode podcast shoot. Audio, lighting, flow — everything was handled. Highly recommend.",
+        avatar: "",
+      },
+      {
+        id: "r5",
+        visible: true,
+        name: "Sneha Verma",
+        role: "Coach & Author",
+        rating: 5,
+        text:
+          "I came in needing help with ads. Left with a full content system — ads, reels, shoots. These guys are the real deal.",
+        avatar: "",
+      },
+      {
+        id: "r6",
+        visible: true,
+        name: "Arjun Patel",
+        role: "D2C Brand Founder",
+        rating: 5,
+        text:
+          "Mineworld ads brought our ROAS from 1.4x to 3.2x in two months. Creative + media buying combo actually works.",
+        avatar: "",
+      },
+    ],
+  },
+
+  // FAQ accordion
+  faq: {
+    sectionTag: "FAQ",
+    sectionTitle: "Quick answers.",
+    sectionSubtitle:
+      "Everything people usually ask us before starting a project.",
+    items: [
+      {
+        id: "f1",
+        visible: true,
+        question: "How much do your services cost?",
+        answer:
+          "It depends on what you need. Ads start from ₹15,000/month (plus your ad spend). Video editing from ₹2,000 per reel. Full packages from ₹35,000/month. Tell us your goal and we'll send a quick quote.",
+      },
+      {
+        id: "f2",
+        visible: true,
+        question: "Do you only work with clients in Delhi?",
+        answer:
+          "We're based in Delhi but work with clients all across India and a few overseas. Ads, editing, and social media are 100% remote. For shoots, we travel or you come to our studio.",
+      },
+      {
+        id: "f3",
+        visible: true,
+        question: "How fast is the turnaround?",
+        answer:
+          "Reels in 24–48 hours. Long-form videos in 3–5 days. Ad campaigns go live within a week of kickoff. Podcast shoots can be booked within 3–4 days.",
+      },
+      {
+        id: "f4",
+        visible: true,
+        question: "Do you handle ad budget too?",
+        answer:
+          "Yes. You set the budget, we run the ads directly from your ad account. We never touch your money — ad spend goes straight to Meta or Google.",
+      },
+      {
+        id: "f5",
+        visible: true,
+        question: "Can I see work before booking?",
+        answer:
+          "Of course. Scroll up to the portfolio section, or message us on WhatsApp — we'll send relevant samples in under an hour.",
+      },
+      {
+        id: "f6",
+        visible: true,
+        question: "Is there a long-term contract?",
+        answer:
+          "No. We work month-to-month. Most clients stay 6+ months because the work speaks for itself, but there's no lock-in.",
+      },
+    ],
+  },
+
   footer: {
     description:
-      "Mineworld Production is a Delhi-based video editing and digital growth agency helping brands, creators, clinics, and businesses through content production, social media management, podcast shoots, and Meta ads services.",
+      "A Delhi-based team that grows your business through ads, edits videos for every platform, and shoots content that looks premium. Brands, creators, clinics — all welcome.",
     services: [
       { id: "fs1", visible: true, label: "Video Editing Services in Delhi" },
       { id: "fs2", visible: true, label: "Podcast Production in Delhi" },
