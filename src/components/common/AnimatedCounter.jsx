@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 
 // Extract the first number (and surrounding prefix/suffix) from a string.
 // Ex: "+32 Leads" => { prefix: "+", num: 32, suffix: " Leads" }
 // Ex: "2.5M" => { prefix: "", num: 2.5, suffix: "M" }
-// Ex: "₹1,80,000" => { prefix: "₹", num: 180000, suffix: "", hasCommas: true }
 function parseStat(raw) {
   const str = String(raw ?? "");
   const match = str.match(/[\d][\d,]*(?:\.\d+)?/);
@@ -24,7 +23,6 @@ function parseStat(raw) {
 }
 
 function format(value, decimals, hasCommas) {
-  // Avoid -0 / -0.0 during animation
   const safe = Math.abs(value) < 1e-9 ? 0 : value;
   const fixed = safe.toFixed(decimals);
   if (!hasCommas) return fixed;
@@ -34,13 +32,21 @@ function format(value, decimals, hasCommas) {
 }
 
 function AnimatedCounter({ value, duration = 1600, style, className }) {
-  const parsed = parseStat(value);
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.4 });
+  const inView = useInView(ref, { once: true, amount: 0.3 });
+
+  // IMPORTANT: memoize parsed so it has stable reference across re-renders.
+  // Earlier we passed a fresh object to the effect dep array which cancelled
+  // and restarted the requestAnimationFrame loop on every frame — freezing
+  // the counter at 0.
+  const parsed = useMemo(() => parseStat(value), [value]);
+
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (!parsed || !inView) return;
+    setProgress(0);
+
     let rafId;
     const start = performance.now();
     const tick = (now) => {
@@ -51,9 +57,10 @@ function AnimatedCounter({ value, duration = 1600, style, className }) {
     };
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, [inView, duration, parsed]);
+    // value is a primitive and duration is stable — this effect runs once
+    // per visible value change, which is exactly what we want.
+  }, [inView, duration, value, parsed]);
 
-  // Couldn't parse a number — show the raw value verbatim.
   if (!parsed) {
     return (
       <span ref={ref} style={style} className={className}>
@@ -62,8 +69,8 @@ function AnimatedCounter({ value, duration = 1600, style, className }) {
     );
   }
 
-  // Animation finished: guarantee the final text matches the original string
-  // exactly — prevents any formatting drift (no leading "-0.0" artifacts etc).
+  // Animation finished → render the original string verbatim. This guarantees
+  // the final text matches what the admin entered (no formatting drift).
   const finished = progress >= 1;
   if (finished) {
     return (

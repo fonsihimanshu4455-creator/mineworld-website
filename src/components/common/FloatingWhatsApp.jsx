@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { theme } from "../../styles/theme";
 import { useSiteContent } from "../../context/SiteContent";
 
 function FloatingWhatsApp() {
@@ -18,10 +17,11 @@ function FloatingWhatsApp() {
       target="_blank"
       rel="noreferrer"
       aria-label="Chat with Mineworld Production on WhatsApp"
+      title="Chat on WhatsApp"
       initial={{ opacity: 0, scale: 0.9, y: 18 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      whileHover={{ scale: 1.06 }}
-      whileTap={{ scale: 0.96 }}
+      whileHover={{ scale: 1.08 }}
+      whileTap={{ scale: 0.94 }}
       transition={{ delay: 0.4, duration: 0.35, ease: "easeOut" }}
       className="mw-whatsapp-pulse"
       style={{
@@ -29,29 +29,9 @@ function FloatingWhatsApp() {
         left: "18px",
         bottom: "18px",
         zIndex: 1300,
-        display: "flex",
-        alignItems: "center",
-        gap: "10px",
         textDecoration: "none",
       }}
     >
-      <div
-        style={{
-          background: "rgba(18, 24, 38, 0.92)",
-          color: theme.colors.text,
-          border: `1px solid ${theme.colors.line}`,
-          borderRadius: "999px",
-          padding: "10px 14px",
-          fontSize: "13px",
-          fontWeight: 700,
-          boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
-          backdropFilter: "blur(10px)",
-          WebkitBackdropFilter: "blur(10px)",
-        }}
-      >
-        Chat on WhatsApp
-      </div>
-
       <div
         style={{
           width: "54px",

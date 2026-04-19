@@ -7,6 +7,7 @@ import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { useSiteContent } from "../../context/useSiteContent";
+import { getServiceImage } from "../../data/serviceImages";
 
 function Services() {
   const isMobile = useIsMobile();
@@ -76,6 +77,7 @@ function Services() {
             service={featured}
             variant="featured"
             isMobile={isMobile}
+            image={getServiceImage(featured, 0)}
           />
         </Reveal>
 
@@ -100,6 +102,7 @@ function Services() {
                   service={service}
                   variant="support"
                   isMobile={isMobile}
+                  image={getServiceImage(service, idx + 1)}
                 />
               </Reveal>
             ))}
@@ -110,7 +113,7 @@ function Services() {
   );
 }
 
-function ServiceCard({ service, variant, isMobile }) {
+function ServiceCard({ service, variant, isMobile, image }) {
   const quickItems = (service.quickItems || [])
     .filter((q) => (typeof q === "object" ? q.visible !== false : true))
     .map((q) => (typeof q === "object" ? q.label : q));
@@ -126,6 +129,8 @@ function ServiceCard({ service, variant, isMobile }) {
         position: "relative",
         minHeight: isFeatured ? (isMobile ? "auto" : "420px") : "auto",
         borderRadius: isMobile ? "24px" : isFeatured ? "30px" : "24px",
+        display: "flex",
+        flexDirection: "column",
         padding: isMobile
           ? isFeatured
             ? "26px 22px"
@@ -157,6 +162,55 @@ function ServiceCard({ service, variant, isMobile }) {
             pointerEvents: "none",
           }}
         />
+      )}
+
+      {image && (
+        <Link
+          to={`/services/${service.slug}`}
+          aria-hidden="true"
+          tabIndex={-1}
+          style={{
+            display: "block",
+            position: "relative",
+            zIndex: 2,
+            width: "100%",
+            height: isFeatured
+              ? isMobile
+                ? "180px"
+                : "220px"
+              : isMobile
+                ? "140px"
+                : "160px",
+            borderRadius: isMobile ? "16px" : "20px",
+            overflow: "hidden",
+            marginBottom: isFeatured ? "22px" : "18px",
+            border: `1px solid ${theme.colors.line}`,
+            background: "rgba(0,0,0,0.35)",
+          }}
+        >
+          <img
+            src={image}
+            alt=""
+            loading="lazy"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transform: "scale(1.02)",
+              transition: "transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
+            }}
+            className="mw-service-img"
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(180deg, rgba(13,18,28,0) 40%, rgba(13,18,28,0.72) 100%)",
+              pointerEvents: "none",
+            }}
+          />
+        </Link>
       )}
 
       <div style={{ position: "relative", zIndex: 2 }}>

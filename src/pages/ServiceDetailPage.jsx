@@ -8,6 +8,7 @@ import { theme } from "../styles/theme";
 import { useSiteContent } from "../context/useSiteContent";
 import { useIsMobile } from "../hooks/useIsMobile";
 import { openContactModal } from "../utils/contactActions";
+import { getServiceImage } from "../data/serviceImages";
 
 export default function ServiceDetailPage() {
   const { slug } = useParams();
@@ -202,6 +203,76 @@ export default function ServiceDetailPage() {
             >
               <MagneticButton secondary>Chat on WhatsApp</MagneticButton>
             </a>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.28}>
+          <div
+            style={{
+              marginTop: isMobile ? "40px" : "60px",
+              borderRadius: isMobile ? "22px" : "28px",
+              overflow: "hidden",
+              position: "relative",
+              border: `1px solid ${theme.colors.lineStrong}`,
+              boxShadow: theme.shadow.deep,
+              height: isMobile ? "240px" : "420px",
+              background: "rgba(0,0,0,0.4)",
+            }}
+          >
+            <img
+              src={getServiceImage(service, 0)}
+              alt={service.title}
+              loading="eager"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                transform: "scale(1.02)",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(180deg, rgba(13,18,28,0.1) 0%, rgba(13,18,28,0.55) 70%, rgba(13,18,28,0.92) 100%)",
+                pointerEvents: "none",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                bottom: isMobile ? "16px" : "26px",
+                left: isMobile ? "16px" : "26px",
+                right: isMobile ? "16px" : "26px",
+                color: theme.colors.text,
+              }}
+            >
+              <div
+                style={{
+                  color: theme.colors.goldSoft,
+                  fontSize: "11px",
+                  letterSpacing: "2.4px",
+                  textTransform: "uppercase",
+                  fontWeight: 700,
+                  marginBottom: "6px",
+                }}
+              >
+                What’s included
+              </div>
+              <div
+                style={{
+                  fontSize: isMobile ? "18px" : "22px",
+                  fontWeight: 800,
+                  letterSpacing: "-0.4px",
+                  textShadow: "0 4px 20px rgba(0,0,0,0.5)",
+                  maxWidth: "620px",
+                  lineHeight: 1.22,
+                }}
+              >
+                {service.featuredNote || service.subtitle}
+              </div>
+            </div>
           </div>
         </Reveal>
 

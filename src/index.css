@@ -262,6 +262,11 @@ select:focus {
   animation: mw-pulse-glow 2.6s ease-in-out infinite;
 }
 
+/* ---------- Service card image zoom ---------- */
+.mw-card-hover:hover .mw-service-img {
+  transform: scale(1.08) !important;
+}
+
 /* ---------- Premium button (Magnetic) ---------- */
 .mw-premium-btn {
   transition:
