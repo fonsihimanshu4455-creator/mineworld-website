@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
-import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 import { insights } from "../../data/insights";
@@ -24,35 +23,36 @@ function InsightCard({ item }) {
   return (
     <Link to={`/insights/${item.slug}`} style={{ textDecoration: "none" }}>
       <motion.article
-        whileHover={{ y: -6 }}
+        whileHover={{ y: -4 }}
         transition={{ type: "spring", stiffness: 180, damping: 18 }}
         style={{
-          padding: "26px 24px",
-          borderRadius: "24px",
+          padding: "20px 20px 18px",
+          borderRadius: "20px",
           border: `1px solid ${theme.colors.line}`,
           background:
             "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
           display: "flex",
           flexDirection: "column",
           height: "100%",
+          minHeight: "180px",
         }}
       >
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "12px",
-            marginBottom: "14px",
+            gap: "8px",
+            marginBottom: "10px",
             flexWrap: "wrap",
           }}
         >
           <span
             style={{
-              padding: "5px 10px",
+              padding: "4px 9px",
               borderRadius: "999px",
               background: "rgba(214,176,96,0.12)",
               color: theme.colors.goldSoft,
-              fontSize: "11px",
+              fontSize: "10.5px",
               fontWeight: 700,
               letterSpacing: "1.4px",
               textTransform: "uppercase",
@@ -63,8 +63,7 @@ function InsightCard({ item }) {
           <span
             style={{
               color: "rgba(243,239,231,0.5)",
-              fontSize: "12px",
-              letterSpacing: "0.3px",
+              fontSize: "11.5px",
             }}
           >
             {item.readTime}
@@ -73,11 +72,11 @@ function InsightCard({ item }) {
 
         <h3
           style={{
-            margin: "0 0 10px",
+            margin: "0 0 8px",
             color: theme.colors.text,
-            fontSize: "20px",
-            lineHeight: 1.25,
-            letterSpacing: "-0.4px",
+            fontSize: "16px",
+            lineHeight: 1.3,
+            letterSpacing: "-0.3px",
             fontWeight: 700,
             fontFamily:
               '"Playfair Display", Georgia, "Times New Roman", serif',
@@ -86,33 +85,22 @@ function InsightCard({ item }) {
           {item.title}
         </h3>
 
-        <p
-          style={{
-            margin: 0,
-            color: theme.colors.textSoft,
-            fontSize: "14px",
-            lineHeight: 1.75,
-            flex: 1,
-          }}
-        >
-          {item.excerpt}
-        </p>
-
         <div
           style={{
-            marginTop: "18px",
+            marginTop: "auto",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            fontSize: "12px",
+            fontSize: "11.5px",
             color: "rgba(243,239,231,0.55)",
+            paddingTop: "10px",
           }}
         >
           <span>{formatDate(item.date)}</span>
           <span
             style={{
               color: theme.colors.goldSoft,
-              letterSpacing: "1.4px",
+              letterSpacing: "1.2px",
               textTransform: "uppercase",
               fontWeight: 700,
             }}
@@ -134,7 +122,7 @@ function InsightsPreview() {
       id="insights"
       style={{
         position: "relative",
-        padding: isMobile ? "82px 0" : "122px 0",
+        padding: isMobile ? "60px 0" : "80px 0",
         background: theme.colors.bg,
         borderBottom: `1px solid ${theme.colors.line}`,
         overflow: "hidden",
@@ -147,21 +135,41 @@ function InsightsPreview() {
             alignItems: isMobile ? "flex-start" : "flex-end",
             justifyContent: "space-between",
             flexDirection: isMobile ? "column" : "row",
-            gap: "20px",
-            marginBottom: "36px",
+            gap: "16px",
+            marginBottom: "24px",
           }}
         >
           <div>
-            <Reveal>
-              <SectionTag>Insights</SectionTag>
-            </Reveal>
-            <Reveal delay={0.08}>
-              <SectionHeading
-                title="Frameworks, not fluff."
-                subtitle="Short reads on retention editing, Meta ads, and content systems — drawn directly from what's working for Delhi brands in 2025."
-              />
-            </Reveal>
+            <SectionTag>Insights</SectionTag>
+            <h2
+              style={{
+                margin: 0,
+                color: theme.colors.text,
+                fontSize: isMobile ? "26px" : "clamp(28px, 3.4vw, 36px)",
+                lineHeight: 1.1,
+                letterSpacing: "-0.5px",
+                fontWeight: 800,
+                fontFamily:
+                  '"Playfair Display", Georgia, "Times New Roman", serif',
+              }}
+            >
+              Frameworks, not fluff.
+            </h2>
           </div>
+
+          <Link
+            to="/insights"
+            style={{
+              color: theme.colors.goldSoft,
+              fontSize: "13px",
+              fontWeight: 700,
+              letterSpacing: "1.4px",
+              textTransform: "uppercase",
+              textDecoration: "none",
+            }}
+          >
+            View all articles →
+          </Link>
         </div>
 
         <div
@@ -170,7 +178,7 @@ function InsightsPreview() {
             gridTemplateColumns: isMobile
               ? "1fr"
               : "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: isMobile ? "16px" : "20px",
+            gap: "14px",
           }}
         >
           {latest.map((item, i) => (

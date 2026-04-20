@@ -14,13 +14,14 @@ function CTA() {
       id="contact"
       style={{
         position: "relative",
-        padding: isMobile ? "80px 0" : "120px 0",
+        padding: isMobile ? "56px 0" : "72px 0",
         background: theme.colors.bgSoft,
         borderBottom: `1px solid ${theme.colors.line}`,
         overflow: "hidden",
       }}
     >
       <div
+        aria-hidden="true"
         style={{
           position: "absolute",
           left: "50%",
@@ -38,86 +39,74 @@ function CTA() {
       <Container>
         <Reveal>
           <motion.div
-            whileHover={{ y: -4 }}
+            whileHover={{ y: -3 }}
             transition={{ type: "spring", stiffness: 180, damping: 18 }}
             style={{
               position: "relative",
-              borderRadius: isMobile ? "26px" : "34px",
-              padding: isMobile ? "28px 22px" : "42px 40px",
+              borderRadius: isMobile ? "22px" : "26px",
+              padding: isMobile ? "26px 22px" : "30px 36px",
               background:
-                "linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025))",
+                "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
               border: "1px solid rgba(214,176,96,0.30)",
               boxShadow: theme.shadow.deep,
+              display: "grid",
+              gridTemplateColumns: isMobile ? "1fr" : "1.3fr 1fr",
+              gap: isMobile ? "20px" : "32px",
+              alignItems: "center",
               overflow: "hidden",
-              textAlign: "center",
             }}
           >
-            <div
-              style={{
-                position: "absolute",
-                top: "-45px",
-                right: "-35px",
-                width: isMobile ? "130px" : "220px",
-                height: isMobile ? "130px" : "220px",
-                borderRadius: "50%",
-                background: "rgba(214,176,96,0.12)",
-                filter: "blur(90px)",
-                pointerEvents: "none",
-              }}
-            />
-
-            <div
-              style={{
-                color: theme.colors.goldSoft,
-                fontSize: isMobile ? "11px" : "12px",
-                letterSpacing: "2px",
-                textTransform: "uppercase",
-                marginBottom: "16px",
-              }}
-            >
-              Start with Mineworld
+            <div>
+              <div
+                style={{
+                  color: theme.colors.goldSoft,
+                  fontSize: "11px",
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                  fontWeight: 700,
+                  marginBottom: "10px",
+                }}
+              >
+                Start with Mineworld
+              </div>
+              <h2
+                style={{
+                  margin: "0 0 8px",
+                  fontSize: isMobile ? "26px" : "clamp(28px, 3.4vw, 36px)",
+                  lineHeight: 1.15,
+                  letterSpacing: "-0.6px",
+                  fontWeight: 800,
+                  color: theme.colors.text,
+                  fontFamily:
+                    '"Playfair Display", Georgia, "Times New Roman", serif',
+                }}
+              >
+                If your brand still looks ordinary — that&rsquo;s the problem.
+              </h2>
+              <p
+                style={{
+                  margin: 0,
+                  color: theme.colors.textSoft,
+                  fontSize: "14.5px",
+                  lineHeight: 1.8,
+                  maxWidth: "520px",
+                }}
+              >
+                Sharper content, better editing, stronger brand perception — in
+                one team.
+              </p>
             </div>
-
-            <h2
-              style={{
-                margin: "0 auto 18px",
-                maxWidth: "980px",
-                fontSize: isMobile ? "40px" : "clamp(44px, 5vw, 76px)",
-                lineHeight: isMobile ? 1.02 : 0.98,
-                fontWeight: 800,
-                color: theme.colors.text,
-              }}
-            >
-              If your brand still looks ordinary,
-              <br />
-              that’s the problem.
-            </h2>
-
-            <p
-              style={{
-                margin: "0 auto",
-                maxWidth: "840px",
-                color: theme.colors.textSoft,
-                fontSize: isMobile ? "16px" : "18px",
-                lineHeight: 1.9,
-              }}
-            >
-              Mineworld is built for brands, creators, clinics, and businesses
-              that want stronger content, sharper editing, better digital
-              presence, and more premium brand perception across platforms.
-            </p>
 
             <div
               style={{
                 display: "flex",
-                justifyContent: "center",
-                gap: "14px",
+                gap: "12px",
                 flexWrap: "wrap",
-                marginTop: "30px",
+                justifyContent: isMobile ? "flex-start" : "flex-end",
               }}
             >
               <button
-                onClick={openContactModal}
+                onClick={() => openContactModal("cta-start")}
                 style={{
                   background: "transparent",
                   border: "none",
@@ -127,9 +116,8 @@ function CTA() {
               >
                 <MagneticButton>Start a Project</MagneticButton>
               </button>
-
               <button
-                onClick={openContactModal}
+                onClick={() => openContactModal("cta-strategy-call")}
                 style={{
                   background: "transparent",
                   border: "none",
@@ -137,38 +125,8 @@ function CTA() {
                   cursor: "pointer",
                 }}
               >
-                <MagneticButton secondary>Book a Strategy Call</MagneticButton>
+                <MagneticButton secondary>Book a Call</MagneticButton>
               </button>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "12px",
-                flexWrap: "wrap",
-                marginTop: "24px",
-              }}
-            >
-              {[
-                "Editing-First Execution",
-                "Premium Brand Presence",
-                "Studio + Digital Integration",
-              ].map((item) => (
-                <div
-                  key={item}
-                  style={{
-                    padding: "10px 14px",
-                    borderRadius: "999px",
-                    border: `1px solid ${theme.colors.line}`,
-                    background: theme.colors.bgCard,
-                    color: theme.colors.text,
-                    fontSize: "13px",
-                  }}
-                >
-                  {item}
-                </div>
-              ))}
             </div>
           </motion.div>
         </Reveal>

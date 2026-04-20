@@ -9,8 +9,6 @@ import Portfolio from "../components/home/Portfolio";
 import Testimonials from "../components/home/Testimonials";
 import FounderSection from "../components/home/FounderSection";
 import TeamSection from "../components/home/TeamSection";
-import BrandStatement from "../components/home/BrandStatement";
-import GrowthSection from "../components/home/GrowthSection";
 import EditingShowcase from "../components/home/EditingShowcase";
 import ReelScoreTool from "../components/home/ReelScoreTool";
 import InsightsPreview from "../components/home/InsightsPreview";
@@ -41,8 +39,6 @@ function Home() {
       <Testimonials />
       <FounderSection />
       <TeamSection />
-      <BrandStatement />
-      <GrowthSection />
       <EditingShowcase />
       <ReelScoreTool />
       <InsightsPreview />
