@@ -8,6 +8,7 @@ import { theme } from "../styles/theme";
 import { openContactModal } from "../utils/contactActions";
 import { findCaseStudy, caseStudies } from "../data/caseStudies";
 import useIsMobile from "../utils/useIsMobile";
+import { trackEvent } from "../utils/analytics";
 
 function MetricCard({ metric }) {
   return (
@@ -73,6 +74,10 @@ function CaseStudyDetail() {
   useEffect(() => {
     if (!study) return;
     document.title = `${study.title} | Mineworld Production Case Study`;
+    trackEvent("case_study_view", {
+      slug: study.slug,
+      industry: study.industry,
+    });
   }, [study]);
 
   if (!study) {

@@ -1,4 +1,7 @@
-export function openContactModal() {
+import { trackEvent } from "./analytics";
+
+export function openContactModal(source = "unknown") {
+  trackEvent("contact_open", { source });
   window.dispatchEvent(new Event("open-contact-modal"));
 }
 
@@ -18,4 +21,12 @@ export function scrollToSection(id) {
     top,
     behavior: "smooth",
   });
+}
+
+export function trackWhatsAppClick(source = "floating") {
+  trackEvent("whatsapp_click", { source });
+}
+
+export function trackCtaClick(label, location = "unknown") {
+  trackEvent("cta_click", { label, location });
 }

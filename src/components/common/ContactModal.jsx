@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import { theme } from "../../styles/theme";
 import { closeContactModal } from "../../utils/contactActions";
+import { trackEvent } from "../../utils/analytics";
 import { countryCodes } from "../../data/countryCodes";
 import { siteConfig } from "../../data/siteConfig";
 import SuccessScreen from "./SuccessScreen";
@@ -265,6 +266,11 @@ function ContactModal() {
           body: JSON.stringify(payload),
         });
       }
+
+      trackEvent("form_submit", {
+        service: finalService,
+        country: selectedCountry.name,
+      });
 
       resetForm();
       setIsOpen(false);

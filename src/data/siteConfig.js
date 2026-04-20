@@ -18,6 +18,7 @@ export const siteConfig = {
 
   integrations: {
     sheetWebhook:
+      import.meta.env.VITE_SHEET_WEBHOOK_URL ||
       "https://script.google.com/macros/s/AKfycby-F_y5bbvEwCapMtOn74W7j9t65l9KnL1-bzY1gpeeS7Tbr0xc3YQrQYnW3pdi8E_bvg/exec",
   },
 };

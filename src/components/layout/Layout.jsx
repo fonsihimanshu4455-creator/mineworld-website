@@ -4,9 +4,18 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ContactModal from "../common/ContactModal";
 import FloatingWhatsApp from "../common/FloatingWhatsApp";
+import { initAnalytics, trackPageView } from "../../utils/analytics";
 
 function Layout() {
   const location = useLocation();
+
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location.pathname, location.search]);
 
   useEffect(() => {
     if (location.hash) return;
