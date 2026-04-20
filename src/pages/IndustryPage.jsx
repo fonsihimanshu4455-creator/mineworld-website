@@ -675,7 +675,7 @@ function IndustryPage() {
             {otherPages.map((p, i) => (
               <Reveal key={p.slug} delay={0.05 * i}>
                 <Link
-                  to={`/services/${p.slug}`}
+                  to={`/industries/${p.slug}`}
                   style={{ textDecoration: "none" }}
                 >
                   <motion.div
