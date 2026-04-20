@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { contentStore } from "../contentStore";
 import { PageHeader } from "./Dashboard";
+import useIsMobile from "../../utils/useIsMobile";
 
 function getSubmissions() {
   const list = contentStore.get("userSubmissions");
@@ -63,6 +64,7 @@ function SubmissionsEditor() {
   const [msg, setMsg] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [draft, setDraft] = useState(null);
+  const isMobile = useIsMobile(768);
 
   useEffect(() => {
     document.title = "Submissions · Mineworld Admin";
@@ -211,7 +213,7 @@ function SubmissionsEditor() {
               <div
                 key={it.id}
                 style={{
-                  padding: "22px",
+                  padding: isMobile ? "16px" : "22px",
                   borderRadius: "18px",
                   border: isEditing
                     ? "1px solid rgba(214,176,96,0.55)"
@@ -220,8 +222,9 @@ function SubmissionsEditor() {
                     ? "linear-gradient(180deg, rgba(214,176,96,0.08), rgba(255,255,255,0.015))"
                     : "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
                   display: "grid",
-                  gridTemplateColumns: current.media ? "220px 1fr" : "1fr",
-                  gap: "18px",
+                  gridTemplateColumns:
+                    current.media && !isMobile ? "220px 1fr" : "1fr",
+                  gap: isMobile ? "14px" : "18px",
                   alignItems: "start",
                 }}
               >
@@ -334,7 +337,7 @@ function SubmissionsEditor() {
                       <div
                         style={{
                           display: "grid",
-                          gridTemplateColumns: "1fr 1fr",
+                          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
                           gap: "10px",
                         }}
                       >

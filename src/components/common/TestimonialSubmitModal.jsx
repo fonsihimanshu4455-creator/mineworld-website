@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { theme } from "../../styles/theme";
 import { contentStore } from "../../admin/contentStore";
 import { trackEvent } from "../../utils/analytics";
+import useIsMobile from "../../utils/useIsMobile";
 
 const MAX_IMAGE_BYTES = 500 * 1024;
 const MAX_VIDEO_BYTES = 900 * 1024;
@@ -63,6 +64,7 @@ function TestimonialSubmitModal({ open, onClose }) {
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const fileRef = useRef(null);
+  const isMobile = useIsMobile(640);
 
   useEffect(() => {
     if (!open) {
@@ -190,12 +192,13 @@ function TestimonialSubmitModal({ open, onClose }) {
               maxWidth: submitted ? "520px" : "580px",
               maxHeight: "92vh",
               overflowY: "auto",
-              borderRadius: "24px",
+              WebkitOverflowScrolling: "touch",
+              borderRadius: isMobile ? "20px" : "24px",
               background:
                 "linear-gradient(135deg, rgba(18,28,44,0.98) 0%, rgba(13,21,36,0.98) 100%)",
               border: `1px solid ${theme.colors.lineStrong}`,
               boxShadow: "0 28px 90px rgba(0,0,0,0.5)",
-              padding: "30px 28px",
+              padding: isMobile ? "24px 20px" : "30px 28px",
               position: "relative",
             }}
           >
@@ -353,7 +356,13 @@ function TestimonialSubmitModal({ open, onClose }) {
                   rows={4}
                 />
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                    gap: "12px",
+                  }}
+                >
                   <Input
                     label="Role (optional)"
                     value={form.role}

@@ -4,6 +4,7 @@ import { contentStore } from "../contentStore";
 import { schemas } from "../schemas";
 import Field from "../components/Field";
 import { PageHeader } from "./Dashboard";
+import useIsMobile from "../../utils/useIsMobile";
 
 import { portfolioItems as defaultPortfolio } from "../../data/portfolioItems";
 import { serviceCategories as defaultServices } from "../../data/serviceCategories";
@@ -40,6 +41,7 @@ function CollectionEditor() {
   const [items, setItems] = useState(() => getCollection(key));
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [savedMsg, setSavedMsg] = useState("");
+  const isMobile = useIsMobile(900);
 
   useEffect(() => {
     setItems(getCollection(key));
@@ -149,22 +151,22 @@ function CollectionEditor() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "minmax(260px, 300px) 1fr",
-          gap: "20px",
+          gridTemplateColumns: isMobile ? "1fr" : "minmax(260px, 300px) 1fr",
+          gap: isMobile ? "16px" : "20px",
           alignItems: "start",
         }}
       >
         <aside
           style={{
-            position: "sticky",
+            position: isMobile ? "static" : "sticky",
             top: "20px",
             padding: "14px",
             borderRadius: "16px",
             border: "1px solid rgba(255,255,255,0.08)",
             background:
               "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))",
-            maxHeight: "calc(100vh - 80px)",
-            overflowY: "auto",
+            maxHeight: isMobile ? "auto" : "calc(100vh - 80px)",
+            overflowY: isMobile ? "visible" : "auto",
           }}
         >
           <button
@@ -185,7 +187,18 @@ function CollectionEditor() {
             + Add {schema.singular}
           </button>
 
-          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: "6px" }}>
+          <ul
+            style={{
+              listStyle: "none",
+              margin: 0,
+              padding: 0,
+              display: "grid",
+              gap: "6px",
+              maxHeight: isMobile ? "280px" : "none",
+              overflowY: isMobile ? "auto" : "visible",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
             {items.map((item, idx) => {
               const active = idx === selectedIndex;
               const title =
@@ -335,18 +348,20 @@ function CollectionEditor() {
       <div
         style={{
           position: "sticky",
-          bottom: "20px",
+          bottom: isMobile ? "10px" : "20px",
           marginTop: "24px",
           display: "flex",
           gap: "10px",
-          padding: "14px 18px",
+          padding: isMobile ? "12px 14px" : "14px 18px",
           borderRadius: "16px",
           background:
-            "linear-gradient(180deg, rgba(17,24,39,0.92), rgba(11,15,26,0.98))",
+            "linear-gradient(180deg, rgba(17,24,39,0.95), rgba(11,15,26,0.98))",
           border: "1px solid rgba(255,255,255,0.1)",
           boxShadow: "0 20px 40px rgba(0,0,0,0.35)",
           backdropFilter: "blur(10px)",
           alignItems: "center",
+          flexWrap: "wrap",
+          zIndex: 40,
         }}
       >
         <button

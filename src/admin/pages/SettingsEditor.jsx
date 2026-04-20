@@ -252,17 +252,19 @@ function SettingsEditor() {
       <div
         style={{
           position: "sticky",
-          bottom: "20px",
+          bottom: "10px",
           display: "flex",
           gap: "10px",
-          padding: "14px 18px",
+          padding: "12px 16px",
           borderRadius: "16px",
           background:
-            "linear-gradient(180deg, rgba(17,24,39,0.92), rgba(11,15,26,0.98))",
+            "linear-gradient(180deg, rgba(17,24,39,0.95), rgba(11,15,26,0.98))",
           border: "1px solid rgba(255,255,255,0.1)",
           boxShadow: "0 20px 40px rgba(0,0,0,0.35)",
           backdropFilter: "blur(10px)",
           alignItems: "center",
+          flexWrap: "wrap",
+          zIndex: 40,
         }}
       >
         <button
