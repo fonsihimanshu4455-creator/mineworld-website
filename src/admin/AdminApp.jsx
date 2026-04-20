@@ -4,6 +4,7 @@ import AdminLayout from "./components/AdminLayout";
 import Dashboard from "./pages/Dashboard";
 import SettingsEditor from "./pages/SettingsEditor";
 import CollectionEditor from "./pages/CollectionEditor";
+import SubmissionsEditor from "./pages/SubmissionsEditor";
 
 function AdminApp() {
   const { authed, ready } = useAdminAuth();
@@ -34,6 +35,7 @@ function AdminApp() {
       <Route element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="settings" element={<SettingsEditor />} />
+        <Route path="submissions" element={<SubmissionsEditor />} />
         <Route path="collections/:key" element={<CollectionEditor />} />
       </Route>
     </Routes>

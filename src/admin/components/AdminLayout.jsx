@@ -5,6 +5,7 @@ import { schemas, collectionOrder } from "../schemas";
 const sidebarLinks = [
   { to: "/admin", label: "Dashboard", end: true },
   { to: "/admin/settings", label: "Settings" },
+  { to: "/admin/submissions", label: "Submissions" },
   ...collectionOrder.map((key) => ({
     to: `/admin/collections/${key}`,
     label: schemas[key].label,

@@ -9,6 +9,7 @@ import TeamRoleDetail from "./pages/TeamRoleDetail";
 import InsightDetail from "./pages/InsightDetail";
 import Insights from "./pages/Insights";
 import Packages from "./pages/Packages";
+import Reviews from "./pages/Reviews";
 import AdminApp from "./admin/AdminApp";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/insights" element={<Insights />} />
         <Route path="/insights/:slug" element={<InsightDetail />} />
         <Route path="/packages" element={<Packages />} />
+        <Route path="/reviews" element={<Reviews />} />
       </Route>
     </Routes>
   );

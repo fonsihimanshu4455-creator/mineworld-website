@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
+import TestimonialSubmitModal from "../common/TestimonialSubmitModal";
+import TestimonialDetailModal from "../common/TestimonialDetailModal";
 import { theme } from "../../styles/theme";
-import { testimonials } from "../../data/testimonials";
+import { testimonials as defaultTestimonials } from "../../data/testimonials";
+import { useCollection } from "../../admin/hooks";
 import useIsMobile from "../../utils/useIsMobile";
 
 function getInitials(name) {
@@ -18,118 +21,33 @@ function getInitials(name) {
     .toUpperCase();
 }
 
-function VideoTestimonial({ item, isMobile }) {
-  const [isPlaying, setIsPlaying] = useState(false);
-
+function StarRow({ rating }) {
+  if (!rating) return null;
   return (
     <div
       style={{
-        position: "relative",
-        borderRadius: "24px",
-        overflow: "hidden",
-        border: `1px solid ${theme.colors.lineStrong}`,
-        background: theme.colors.bgCard,
-        aspectRatio: isMobile ? "9 / 12" : "9 / 11",
+        display: "flex",
+        gap: "2px",
+        marginBottom: "10px",
       }}
     >
-      {isPlaying ? (
-        <video
-          autoPlay
-          controls
-          playsInline
+      {[1, 2, 3, 4, 5].map((n) => (
+        <span
+          key={n}
           style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
+            color: n <= rating ? "#E7C98A" : "rgba(255,255,255,0.22)",
+            fontSize: "15px",
+            lineHeight: 1,
           }}
         >
-          <source src={item.videoSrc} type="video/mp4" />
-        </video>
-      ) : (
-        <>
-          <img
-            src={item.poster}
-            alt={`${item.author} video testimonial`}
-            loading="lazy"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              filter: "brightness(0.78)",
-            }}
-          />
-          <button
-            onClick={() => setIsPlaying(true)}
-            aria-label={`Play ${item.author} testimonial video`}
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div
-              style={{
-                width: "84px",
-                height: "84px",
-                borderRadius: "50%",
-                background: "rgba(214,176,96,0.92)",
-                display: "grid",
-                placeItems: "center",
-                boxShadow: "0 12px 30px rgba(0,0,0,0.35)",
-              }}
-            >
-              <div
-                style={{
-                  width: 0,
-                  height: 0,
-                  borderTop: "12px solid transparent",
-                  borderBottom: "12px solid transparent",
-                  borderLeft: "20px solid #18140F",
-                  marginLeft: "5px",
-                }}
-              />
-            </div>
-          </button>
-          <div
-            style={{
-              position: "absolute",
-              left: "18px",
-              right: "18px",
-              bottom: "18px",
-              color: theme.colors.text,
-            }}
-          >
-            <div
-              style={{
-                fontSize: "13px",
-                letterSpacing: "1.4px",
-                textTransform: "uppercase",
-                color: theme.colors.goldSoft,
-                fontWeight: 700,
-                marginBottom: "6px",
-              }}
-            >
-              {item.result}
-            </div>
-            <div style={{ fontWeight: 700, fontSize: "16px" }}>
-              {item.author}
-            </div>
-            <div style={{ fontSize: "13px", color: theme.colors.textSoft }}>
-              {item.role}
-            </div>
-          </div>
-        </>
-      )}
+          ★
+        </span>
+      ))}
     </div>
   );
 }
 
-function TextTestimonial({ item, isMobile }) {
+function TestimonialCard({ item, onOpen, isMobile }) {
   const accent =
     item.accent === "blue"
       ? "rgba(88,110,180,0.18)"
@@ -139,30 +57,41 @@ function TextTestimonial({ item, isMobile }) {
       ? "rgba(88,110,180,0.38)"
       : "rgba(214,176,96,0.38)";
 
+  const author = item.author || item.name;
+  const meta = [item.role, item.location].filter(Boolean).join(" · ");
+
   return (
-    <motion.div
-      whileHover={{ y: -6 }}
+    <motion.button
+      onClick={() => onOpen(item)}
+      whileHover={{ y: -4 }}
       transition={{ type: "spring", stiffness: 180, damping: 18 }}
       style={{
         position: "relative",
-        padding: isMobile ? "28px 24px" : "34px 30px",
-        borderRadius: "26px",
+        textAlign: "left",
+        padding: isMobile ? "22px 20px" : "26px 24px",
+        borderRadius: "22px",
         border: `1px solid ${theme.colors.line}`,
         background:
           "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
+        width: isMobile ? "280px" : "320px",
+        minHeight: "260px",
+        flexShrink: 0,
         display: "flex",
         flexDirection: "column",
-        height: "100%",
+        cursor: "pointer",
         overflow: "hidden",
+        color: theme.colors.text,
+        fontFamily: "inherit",
       }}
     >
       <div
+        aria-hidden="true"
         style={{
           position: "absolute",
-          top: "-60px",
-          right: "-60px",
-          width: "180px",
-          height: "180px",
+          top: "-50px",
+          right: "-50px",
+          width: "160px",
+          height: "160px",
           borderRadius: "50%",
           background: accent,
           filter: "blur(80px)",
@@ -170,49 +99,57 @@ function TextTestimonial({ item, isMobile }) {
         }}
       />
 
-      <div
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "10px",
-          padding: "8px 14px",
-          borderRadius: "999px",
-          border: `1px solid ${accentBorder}`,
-          background: "rgba(255,255,255,0.02)",
-          color: theme.colors.goldSoft,
-          fontSize: "12px",
-          fontWeight: 700,
-          letterSpacing: "1.4px",
-          textTransform: "uppercase",
-          alignSelf: "flex-start",
-          marginBottom: "18px",
-          position: "relative",
-          zIndex: 2,
-        }}
-      >
-        <span
+      {item.result ? (
+        <div
           style={{
-            width: "6px",
-            height: "6px",
-            borderRadius: "50%",
-            background: theme.colors.gold,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "5px 10px",
+            borderRadius: "999px",
+            border: `1px solid ${accentBorder}`,
+            background: "rgba(255,255,255,0.02)",
+            color: theme.colors.goldSoft,
+            fontSize: "10.5px",
+            fontWeight: 700,
+            letterSpacing: "1.4px",
+            textTransform: "uppercase",
+            alignSelf: "flex-start",
+            marginBottom: "12px",
+            position: "relative",
+            zIndex: 2,
           }}
-        />
-        {item.result}
-      </div>
+        >
+          <span
+            style={{
+              width: "5px",
+              height: "5px",
+              borderRadius: "50%",
+              background: theme.colors.gold,
+            }}
+          />
+          {item.result}
+        </div>
+      ) : null}
+
+      <StarRow rating={item.rating} />
 
       <p
         style={{
-          margin: "0 0 22px",
+          margin: "0 0 16px",
           color: theme.colors.text,
-          fontSize: isMobile ? "16px" : "17px",
-          lineHeight: 1.7,
+          fontSize: "14.5px",
+          lineHeight: 1.65,
           fontStyle: "italic",
           fontFamily:
             '"Playfair Display", Georgia, "Times New Roman", serif',
           position: "relative",
           zIndex: 2,
           flex: 1,
+          overflow: "hidden",
+          display: "-webkit-box",
+          WebkitLineClamp: 5,
+          WebkitBoxOrient: "vertical",
         }}
       >
         &ldquo;{item.quote}&rdquo;
@@ -222,15 +159,15 @@ function TextTestimonial({ item, isMobile }) {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "14px",
+          gap: "12px",
           position: "relative",
           zIndex: 2,
         }}
       >
         <div
           style={{
-            width: "44px",
-            height: "44px",
+            width: "38px",
+            height: "38px",
             borderRadius: "50%",
             background:
               "linear-gradient(135deg, rgba(214,176,96,0.35), rgba(214,176,96,0.10))",
@@ -239,75 +176,82 @@ function TextTestimonial({ item, isMobile }) {
             placeItems: "center",
             color: theme.colors.text,
             fontWeight: 800,
-            fontSize: "14px",
-            letterSpacing: "0.6px",
+            fontSize: "13px",
             flexShrink: 0,
           }}
         >
-          {getInitials(item.author)}
+          {getInitials(author || "M")}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div
             style={{
               color: theme.colors.text,
-              fontSize: "15px",
+              fontSize: "14px",
               fontWeight: 700,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
-            {item.author}
+            {author}
           </div>
-          <div
-            style={{
-              color: theme.colors.textSoft,
-              fontSize: "12.5px",
-              letterSpacing: "0.2px",
-            }}
-          >
-            {item.role} · {item.location}
-          </div>
+          {meta ? (
+            <div
+              style={{
+                color: theme.colors.textSoft,
+                fontSize: "11.5px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {meta}
+            </div>
+          ) : null}
         </div>
       </div>
-
-      {item.caseStudy && (
-        <Link
-          to={`/case-studies/${item.caseStudy}`}
-          style={{
-            marginTop: "18px",
-            color: theme.colors.goldSoft,
-            fontSize: "12.5px",
-            fontWeight: 700,
-            letterSpacing: "1.4px",
-            textTransform: "uppercase",
-            textDecoration: "none",
-            position: "relative",
-            zIndex: 2,
-          }}
-        >
-          Read the full case study →
-        </Link>
-      )}
-    </motion.div>
+    </motion.button>
   );
 }
 
 function Testimonials() {
   const isMobile = useIsMobile(768);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const curated = useCollection("testimonials", defaultTestimonials);
+  const submissions = useCollection("userSubmissions", []);
+  const [submitOpen, setSubmitOpen] = useState(false);
+  const [detailItem, setDetailItem] = useState(null);
 
-  const visibleCount = isMobile ? 1 : 3;
-  const maxIndex = Math.max(0, testimonials.length - visibleCount);
+  const combined = useMemo(() => {
+    const approved = submissions
+      .filter((s) => s?.status === "approved")
+      .map((s) => ({
+        id: s.id,
+        type: s.mediaType === "video" ? "video" : "text",
+        author: s.name,
+        role: s.role,
+        location: s.location,
+        quote: s.quote,
+        rating: s.rating,
+        media: s.media,
+        mediaType: s.mediaType,
+        accent: "gold",
+      }));
+    return [...curated, ...approved];
+  }, [curated, submissions]);
 
-  const next = () => setActiveIndex((i) => Math.min(i + 1, maxIndex));
-  const prev = () => setActiveIndex((i) => Math.max(i - 1, 0));
+  const marqueeList = useMemo(
+    () => [...combined, ...combined],
+    [combined]
+  );
 
-  const visible = testimonials.slice(activeIndex, activeIndex + visibleCount);
+  const duration = Math.max(combined.length * 6, 24);
 
   return (
     <section
       id="testimonials"
       style={{
         position: "relative",
-        padding: isMobile ? "82px 0" : "122px 0",
+        padding: isMobile ? "72px 0" : "100px 0",
         background: `
           radial-gradient(circle at 80% 20%, rgba(214,176,96,0.08), transparent 26%),
           linear-gradient(180deg, rgba(13,20,34,1) 0%, rgba(16,24,39,1) 100%)
@@ -317,6 +261,7 @@ function Testimonials() {
       }}
     >
       <div
+        aria-hidden="true"
         style={{
           position: "absolute",
           left: "-6%",
@@ -336,9 +281,9 @@ function Testimonials() {
             display: "flex",
             alignItems: isMobile ? "flex-start" : "flex-end",
             justifyContent: "space-between",
-            gap: "20px",
+            gap: "16px",
             flexDirection: isMobile ? "column" : "row",
-            marginBottom: "40px",
+            marginBottom: "28px",
           }}
         >
           <div>
@@ -347,133 +292,102 @@ function Testimonials() {
             </Reveal>
             <Reveal delay={0.08}>
               <SectionHeading
-                title="What clients actually say — in their own words."
-                subtitle="Not edited praise. Real reactions from Delhi brands, clinics, creators, and businesses who worked with Mineworld on content, ads, and growth systems."
+                title="What clients say — in their own words."
+                subtitle="Tap any card to read it fully. Want to share your own? Add yours in under a minute."
               />
             </Reveal>
           </div>
 
-          {!isMobile && testimonials.length > visibleCount && (
-            <div style={{ display: "flex", gap: "10px", paddingBottom: "14px" }}>
-              <button
-                onClick={prev}
-                disabled={activeIndex === 0}
-                aria-label="Previous testimonial"
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "50%",
-                  border: `1px solid ${theme.colors.line}`,
-                  background: "rgba(255,255,255,0.03)",
-                  color: theme.colors.text,
-                  cursor: activeIndex === 0 ? "not-allowed" : "pointer",
-                  opacity: activeIndex === 0 ? 0.4 : 1,
-                  fontSize: "18px",
-                  transition: "all 0.25s ease",
-                }}
-              >
-                ←
-              </button>
-              <button
-                onClick={next}
-                disabled={activeIndex >= maxIndex}
-                aria-label="Next testimonial"
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "50%",
-                  border: `1px solid ${theme.colors.line}`,
-                  background: "rgba(255,255,255,0.03)",
-                  color: theme.colors.text,
-                  cursor: activeIndex >= maxIndex ? "not-allowed" : "pointer",
-                  opacity: activeIndex >= maxIndex ? 0.4 : 1,
-                  fontSize: "18px",
-                  transition: "all 0.25s ease",
-                }}
-              >
-                →
-              </button>
-            </div>
-          )}
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            <button
+              onClick={() => setSubmitOpen(true)}
+              style={{
+                padding: "12px 18px",
+                borderRadius: "999px",
+                border: "none",
+                background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+                color: "#18140F",
+                fontWeight: 800,
+                fontSize: "13.5px",
+                cursor: "pointer",
+                boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+              }}
+            >
+              + Add your testimonial
+            </button>
+            <Link
+              to="/reviews"
+              style={{
+                padding: "12px 18px",
+                borderRadius: "999px",
+                border: `1px solid ${theme.colors.line}`,
+                background: "rgba(255,255,255,0.03)",
+                color: theme.colors.text,
+                fontWeight: 700,
+                fontSize: "13.5px",
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+              }}
+            >
+              View all reviews →
+            </Link>
+          </div>
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIndex}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            style={{
-              display: "grid",
-              gridTemplateColumns: isMobile
-                ? "1fr"
-                : `repeat(${visibleCount}, minmax(0, 1fr))`,
-              gap: isMobile ? "18px" : "22px",
-              alignItems: "stretch",
-            }}
-          >
-            {visible.map((item) =>
-              item.type === "video" ? (
-                <VideoTestimonial key={item.id} item={item} isMobile={isMobile} />
-              ) : (
-                <TextTestimonial key={item.id} item={item} isMobile={isMobile} />
-              )
-            )}
-          </motion.div>
-        </AnimatePresence>
-
-        {isMobile && testimonials.length > 1 && (
+        <div
+          style={{
+            position: "relative",
+            overflow: "hidden",
+            maskImage:
+              "linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent)",
+            WebkitMaskImage:
+              "linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent)",
+            paddingTop: "8px",
+            paddingBottom: "8px",
+          }}
+        >
           <div
+            className="mw-testimonial-marquee"
             style={{
-              marginTop: "24px",
               display: "flex",
-              justifyContent: "center",
-              gap: "8px",
+              width: "max-content",
+              gap: isMobile ? "14px" : "18px",
+              animation: `mw-test-marquee ${duration}s linear infinite`,
+              willChange: "transform",
             }}
           >
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveIndex(i)}
-                aria-label={`Go to testimonial ${i + 1}`}
-                style={{
-                  width: i === activeIndex ? "22px" : "8px",
-                  height: "8px",
-                  borderRadius: "999px",
-                  border: "none",
-                  background:
-                    i === activeIndex
-                      ? theme.colors.gold
-                      : "rgba(255,255,255,0.18)",
-                  cursor: "pointer",
-                  transition: "all 0.25s ease",
-                }}
+            {marqueeList.map((item, i) => (
+              <TestimonialCard
+                key={`${item.id || item.author || "t"}-${i}`}
+                item={item}
+                onOpen={setDetailItem}
+                isMobile={isMobile}
               />
             ))}
           </div>
-        )}
+        </div>
 
         <Reveal delay={0.2}>
           <div
             style={{
-              marginTop: "48px",
+              marginTop: "36px",
               display: "grid",
               gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(4, 1fr)",
-              gap: "16px",
+              gap: "14px",
             }}
           >
             {[
               { value: "50+", label: "Projects Delivered" },
               { value: "2.5M+", label: "Views Driven" },
-              { value: "₹12L+", label: "Client Revenue Influenced" },
-              { value: "4.9/5", label: "Avg Client Rating" },
+              { value: "₹12L+", label: "Client Revenue" },
+              { value: "4.9/5", label: "Avg Rating" },
             ].map((stat) => (
               <div
                 key={stat.label}
                 style={{
-                  padding: isMobile ? "18px" : "24px",
-                  borderRadius: "20px",
+                  padding: isMobile ? "16px" : "22px",
+                  borderRadius: "18px",
                   border: `1px solid ${theme.colors.line}`,
                   background: "rgba(255,255,255,0.025)",
                   textAlign: "center",
@@ -482,7 +396,7 @@ function Testimonials() {
                 <div
                   style={{
                     color: theme.colors.gold,
-                    fontSize: isMobile ? "26px" : "34px",
+                    fontSize: isMobile ? "22px" : "28px",
                     fontWeight: 800,
                     letterSpacing: "-0.8px",
                     lineHeight: 1,
@@ -494,7 +408,7 @@ function Testimonials() {
                 <div
                   style={{
                     color: theme.colors.textSoft,
-                    fontSize: isMobile ? "11px" : "12px",
+                    fontSize: isMobile ? "10.5px" : "11.5px",
                     letterSpacing: "1.4px",
                     textTransform: "uppercase",
                     fontWeight: 600,
@@ -507,6 +421,34 @@ function Testimonials() {
           </div>
         </Reveal>
       </Container>
+
+      <style>{`
+        @keyframes mw-test-marquee {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .mw-testimonial-marquee:hover {
+          animation-play-state: paused;
+        }
+        .mw-testimonial-marquee:focus-within {
+          animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .mw-testimonial-marquee {
+            animation: none !important;
+          }
+        }
+      `}</style>
+
+      <TestimonialSubmitModal
+        open={submitOpen}
+        onClose={() => setSubmitOpen(false)}
+      />
+      <TestimonialDetailModal
+        open={Boolean(detailItem)}
+        item={detailItem}
+        onClose={() => setDetailItem(null)}
+      />
     </section>
   );
 }
