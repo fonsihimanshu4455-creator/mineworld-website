@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Hero from "../components/home/Hero";
+import ClientLogoWall from "../components/home/ClientLogoWall";
 import ResultsSection from "../components/home/ResultsSection";
 import Services from "../components/home/Services";
 import Portfolio from "../components/home/Portfolio";
@@ -10,6 +11,9 @@ import TeamSection from "../components/home/TeamSection";
 import BrandStatement from "../components/home/BrandStatement";
 import GrowthSection from "../components/home/GrowthSection";
 import EditingShowcase from "../components/home/EditingShowcase";
+import ReelScoreTool from "../components/home/ReelScoreTool";
+import Pricing from "../components/home/Pricing";
+import FAQ from "../components/home/FAQ";
 import CTA from "../components/home/CTA";
 
 function Home() {
@@ -28,6 +32,7 @@ function Home() {
   return (
     <>
       <Hero />
+      <ClientLogoWall />
       <ResultsSection />
       <Services />
       <Portfolio />
@@ -37,6 +42,9 @@ function Home() {
       <BrandStatement />
       <GrowthSection />
       <EditingShowcase />
+      <ReelScoreTool />
+      <Pricing />
+      <FAQ />
       <CTA />
     </>
   );
