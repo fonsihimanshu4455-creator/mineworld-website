@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import CaseStudyDetail from "./pages/CaseStudyDetail";
 import IndustryPage from "./pages/IndustryPage";
 import ServiceDetail from "./pages/ServiceDetail";
+import PortfolioDetail from "./pages/PortfolioDetail";
 import InsightDetail from "./pages/InsightDetail";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
         <Route path="/services/:slug" element={<ServiceDetail />} />
+        <Route path="/portfolio/:slug" element={<PortfolioDetail />} />
         <Route path="/industries/:slug" element={<IndustryPage />} />
         <Route path="/insights/:slug" element={<InsightDetail />} />
       </Route>
