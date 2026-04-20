@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { theme } from "../../styles/theme";
 
 const sectionWrap = {
@@ -23,6 +24,7 @@ const proofCards = [
     description:
       "Creative reels and Meta ads aligned for lead capture, not just reach.",
     tags: ["Reels + Ads", "Lead Generation", "Clinic Growth"],
+    slug: "aesthetic-clinic-lead-generation",
   },
   {
     number: "02",
@@ -31,6 +33,7 @@ const proofCards = [
     description:
       "Retention-first editing structure built to hold attention and drive profile interest.",
     tags: ["Retention Editing", "Reel Strategy", "Personal Brand"],
+    slug: "personal-brand-reel-2-5m-views",
   },
   {
     number: "03",
@@ -39,6 +42,7 @@ const proofCards = [
     description:
       "Offer-led creative direction and paid campaign execution focused on business outcome.",
     tags: ["Offer Creative", "Paid Growth", "Revenue Focus"],
+    slug: "local-business-revenue-driven",
   },
 ];
 
@@ -61,6 +65,8 @@ function ProofCard({ item }) {
   return (
     <motion.div
       variants={fadeUp}
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 180, damping: 18 }}
       style={{
         position: "relative",
         borderRadius: "28px",
@@ -161,6 +167,26 @@ function ProofCard({ item }) {
           </span>
         ))}
       </div>
+
+      {item.slug && (
+        <Link
+          to={`/case-studies/${item.slug}`}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            marginTop: "20px",
+            color: theme.colors.goldSoft,
+            fontSize: "13px",
+            fontWeight: 700,
+            letterSpacing: "1.4px",
+            textTransform: "uppercase",
+            textDecoration: "none",
+          }}
+        >
+          Read Case Study <span aria-hidden="true">→</span>
+        </Link>
+      )}
     </motion.div>
   );
 }

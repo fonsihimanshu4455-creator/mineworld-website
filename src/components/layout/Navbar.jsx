@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 import { openContactModal } from "../../utils/contactActions";
 
 const navItems = [
@@ -24,6 +25,17 @@ function scrollToSection(id) {
 }
 
 export default function Navbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const goToSection = (id) => {
+    if (location.pathname !== "/") {
+      navigate(`/#${id}`);
+      return;
+    }
+    scrollToSection(id);
+  };
+
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -38,6 +50,11 @@ export default function Navbar() {
 
     const handleScroll = () => {
       setScrolled(window.scrollY > 16);
+
+      if (location.pathname !== "/") {
+        setActiveSection("");
+        return;
+      }
 
       const scrollPosition = window.scrollY + 160;
       let currentSection = "home";
@@ -75,7 +92,7 @@ export default function Navbar() {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [sectionIds]);
+  }, [sectionIds, location.pathname]);
 
   return (
     <div
@@ -117,7 +134,7 @@ export default function Navbar() {
           }}
         >
           <button
-            onClick={() => scrollToSection("home")}
+            onClick={() => goToSection("home")}
             style={{
               display: "flex",
               alignItems: "center",
@@ -219,7 +236,7 @@ export default function Navbar() {
                       key={item.target}
                       whileHover={{ y: -2 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => scrollToSection(item.target)}
+                      onClick={() => goToSection(item.target)}
                       style={{
                         position: "relative",
                         background: isActive
@@ -338,7 +355,7 @@ export default function Navbar() {
                     <button
                       key={item.target}
                       onClick={() => {
-                        scrollToSection(item.target);
+                        goToSection(item.target);
                         setMenuOpen(false);
                       }}
                       style={{
