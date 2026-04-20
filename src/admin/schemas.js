@@ -115,7 +115,8 @@ export const schemas = {
     fields: [
       { key: "id", label: "ID (unique)", type: "slug", required: true },
       { key: "type", label: "Type", type: "select", options: ["text", "video"] },
-      { key: "quote", label: "Quote", type: "textarea" },
+      { key: "quote", label: "Review / Quote", type: "textarea" },
+      { key: "rating", label: "Star rating (1-5)", type: "number" },
       { key: "author", label: "Author", type: "text", required: true },
       { key: "role", label: "Role", type: "text" },
       { key: "location", label: "Location", type: "text" },

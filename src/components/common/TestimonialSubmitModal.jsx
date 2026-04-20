@@ -42,7 +42,7 @@ function StarPicker({ value, onChange }) {
           marginLeft: "8px",
         }}
       >
-        {value ? `${value}/5` : "optional"}
+        {value ? `${value}/5` : "tap a star"}
       </span>
     </div>
   );
@@ -125,6 +125,10 @@ function TestimonialSubmitModal({ open, onClose }) {
     setFormError("");
     if (!form.name.trim() || !form.quote.trim()) {
       setFormError("Please fill in your name and the review.");
+      return;
+    }
+    if (!form.rating || form.rating < 1 || form.rating > 5) {
+      setFormError("Please pick a star rating (1 to 5).");
       return;
     }
     setSending(true);
@@ -367,7 +371,7 @@ function TestimonialSubmitModal({ open, onClose }) {
                 </div>
 
                 <div>
-                  <Label>Rating (optional)</Label>
+                  <Label>Rating *</Label>
                   <StarPicker
                     value={form.rating}
                     onChange={(v) => setForm({ ...form, rating: v })}

@@ -2,6 +2,7 @@ export const testimonials = [
   {
     id: "clinic-delhi",
     type: "text",
+    rating: 5,
     quote:
       "Pehli baar humne itne genuine inquiries dekhe — 7 din mein hi calendar bhar gaya. Creative aur ad dono alag level pe thay.",
     author: "Dr. Ankit R.",
@@ -15,6 +16,7 @@ export const testimonials = [
   {
     id: "creator-reel",
     type: "text",
+    rating: 5,
     quote:
       "Same topic, same face, same camera — sirf editing structure change hui aur reel 2.5M par pahunch gaya. Ab main har reel inhi ke saath banata hoon.",
     author: "Rahul S.",
@@ -28,6 +30,7 @@ export const testimonials = [
   {
     id: "local-business",
     type: "text",
+    rating: 5,
     quote:
       "First time hamari ads se actual revenue track hua. Har rupee jo lagaya, uska output dikha. Bahut clarity aayi.",
     author: "Priya M.",
@@ -41,6 +44,7 @@ export const testimonials = [
   {
     id: "podcast-host",
     type: "text",
+    rating: 5,
     quote:
       "Podcast shoot se lekar final edit tak, team ne complete ownership li. Ab hamare clips automatic authority build kar rahe hain.",
     author: "Vikram T.",
@@ -53,6 +57,7 @@ export const testimonials = [
   {
     id: "agency-founder",
     type: "text",
+    rating: 5,
     quote:
       "Hamari team ne pehle 3 editors try kiye — koi retention nahi samajhta tha. Mineworld ke first draft me hi difference dikh gaya.",
     author: "Saurabh K.",

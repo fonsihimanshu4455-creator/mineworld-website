@@ -22,10 +22,47 @@ function formatWhen(iso) {
   }
 }
 
+function StarPicker({ value, onChange }) {
+  return (
+    <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
+      {[1, 2, 3, 4, 5].map((n) => (
+        <button
+          key={n}
+          type="button"
+          onClick={() => onChange(value === n ? 0 : n)}
+          aria-label={`${n} star${n > 1 ? "s" : ""}`}
+          style={{
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "20px",
+            color: n <= value ? "#E7C98A" : "rgba(255,255,255,0.22)",
+            lineHeight: 1,
+            padding: "2px",
+          }}
+        >
+          ★
+        </button>
+      ))}
+      <span
+        style={{
+          color: "rgba(243,239,231,0.5)",
+          fontSize: "11px",
+          marginLeft: "6px",
+        }}
+      >
+        {value ? `${value}/5` : "—"}
+      </span>
+    </div>
+  );
+}
+
 function SubmissionsEditor() {
   const [items, setItems] = useState(getSubmissions);
   const [filter, setFilter] = useState("pending");
   const [msg, setMsg] = useState("");
+  const [editingId, setEditingId] = useState(null);
+  const [draft, setDraft] = useState(null);
 
   useEffect(() => {
     document.title = "Submissions · Mineworld Admin";
@@ -39,6 +76,24 @@ function SubmissionsEditor() {
     setItems(next);
     setMsg("Saved.");
     setTimeout(() => setMsg(""), 1600);
+  };
+
+  const startEdit = (item) => {
+    setEditingId(item.id);
+    setDraft({ ...item });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setDraft(null);
+  };
+
+  const saveEdit = () => {
+    if (!draft) return;
+    const next = items.map((it) => (it.id === draft.id ? { ...it, ...draft } : it));
+    persist(next);
+    setEditingId(null);
+    setDraft(null);
   };
 
   const setStatus = (id, status) => {
@@ -67,7 +122,7 @@ function SubmissionsEditor() {
       <PageHeader
         eyebrow="Submissions"
         title="Client reviews awaiting moderation."
-        subtitle="Review each submission, then Approve (appears on the site) or Reject (stays hidden). You can also edit before approving."
+        subtitle="Review, edit, then Approve (appears on the site) or Reject (stays hidden)."
       />
 
       <div
@@ -143,7 +198,9 @@ function SubmissionsEditor() {
       ) : (
         <div style={{ display: "grid", gap: "14px" }}>
           {filtered.map((it) => {
-            const status = it.status || "pending";
+            const isEditing = editingId === it.id;
+            const current = isEditing && draft ? draft : it;
+            const status = current.status || "pending";
             const statusColor =
               status === "approved"
                 ? "#7fe0a2"
@@ -156,16 +213,19 @@ function SubmissionsEditor() {
                 style={{
                   padding: "22px",
                   borderRadius: "18px",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
+                  border: isEditing
+                    ? "1px solid rgba(214,176,96,0.55)"
+                    : "1px solid rgba(255,255,255,0.08)",
+                  background: isEditing
+                    ? "linear-gradient(180deg, rgba(214,176,96,0.08), rgba(255,255,255,0.015))"
+                    : "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
                   display: "grid",
-                  gridTemplateColumns: it.media ? "220px 1fr" : "1fr",
+                  gridTemplateColumns: current.media ? "220px 1fr" : "1fr",
                   gap: "18px",
                   alignItems: "start",
                 }}
               >
-                {it.media ? (
+                {current.media ? (
                   <div
                     style={{
                       borderRadius: "12px",
@@ -175,9 +235,9 @@ function SubmissionsEditor() {
                       maxHeight: "260px",
                     }}
                   >
-                    {it.mediaType === "video" ? (
+                    {current.mediaType === "video" ? (
                       <video
-                        src={it.media}
+                        src={current.media}
                         controls
                         muted
                         style={{
@@ -190,7 +250,7 @@ function SubmissionsEditor() {
                       />
                     ) : (
                       <img
-                        src={it.media}
+                        src={current.media}
                         alt="submission"
                         style={{
                           width: "100%",
@@ -201,6 +261,25 @@ function SubmissionsEditor() {
                         }}
                       />
                     )}
+                    {isEditing ? (
+                      <button
+                        onClick={() => setDraft({ ...draft, media: "", mediaType: "" })}
+                        style={{
+                          width: "100%",
+                          padding: "8px",
+                          border: "none",
+                          background: "rgba(255,120,120,0.12)",
+                          color: "#ff9e9e",
+                          fontSize: "11px",
+                          fontWeight: 700,
+                          letterSpacing: "1.2px",
+                          textTransform: "uppercase",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Remove media
+                      </button>
+                    ) : null}
                   </div>
                 ) : null}
 
@@ -210,7 +289,7 @@ function SubmissionsEditor() {
                       display: "flex",
                       alignItems: "center",
                       gap: "10px",
-                      marginBottom: "8px",
+                      marginBottom: "10px",
                       flexWrap: "wrap",
                     }}
                   >
@@ -229,14 +308,6 @@ function SubmissionsEditor() {
                     >
                       {status}
                     </span>
-                    {it.rating ? (
-                      <span style={{ color: "#E7C98A", fontSize: "13px" }}>
-                        {"★".repeat(it.rating)}
-                        <span style={{ color: "rgba(255,255,255,0.2)" }}>
-                          {"★".repeat(5 - it.rating)}
-                        </span>
-                      </span>
-                    ) : null}
                     <span
                       style={{
                         color: "rgba(243,239,231,0.5)",
@@ -247,69 +318,178 @@ function SubmissionsEditor() {
                     </span>
                   </div>
 
-                  <div
-                    style={{
-                      color: "#F5F1E8",
-                      fontSize: "16px",
-                      fontWeight: 700,
-                      marginBottom: "4px",
-                    }}
-                  >
-                    {it.name}
-                  </div>
-                  <div
-                    style={{
-                      color: "#CFC6B8",
-                      fontSize: "12.5px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    {[it.role, it.location].filter(Boolean).join(" · ")}
-                  </div>
-                  <p
-                    style={{
-                      margin: "0 0 14px",
-                      color: "#F5F1E8",
-                      fontSize: "14.5px",
-                      lineHeight: 1.75,
-                      fontStyle: "italic",
-                    }}
-                  >
-                    &ldquo;{it.quote}&rdquo;
-                  </p>
+                  {isEditing ? (
+                    <div style={{ display: "grid", gap: "10px" }}>
+                      <div>
+                        <EditLabel>Name</EditLabel>
+                        <input
+                          type="text"
+                          value={draft.name || ""}
+                          onChange={(e) =>
+                            setDraft({ ...draft, name: e.target.value })
+                          }
+                          style={editInput}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          gap: "10px",
+                        }}
+                      >
+                        <div>
+                          <EditLabel>Role</EditLabel>
+                          <input
+                            type="text"
+                            value={draft.role || ""}
+                            onChange={(e) =>
+                              setDraft({ ...draft, role: e.target.value })
+                            }
+                            style={editInput}
+                          />
+                        </div>
+                        <div>
+                          <EditLabel>Location</EditLabel>
+                          <input
+                            type="text"
+                            value={draft.location || ""}
+                            onChange={(e) =>
+                              setDraft({ ...draft, location: e.target.value })
+                            }
+                            style={editInput}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <EditLabel>Star Rating</EditLabel>
+                        <StarPicker
+                          value={Number(draft.rating) || 0}
+                          onChange={(v) => setDraft({ ...draft, rating: v })}
+                        />
+                      </div>
+                      <div>
+                        <EditLabel>Review / Quote</EditLabel>
+                        <textarea
+                          value={draft.quote || ""}
+                          onChange={(e) =>
+                            setDraft({ ...draft, quote: e.target.value })
+                          }
+                          rows={4}
+                          style={{
+                            ...editInput,
+                            resize: "vertical",
+                            fontFamily: "inherit",
+                          }}
+                        />
+                      </div>
 
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                    {status !== "approved" ? (
-                      <button
-                        onClick={() => setStatus(it.id, "approved")}
-                        style={actionBtn("approve")}
+                      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "4px" }}>
+                        <button onClick={saveEdit} style={actionBtn("approve")}>
+                          Save changes
+                        </button>
+                        <button onClick={cancelEdit} style={actionBtn("neutral")}>
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div
+                        style={{
+                          color: "#F5F1E8",
+                          fontSize: "16px",
+                          fontWeight: 700,
+                          marginBottom: "4px",
+                        }}
                       >
-                        Approve
-                      </button>
-                    ) : null}
-                    {status !== "rejected" ? (
-                      <button
-                        onClick={() => setStatus(it.id, "rejected")}
-                        style={actionBtn("reject")}
+                        {current.name}
+                      </div>
+                      <div
+                        style={{
+                          color: "#CFC6B8",
+                          fontSize: "12.5px",
+                          marginBottom: "8px",
+                        }}
                       >
-                        Reject
-                      </button>
-                    ) : null}
-                    {status !== "pending" ? (
-                      <button
-                        onClick={() => setStatus(it.id, "pending")}
-                        style={actionBtn("neutral")}
+                        {[current.role, current.location].filter(Boolean).join(" · ")}
+                      </div>
+                      {current.rating ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "2px",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          {[1, 2, 3, 4, 5].map((n) => (
+                            <span
+                              key={n}
+                              style={{
+                                color:
+                                  n <= current.rating
+                                    ? "#E7C98A"
+                                    : "rgba(255,255,255,0.22)",
+                                fontSize: "15px",
+                              }}
+                            >
+                              ★
+                            </span>
+                          ))}
+                        </div>
+                      ) : null}
+                      <p
+                        style={{
+                          margin: "0 0 14px",
+                          color: "#F5F1E8",
+                          fontSize: "14.5px",
+                          lineHeight: 1.75,
+                          fontStyle: "italic",
+                        }}
                       >
-                        Move to pending
-                      </button>
-                    ) : null}
-                    <button
-                      onClick={() => remove(it.id)}
-                      style={actionBtn("delete")}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                        &ldquo;{current.quote}&rdquo;
+                      </p>
+
+                      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                        {status !== "approved" ? (
+                          <button
+                            onClick={() => setStatus(it.id, "approved")}
+                            style={actionBtn("approve")}
+                          >
+                            Approve
+                          </button>
+                        ) : null}
+                        {status !== "rejected" ? (
+                          <button
+                            onClick={() => setStatus(it.id, "rejected")}
+                            style={actionBtn("reject")}
+                          >
+                            Reject
+                          </button>
+                        ) : null}
+                        {status !== "pending" ? (
+                          <button
+                            onClick={() => setStatus(it.id, "pending")}
+                            style={actionBtn("neutral")}
+                          >
+                            Move to pending
+                          </button>
+                        ) : null}
+                        <button
+                          onClick={() => startEdit(it)}
+                          style={actionBtn("edit")}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => remove(it.id)}
+                          style={actionBtn("delete")}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             );
@@ -319,6 +499,35 @@ function SubmissionsEditor() {
     </div>
   );
 }
+
+function EditLabel({ children }) {
+  return (
+    <div
+      style={{
+        fontSize: "10.5px",
+        letterSpacing: "1.4px",
+        textTransform: "uppercase",
+        color: "#E7C98A",
+        fontWeight: 700,
+        marginBottom: "6px",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+const editInput = {
+  width: "100%",
+  padding: "10px 12px",
+  borderRadius: "10px",
+  border: "1px solid rgba(255,255,255,0.12)",
+  background: "rgba(255,255,255,0.04)",
+  color: "#fff",
+  fontSize: "13.5px",
+  outline: "none",
+  boxSizing: "border-box",
+};
 
 function actionBtn(kind) {
   const base = {
@@ -345,6 +554,14 @@ function actionBtn(kind) {
       border: "1px solid rgba(255,158,158,0.4)",
       background: "rgba(255,158,158,0.08)",
       color: "#ff9e9e",
+    };
+  }
+  if (kind === "edit") {
+    return {
+      ...base,
+      border: "1px solid rgba(214,176,96,0.4)",
+      background: "rgba(214,176,96,0.1)",
+      color: "#E7C98A",
     };
   }
   if (kind === "delete") {
