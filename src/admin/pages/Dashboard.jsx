@@ -77,9 +77,9 @@ function Dashboard() {
   const handleImport = (file) => {
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       try {
-        contentStore.importJSON(String(reader.result || ""));
+        await contentStore.importJSON(String(reader.result || ""));
         setMsg("Imported successfully.");
       } catch (e) {
         setMsg("Import failed: " + (e?.message || "invalid file"));
@@ -89,9 +89,15 @@ function Dashboard() {
     reader.readAsText(file);
   };
 
-  const handleReset = () => {
-    if (!window.confirm("Clear all saved admin edits? The site will revert to defaults.")) return;
-    contentStore.clearAll();
+  const handleReset = async () => {
+    if (
+      !window.confirm(
+        "Clear all saved admin edits? The site will revert to defaults."
+      )
+    )
+      return;
+    setMsg("Clearing…");
+    await contentStore.clearAll();
     setMsg("All admin edits cleared. Site restored to defaults.");
     setTimeout(() => setMsg(""), 3000);
   };

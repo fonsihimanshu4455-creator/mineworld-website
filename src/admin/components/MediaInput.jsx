@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 
-const MAX_BYTES = 4 * 1024 * 1024;
+// Firestore doc limit is 1MB. Base64 adds ~33%, so keep raw under ~700KB.
+const MAX_BYTES = 700 * 1024;
 
 function MediaInput({ value, onChange, accept = "image/*,video/*" }) {
   const inputRef = useRef(null);
@@ -10,7 +11,8 @@ function MediaInput({ value, onChange, accept = "image/*,video/*" }) {
     if (!file) return;
     if (file.size > MAX_BYTES) {
       setError(
-        `File is ${(file.size / 1024 / 1024).toFixed(1)}MB. Use under 4MB, or paste a hosted URL instead.`
+        `File is ${(file.size / 1024).toFixed(0)}KB. Upload limit is 700KB (Firestore doc cap). ` +
+          `For bigger images/videos, host on Cloudinary / Instagram / YouTube and paste the URL instead.`
       );
       return;
     }

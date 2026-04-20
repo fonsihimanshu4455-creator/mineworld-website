@@ -6,7 +6,24 @@ import SettingsEditor from "./pages/SettingsEditor";
 import CollectionEditor from "./pages/CollectionEditor";
 
 function AdminApp() {
-  const { authed } = useAdminAuth();
+  const { authed, ready } = useAdminAuth();
+
+  if (!ready) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "grid",
+          placeItems: "center",
+          color: "#E7C98A",
+          background: "#0b0f1a",
+          fontSize: "14px",
+        }}
+      >
+        Loading…
+      </div>
+    );
+  }
 
   if (!authed) {
     return <AdminAuth />;
