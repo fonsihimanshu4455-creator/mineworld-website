@@ -637,7 +637,7 @@ function IndustryPage() {
                   fontSize: "13.5px",
                 }}
               >
-                Not sure? <Link to="/#pricing" style={{ color: theme.colors.goldSoft, fontWeight: 700 }}>
+                Not sure? <Link to="/packages" style={{ color: theme.colors.goldSoft, fontWeight: 700 }}>
                   See all pricing plans →
                 </Link>
               </div>

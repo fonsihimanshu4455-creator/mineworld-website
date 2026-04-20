@@ -7,7 +7,7 @@ const navItems = [
   { label: "Home", target: "home" },
   { label: "Services", target: "services" },
   { label: "Portfolio", target: "portfolio" },
-  { label: "Packages", target: "pricing" },
+  { label: "Packages", path: "/packages" },
   { label: "Contact", target: "footer" },
 ];
 
@@ -37,12 +37,23 @@ export default function Navbar() {
     scrollToSection(id);
   };
 
+  const handleNavClick = (item) => {
+    if (item.path) {
+      navigate(item.path);
+      return;
+    }
+    goToSection(item.target);
+  };
+
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
-  const sectionIds = useMemo(() => navItems.map((item) => item.target), []);
+  const sectionIds = useMemo(
+    () => navItems.filter((i) => i.target).map((i) => i.target),
+    []
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -230,14 +241,17 @@ export default function Navbar() {
                 }}
               >
                 {navItems.map((item) => {
-                  const isActive = activeSection === item.target;
+                  const isActive = item.path
+                    ? location.pathname === item.path
+                    : activeSection === item.target;
+                  const key = item.path || item.target;
 
                   return (
                     <motion.button
-                      key={item.target}
+                      key={key}
                       whileHover={{ y: -2 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => goToSection(item.target)}
+                      onClick={() => handleNavClick(item)}
                       style={{
                         position: "relative",
                         background: isActive
@@ -354,13 +368,16 @@ export default function Navbar() {
                 }}
               >
                 {navItems.map((item) => {
-                  const isActive = activeSection === item.target;
+                  const isActive = item.path
+                    ? location.pathname === item.path
+                    : activeSection === item.target;
+                  const key = item.path || item.target;
 
                   return (
                     <button
-                      key={item.target}
+                      key={key}
                       onClick={() => {
-                        goToSection(item.target);
+                        handleNavClick(item);
                         setMenuOpen(false);
                       }}
                       style={{

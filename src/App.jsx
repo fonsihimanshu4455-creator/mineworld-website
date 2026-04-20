@@ -7,6 +7,7 @@ import ServiceDetail from "./pages/ServiceDetail";
 import PortfolioDetail from "./pages/PortfolioDetail";
 import TeamRoleDetail from "./pages/TeamRoleDetail";
 import InsightDetail from "./pages/InsightDetail";
+import Packages from "./pages/Packages";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/team/:slug" element={<TeamRoleDetail />} />
         <Route path="/industries/:slug" element={<IndustryPage />} />
         <Route path="/insights/:slug" element={<InsightDetail />} />
+        <Route path="/packages" element={<Packages />} />
       </Route>
     </Routes>
   );

@@ -235,7 +235,7 @@ function Services() {
           >
             Not sure which fits?{" "}
             <Link
-              to="/#pricing"
+              to="/packages"
               style={{
                 color: theme.colors.goldSoft,
                 fontWeight: 700,

@@ -791,7 +791,7 @@ function ServiceDetail() {
             >
               Not sure?{" "}
               <Link
-                to="/#pricing"
+                to="/packages"
                 style={{ color: theme.colors.goldSoft, fontWeight: 700 }}
               >
                 See all plans →

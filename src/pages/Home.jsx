@@ -13,7 +13,6 @@ import BrandStatement from "../components/home/BrandStatement";
 import GrowthSection from "../components/home/GrowthSection";
 import EditingShowcase from "../components/home/EditingShowcase";
 import ReelScoreTool from "../components/home/ReelScoreTool";
-import Pricing from "../components/home/Pricing";
 import InsightsPreview from "../components/home/InsightsPreview";
 import FAQ from "../components/home/FAQ";
 import CTA from "../components/home/CTA";
@@ -46,7 +45,6 @@ function Home() {
       <GrowthSection />
       <EditingShowcase />
       <ReelScoreTool />
-      <Pricing />
       <InsightsPreview />
       <FAQ />
       <CTA />
