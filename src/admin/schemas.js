@@ -244,6 +244,7 @@ export const schemas = {
     fields: [
       { key: "name", label: "Name", type: "text", required: true },
       { key: "industry", label: "Industry", type: "text" },
+      { key: "logo", label: "Logo (upload or URL)", type: "media-src" },
     ],
   },
 };

@@ -2,10 +2,50 @@ import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
-import { clientBrands } from "../../data/clientBrands";
+import { clientBrands as defaultBrands } from "../../data/clientBrands";
+import { useCollection } from "../../admin/hooks";
 import useIsMobile from "../../utils/useIsMobile";
 
 function LogoChip({ brand }) {
+  const hasLogo = Boolean(brand.logo);
+
+  if (hasLogo) {
+    return (
+      <div
+        title={brand.name}
+        style={{
+          flexShrink: 0,
+          padding: "14px 22px",
+          marginRight: "18px",
+          borderRadius: "18px",
+          border: `1px solid ${theme.colors.line}`,
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minWidth: "180px",
+          height: "96px",
+        }}
+      >
+        <img
+          src={brand.logo}
+          alt={`${brand.name} logo`}
+          loading="lazy"
+          style={{
+            maxHeight: "56px",
+            maxWidth: "160px",
+            objectFit: "contain",
+            filter: "brightness(0.95)",
+          }}
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -21,6 +61,8 @@ function LogoChip({ brand }) {
         alignItems: "flex-start",
         gap: "4px",
         minWidth: "200px",
+        height: "96px",
+        justifyContent: "center",
       }}
     >
       <span
@@ -52,7 +94,10 @@ function LogoChip({ brand }) {
 
 function ClientLogoWall() {
   const isMobile = useIsMobile(768);
-  const doubled = [...clientBrands, ...clientBrands];
+  const brands = useCollection("clientBrands", defaultBrands);
+  const doubled = [...brands, ...brands];
+
+  if (brands.length === 0) return null;
 
   return (
     <section
