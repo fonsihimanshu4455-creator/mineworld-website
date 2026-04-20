@@ -288,12 +288,12 @@ function Testimonials() {
         >
           <div>
             <Reveal>
-              <SectionTag>Testimonials</SectionTag>
+              <SectionTag>Reviews</SectionTag>
             </Reveal>
             <Reveal delay={0.08}>
               <SectionHeading
                 title="What clients say — in their own words."
-                subtitle="Tap any card to read it fully. Want to share your own? Add yours in under a minute."
+                subtitle="Tap any card to read the full review. Want to share your own? Add it in under a minute."
               />
             </Reveal>
           </div>
@@ -313,7 +313,7 @@ function Testimonials() {
                 boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
               }}
             >
-              + Add your testimonial
+              + Add your review
             </button>
             <Link
               to="/reviews"

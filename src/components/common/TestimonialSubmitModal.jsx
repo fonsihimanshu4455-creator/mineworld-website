@@ -317,7 +317,7 @@ function TestimonialSubmitModal({ open, onClose }) {
                         '"Playfair Display", Georgia, "Times New Roman", serif',
                     }}
                   >
-                    Add your testimonial.
+                    Add your review.
                   </h3>
                   <p
                     style={{

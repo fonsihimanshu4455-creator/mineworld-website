@@ -289,7 +289,7 @@ function Reviews() {
                   boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
                 }}
               >
-                + Add your testimonial
+                + Add your review
               </button>
             </div>
           </Reveal>
