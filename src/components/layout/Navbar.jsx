@@ -7,6 +7,7 @@ const navItems = [
   { label: "Home", target: "home" },
   { label: "Services", target: "services" },
   { label: "Portfolio", target: "portfolio" },
+  { label: "Packages", target: "pricing" },
   { label: "Contact", target: "footer" },
 ];
 
