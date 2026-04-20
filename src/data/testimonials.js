@@ -1,0 +1,65 @@
+export const testimonials = [
+  {
+    id: "clinic-delhi",
+    type: "text",
+    quote:
+      "Pehli baar humne itne genuine inquiries dekhe — 7 din mein hi calendar bhar gaya. Creative aur ad dono alag level pe thay.",
+    author: "Dr. Ankit R.",
+    role: "Aesthetic Clinic Owner",
+    location: "South Delhi",
+    industry: "Healthcare",
+    result: "+32 leads in 7 days",
+    accent: "gold",
+    caseStudy: "aesthetic-clinic-lead-generation",
+  },
+  {
+    id: "creator-reel",
+    type: "text",
+    quote:
+      "Same topic, same face, same camera — sirf editing structure change hui aur reel 2.5M par pahunch gaya. Ab main har reel inhi ke saath banata hoon.",
+    author: "Rahul S.",
+    role: "Content Creator · 120K+",
+    location: "Delhi NCR",
+    industry: "Personal Brand",
+    result: "2.5M views on a single reel",
+    accent: "blue",
+    caseStudy: "personal-brand-reel-2-5m-views",
+  },
+  {
+    id: "local-business",
+    type: "text",
+    quote:
+      "First time hamari ads se actual revenue track hua. Har rupee jo lagaya, uska output dikha. Bahut clarity aayi.",
+    author: "Priya M.",
+    role: "Retail Business Owner",
+    location: "East Delhi",
+    industry: "Local D2C",
+    result: "₹1.8L revenue in 21 days",
+    accent: "gold",
+    caseStudy: "local-business-revenue-driven",
+  },
+  {
+    id: "podcast-host",
+    type: "text",
+    quote:
+      "Podcast shoot se lekar final edit tak, team ne complete ownership li. Ab hamare clips automatic authority build kar rahe hain.",
+    author: "Vikram T.",
+    role: "Podcast Host",
+    location: "Delhi",
+    industry: "Media & Authority",
+    result: "4x repurposed clips, higher trust",
+    accent: "blue",
+  },
+  {
+    id: "agency-founder",
+    type: "text",
+    quote:
+      "Hamari team ne pehle 3 editors try kiye — koi retention nahi samajhta tha. Mineworld ke first draft me hi difference dikh gaya.",
+    author: "Saurabh K.",
+    role: "Agency Founder",
+    location: "Gurugram",
+    industry: "B2B Services",
+    result: "Retention +2.3x on ad creative",
+    accent: "gold",
+  },
+];

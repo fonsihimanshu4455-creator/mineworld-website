@@ -4,6 +4,7 @@ import Hero from "../components/home/Hero";
 import ResultsSection from "../components/home/ResultsSection";
 import Services from "../components/home/Services";
 import Portfolio from "../components/home/Portfolio";
+import Testimonials from "../components/home/Testimonials";
 import FounderSection from "../components/home/FounderSection";
 import TeamSection from "../components/home/TeamSection";
 import BrandStatement from "../components/home/BrandStatement";
@@ -30,6 +31,7 @@ function Home() {
       <ResultsSection />
       <Services />
       <Portfolio />
+      <Testimonials />
       <FounderSection />
       <TeamSection />
       <BrandStatement />
