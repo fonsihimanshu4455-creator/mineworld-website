@@ -1,372 +1,240 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import Container from "../common/Container";
+import Reveal from "../common/Reveal";
+import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
-
-const sectionWrap = {
-  width: "min(1180px, calc(100% - 32px))",
-  margin: "0 auto",
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  },
-};
+import useIsMobile from "../../utils/useIsMobile";
 
 const proofCards = [
   {
-    number: "01",
-    stat: "+32 Leads in 7 Days",
+    stat: "+32",
+    unit: "leads in 7 days",
     title: "Aesthetic Clinic Campaign",
-    description:
-      "Creative reels and Meta ads aligned for lead capture, not just reach.",
-    tags: ["Reels + Ads", "Lead Generation", "Clinic Growth"],
+    tags: ["Reels + Ads", "Lead Gen"],
     slug: "aesthetic-clinic-lead-generation",
   },
   {
-    number: "02",
-    stat: "2.5M Views Reel",
+    stat: "2.5M",
+    unit: "views on a single reel",
     title: "Personal Brand Content",
-    description:
-      "Retention-first editing structure built to hold attention and drive profile interest.",
-    tags: ["Retention Editing", "Reel Strategy", "Personal Brand"],
+    tags: ["Retention Editing", "Reel Strategy"],
     slug: "personal-brand-reel-2-5m-views",
   },
   {
-    number: "03",
-    stat: "₹1.8L Revenue Driven",
+    stat: "₹1.8L",
+    unit: "tracked revenue driven",
     title: "Local Business Promotion",
-    description:
-      "Offer-led creative direction and paid campaign execution focused on business outcome.",
-    tags: ["Offer Creative", "Paid Growth", "Revenue Focus"],
+    tags: ["Offer Creative", "Paid Growth"],
     slug: "local-business-revenue-driven",
-  },
-];
-
-const supportCards = [
-  {
-    eyebrow: "Retention-first execution",
-    title: "Attention is the first conversion layer.",
-    text:
-      "Before leads come clicks. Before clicks come stronger visuals, clearer hooks, and sharper content behavior.",
-  },
-  {
-    eyebrow: "System thinking",
-    title: "Content performs better when it works like a system.",
-    text:
-      "Editing, ad creatives, page consistency, shoots, and design support should work together — not as isolated services.",
   },
 ];
 
 function ProofCard({ item }) {
   return (
-    <motion.div
-      variants={fadeUp}
-      whileHover={{ y: -6 }}
-      transition={{ type: "spring", stiffness: 180, damping: 18 }}
-      style={{
-        position: "relative",
-        borderRadius: "28px",
-        padding: "28px 24px 24px",
-        background:
-  "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)",
-        border: `1px solid ${theme.colors.lineStrong}`,
-        boxShadow: "0 14px 34px rgba(0,0,0,0.16)",
-        overflow: "hidden",
-      }}
+    <Link
+      to={`/case-studies/${item.slug}`}
+      style={{ textDecoration: "none", display: "block", height: "100%" }}
     >
-      <div
+      <motion.div
+        whileHover={{ y: -4 }}
+        transition={{ type: "spring", stiffness: 180, damping: 18 }}
         style={{
-          position: "absolute",
-          top: "-60px",
-          right: "-40px",
-          width: "160px",
-          height: "160px",
-          borderRadius: "50%",
-          background: "rgba(87,120,210,0.10)",
-          filter: "blur(55px)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <div
-        style={{
-          color: theme.colors.gold,
-          fontSize: "42px",
-          fontWeight: 800,
-          lineHeight: 1,
-          marginBottom: "18px",
-          letterSpacing: "-1px",
-        }}
-      >
-        {item.number}
-      </div>
-
-      <div
-        style={{
-          color: theme.colors.text,
-          fontSize: "28px",
-          lineHeight: 1.08,
-          fontWeight: 700,
-          marginBottom: "12px",
-          maxWidth: "280px",
-        }}
-      >
-        {item.stat}
-      </div>
-
-      <div
-        style={{
-          color: theme.colors.goldSoft,
-          fontSize: "12px",
-          letterSpacing: "2px",
-          textTransform: "uppercase",
-          marginBottom: "10px",
-          fontWeight: 700,
-        }}
-      >
-        {item.title}
-      </div>
-
-      <p
-        style={{
-          color: theme.colors.textSoft,
-          fontSize: "15px",
-          lineHeight: 1.8,
-          margin: "0 0 18px",
-          maxWidth: "320px",
-        }}
-      >
-        {item.description}
-      </p>
-
-      <div
-        style={{
+          position: "relative",
+          borderRadius: "22px",
+          padding: "22px 22px 20px",
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.065) 0%, rgba(255,255,255,0.02) 100%)",
+          border: `1px solid ${theme.colors.lineStrong}`,
+          boxShadow: "0 10px 26px rgba(0,0,0,0.14)",
+          overflow: "hidden",
+          height: "100%",
           display: "flex",
-          flexWrap: "wrap",
-          gap: "10px",
+          flexDirection: "column",
         }}
       >
-        {item.tags.map((tag) => (
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "-40px",
+            right: "-30px",
+            width: "140px",
+            height: "140px",
+            borderRadius: "50%",
+            background: "rgba(87,120,210,0.10)",
+            filter: "blur(55px)",
+            pointerEvents: "none",
+          }}
+        />
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: "8px",
+            marginBottom: "10px",
+          }}
+        >
           <span
-            key={tag}
             style={{
-              padding: "10px 14px",
-              borderRadius: "999px",
-              fontSize: "13px",
-              fontWeight: 600,
-              color: theme.colors.text,
-              border: `1px solid ${theme.colors.line}`,
-              background: "rgba(255,255,255,0.03)",
+              color: theme.colors.gold,
+              fontSize: "34px",
+              fontWeight: 800,
+              letterSpacing: "-1px",
+              lineHeight: 1,
             }}
           >
-            {tag}
+            {item.stat}
           </span>
-        ))}
-      </div>
+          <span
+            style={{
+              color: theme.colors.textSoft,
+              fontSize: "13px",
+              fontWeight: 600,
+              lineHeight: 1.3,
+            }}
+          >
+            {item.unit}
+          </span>
+        </div>
 
-      {item.slug && (
-        <Link
-          to={`/case-studies/${item.slug}`}
+        <div
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            marginTop: "20px",
             color: theme.colors.goldSoft,
-            fontSize: "13px",
+            fontSize: "11px",
+            letterSpacing: "1.8px",
+            textTransform: "uppercase",
+            fontWeight: 700,
+            marginBottom: "12px",
+          }}
+        >
+          {item.title}
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "6px",
+            marginBottom: "14px",
+          }}
+        >
+          {item.tags.map((tag) => (
+            <span
+              key={tag}
+              style={{
+                padding: "5px 10px",
+                borderRadius: "999px",
+                fontSize: "11.5px",
+                fontWeight: 600,
+                color: theme.colors.text,
+                border: `1px solid ${theme.colors.line}`,
+                background: "rgba(255,255,255,0.03)",
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <span
+          style={{
+            marginTop: "auto",
+            color: theme.colors.goldSoft,
+            fontSize: "12px",
             fontWeight: 700,
             letterSpacing: "1.4px",
             textTransform: "uppercase",
-            textDecoration: "none",
           }}
         >
-          Read Case Study <span aria-hidden="true">→</span>
-        </Link>
-      )}
-    </motion.div>
-  );
-}
-
-function SupportCard({ item }) {
-  return (
-    <motion.div
-      variants={fadeUp}
-      style={{
-        borderRadius: "28px",
-        padding: "28px 24px",
-        background:
-  "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)",
-        border: `1px solid ${theme.colors.line}`,
-      }}
-    >
-      <div
-        style={{
-          color: theme.colors.goldSoft,
-          fontSize: "12px",
-          letterSpacing: "2px",
-          textTransform: "uppercase",
-          marginBottom: "12px",
-          fontWeight: 700,
-        }}
-      >
-        {item.eyebrow}
-      </div>
-
-      <h3
-        style={{
-          margin: "0 0 12px",
-          color: theme.colors.text,
-          fontSize: "30px",
-          lineHeight: 1.12,
-          fontWeight: 700,
-          maxWidth: "540px",
-        }}
-      >
-        {item.title}
-      </h3>
-
-      <p
-        style={{
-          margin: 0,
-          color: theme.colors.textSoft,
-          fontSize: "15px",
-          lineHeight: 1.85,
-          maxWidth: "620px",
-        }}
-      >
-        {item.text}
-      </p>
-    </motion.div>
+          Read Case Study →
+        </span>
+      </motion.div>
+    </Link>
   );
 }
 
 export default function ResultsSection() {
+  const isMobile = useIsMobile(768);
+
   return (
     <section
-  id="results"
-  style={{
-    padding: "110px 0",
-    background: "#0b0f1a", // dark background fix
-    borderTop: `1px solid rgba(255,255,255,0.08)`,
-  }}
->
-      <motion.div
-        style={sectionWrap}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.18 }}
-        variants={{
-          visible: { transition: { staggerChildren: 0.12 } },
-        }}
-      >
-        <motion.div
-          variants={fadeUp}
+      id="results"
+      style={{
+        padding: isMobile ? "60px 0" : "80px 0",
+        background: "#0b0f1a",
+        borderTop: "1px solid rgba(255,255,255,0.08)",
+      }}
+    >
+      <Container>
+        <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1.1fr 0.9fr",
-            gap: "28px",
-            alignItems: "end",
-            marginBottom: "34px",
+            display: "flex",
+            alignItems: isMobile ? "flex-start" : "flex-end",
+            justifyContent: "space-between",
+            gap: "20px",
+            flexDirection: isMobile ? "column" : "row",
+            marginBottom: "28px",
           }}
         >
-          <div>
-            <div
-              style={{
-                color: theme.colors.goldSoft,
-                fontSize: "12px",
-                letterSpacing: "2px",
-                textTransform: "uppercase",
-                marginBottom: "14px",
-                fontWeight: 700,
-              }}
-            >
-              Proof of Outcome
+          <Reveal>
+            <div>
+              <SectionTag>Proof of Outcome</SectionTag>
+              <h2
+                style={{
+                  margin: 0,
+                  color: theme.colors.text,
+                  fontSize: isMobile ? "30px" : "clamp(30px, 4vw, 44px)",
+                  lineHeight: 1.08,
+                  letterSpacing: "-0.8px",
+                  fontWeight: 800,
+                  maxWidth: "620px",
+                  fontFamily:
+                    '"Playfair Display", Georgia, "Times New Roman", serif',
+                }}
+              >
+                Real results.{" "}
+                <span style={{ color: theme.colors.gold, fontStyle: "italic" }}>
+                  Not just content.
+                </span>
+              </h2>
             </div>
+          </Reveal>
 
-            <h2
+          <Reveal delay={0.08}>
+            <p
               style={{
                 margin: 0,
-                color: theme.colors.text,
-                fontSize: "clamp(40px, 6vw, 72px)",
-                lineHeight: 0.98,
-                letterSpacing: "-2px",
-                fontWeight: 800,
-                maxWidth: "780px",
+                color: theme.colors.textSoft,
+                fontSize: "14px",
+                lineHeight: 1.8,
+                maxWidth: "360px",
               }}
             >
-              Real results.{" "}
-              <span style={{ color: theme.colors.gold }}>Not just content.</span>
-            </h2>
-          </div>
-
-          <p
-            style={{
-              margin: 0,
-              color: theme.colors.textSoft,
-              fontSize: "15px",
-              lineHeight: 1.9,
-              maxWidth: "430px",
-              justifySelf: "end",
-            }}
-          >
-            Mineworld is not being built to make content look busy. It is being
-            built to make brands look sharper, convert stronger, and feel more
-            difficult to ignore.
-          </p>
-        </motion.div>
-
-        <motion.div
-          variants={fadeUp}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-            gap: "18px",
-            marginBottom: "20px",
-          }}
-        >
-          {proofCards.map((item) => (
-            <ProofCard key={item.number} item={item} />
-          ))}
-        </motion.div>
+              Built to make brands look sharper, convert stronger, and feel
+              harder to ignore.
+            </p>
+          </Reveal>
+        </div>
 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-            gap: "18px",
+            gridTemplateColumns: isMobile
+              ? "1fr"
+              : "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: "14px",
+            alignItems: "stretch",
           }}
         >
-          {supportCards.map((item) => (
-            <SupportCard key={item.title} item={item} />
+          {proofCards.map((item, i) => (
+            <Reveal key={item.slug} delay={0.05 * i}>
+              <ProofCard item={item} />
+            </Reveal>
           ))}
         </div>
-      </motion.div>
-
-      <style>{`
-        @media (max-width: 980px) {
-          #results .results-top-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        @media (max-width: 1024px) {
-          section#results [style*="grid-template-columns: 1.1fr 0.9fr"] {
-            grid-template-columns: 1fr !important;
-          }
-
-          section#results [style*="repeat(3, minmax(0, 1fr))"] {
-            grid-template-columns: 1fr !important;
-          }
-
-          section#results [style*="repeat(2, minmax(0, 1fr))"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
+      </Container>
     </section>
   );
 }
