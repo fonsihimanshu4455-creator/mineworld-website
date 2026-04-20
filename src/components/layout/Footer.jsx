@@ -5,9 +5,24 @@ import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
 import { openContactModal } from "../../utils/contactActions";
 import useIsMobile from "../../utils/useIsMobile";
+import { useSiteSettings } from "../../admin/hooks";
+import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 
 function Footer() {
   const isMobile = useIsMobile(768);
+  const settings = useSiteSettings(defaultSiteConfig);
+  const phoneDigits = (settings.contact?.whatsappNumber || "919758850933").replace(/\D/g, "");
+  const phoneDisplay = phoneDigits.length > 10
+    ? `+${phoneDigits.slice(0, phoneDigits.length - 10)} ${phoneDigits.slice(-10)}`
+    : `+${phoneDigits}`;
+  const email = settings.contact?.email || "mineworldproduction4455@gmail.com";
+  const address = settings.contact?.address || "Mayur Vihar Phase 1, Delhi, 110091";
+  const instagramHref = settings.social?.instagram || "https://instagram.com/";
+  const facebookHref = settings.social?.facebook;
+  const youtubeHref = settings.social?.youtube;
+  const linkedinHref = settings.social?.linkedin;
+  const whatsappHref = `https://wa.me/${phoneDigits}`;
+  const telHref = `tel:+${phoneDigits}`;
 
   const navItems = [
     { label: "Home", target: "home" },
@@ -159,7 +174,7 @@ function Footer() {
                 <MagneticButton>Start a Project</MagneticButton>
               </button>
 
-              <a href="tel:+919758850933" style={{ textDecoration: "none" }}>
+              <a href={telHref} style={{ textDecoration: "none" }}>
                 <MagneticButton secondary>Book a Strategy Call</MagneticButton>
               </a>
             </div>
@@ -440,7 +455,7 @@ function Footer() {
                     rel="noreferrer"
                     style={linkStyle}
                   >
-                    Mayur Vihar Phase 1, Delhi, 110091
+                    {address}
                   </a>
                 </div>
 
@@ -457,10 +472,10 @@ function Footer() {
                     </svg>
                   </div>
                   <a
-                    href="mailto:mineworldproduction4455@gmail.com"
+                    href={`mailto:${email}`}
                     style={linkStyle}
                   >
-                    mineworldproduction4455@gmail.com
+                    {email}
                   </a>
                 </div>
 
@@ -478,17 +493,17 @@ function Footer() {
                   </div>
                   <div style={linkStyle}>
                     <a
-                      href="tel:+919758850933"
+                      href={telHref}
                       style={{ ...linkStyle, display: "inline" }}
                     >
-                      +91 9758850933
+                      {phoneDisplay}
                     </a>
                     {", "}
                     <a
-                      href="tel:+919758850933"
+                      href={telHref}
                       style={{ ...linkStyle, display: "inline" }}
                     >
-                      +91 9758850933
+                      {phoneDisplay}
                     </a>
                   </div>
                 </div>
@@ -506,7 +521,7 @@ function Footer() {
                     </svg>
                   </div>
                   <a
-                    href="https://instagram.com/"
+                    href={instagramHref}
                     target="_blank"
                     rel="noreferrer"
                     style={linkStyle}
@@ -553,7 +568,7 @@ function Footer() {
                     </svg>
                   </div>
                   <a
-                    href="https://wa.me/919758850933"
+                    href={whatsappHref}
                     target="_blank"
                     rel="noreferrer"
                     style={linkStyle}

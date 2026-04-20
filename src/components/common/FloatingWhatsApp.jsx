@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 import { theme } from "../../styles/theme";
-import { siteConfig } from "../../data/siteConfig";
+import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 import { trackWhatsAppClick } from "../../utils/contactActions";
+import { useSiteSettings } from "../../admin/hooks";
 
 function FloatingWhatsApp() {
+  const settings = useSiteSettings(defaultSiteConfig);
   const whatsappNumber =
-    siteConfig?.contact?.whatsappNumber || "919758850933";
+    settings?.contact?.whatsappNumber || "919758850933";
 
   const message = encodeURIComponent(
     "Hi Mineworld Production, I want to discuss a project."

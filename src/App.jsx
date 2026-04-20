@@ -9,10 +9,12 @@ import TeamRoleDetail from "./pages/TeamRoleDetail";
 import InsightDetail from "./pages/InsightDetail";
 import Insights from "./pages/Insights";
 import Packages from "./pages/Packages";
+import AdminApp from "./admin/AdminApp";
 
 function App() {
   return (
     <Routes>
+      <Route path="/admin/*" element={<AdminApp />} />
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />

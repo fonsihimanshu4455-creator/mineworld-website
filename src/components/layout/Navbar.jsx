@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import { openContactModal } from "../../utils/contactActions";
+import { useSiteSettings } from "../../admin/hooks";
+import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
+import defaultLogo from "../../assets/mineworld-logo.png";
 
 const navItems = [
   { label: "Home", target: "home" },
@@ -28,6 +31,12 @@ function scrollToSection(id) {
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
+  const settings = useSiteSettings(defaultSiteConfig);
+  const logoSrc = settings.logo?.src || defaultLogo;
+  const logoWidth = Number(settings.logo?.width) || 40;
+  const logoScale = Number(settings.logo?.scale) || 1.7;
+  const logoPosition = settings.logo?.position || "center";
+  const brandName = settings.brand?.shortName || "Mineworld";
 
   const goToSection = (id) => {
     if (location.pathname !== "/") {
@@ -165,7 +174,16 @@ export default function Navbar() {
                 background:
                   "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.98), rgba(235,235,235,0.93))",
                 display: "grid",
-                placeItems: "center",
+                placeItems:
+                  logoPosition === "left"
+                    ? "center start"
+                    : logoPosition === "right"
+                    ? "center end"
+                    : logoPosition === "top"
+                    ? "start center"
+                    : logoPosition === "bottom"
+                    ? "end center"
+                    : "center",
                 boxShadow:
                   "0 0 0 1px rgba(255,255,255,0.08), 0 10px 28px rgba(255,255,255,0.08)",
                 overflow: "hidden",
@@ -173,13 +191,13 @@ export default function Navbar() {
               }}
             >
               <img
-                src="/src/assets/mineworld-logo.png"
-                alt="Mineworld Production Logo"
+                src={logoSrc}
+                alt={`${brandName} Logo`}
                 style={{
-                  width: isMobile ? "34px" : "40px",
+                  width: isMobile ? `${Math.round(logoWidth * 0.85)}px` : `${logoWidth}px`,
                   height: "auto",
                   objectFit: "contain",
-                  transform: "scale(1.7)",
+                  transform: `scale(${logoScale})`,
                 }}
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
@@ -206,7 +224,7 @@ export default function Navbar() {
                     '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
                 }}
               >
-                Mineworld
+                {brandName}
               </div>
               <div
                 style={{

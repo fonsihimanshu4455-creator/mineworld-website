@@ -6,7 +6,8 @@ import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import LazyVideo from "../common/LazyVideo";
 import { theme } from "../../styles/theme";
-import { portfolioItems } from "../../data/portfolioItems";
+import { portfolioItems as defaultPortfolio } from "../../data/portfolioItems";
+import { useCollection } from "../../admin/hooks";
 import useIsMobile from "../../utils/useIsMobile";
 
 function PortfolioCard({ item, isMobile }) {
@@ -142,6 +143,7 @@ function PortfolioCard({ item, isMobile }) {
 
 function Portfolio() {
   const isMobile = useIsMobile(768);
+  const portfolioItems = useCollection("portfolioItems", defaultPortfolio);
 
   return (
     <section
