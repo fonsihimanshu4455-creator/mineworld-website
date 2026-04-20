@@ -4,10 +4,10 @@ import Reveal from "../common/Reveal";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
 import { openContactModal } from "../../utils/contactActions";
+import useIsMobile from "../../utils/useIsMobile";
 
 function Footer() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile(768);
 
   const navItems = [
     { label: "Home", target: "home" },

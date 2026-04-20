@@ -4,6 +4,7 @@ import emailjs from "@emailjs/browser";
 import { theme } from "../../styles/theme";
 import { closeContactModal } from "../../utils/contactActions";
 import { trackEvent } from "../../utils/analytics";
+import useIsMobile from "../../utils/useIsMobile";
 import { countryCodes } from "../../data/countryCodes";
 import { siteConfig } from "../../data/siteConfig";
 import SuccessScreen from "./SuccessScreen";
@@ -83,8 +84,7 @@ function ContactModal() {
 
   const countryMenuRef = useRef(null);
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile(768);
 
   const selectedCountry = useMemo(() => {
     return (

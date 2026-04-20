@@ -13,3 +13,43 @@ body {
 a {
   text-decoration: none;
 }
+
+:focus-visible {
+  outline: 2px solid #E7C98A;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 12px;
+  z-index: 5000;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: #D6B060;
+  color: #18140F;
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none;
+  transition: top 0.2s ease;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

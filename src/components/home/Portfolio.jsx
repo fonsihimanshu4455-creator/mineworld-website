@@ -6,6 +6,8 @@ import SectionTag from "../common/SectionTag";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
 import { openContactModal, scrollToSection } from "../../utils/contactActions";
+import useIsMobile from "../../utils/useIsMobile";
+import LazyVideo from "../common/LazyVideo";
 
 import video1 from "../../assets/portfolio-1.mp4";
 import video2 from "../../assets/portfolio-2.mp4";
@@ -80,8 +82,7 @@ function Portfolio() {
   const featuredItem = portfolioItems[0];
   const sideItems = portfolioItems.slice(1);
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile(768);
 
   return (
     <section
@@ -174,24 +175,16 @@ function Portfolio() {
                   }}
                 />
               ) : (
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
+                <LazyVideo
+                  src={featuredItem.video}
                   poster={featuredItem.poster}
+                  ariaLabel={featuredItem.title}
                   style={{
                     position: "absolute",
                     inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    opacity: 0.8,
                   }}
-                >
-                  <source src={featuredItem.video} type="video/mp4" />
-                </video>
+                  videoStyle={{ opacity: 0.8 }}
+                />
               )}
 
               {isMobile && (
@@ -408,24 +401,13 @@ function Portfolio() {
                       }}
                     />
                   ) : (
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      preload="metadata"
+                    <LazyVideo
+                      src={item.video}
                       poster={item.poster}
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        opacity: 0.74,
-                      }}
-                    >
-                      <source src={item.video} type="video/mp4" />
-                    </video>
+                      ariaLabel={item.title}
+                      style={{ position: "absolute", inset: 0 }}
+                      videoStyle={{ opacity: 0.74 }}
+                    />
                   )}
 
                   {isMobile && (

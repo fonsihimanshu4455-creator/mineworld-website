@@ -4,6 +4,7 @@ import Reveal from "../common/Reveal";
 import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
+import useIsMobile from "../../utils/useIsMobile";
 
 const services = [
   {
@@ -70,8 +71,7 @@ function Services() {
   const supportA = services[2];
   const supportB = services[3];
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile(768);
 
   return (
     <section

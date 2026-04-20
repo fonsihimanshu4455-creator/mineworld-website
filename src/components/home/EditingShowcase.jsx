@@ -6,6 +6,7 @@ import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import BeforeAfterSlider from "../common/BeforeAfterSlider";
 import { theme } from "../../styles/theme";
+import useIsMobile from "../../utils/useIsMobile";
 
 import reelsShowcase from "../../assets/reels-showcase.jpg";
 import reelsShowcase1 from "../../assets/reels-showcase1.jpg";
@@ -75,8 +76,7 @@ const showcaseItems = [
 ];
 
 function EditingShowcase() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile(768);
   const [activePair, setActivePair] = useState(beforeAfterPairs[0].id);
   const pair =
     beforeAfterPairs.find((p) => p.id === activePair) || beforeAfterPairs[0];

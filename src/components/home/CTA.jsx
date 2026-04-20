@@ -4,10 +4,10 @@ import MagneticButton from "../common/MagneticButton";
 import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
 import { openContactModal } from "../../utils/contactActions";
+import useIsMobile from "../../utils/useIsMobile";
 
 function CTA() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile(768);
 
   return (
     <section

@@ -4,6 +4,7 @@ import Hero from "../components/home/Hero";
 import ClientLogoWall from "../components/home/ClientLogoWall";
 import ResultsSection from "../components/home/ResultsSection";
 import Services from "../components/home/Services";
+import Process from "../components/home/Process";
 import Portfolio from "../components/home/Portfolio";
 import Testimonials from "../components/home/Testimonials";
 import FounderSection from "../components/home/FounderSection";
@@ -13,6 +14,7 @@ import GrowthSection from "../components/home/GrowthSection";
 import EditingShowcase from "../components/home/EditingShowcase";
 import ReelScoreTool from "../components/home/ReelScoreTool";
 import Pricing from "../components/home/Pricing";
+import InsightsPreview from "../components/home/InsightsPreview";
 import FAQ from "../components/home/FAQ";
 import CTA from "../components/home/CTA";
 
@@ -35,6 +37,7 @@ function Home() {
       <ClientLogoWall />
       <ResultsSection />
       <Services />
+      <Process />
       <Portfolio />
       <Testimonials />
       <FounderSection />
@@ -44,6 +47,7 @@ function Home() {
       <EditingShowcase />
       <ReelScoreTool />
       <Pricing />
+      <InsightsPreview />
       <FAQ />
       <CTA />
     </>

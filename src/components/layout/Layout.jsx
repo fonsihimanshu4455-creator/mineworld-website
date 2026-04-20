@@ -30,8 +30,13 @@ function Layout() {
         color: "#fff",
       }}
     >
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
       <Navbar />
-      <Outlet />
+      <main id="main-content" tabIndex={-1}>
+        <Outlet />
+      </main>
       <Footer />
       <ContactModal />
       <FloatingWhatsApp />

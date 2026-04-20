@@ -6,10 +6,10 @@ import SectionTag from "../common/SectionTag";
 import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
 import founderImage from "../../assets/himanshu.JPG";
+import useIsMobile from "../../utils/useIsMobile";
 
 function FounderSection() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile(768);
 
   return (
     <section

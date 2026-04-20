@@ -310,6 +310,9 @@ export default function Navbar() {
           ) : (
             <button
               onClick={() => setMenuOpen((prev) => !prev)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
               style={{
                 width: "52px",
                 height: "52px",
@@ -322,7 +325,7 @@ export default function Navbar() {
                 flexShrink: 0,
               }}
             >
-              ☰
+              <span aria-hidden="true">{menuOpen ? "✕" : "☰"}</span>
             </button>
           )}
         </div>
@@ -330,6 +333,7 @@ export default function Navbar() {
         <AnimatePresence>
           {isMobile && menuOpen && (
             <motion.div
+              id="mobile-nav"
               initial={{ opacity: 0, height: 0, y: -6 }}
               animate={{ opacity: 1, height: "auto", y: 0 }}
               exit={{ opacity: 0, height: 0, y: -6 }}

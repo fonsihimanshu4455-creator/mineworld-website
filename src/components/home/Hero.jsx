@@ -4,13 +4,14 @@ import MagneticButton from "../common/MagneticButton";
 import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
 import { openContactModal, scrollToSection } from "../../utils/contactActions";
+import useIsMobile from "../../utils/useIsMobile";
+import LazyVideo from "../common/LazyVideo";
 
 import heroVideo from "../../assets/hero-video.mp4";
 import heroPoster from "../../assets/hero.png";
 
 function Hero() {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth <= 768 : false;
+  const isMobile = useIsMobile(768);
 
   return (
     <section
@@ -66,7 +67,7 @@ function Hero() {
                   marginBottom: "24px",
                 }}
               >
-                Editing + Content + Digital Growth
+                Delhi · Video Editing + Meta Ads + Content Systems
               </div>
             </Reveal>
 
@@ -78,14 +79,25 @@ function Hero() {
                   lineHeight: isMobile ? 0.98 : 0.94,
                   fontWeight: 800,
                   letterSpacing: isMobile ? "-1.5px" : "-2.2px",
-                  maxWidth: isMobile ? "100%" : "760px",
+                  maxWidth: isMobile ? "100%" : "820px",
                   color: theme.colors.text,
                   textShadow: "0 6px 30px rgba(0,0,0,0.18)",
                 }}
               >
-                Video Editing & Digital Growth
+                Content that earns attention.
                 <br />
-                Agency in Delhi
+                Ads that{" "}
+                <span
+                  style={{
+                    color: theme.colors.gold,
+                    fontStyle: "italic",
+                    fontFamily:
+                      '"Playfair Display", Georgia, "Times New Roman", serif',
+                  }}
+                >
+                  earn revenue
+                </span>
+                .
               </h1>
             </Reveal>
 
@@ -103,9 +115,10 @@ function Hero() {
                 }}
               >
                 Mineworld Production is a Delhi-based video editing and digital
-                growth agency helping brands, creators, clinics, and businesses
-                grow through premium video editing, podcast shoots, graphic
-                design support, social media management, and Meta ads services.
+                growth agency helping brands, clinics, creators, and businesses
+                turn content into real results — retention-first reels, Meta ad
+                campaigns, podcast production, and social media systems built
+                for leads, not vanity reach.
               </p>
             </Reveal>
 
@@ -281,24 +294,17 @@ function Hero() {
                   }}
                 />
               ) : (
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
+                <LazyVideo
+                  src={heroVideo}
                   poster={heroPoster}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
+                  ariaLabel="Mineworld Production showreel"
+                  rootMargin="0px"
+                  videoStyle={{
                     opacity: 0.95,
                     transform: "scale(1.12)",
                     filter: "contrast(1.15) brightness(1.05) saturate(1.1)",
                   }}
-                >
-                  <source src={heroVideo} type="video/mp4" />
-                </video>
+                />
               )}
 
               {isMobile && (
