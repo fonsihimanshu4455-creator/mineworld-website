@@ -56,6 +56,26 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://mineworldproduction.com/team/lead-editor</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://mineworldproduction.com/team/growth-strategist</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://mineworldproduction.com/team/studio-producer</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://mineworldproduction.com/team/creative-support</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://mineworldproduction.com/industries/clinic-marketing-delhi</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
