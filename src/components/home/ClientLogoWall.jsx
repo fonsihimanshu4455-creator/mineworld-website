@@ -9,85 +9,115 @@ import useIsMobile from "../../utils/useIsMobile";
 function LogoChip({ brand }) {
   const hasLogo = Boolean(brand.logo);
 
-  if (hasLogo) {
-    return (
-      <div
-        title={brand.name}
-        style={{
-          flexShrink: 0,
-          padding: "14px 22px",
-          marginRight: "18px",
-          borderRadius: "18px",
-          border: `1px solid ${theme.colors.line}`,
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minWidth: "180px",
-          height: "96px",
-        }}
-      >
-        <img
-          src={brand.logo}
-          alt={`${brand.name} logo`}
-          loading="lazy"
-          style={{
-            maxHeight: "56px",
-            maxWidth: "160px",
-            objectFit: "contain",
-            filter: "brightness(0.95)",
-          }}
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-          }}
-        />
-      </div>
-    );
-  }
-
   return (
     <div
+      title={brand.name}
       style={{
         flexShrink: 0,
-        padding: "16px 24px",
+        padding: "18px 24px 16px",
         marginRight: "18px",
-        borderRadius: "18px",
+        borderRadius: "20px",
         border: `1px solid ${theme.colors.line}`,
         background:
-          "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
+          "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
-        gap: "4px",
-        minWidth: "200px",
-        height: "96px",
+        alignItems: "center",
         justifyContent: "center",
+        gap: "10px",
+        minWidth: "220px",
+        height: "140px",
       }}
     >
-      <span
+      {hasLogo ? (
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            minHeight: 0,
+          }}
+        >
+          <img
+            src={brand.logo}
+            alt={`${brand.name} logo`}
+            loading="lazy"
+            style={{
+              maxHeight: "72px",
+              maxWidth: "180px",
+              width: "auto",
+              height: "auto",
+              objectFit: "contain",
+              filter: "brightness(0.98)",
+              display: "block",
+            }}
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+          />
+        </div>
+      ) : (
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: theme.colors.goldSoft,
+            fontSize: "28px",
+            fontWeight: 800,
+            letterSpacing: "-0.8px",
+            fontFamily:
+              '"Playfair Display", Georgia, "Times New Roman", serif',
+            opacity: 0.8,
+          }}
+        >
+          {(brand.name || "").slice(0, 2).toUpperCase()}
+        </div>
+      )}
+
+      <div
         style={{
-          color: theme.colors.text,
-          fontSize: "17px",
-          fontWeight: 700,
-          letterSpacing: "-0.2px",
-          fontFamily:
-            '"Playfair Display", Georgia, "Times New Roman", serif',
+          textAlign: "center",
+          borderTop: `1px solid ${theme.colors.line}`,
+          paddingTop: "8px",
+          width: "100%",
         }}
       >
-        {brand.name}
-      </span>
-      <span
-        style={{
-          color: theme.colors.goldSoft,
-          fontSize: "10px",
-          fontWeight: 700,
-          letterSpacing: "1.6px",
-          textTransform: "uppercase",
-        }}
-      >
-        {brand.industry}
-      </span>
+        <div
+          style={{
+            color: theme.colors.text,
+            fontSize: "14px",
+            fontWeight: 700,
+            letterSpacing: "-0.1px",
+            lineHeight: 1.15,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {brand.name}
+        </div>
+        {brand.industry ? (
+          <div
+            style={{
+              color: theme.colors.goldSoft,
+              fontSize: "9.5px",
+              fontWeight: 700,
+              letterSpacing: "1.4px",
+              textTransform: "uppercase",
+              marginTop: "2px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {brand.industry}
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }
