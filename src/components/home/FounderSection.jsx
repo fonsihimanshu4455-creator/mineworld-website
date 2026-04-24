@@ -7,9 +7,11 @@ import MagneticButton from "../common/MagneticButton";
 import { theme } from "../../styles/theme";
 import founderImage from "../../assets/himanshu.JPG";
 import useIsMobile from "../../utils/useIsMobile";
+import { useParallax } from "../../utils/gsapHooks";
 
 function FounderSection() {
   const isMobile = useIsMobile(768);
+  const parallaxRef = useParallax({ speed: 0.12 });
 
   return (
     <section
@@ -71,12 +73,14 @@ function FounderSection() {
               }}
             >
               <img
+                ref={parallaxRef}
                 src={founderImage}
                 alt="Himanshu Bhardwaj"
                 loading="lazy"
                 style={{
                   width: "100%",
-                  height: "100%",
+                  height: "112%",
+                  transform: "translateZ(0)",
                   objectFit: "cover",
                   opacity: 0.88,
                 }}
