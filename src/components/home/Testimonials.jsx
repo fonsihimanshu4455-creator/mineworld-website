@@ -11,6 +11,52 @@ import { theme } from "../../styles/theme";
 import { testimonials as defaultTestimonials } from "../../data/testimonials";
 import { useCollection } from "../../admin/hooks";
 import useIsMobile from "../../utils/useIsMobile";
+import { useCountUp } from "../../utils/gsapHooks";
+
+function StatBlock({ stat, isMobile }) {
+  const ref = useCountUp({
+    target: stat.target,
+    format: stat.format,
+    duration: stat.duration || 1.6,
+  });
+  return (
+    <div
+      style={{
+        padding: isMobile ? "16px" : "22px",
+        borderRadius: "18px",
+        border: `1px solid ${theme.colors.line}`,
+        background: "rgba(255,255,255,0.025)",
+        textAlign: "center",
+      }}
+    >
+      <div
+        ref={ref}
+        style={{
+          color: theme.colors.gold,
+          fontSize: isMobile ? "22px" : "28px",
+          fontWeight: 800,
+          letterSpacing: "-0.8px",
+          lineHeight: 1,
+          marginBottom: "6px",
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {stat.value}
+      </div>
+      <div
+        style={{
+          color: theme.colors.textSoft,
+          fontSize: isMobile ? "10.5px" : "11.5px",
+          letterSpacing: "1.4px",
+          textTransform: "uppercase",
+          fontWeight: 600,
+        }}
+      >
+        {stat.label}
+      </div>
+    </div>
+  );
+}
 
 function getInitials(name) {
   return name
@@ -378,45 +424,42 @@ function Testimonials() {
             }}
           >
             {[
-              { value: "50+", label: "Projects Delivered" },
-              { value: "2.5M+", label: "Views Driven" },
-              { value: "₹12L+", label: "Client Revenue" },
-              { value: "4.9/5", label: "Avg Rating" },
+              {
+                value: "50+",
+                target: 50,
+                format: (n) => `${n}+`,
+                label: "Projects Delivered",
+              },
+              {
+                value: "2.5M+",
+                target: 2500000,
+                format: (n) =>
+                  n >= 1_000_000
+                    ? `${(n / 1_000_000).toFixed(1)}M+`
+                    : n >= 1_000
+                    ? `${Math.round(n / 1_000)}K+`
+                    : `${n}+`,
+                label: "Views Driven",
+              },
+              {
+                value: "₹12L+",
+                target: 1200000,
+                format: (n) =>
+                  n >= 100000
+                    ? `₹${Math.round(n / 100000)}L+`
+                    : n >= 1000
+                    ? `₹${Math.round(n / 1000)}K+`
+                    : `₹${n}+`,
+                label: "Client Revenue",
+              },
+              {
+                value: "4.9/5",
+                target: 49,
+                format: (n) => `${(n / 10).toFixed(1)}/5`,
+                label: "Avg Rating",
+              },
             ].map((stat) => (
-              <div
-                key={stat.label}
-                style={{
-                  padding: isMobile ? "16px" : "22px",
-                  borderRadius: "18px",
-                  border: `1px solid ${theme.colors.line}`,
-                  background: "rgba(255,255,255,0.025)",
-                  textAlign: "center",
-                }}
-              >
-                <div
-                  style={{
-                    color: theme.colors.gold,
-                    fontSize: isMobile ? "22px" : "28px",
-                    fontWeight: 800,
-                    letterSpacing: "-0.8px",
-                    lineHeight: 1,
-                    marginBottom: "6px",
-                  }}
-                >
-                  {stat.value}
-                </div>
-                <div
-                  style={{
-                    color: theme.colors.textSoft,
-                    fontSize: isMobile ? "10.5px" : "11.5px",
-                    letterSpacing: "1.4px",
-                    textTransform: "uppercase",
-                    fontWeight: 600,
-                  }}
-                >
-                  {stat.label}
-                </div>
-              </div>
+              <StatBlock key={stat.label} stat={stat} isMobile={isMobile} />
             ))}
           </div>
         </Reveal>

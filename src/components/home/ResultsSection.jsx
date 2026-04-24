@@ -5,10 +5,13 @@ import Reveal from "../common/Reveal";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 import useIsMobile from "../../utils/useIsMobile";
+import { useCountUp } from "../../utils/gsapHooks";
 
 const proofCards = [
   {
     stat: "+32",
+    target: 32,
+    format: (n) => `+${n}`,
     unit: "leads in 7 days",
     title: "Aesthetic Clinic Campaign",
     tags: ["Reels + Ads", "Lead Gen"],
@@ -16,6 +19,13 @@ const proofCards = [
   },
   {
     stat: "2.5M",
+    target: 2500000,
+    format: (n) =>
+      n >= 1_000_000
+        ? `${(n / 1_000_000).toFixed(1)}M`
+        : n >= 1_000
+        ? `${(n / 1_000).toFixed(0)}K`
+        : `${n}`,
     unit: "views on a single reel",
     title: "Personal Brand Content",
     tags: ["Retention Editing", "Reel Strategy"],
@@ -23,6 +33,13 @@ const proofCards = [
   },
   {
     stat: "₹1.8L",
+    target: 180000,
+    format: (n) =>
+      n >= 100000
+        ? `₹${(n / 100000).toFixed(1)}L`
+        : n >= 1000
+        ? `₹${(n / 1000).toFixed(0)}K`
+        : `₹${n}`,
     unit: "tracked revenue driven",
     title: "Local Business Promotion",
     tags: ["Offer Creative", "Paid Growth"],
@@ -31,6 +48,12 @@ const proofCards = [
 ];
 
 function ProofCard({ item }) {
+  const statRef = useCountUp({
+    target: item.target,
+    duration: 1.8,
+    format: item.format,
+  });
+
   return (
     <Link
       to={`/case-studies/${item.slug}`}
@@ -77,12 +100,14 @@ function ProofCard({ item }) {
           }}
         >
           <span
+            ref={statRef}
             style={{
               color: theme.colors.gold,
               fontSize: "34px",
               fontWeight: 800,
               letterSpacing: "-1px",
               lineHeight: 1,
+              fontVariantNumeric: "tabular-nums",
             }}
           >
             {item.stat}
