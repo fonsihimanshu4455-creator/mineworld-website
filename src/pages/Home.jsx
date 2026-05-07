@@ -4,6 +4,7 @@ import Hero from "../components/home/Hero";
 import ClientLogoWall from "../components/home/ClientLogoWall";
 import ResultsSection from "../components/home/ResultsSection";
 import Services from "../components/home/Services";
+import CapabilitiesBand from "../components/home/CapabilitiesBand";
 import Process from "../components/home/Process";
 import Portfolio from "../components/home/Portfolio";
 import Testimonials from "../components/home/Testimonials";
@@ -34,6 +35,7 @@ function Home() {
       <ClientLogoWall />
       <ResultsSection />
       <Services />
+      <CapabilitiesBand />
       <Process />
       <Portfolio />
       <Testimonials />

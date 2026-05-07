@@ -2,6 +2,17 @@ section {
   width: 100%;
 }
 
+.capability-card {
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.32s ease, box-shadow 0.32s ease;
+}
+
+.capability-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(214, 176, 96, 0.34);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.32);
+}
+
 @media (max-width: 1200px) {
   .desktop-grid-2 {
     grid-template-columns: 1fr !important;

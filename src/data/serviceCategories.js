@@ -8,6 +8,7 @@ import podcastShowcase2 from "../assets/podcast-showcase2.jpg";
 import marketing from "../assets/marketing.JPG";
 import designer from "../assets/designer.JPG";
 import production from "../assets/production.JPG";
+import editor from "../assets/editor.JPG";
 import portfolio1 from "../assets/portfolio-1.mp4";
 import portfolio2 from "../assets/portfolio-2.mp4";
 import portfolio3 from "../assets/portfolio-3.mp4";
@@ -287,6 +288,96 @@ export const serviceCategories = [
       "Optional edit package add-on",
     ],
     recommendedPlan: "scale",
+  },
+  {
+    slug: "website-development",
+    name: "Website Development",
+    short: "Premium websites engineered to convert",
+    tagline: "Pixel-perfect, lightning-fast websites that turn visitors into customers.",
+    cover: {
+      type: "image",
+      src: editor,
+      alt: "Premium website development by Mineworld Production",
+    },
+    color: "gold",
+    longIntro:
+      "We design and build premium, conversion-focused websites for brands, clinics, D2C labels, creators, and businesses across Delhi NCR — modern stacks, blazing speed, SEO-clean structure, and a finish that makes your competitors look ordinary.",
+    included: [
+      "Bespoke landing pages",
+      "Multi-page business websites",
+      "E-commerce storefronts (Shopify / Next.js)",
+      "Booking + lead capture funnels",
+      "Custom CMS (edit it yourself)",
+      "Mobile-first responsive design",
+      "SEO + Core Web Vitals tuning",
+      "Analytics + Meta Pixel setup",
+    ],
+    approach: [
+      {
+        title: "Design that earns the click",
+        text: "Every section is engineered around a real user decision — hero, proof, offer, CTA. We strip everything else. Premium, but never decorative.",
+      },
+      {
+        title: "Speed is a feature",
+        text: "Sub-2-second loads, lazy media, modern image formats, edge hosting. Google rewards it, and so does your customer's patience.",
+      },
+      {
+        title: "Built to scale, not rebuild",
+        text: "Component-based codebase, clean CMS, version control. Six months in, you're adding pages — not paying someone to start over.",
+      },
+    ],
+    deliverables: [
+      "Fully responsive production website",
+      "CMS access + handover docs",
+      "Performance + SEO audit",
+      "30 days post-launch support",
+    ],
+    recommendedPlan: "custom",
+  },
+  {
+    slug: "app-development",
+    name: "App Development",
+    short: "iOS + Android + cross-platform builds",
+    tagline: "Native-feel mobile apps without the native team cost.",
+    cover: {
+      type: "image",
+      src: production,
+      alt: "Mobile app development by Mineworld Production",
+    },
+    color: "blue",
+    longIntro:
+      "End-to-end mobile app development for startups, D2C brands, clinics, and service businesses — from product scoping to App Store + Play Store launch. Built on React Native and Flutter for a single, premium codebase across iOS and Android.",
+    included: [
+      "iOS + Android cross-platform apps",
+      "Product scoping + wireframes",
+      "UI/UX design system",
+      "Authentication + user accounts",
+      "Push notifications + analytics",
+      "Payment integration (Razorpay / Stripe)",
+      "Backend + admin panel",
+      "Play Store + App Store submission",
+    ],
+    approach: [
+      {
+        title: "Ship the spine first",
+        text: "We define the 3 actions your app must do well, ship those in a clean v1, then layer features. Bloated v1s die in beta — focused ones get downloaded.",
+      },
+      {
+        title: "Native feel, single codebase",
+        text: "React Native or Flutter — chosen per your roadmap. You get one codebase, two stores, and a team that doesn't fragment over platform politics.",
+      },
+      {
+        title: "Designed for retention, not just install",
+        text: "Onboarding, push timing, empty states, and loading states are crafted — because the apps people keep are the ones that feel cared for.",
+      },
+    ],
+    deliverables: [
+      "Production iOS + Android builds",
+      "Source code + repo handover",
+      "Backend + admin dashboard",
+      "Store submission + 60-day support",
+    ],
+    recommendedPlan: "custom",
   },
 ];
 

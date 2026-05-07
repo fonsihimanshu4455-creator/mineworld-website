@@ -28,7 +28,19 @@ export const faqItems = [
     a: "Yes. Content planning and hook direction are built into Growth and Scale. On Starter, you bring the idea, we shape it into a retention-first edit.",
   },
   {
+    q: "Do you build websites and online stores?",
+    a: "Yes — we design and develop premium business websites, landing pages, and Shopify / Next.js e-commerce stores. Every build is mobile-first, SEO-clean, and tuned for sub-2-second loads. Most production sites ship in 2–4 weeks; e-commerce in 3–6 weeks.",
+  },
+  {
+    q: "Do you also develop mobile apps?",
+    a: "Absolutely. We build iOS + Android apps on React Native and Flutter — one codebase, native feel. Scope, design, build, store submission, and post-launch support are all handled in-house. MVPs typically launch in 8–12 weeks depending on feature scope.",
+  },
+  {
+    q: "Will my website or app be SEO and analytics-ready?",
+    a: "Yes. Every website ships with clean semantic markup, schema, sitemap, GA4, and Meta Pixel pre-installed. Apps come with analytics, crash reporting, and event tracking wired in from day one — so you're never building decisions on guesswork.",
+  },
+  {
     q: "How do I get started?",
-    a: "Book a 20-minute intro call (free). We'll understand your business, current content, and goals — then send a clear proposal with plan, timeline, and deliverables within 48 hours.",
+    a: "Book a 20-minute intro call (free). We'll understand your business, current presence, and goals — then send a clear proposal with plan, timeline, and deliverables within 48 hours.",
   },
 ];

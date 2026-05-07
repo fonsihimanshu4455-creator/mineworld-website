@@ -54,16 +54,17 @@ export const pricingPlans = [
   {
     id: "custom",
     name: "Custom",
-    tagline: "Project-based or enterprise retainer",
+    tagline: "Websites, apps, launches & enterprise retainers",
     monthly: "Custom",
     monthlyNote: "talk to us",
-    bestFor: "Campaigns, launches, brands that need a bespoke plan",
+    bestFor:
+      "Website + app builds, campaigns, launches, and brands that need a bespoke plan",
     cta: "Request Proposal",
     highlights: [
-      "Tailored scope for your business",
+      "Website development (Next.js / Shopify)",
+      "iOS + Android app builds (React Native / Flutter)",
       "Multi-city shoots + production crew",
       "Full brand + creative + paid ownership",
-      "Exclusivity arrangements available",
       "Dedicated account director",
     ],
     accent: "blue",

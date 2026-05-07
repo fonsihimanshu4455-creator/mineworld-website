@@ -32,11 +32,13 @@ function Footer() {
   ];
 
   const services = [
-    "Video Editing Services in Delhi",
-    "Podcast Production in Delhi",
-    "Graphic Design Support",
-    "Social Media Management in Delhi",
+    "Website Development in Delhi",
+    "iOS & Android App Development",
     "Meta Ads & Digital Growth",
+    "Social Media Management in Delhi",
+    "Video Editing Services",
+    "Podcast & Content Shoots",
+    "Graphic Design Support",
   ];
 
   const scrollToSection = (id) => {
@@ -296,10 +298,10 @@ function Footer() {
                   lineHeight: 1.95,
                 }}
               >
-                Mineworld Production is a Delhi-based video editing and digital
-                growth agency helping brands, creators, clinics, and businesses
-                through content production, social media management, podcast
-                shoots, and Meta ads services.
+                Mineworld Production is Delhi's premium full-stack creative and
+                growth studio — websites, mobile apps, video editing, Meta ads,
+                social media management, podcast production, and graphic design
+                for brands, creators, clinics, and businesses.
               </p>
 
               <div
@@ -624,10 +626,11 @@ function Footer() {
               maxWidth: isMobile ? "100%" : "620px",
             }}
           >
-            Mineworld Production is a video editing and digital growth agency in
-            Delhi offering podcast production, social media management, graphic
-            design support, and Meta ads services for brands, creators, clinics,
-            and businesses.
+            Mineworld Production is a premium creative and growth studio in
+            Delhi offering website development, iOS & Android app development,
+            video editing, Meta ads, social media management, podcast
+            production, and graphic design for brands, creators, clinics, and
+            businesses.
           </div>
         </div>
       </Container>

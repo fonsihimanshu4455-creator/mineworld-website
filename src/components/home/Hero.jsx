@@ -83,7 +83,7 @@ function Hero() {
                 marginBottom: "24px",
               }}
             >
-              Delhi · Video Editing + Meta Ads + Content Systems
+              Delhi · Websites · Apps · Video · Meta Ads · Growth
             </div>
 
             <h1
@@ -136,11 +136,11 @@ function Hero() {
                 lineHeight: 1.9,
               }}
             >
-              Mineworld Production is a Delhi-based video editing and digital
-              growth agency helping brands, clinics, creators, and businesses
-              turn content into real results — retention-first reels, Meta ad
-              campaigns, podcast production, and social media systems built for
-              leads, not vanity reach.
+              Mineworld Production is Delhi's full-stack creative + growth
+              studio — premium websites, native-feel mobile apps, retention-first
+              video, Meta ad campaigns, and social media systems built for real
+              leads and revenue, not vanity reach. One team, one standard, one
+              outcome: a brand that looks impossible to ignore.
             </p>
 
             <div
@@ -189,11 +189,13 @@ function Hero() {
               }}
             >
               {[
+                "Websites",
+                "Mobile Apps",
                 "Video Editing",
+                "Meta Ads",
+                "Social Media",
                 "Podcast Shoots",
                 "Graphic Design",
-                "Social Media",
-                "Meta Ads",
               ].map((item) => (
                 <div
                   key={item}
@@ -224,7 +226,7 @@ function Hero() {
                   textTransform: "uppercase",
                 }}
               >
-                Content. Design. Ads. Presence.
+                Websites. Apps. Content. Ads. Presence.
               </div>
             </Reveal>
 
