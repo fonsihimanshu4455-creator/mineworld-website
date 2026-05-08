@@ -4,7 +4,6 @@ import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
-import { theme } from "../../styles/theme";
 import { faqItems } from "../../data/faqItems";
 import { openContactModal } from "../../utils/contactActions";
 import useIsMobile from "../../utils/useIsMobile";
@@ -18,7 +17,7 @@ function FAQItem({ item, index, openIndex, setOpenIndex }) {
     <div
       style={{
         borderRadius: "20px",
-        border: `1px solid ${open ? "rgba(188,153,102,0.4)" : theme.colors.line}`,
+        border: `1px solid ${open ? "rgba(184,149,106,0.4)" : "var(--border-subtle)"}`,
         background: open
           ? "linear-gradient(180deg, rgba(188,153,102,0.06), rgba(255,255,255,0.02))"
           : "rgba(255,255,255,0.025)",
@@ -42,7 +41,7 @@ function FAQItem({ item, index, openIndex, setOpenIndex }) {
           border: "none",
           cursor: "pointer",
           textAlign: "left",
-          color: theme.colors.text,
+          color: "var(--text-primary)",
           fontSize: "16px",
           fontWeight: 700,
           lineHeight: 1.45,
@@ -56,10 +55,10 @@ function FAQItem({ item, index, openIndex, setOpenIndex }) {
             width: "32px",
             height: "32px",
             borderRadius: "50%",
-            border: `1px solid ${theme.colors.line}`,
+            border: "1px solid var(--border-subtle)",
             display: "grid",
             placeItems: "center",
-            color: theme.colors.goldSoft,
+            color: "var(--accent-gold)",
             fontSize: "16px",
             fontWeight: 800,
             transform: open ? "rotate(45deg)" : "rotate(0deg)",
@@ -85,7 +84,7 @@ function FAQItem({ item, index, openIndex, setOpenIndex }) {
             <div
               style={{
                 padding: "0 22px 22px",
-                color: theme.colors.textSoft,
+                color: "var(--text-secondary)",
                 fontSize: "15px",
                 lineHeight: 1.85,
               }}
@@ -109,8 +108,8 @@ function FAQ() {
       style={{
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
-        background: theme.colors.bg,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--bg-cream-soft)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >

@@ -1,7 +1,6 @@
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import SectionTag from "../common/SectionTag";
-import { theme } from "../../styles/theme";
 
 function BrandStatement() {
   return (
@@ -9,8 +8,8 @@ function BrandStatement() {
       style={{
         position: "relative",
         padding: "110px 0",
-        background: theme.colors.bg,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--accent-navy)",
+        borderBottom: "1px solid rgba(184,149,106,0.20)",
       }}
     >
       <Container>
@@ -31,7 +30,7 @@ function BrandStatement() {
                 lineHeight: 1.06,
                 fontWeight: 800,
                 letterSpacing: "-1.5px",
-                color: theme.colors.text,
+                color: "#FFFFFF",
               }}
             >
               Most agencies deliver content.
@@ -51,7 +50,7 @@ function BrandStatement() {
             <p
               style={{
                 margin: 0,
-                color: theme.colors.textSoft,
+                color: "rgba(245,239,230,0.85)",
                 fontSize: "18px",
                 lineHeight: 1.9,
               }}

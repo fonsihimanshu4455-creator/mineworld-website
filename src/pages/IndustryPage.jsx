@@ -64,8 +64,8 @@ function IndustryPage() {
     <article
       style={{
         background: `
-          radial-gradient(circle at 14% 10%, rgba(188,153,102,0.10), transparent 22%),
-          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
+          radial-gradient(circle at 14% 10%, rgba(184,149,106,0.10), transparent 22%),
+          linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-cream-soft) 50%, var(--bg-primary) 100%)
         `,
       }}
     >
@@ -172,7 +172,7 @@ function IndustryPage() {
                       padding: isMobile ? "16px 12px" : "22px",
                       borderRadius: "20px",
                       border: `1px solid ${theme.colors.line}`,
-                      background: "rgba(255,255,255,0.03)",
+                      background: "rgba(184,149,106,0.06)",
                       textAlign: "center",
                     }}
                   >
@@ -258,7 +258,7 @@ function IndustryPage() {
                     borderRadius: "22px",
                     border: `1px solid ${theme.colors.line}`,
                     background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
+                      "linear-gradient(180deg, rgba(184,149,106,0.10), rgba(255,255,255,0.015))",
                   }}
                 >
                   <div
@@ -360,7 +360,7 @@ function IndustryPage() {
                   padding: "12px 18px",
                   borderRadius: "999px",
                   border: `1px solid ${theme.colors.line}`,
-                  background: "rgba(255,255,255,0.035)",
+                  background: "rgba(184,149,106,0.08)",
                   color: theme.colors.text,
                   fontSize: "14px",
                   fontWeight: 600,
