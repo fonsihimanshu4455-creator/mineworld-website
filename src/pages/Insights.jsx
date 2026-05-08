@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Container from "../components/common/Container";
 import Reveal from "../components/common/Reveal";
+import Seo from "../components/common/Seo";
 import { theme } from "../styles/theme";
 import { insights } from "../data/insights";
 import { trackEvent } from "../utils/analytics";
@@ -129,7 +130,6 @@ function Insights() {
   const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
-    document.title = "Insights | Mineworld Production";
     trackEvent("insights_list_view", {});
   }, []);
 
@@ -152,6 +152,11 @@ function Insights() {
         `,
       }}
     >
+      <Seo
+        title="Insights — Notes from the studio"
+        path="/insights"
+        description="Articles and frameworks from Mineworld Production on content strategy, video production, ad campaigns, and brand growth."
+      />
       <section
         style={{
           padding: isMobile ? "124px 0 40px" : "150px 0 60px",

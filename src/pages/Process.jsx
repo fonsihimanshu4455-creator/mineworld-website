@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import ProcessSection from "../components/home/Process";
+import Seo from "../components/common/Seo";
 
 function ProcessPage() {
   useEffect(() => {
-    document.title = "Process | Mineworld Production";
     window.scrollTo({ top: 0, behavior: "auto" });
   }, []);
 
@@ -15,6 +15,11 @@ function ProcessPage() {
         paddingTop: "92px",
       }}
     >
+      <Seo
+        title="Process — How we ship"
+        path="/process"
+        description="Our delivery workflow — from kickoff to ongoing optimisation. How Mineworld Production builds and ships premium content systems."
+      />
       <ProcessSection />
     </article>
   );

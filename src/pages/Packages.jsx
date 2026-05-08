@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Container from "../components/common/Container";
 import Reveal from "../components/common/Reveal";
+import Seo from "../components/common/Seo";
 import { theme } from "../styles/theme";
 import {
   monthlyRetainerPlans,
@@ -208,7 +209,6 @@ function Packages() {
   const isMobile = useIsMobile(768);
 
   useEffect(() => {
-    document.title = "Packages & Pricing | Mineworld Production";
     trackEvent("packages_view", {});
   }, []);
 
@@ -223,6 +223,11 @@ function Packages() {
         `,
       }}
     >
+      <Seo
+        title="Packages & Pricing"
+        path="/packages"
+        description="Transparent monthly retainer packages for Mineworld Production — content systems, ad campaigns, and growth services for serious brands."
+      />
       <section
         style={{
           padding: isMobile ? "124px 0 50px" : "150px 0 70px",

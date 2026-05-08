@@ -7,6 +7,11 @@ import {
 import Field from "../components/Field";
 import { PageHeader } from "./Dashboard";
 
+const sectionLabelByKey = sectionVisibilityMeta.reduce((acc, m) => {
+  acc[m.key] = m.label;
+  return acc;
+}, {});
+
 function getSavedSettings() {
   return contentStore.get("settings") || {};
 }
@@ -33,11 +38,202 @@ function mergedSettings() {
       ...(defaultConfig.sectionVisibility || {}),
       ...(saved.sectionVisibility || {}),
     },
+    sectionOrder: (() => {
+      const fallback = defaultConfig.sectionOrder || [];
+      const saved_order = Array.isArray(saved.sectionOrder)
+        ? saved.sectionOrder
+        : [];
+      const valid = saved_order.filter((k) => fallback.includes(k));
+      const missing = fallback.filter((k) => !valid.includes(k));
+      return valid.length ? [...valid, ...missing] : fallback;
+    })(),
     navbar: {
       ...(defaultConfig.navbar || {}),
       ...(saved.navbar || {}),
     },
   };
+}
+
+function SectionOrderList({ order, visibility, onReorder, onToggle }) {
+  const [dragKey, setDragKey] = useState(null);
+
+  const move = (idx, dir) => {
+    const next = [...order];
+    const target = idx + dir;
+    if (target < 0 || target >= next.length) return;
+    const [item] = next.splice(idx, 1);
+    next.splice(target, 0, item);
+    onReorder(next);
+  };
+
+  const onDragStart = (key) => (e) => {
+    setDragKey(key);
+    e.dataTransfer.effectAllowed = "move";
+  };
+  const onDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+  const onDrop = (overKey) => (e) => {
+    e.preventDefault();
+    if (!dragKey || dragKey === overKey) {
+      setDragKey(null);
+      return;
+    }
+    const next = [...order];
+    const from = next.indexOf(dragKey);
+    const to = next.indexOf(overKey);
+    if (from < 0 || to < 0) return;
+    const [item] = next.splice(from, 1);
+    next.splice(to, 0, item);
+    onReorder(next);
+    setDragKey(null);
+  };
+
+  return (
+    <div style={{ display: "grid", gap: "6px" }}>
+      {order.map((key, idx) => {
+        const label = sectionLabelByKey[key] || key;
+        const visible = visibility[key] !== false;
+        const isDragging = dragKey === key;
+        return (
+          <div
+            key={key}
+            draggable
+            onDragStart={onDragStart(key)}
+            onDragOver={onDragOver}
+            onDrop={onDrop(key)}
+            onDragEnd={() => setDragKey(null)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "10px 12px",
+              borderRadius: "12px",
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: isDragging
+                ? "rgba(214,176,96,0.12)"
+                : visible
+                ? "rgba(255,255,255,0.025)"
+                : "rgba(255,120,120,0.04)",
+              opacity: isDragging ? 0.6 : 1,
+              transition: "background 0.2s ease",
+            }}
+          >
+            <span
+              aria-hidden="true"
+              title="Drag to reorder"
+              style={{
+                cursor: "grab",
+                color: "#E7C98A",
+                fontWeight: 800,
+                fontSize: "16px",
+                userSelect: "none",
+                padding: "2px 4px",
+              }}
+            >
+              ⋮⋮
+            </span>
+            <span
+              style={{
+                color: visible ? "#F5F1E8" : "rgba(243,239,231,0.45)",
+                fontSize: "13.5px",
+                fontWeight: 700,
+                flex: 1,
+                textDecoration: visible ? "none" : "line-through",
+              }}
+            >
+              {idx + 1}. {label}
+            </span>
+            <button
+              type="button"
+              onClick={() => move(idx, -1)}
+              disabled={idx === 0}
+              aria-label={`Move ${label} up`}
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "8px",
+                border: "1px solid rgba(255,255,255,0.10)",
+                background: "rgba(255,255,255,0.04)",
+                color: idx === 0 ? "rgba(243,239,231,0.25)" : "#F5F1E8",
+                cursor: idx === 0 ? "not-allowed" : "pointer",
+                fontSize: "13px",
+                fontWeight: 700,
+              }}
+            >
+              ↑
+            </button>
+            <button
+              type="button"
+              onClick={() => move(idx, 1)}
+              disabled={idx === order.length - 1}
+              aria-label={`Move ${label} down`}
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "8px",
+                border: "1px solid rgba(255,255,255,0.10)",
+                background: "rgba(255,255,255,0.04)",
+                color:
+                  idx === order.length - 1
+                    ? "rgba(243,239,231,0.25)"
+                    : "#F5F1E8",
+                cursor:
+                  idx === order.length - 1 ? "not-allowed" : "pointer",
+                fontSize: "13px",
+                fontWeight: 700,
+              }}
+            >
+              ↓
+            </button>
+            <label
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <span
+                role="switch"
+                aria-checked={visible}
+                style={{
+                  position: "relative",
+                  width: "36px",
+                  height: "20px",
+                  borderRadius: "999px",
+                  background: visible
+                    ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+                    : "rgba(255,255,255,0.18)",
+                  flexShrink: 0,
+                  transition: "background 0.2s ease",
+                }}
+              >
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "2px",
+                    left: visible ? "18px" : "2px",
+                    width: "16px",
+                    height: "16px",
+                    borderRadius: "50%",
+                    background: "#fff",
+                    transition: "left 0.2s ease",
+                  }}
+                />
+              </span>
+              <input
+                type="checkbox"
+                checked={visible}
+                onChange={(e) => onToggle(key, e.target.checked)}
+                style={{ display: "none" }}
+              />
+            </label>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 function ToggleRow({ label, checked, onChange, hint }) {
@@ -375,7 +571,7 @@ function SettingsEditor() {
         </div>
       </Section>
 
-      <Section title="Home Page Sections — Show / Hide">
+      <Section title="Home Page Sections — Order, Show / Hide">
         <div
           style={{
             color: "rgba(243,239,231,0.65)",
@@ -384,21 +580,39 @@ function SettingsEditor() {
             marginBottom: "4px",
           }}
         >
-          Toggle individual home-page sections. Turn off any section you don't
-          want to show — it'll disappear from the live site immediately.
+          Drag rows by the ⋮⋮ handle (or use the ↑/↓ buttons on mobile) to
+          reorder sections on the home page. Toggle the switch to show / hide
+          a section. Hero stays pinned at the top.
         </div>
-        <div style={{ display: "grid", gap: "8px" }}>
-          {sectionVisibilityMeta.map((meta) => (
-            <ToggleRow
-              key={meta.key}
-              label={meta.label}
-              checked={settings.sectionVisibility?.[meta.key] !== false}
-              onChange={(v) =>
-                updatePath(["sectionVisibility", meta.key], v)
-              }
-            />
-          ))}
-        </div>
+        <SectionOrderList
+          order={settings.sectionOrder || []}
+          visibility={settings.sectionVisibility || {}}
+          onReorder={(next) => setSettings((p) => ({ ...p, sectionOrder: next }))}
+          onToggle={(key, v) => updatePath(["sectionVisibility", key], v)}
+        />
+        <button
+          type="button"
+          onClick={() =>
+            setSettings((p) => ({
+              ...p,
+              sectionOrder: defaultConfig.sectionOrder || [],
+            }))
+          }
+          style={{
+            marginTop: "10px",
+            alignSelf: "flex-start",
+            padding: "8px 14px",
+            borderRadius: "999px",
+            border: "1px solid rgba(255,255,255,0.12)",
+            background: "rgba(255,255,255,0.04)",
+            color: "#F5F1E8",
+            fontSize: "12px",
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          Reset order to default
+        </button>
       </Section>
 
       <Section title="Navbar — Extra Pages">

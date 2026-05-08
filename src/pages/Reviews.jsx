@@ -5,6 +5,7 @@ import Container from "../components/common/Container";
 import Reveal from "../components/common/Reveal";
 import TestimonialSubmitModal from "../components/common/TestimonialSubmitModal";
 import TestimonialDetailModal from "../components/common/TestimonialDetailModal";
+import Seo from "../components/common/Seo";
 import { theme } from "../styles/theme";
 import { testimonials as defaultTestimonials } from "../data/testimonials";
 import { useCollection } from "../admin/hooks";
@@ -145,7 +146,6 @@ function Reviews() {
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
-    document.title = "Reviews | Mineworld Production";
     trackEvent("reviews_page_view", {});
   }, []);
 
@@ -189,6 +189,11 @@ function Reviews() {
         `,
       }}
     >
+      <Seo
+        title="Reviews — What clients say"
+        path="/reviews"
+        description="Real client reviews for Mineworld Production. Read why brands trust us with their content systems, video editing, and ad campaigns."
+      />
       <section
         style={{
           padding: isMobile ? "124px 0 40px" : "150px 0 60px",

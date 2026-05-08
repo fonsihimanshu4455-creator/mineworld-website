@@ -34,6 +34,9 @@ export function useSiteSettings(defaultConfig) {
         ...(defaultConfig.sectionVisibility || {}),
         ...(saved.sectionVisibility || {}),
       },
+      sectionOrder: Array.isArray(saved.sectionOrder)
+        ? saved.sectionOrder
+        : defaultConfig.sectionOrder || [],
       navbar: {
         ...(defaultConfig.navbar || {}),
         ...(saved.navbar || {}),
@@ -87,4 +90,22 @@ export function useSectionVisible(key, defaultVisible = true) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
   return visible;
+}
+
+export function useSectionOrder(defaultOrder) {
+  const compute = () => {
+    const saved = contentStore.get("settings") || {};
+    if (Array.isArray(saved.sectionOrder) && saved.sectionOrder.length) {
+      const valid = saved.sectionOrder.filter((k) => defaultOrder.includes(k));
+      const missing = defaultOrder.filter((k) => !valid.includes(k));
+      return [...valid, ...missing];
+    }
+    return defaultOrder;
+  };
+  const [order, setOrder] = useState(compute);
+  useEffect(() => {
+    return subscribe(() => setOrder(compute()));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return order;
 }

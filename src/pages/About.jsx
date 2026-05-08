@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import FounderSection from "../components/home/FounderSection";
 import TeamSection from "../components/home/TeamSection";
+import Seo from "../components/common/Seo";
 
 function About() {
   useEffect(() => {
-    document.title = "About | Mineworld Production";
     window.scrollTo({ top: 0, behavior: "auto" });
   }, []);
 
@@ -16,6 +16,11 @@ function About() {
         paddingTop: "92px",
       }}
     >
+      <Seo
+        title="About — Founder & Team"
+        path="/about"
+        description="Meet the founder and team behind Mineworld Production — Delhi-based studio building content systems, websites, and ad campaigns for serious brands."
+      />
       <FounderSection />
       <TeamSection />
     </article>

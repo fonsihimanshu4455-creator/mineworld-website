@@ -39,6 +39,23 @@ export const siteConfig = {
     faq: true,
   },
 
+  sectionOrder: [
+    "clientLogoWall",
+    "resultsSection",
+    "services",
+    "capabilitiesBand",
+    "trustStrip",
+    "process",
+    "portfolio",
+    "testimonials",
+    "founderSection",
+    "teamSection",
+    "editingShowcase",
+    "reelScoreTool",
+    "insightsPreview",
+    "faq",
+  ],
+
   navbar: {
     showInsights: false,
     showReviews: false,

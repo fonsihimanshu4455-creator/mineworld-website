@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import FAQ from "../components/home/FAQ";
+import Seo from "../components/common/Seo";
 
 function FAQPage() {
   useEffect(() => {
-    document.title = "FAQ | Mineworld Production";
     window.scrollTo({ top: 0, behavior: "auto" });
   }, []);
 
@@ -15,6 +15,11 @@ function FAQPage() {
         paddingTop: "92px",
       }}
     >
+      <Seo
+        title="FAQ — Frequently Asked Questions"
+        path="/faq"
+        description="Common questions about working with Mineworld Production — pricing, timelines, deliverables, revisions, and how we measure success."
+      />
       <FAQ />
     </article>
   );

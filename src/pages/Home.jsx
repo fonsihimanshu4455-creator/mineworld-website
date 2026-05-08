@@ -15,25 +15,32 @@ import EditingShowcase from "../components/home/EditingShowcase";
 import ReelScoreTool from "../components/home/ReelScoreTool";
 import InsightsPreview from "../components/home/InsightsPreview";
 import FAQ from "../components/home/FAQ";
-import { useSectionVisible } from "../admin/hooks";
+import Seo from "../components/common/Seo";
+import { useSiteSettings, useSectionOrder } from "../admin/hooks";
+import { siteConfig as defaultSiteConfig } from "../data/siteConfig";
+
+const SECTION_COMPONENTS = {
+  clientLogoWall: ClientLogoWall,
+  resultsSection: ResultsSection,
+  services: Services,
+  capabilitiesBand: CapabilitiesBand,
+  trustStrip: TrustStrip,
+  process: Process,
+  portfolio: Portfolio,
+  testimonials: Testimonials,
+  founderSection: FounderSection,
+  teamSection: TeamSection,
+  editingShowcase: EditingShowcase,
+  reelScoreTool: ReelScoreTool,
+  insightsPreview: InsightsPreview,
+  faq: FAQ,
+};
 
 function Home() {
   const location = useLocation();
-
-  const showClientLogoWall = useSectionVisible("clientLogoWall");
-  const showResultsSection = useSectionVisible("resultsSection");
-  const showServices = useSectionVisible("services");
-  const showCapabilitiesBand = useSectionVisible("capabilitiesBand");
-  const showTrustStrip = useSectionVisible("trustStrip");
-  const showProcess = useSectionVisible("process");
-  const showPortfolio = useSectionVisible("portfolio");
-  const showTestimonials = useSectionVisible("testimonials");
-  const showFounderSection = useSectionVisible("founderSection");
-  const showTeamSection = useSectionVisible("teamSection");
-  const showEditingShowcase = useSectionVisible("editingShowcase");
-  const showReelScoreTool = useSectionVisible("reelScoreTool");
-  const showInsightsPreview = useSectionVisible("insightsPreview");
-  const showFAQ = useSectionVisible("faq");
+  const settings = useSiteSettings(defaultSiteConfig);
+  const order = useSectionOrder(defaultSiteConfig.sectionOrder);
+  const visibility = settings.sectionVisibility || {};
 
   useEffect(() => {
     if (!location.hash) return;
@@ -47,21 +54,14 @@ function Home() {
 
   return (
     <>
+      <Seo path="/" />
       <Hero />
-      {showClientLogoWall && <ClientLogoWall />}
-      {showResultsSection && <ResultsSection />}
-      {showServices && <Services />}
-      {showCapabilitiesBand && <CapabilitiesBand />}
-      {showTrustStrip && <TrustStrip />}
-      {showProcess && <Process />}
-      {showPortfolio && <Portfolio />}
-      {showTestimonials && <Testimonials />}
-      {showFounderSection && <FounderSection />}
-      {showTeamSection && <TeamSection />}
-      {showEditingShowcase && <EditingShowcase />}
-      {showReelScoreTool && <ReelScoreTool />}
-      {showInsightsPreview && <InsightsPreview />}
-      {showFAQ && <FAQ />}
+      {order.map((key) => {
+        const Component = SECTION_COMPONENTS[key];
+        if (!Component) return null;
+        if (visibility[key] === false) return null;
+        return <Component key={key} />;
+      })}
     </>
   );
 }

@@ -3,9 +3,11 @@ import { theme } from "../../styles/theme";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 import { trackWhatsAppClick } from "../../utils/contactActions";
 import { useSiteSettings } from "../../admin/hooks";
+import useIsMobile from "../../utils/useIsMobile";
 
 function FloatingWhatsApp() {
   const settings = useSiteSettings(defaultSiteConfig);
+  const isMobile = useIsMobile(900);
   const whatsappNumber =
     settings?.contact?.whatsappNumber || "919758850933";
 
@@ -29,8 +31,8 @@ function FloatingWhatsApp() {
       transition={{ duration: 0.35, ease: "easeOut" }}
       style={{
         position: "fixed",
-        right: "18px",
-        bottom: "18px",
+        right: "14px",
+        bottom: isMobile ? "100px" : "18px",
         zIndex: 1300,
         display: "flex",
         alignItems: "center",
@@ -38,22 +40,24 @@ function FloatingWhatsApp() {
         textDecoration: "none",
       }}
     >
-      <div
-        style={{
-          background: "rgba(18, 24, 38, 0.92)",
-          color: theme.colors.text,
-          border: `1px solid ${theme.colors.line}`,
-          borderRadius: "999px",
-          padding: "10px 14px",
-          fontSize: "13px",
-          fontWeight: 700,
-          boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
-          backdropFilter: "blur(10px)",
-          WebkitBackdropFilter: "blur(10px)",
-        }}
-      >
-        Chat on WhatsApp
-      </div>
+      {!isMobile && (
+        <div
+          style={{
+            background: "rgba(18, 24, 38, 0.92)",
+            color: theme.colors.text,
+            border: `1px solid ${theme.colors.line}`,
+            borderRadius: "999px",
+            padding: "10px 14px",
+            fontSize: "13px",
+            fontWeight: 700,
+            boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+          }}
+        >
+          Chat on WhatsApp
+        </div>
+      )}
 
       <div
         style={{
