@@ -86,8 +86,8 @@ export const siteConfig = {
   navbar: {
     showAbout: true,
     showProcess: true,
-    showInsights: true,
-    showReviews: true,
+    showInsights: false,
+    showReviews: false,
     showFaq: true,
   },
 };
