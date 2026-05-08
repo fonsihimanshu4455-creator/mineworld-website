@@ -5,6 +5,7 @@ import ClientLogoWall from "../components/home/ClientLogoWall";
 import ResultsSection from "../components/home/ResultsSection";
 import Services from "../components/home/Services";
 import CapabilitiesBand from "../components/home/CapabilitiesBand";
+import ManifestoBand from "../components/home/ManifestoBand";
 import TrustStrip from "../components/home/TrustStrip";
 import Process from "../components/home/Process";
 import Portfolio from "../components/home/Portfolio";
@@ -30,6 +31,7 @@ const SECTION_COMPONENTS = {
   resultsSection: ResultsSection,
   services: Services,
   capabilitiesBand: CapabilitiesBand,
+  manifestoBand: ManifestoBand,
   trustStrip: TrustStrip,
   process: Process,
   portfolio: Portfolio,
