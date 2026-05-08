@@ -17,6 +17,7 @@ import ReelScoreTool from "../components/home/ReelScoreTool";
 import InsightsPreview from "../components/home/InsightsPreview";
 import FAQ from "../components/home/FAQ";
 import Seo from "../components/common/Seo";
+import SectionTransition from "../components/common/SectionTransition";
 import { useSiteSettings, useSectionOrder, useCollection } from "../admin/hooks";
 import { siteConfig as defaultSiteConfig } from "../data/siteConfig";
 import { testimonials as defaultTestimonials } from "../data/testimonials";
@@ -43,6 +44,16 @@ const SECTION_COMPONENTS = {
   insightsPreview: InsightsPreview,
   faq: FAQ,
 };
+
+// Section keys after which a decorative transition strip is rendered —
+// chosen at natural light/dark hand-offs so the strip reads as a beat,
+// not noise. Only used when the section is actually rendered.
+const TRANSITION_AFTER = new Set([
+  "services",
+  "resultsSection",
+  "process",
+  "reelScoreTool",
+]);
 
 function Home() {
   const location = useLocation();
@@ -75,11 +86,17 @@ function Home() {
     <>
       <Seo path="/" jsonLd={homeJsonLd} />
       <Hero />
+      <SectionTransition />
       {order.map((key) => {
         const Component = SECTION_COMPONENTS[key];
         if (!Component) return null;
         if (visibility[key] === false) return null;
-        return <Component key={key} />;
+        return (
+          <div key={key}>
+            <Component />
+            {TRANSITION_AFTER.has(key) && <SectionTransition />}
+          </div>
+        );
       })}
     </>
   );

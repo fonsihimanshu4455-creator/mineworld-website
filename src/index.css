@@ -289,7 +289,102 @@ a:focus:not(:focus-visible) {
   border-radius: 999px;
 }
 
+/* ─── Scroll Reveal (PR-3 Task 1) ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1.revealed { transition-delay: 0.1s; }
+.reveal-delay-2.revealed { transition-delay: 0.2s; }
+.reveal-delay-3.revealed { transition-delay: 0.3s; }
+.reveal-delay-4.revealed { transition-delay: 0.4s; }
+
+/* ─── Section Transition (PR-3 Task 2) ─── */
+.section-transition {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto;
+  padding: 40px 0;
+  max-width: 200px;
+}
+.section-transition .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+}
+.section-transition .line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--accent-gold),
+    transparent
+  );
+  opacity: 0.5;
+}
+
+/* ─── Animated text link (PR-3 Task 3) ─── */
+.text-link {
+  position: relative;
+  color: var(--accent-navy);
+  text-decoration: none;
+}
+.text-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent-gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease;
+}
+.text-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ─── Image fade-in on load (PR-3 Task 3) ─── */
+img {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+img.loaded,
+img[data-no-fade] {
+  opacity: 1;
+}
+
+/* ─── Rotating circle text (PR-3 Task 4) ─── */
+.rotating-circle-text {
+  animation: rotate-circle 20s linear infinite;
+  opacity: 0.7;
+}
+@keyframes rotate-circle {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .rotating-circle-text {
+    animation: none;
+  }
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
