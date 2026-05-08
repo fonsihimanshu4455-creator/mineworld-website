@@ -5,9 +5,6 @@ import adsShowcase1 from "../assets/ads-showcase1.jpg";
 import podcastShowcase from "../assets/podcast-showcase.jpg";
 import podcastShowcase1 from "../assets/podcast-showcase1.jpg";
 import podcastShowcase2 from "../assets/podcast-showcase2.jpg";
-import marketing from "../assets/marketing.JPG";
-import designer from "../assets/designer.JPG";
-import production from "../assets/production.JPG";
 import portfolio1 from "../assets/portfolio-1.mp4";
 import portfolio2 from "../assets/portfolio-2.mp4";
 import portfolio3 from "../assets/portfolio-3.mp4";
@@ -16,6 +13,12 @@ const websiteCover =
   "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1600&q=80";
 const appCover =
   "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1600&q=80";
+const socialCover =
+  "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=1600&q=80";
+const designCover =
+  "https://images.unsplash.com/photo-1561070791-2526d30994b8?auto=format&fit=crop&w=1600&q=80";
+const shootCover =
+  "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1600&q=80";
 
 export const serviceCategories = [
   {
@@ -166,7 +169,7 @@ export const serviceCategories = [
     tagline: "Structured content systems — not random posts.",
     cover: {
       type: "image",
-      src: marketing,
+      src: socialCover,
       alt: "Social media strategy at Mineworld Production",
     },
     color: "gold",
@@ -258,7 +261,7 @@ export const serviceCategories = [
     tagline: "Design support that locks in your brand's premium feel.",
     cover: {
       type: "image",
-      src: designer,
+      src: designCover,
       alt: "Graphic design work by Mineworld Production",
     },
     color: "gold",
@@ -350,7 +353,7 @@ export const serviceCategories = [
     cover: {
       type: "video",
       src: portfolio3,
-      poster: production,
+      poster: shootCover,
       alt: "Content shoot production by Mineworld",
     },
     color: "blue",

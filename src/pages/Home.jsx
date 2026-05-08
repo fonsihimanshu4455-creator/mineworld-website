@@ -14,7 +14,6 @@ import EditingShowcase from "../components/home/EditingShowcase";
 import ReelScoreTool from "../components/home/ReelScoreTool";
 import InsightsPreview from "../components/home/InsightsPreview";
 import FAQ from "../components/home/FAQ";
-import CTA from "../components/home/CTA";
 
 function Home() {
   const location = useLocation();
@@ -45,7 +44,6 @@ function Home() {
       <ReelScoreTool />
       <InsightsPreview />
       <FAQ />
-      <CTA />
     </>
   );
 }

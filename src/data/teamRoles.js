@@ -1,7 +1,11 @@
-import editor from "../assets/editor.JPG";
-import marketing from "../assets/marketing.JPG";
-import production from "../assets/production.JPG";
-import designer from "../assets/designer.JPG";
+const editorPhoto =
+  "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1400&q=80";
+const strategistPhoto =
+  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80";
+const producerPhoto =
+  "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1400&q=80";
+const designerPhoto =
+  "https://images.unsplash.com/photo-1561070791-2526d30994b8?auto=format&fit=crop&w=1400&q=80";
 
 export const teamRoles = [
   {
@@ -9,7 +13,7 @@ export const teamRoles = [
     name: "Lead Editor",
     role: "Motion + Retention Specialist",
     short: "The editing standard behind every Mineworld delivery.",
-    photo: editor,
+    photo: editorPhoto,
     photoAlt: "Lead Editor at Mineworld Production",
     tags: ["Reels", "Pacing", "Retention", "Motion Graphics", "Sound Design"],
     intro:
@@ -35,7 +39,7 @@ export const teamRoles = [
     name: "Growth Strategist",
     role: "Ads + Social Direction",
     short: "Connects content, campaigns, and platform behaviour.",
-    photo: marketing,
+    photo: strategistPhoto,
     photoAlt: "Growth Strategist at Mineworld Production",
     tags: ["Strategy", "Ads", "Content", "Funnels", "Analytics"],
     intro:
@@ -59,7 +63,7 @@ export const teamRoles = [
     name: "Studio Producer",
     role: "Shoot + Setup Execution",
     short: "Owns shoot-day energy, setup quality, and production flow.",
-    photo: production,
+    photo: producerPhoto,
     photoAlt: "Studio Producer at Mineworld Production",
     tags: ["Studio", "Podcast", "Production", "Lighting", "Audio"],
     intro:
@@ -83,7 +87,7 @@ export const teamRoles = [
     name: "Creative Support",
     role: "Design + Asset Support",
     short: "The visual consistency layer across every deliverable.",
-    photo: designer,
+    photo: designerPhoto,
     photoAlt: "Creative Support at Mineworld Production",
     tags: ["Design", "Assets", "Carousels", "Thumbnails", "Brand"],
     intro:
