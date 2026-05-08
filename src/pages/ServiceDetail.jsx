@@ -5,6 +5,7 @@ import Container from "../components/common/Container";
 import MagneticButton from "../components/common/MagneticButton";
 import Reveal from "../components/common/Reveal";
 import LazyVideo from "../components/common/LazyVideo";
+import NavyBand from "../components/common/NavyBand";
 import { theme } from "../styles/theme";
 import { openContactModal, trackCtaClick } from "../utils/contactActions";
 import { trackEvent } from "../utils/analytics";
@@ -426,6 +427,16 @@ function ServiceDetail() {
           </div>
         </Container>
       </section>
+
+      <NavyBand
+        eyebrow="Built around outcomes"
+        title={`${service.name} that earns its place in your stack.`}
+        body={
+          service.tagline ||
+          service.short ||
+          "Premium execution layered into a system that compounds — not a one-off deliverable that ages out in 30 days."
+        }
+      />
 
       <section
         style={{

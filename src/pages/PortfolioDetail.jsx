@@ -250,39 +250,15 @@ function PortfolioDetail() {
       </section>
 
       {item.metrics?.length > 0 && (
-        <section
-          style={{
-            padding: isMobile ? "56px 0" : "80px 0",
-            borderBottom: `1px solid ${theme.colors.line}`,
-          }}
-        >
+        <section className="navy-band">
           <Container>
-            <Reveal>
-              <div
-                style={{
-                  color: theme.colors.goldSoft,
-                  fontSize: "12px",
-                  letterSpacing: "2px",
-                  textTransform: "uppercase",
-                  fontWeight: 700,
-                  marginBottom: "14px",
-                }}
-              >
-                Impact
-              </div>
-              <h2
-                style={{
-                  margin: "0 0 28px",
-                  fontSize: isMobile ? "26px" : "clamp(28px, 3.6vw, 38px)",
-                  color: theme.colors.text,
-                  letterSpacing: "-0.8px",
-                  fontFamily:
-                    '"Playfair Display", Georgia, "Times New Roman", serif',
-                }}
-              >
-                What the work actually moved.
-              </h2>
-            </Reveal>
+            <div className="navy-band-inner">
+              <Reveal>
+                <span className="eyebrow-label">Outcome</span>
+                <h2>What the work actually moved.</h2>
+                <span className="underline-pill" aria-hidden="true" />
+              </Reveal>
+            </div>
 
             <div
               style={{
@@ -291,6 +267,9 @@ function PortfolioDetail() {
                   ? "1fr"
                   : "repeat(auto-fit, minmax(220px, 1fr))",
                 gap: "14px",
+                marginTop: "32px",
+                position: "relative",
+                zIndex: 1,
               }}
             >
               {item.metrics.map((m, i) => (
@@ -299,18 +278,17 @@ function PortfolioDetail() {
                     style={{
                       padding: "22px",
                       borderRadius: "20px",
-                      border: `1px solid ${theme.colors.line}`,
-                      background:
-                        "linear-gradient(180deg, rgba(184,149,106,0.10), rgba(255,255,255,0.015))",
+                      border: "1px solid rgba(184,149,106,0.30)",
+                      background: "rgba(255,255,255,0.05)",
                     }}
                   >
                     <div
                       style={{
-                        color: theme.colors.goldSoft,
+                        color: "var(--accent-gold)",
                         fontSize: "11px",
-                        letterSpacing: "1.6px",
+                        letterSpacing: "1.5px",
                         textTransform: "uppercase",
-                        fontWeight: 700,
+                        fontWeight: 600,
                         marginBottom: "10px",
                       }}
                     >
@@ -318,11 +296,13 @@ function PortfolioDetail() {
                     </div>
                     <div
                       style={{
-                        color: theme.colors.text,
-                        fontSize: "22px",
-                        fontWeight: 800,
-                        letterSpacing: "-0.6px",
-                        lineHeight: 1.2,
+                        color: "#FFFFFF",
+                        fontSize: "32px",
+                        fontWeight: 600,
+                        letterSpacing: "-0.8px",
+                        lineHeight: 1.1,
+                        fontFamily:
+                          '"Playfair Display", Georgia, "Times New Roman", serif',
                       }}
                     >
                       {m.value}

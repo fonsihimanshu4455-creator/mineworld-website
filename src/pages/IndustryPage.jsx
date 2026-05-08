@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Container from "../components/common/Container";
 import MagneticButton from "../components/common/MagneticButton";
 import Reveal from "../components/common/Reveal";
+import NavyBand from "../components/common/NavyBand";
 import { theme } from "../styles/theme";
 import { openContactModal, trackCtaClick } from "../utils/contactActions";
 import { trackEvent } from "../utils/analytics";
@@ -206,6 +207,16 @@ function IndustryPage() {
           )}
         </Container>
       </section>
+
+      <NavyBand
+        eyebrow={page.eyebrow || "Why this industry"}
+        title={`Built for ${page.audience || "your sector"}.`}
+        body={
+          page.heroSubtitle ||
+          page.summary ||
+          "Specialised execution that fits how your industry buys, decides, and converts — not a generic template stretched across verticals."
+        }
+      />
 
       <section
         style={{

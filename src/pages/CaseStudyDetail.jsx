@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Container from "../components/common/Container";
 import MagneticButton from "../components/common/MagneticButton";
 import Reveal from "../components/common/Reveal";
+import NavyBand from "../components/common/NavyBand";
 import { theme } from "../styles/theme";
 import { openContactModal } from "../utils/contactActions";
 import { findCaseStudy, caseStudies } from "../data/caseStudies";
@@ -478,6 +479,16 @@ function CaseStudyDetail() {
           </div>
         </Container>
       </section>
+
+      <NavyBand
+        eyebrow="Outcome"
+        title={study.outcomeHeadline || "What the work actually shifted."}
+        body={
+          study.outcomeBody ||
+          study.summary ||
+          "Numbers tell part of the story — the rest is the brand looking sharper, the team operating tighter, and the system continuing to compound after we hand off."
+        }
+      />
 
       <section
         style={{

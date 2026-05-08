@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Container from "../components/common/Container";
 import MagneticButton from "../components/common/MagneticButton";
 import Reveal from "../components/common/Reveal";
+import NavyBand from "../components/common/NavyBand";
 import { theme } from "../styles/theme";
 import { findTeamRole, teamRoles } from "../data/teamRoles";
 import { findServiceCategory } from "../data/serviceCategories";
@@ -383,6 +384,15 @@ function TeamRoleDetail() {
           </div>
         </Container>
       </section>
+
+      <NavyBand
+        eyebrow={`Inside ${member.name || member.role || "this role"}`}
+        title="How they actually work."
+        body={
+          member.short ||
+          "Specialist execution layered into a system — every project benefits from a focused operator on this seat, not a generalist juggling priorities."
+        }
+      />
 
       {service && (
         <section
