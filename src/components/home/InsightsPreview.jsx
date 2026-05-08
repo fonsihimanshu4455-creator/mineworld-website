@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import SectionTag from "../common/SectionTag";
-import { theme } from "../../styles/theme";
 import { insights } from "../../data/insights";
 import useIsMobile from "../../utils/useIsMobile";
 
@@ -28,7 +27,7 @@ function InsightCard({ item }) {
         style={{
           padding: "20px 20px 18px",
           borderRadius: "20px",
-          border: `1px solid ${theme.colors.line}`,
+          border: "1px solid var(--border-subtle)",
           background:
             "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
           display: "flex",
@@ -51,7 +50,7 @@ function InsightCard({ item }) {
               padding: "4px 9px",
               borderRadius: "999px",
               background: "rgba(188,153,102,0.12)",
-              color: theme.colors.goldSoft,
+              color: "var(--accent-gold)",
               fontSize: "10.5px",
               fontWeight: 700,
               letterSpacing: "1.4px",
@@ -73,7 +72,7 @@ function InsightCard({ item }) {
         <h3
           style={{
             margin: "0 0 8px",
-            color: theme.colors.text,
+            color: "var(--text-primary)",
             fontSize: "16px",
             lineHeight: 1.3,
             letterSpacing: "-0.3px",
@@ -99,7 +98,7 @@ function InsightCard({ item }) {
           <span>{formatDate(item.date)}</span>
           <span
             style={{
-              color: theme.colors.goldSoft,
+              color: "var(--accent-gold)",
               letterSpacing: "1.2px",
               textTransform: "uppercase",
               fontWeight: 700,
@@ -123,8 +122,8 @@ function InsightsPreview() {
       style={{
         position: "relative",
         padding: isMobile ? "60px 0" : "80px 0",
-        background: theme.colors.bg,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--bg-cream-soft)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >
@@ -144,7 +143,7 @@ function InsightsPreview() {
             <h2
               style={{
                 margin: 0,
-                color: theme.colors.text,
+                color: "var(--text-primary)",
                 fontSize: isMobile ? "26px" : "clamp(28px, 3.4vw, 36px)",
                 lineHeight: 1.1,
                 letterSpacing: "-0.5px",
@@ -160,7 +159,7 @@ function InsightsPreview() {
           <Link
             to="/insights"
             style={{
-              color: theme.colors.goldSoft,
+              color: "var(--accent-gold)",
               fontSize: "13px",
               fontWeight: 700,
               letterSpacing: "1.4px",

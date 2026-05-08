@@ -28,19 +28,25 @@ function AdminApp() {
   }
 
   if (!authed) {
-    return <AdminAuth />;
+    return (
+      <div className="surface-dark" style={{ minHeight: "100vh" }}>
+        <AdminAuth />
+      </div>
+    );
   }
 
   return (
-    <Routes>
-      <Route element={<AdminLayout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="settings" element={<SettingsEditor />} />
-        <Route path="preview" element={<PreviewEditor />} />
-        <Route path="submissions" element={<SubmissionsEditor />} />
-        <Route path="collections/:key" element={<CollectionEditor />} />
-      </Route>
-    </Routes>
+    <div className="surface-dark" style={{ minHeight: "100vh" }}>
+      <Routes>
+        <Route element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="settings" element={<SettingsEditor />} />
+          <Route path="preview" element={<PreviewEditor />} />
+          <Route path="submissions" element={<SubmissionsEditor />} />
+          <Route path="collections/:key" element={<CollectionEditor />} />
+        </Route>
+      </Routes>
+    </div>
   );
 }
 

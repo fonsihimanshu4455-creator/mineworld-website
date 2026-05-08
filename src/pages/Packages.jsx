@@ -18,10 +18,10 @@ function PlanCard({ plan, isMobile }) {
   const featured = plan.featured;
   const borderColor = featured
     ? "rgba(188,153,102,0.58)"
-    : theme.colors.line;
+    : "var(--border-subtle)";
   const bg = featured
-    ? "linear-gradient(180deg, rgba(188,153,102,0.12), rgba(255,255,255,0.02))"
-    : "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))";
+    ? "var(--bg-cream-soft)"
+    : "var(--bg-secondary)";
 
   return (
     <motion.div
@@ -63,7 +63,7 @@ function PlanCard({ plan, isMobile }) {
 
       <div
         style={{
-          color: theme.colors.goldSoft,
+          color: theme.colors.gold,
           fontSize: "11px",
           letterSpacing: "2px",
           textTransform: "uppercase",
@@ -123,13 +123,13 @@ function PlanCard({ plan, isMobile }) {
           marginTop: "14px",
           marginBottom: "22px",
           paddingTop: "14px",
-          borderTop: `1px solid ${theme.colors.line}`,
+          borderTop: "1px solid var(--border-subtle)",
           color: theme.colors.textSoft,
           fontSize: "13px",
           lineHeight: 1.7,
         }}
       >
-        <span style={{ color: "rgba(243,239,231,0.55)" }}>Best for: </span>
+        <span style={{ color: "var(--text-muted)" }}>Best for: </span>
         {plan.bestFor}
       </div>
 
@@ -177,10 +177,10 @@ function PlanCard({ plan, isMobile }) {
           marginTop: "26px",
           padding: "14px 20px",
           borderRadius: "999px",
-          border: featured ? "none" : `1px solid ${theme.colors.line}`,
+          border: featured ? "none" : "1px solid var(--border-subtle)",
           background: featured
             ? "linear-gradient(135deg, #BC9966, #D9B987)"
-            : "rgba(255,255,255,0.04)",
+            : "var(--bg-cream-soft)",
           color: featured ? "#18140F" : theme.colors.text,
           fontWeight: 800,
           fontSize: "14px",
@@ -219,7 +219,7 @@ function Packages() {
       style={{
         background: `
           radial-gradient(circle at 14% 10%, rgba(188,153,102,0.10), transparent 22%),
-          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
+          linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-cream-soft) 50%, var(--bg-primary) 100%)
         `,
       }}
     >
@@ -231,14 +231,14 @@ function Packages() {
       <section
         style={{
           padding: isMobile ? "124px 0 50px" : "150px 0 70px",
-          borderBottom: `1px solid ${theme.colors.line}`,
+          borderBottom: "1px solid var(--border-subtle)",
         }}
       >
         <Container>
           <Reveal>
             <div
               style={{
-                color: theme.colors.goldSoft,
+                color: theme.colors.gold,
                 fontSize: "12px",
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -293,7 +293,7 @@ function Packages() {
           <Reveal>
             <div
               style={{
-                color: theme.colors.goldSoft,
+                color: theme.colors.gold,
                 fontSize: "12px",
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -339,14 +339,14 @@ function Packages() {
       <section
         style={{
           padding: isMobile ? "30px 0 60px" : "50px 0 90px",
-          borderBottom: `1px solid ${theme.colors.line}`,
+          borderBottom: "1px solid var(--border-subtle)",
         }}
       >
         <Container>
           <Reveal>
             <div
               style={{
-                color: theme.colors.goldSoft,
+                color: theme.colors.gold,
                 fontSize: "12px",
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -410,14 +410,14 @@ function Packages() {
       <section
         style={{
           padding: isMobile ? "60px 0" : "90px 0",
-          borderBottom: `1px solid ${theme.colors.line}`,
+          borderBottom: "1px solid var(--border-subtle)",
         }}
       >
         <Container>
           <Reveal>
             <div
               style={{
-                color: theme.colors.goldSoft,
+                color: theme.colors.gold,
                 fontSize: "12px",
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -473,14 +473,14 @@ function Packages() {
                   style={{
                     padding: "22px",
                     borderRadius: "20px",
-                    border: `1px solid ${theme.colors.line}`,
+                    border: "1px solid var(--border-subtle)",
                     background:
                       "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
                   }}
                 >
                   <div
                     style={{
-                      color: theme.colors.goldSoft,
+                      color: theme.colors.gold,
                       fontSize: "11px",
                       letterSpacing: "1.6px",
                       textTransform: "uppercase",
@@ -511,14 +511,14 @@ function Packages() {
         <section
           style={{
             padding: isMobile ? "60px 0" : "90px 0",
-            borderBottom: `1px solid ${theme.colors.line}`,
+            borderBottom: "1px solid var(--border-subtle)",
           }}
         >
           <Container>
             <Reveal>
               <div
                 style={{
-                  color: theme.colors.goldSoft,
+                  color: theme.colors.gold,
                   fontSize: "12px",
                   letterSpacing: "2px",
                   textTransform: "uppercase",
@@ -555,7 +555,7 @@ function Packages() {
                     style={{
                       padding: "22px",
                       borderRadius: "20px",
-                      border: `1px solid ${theme.colors.line}`,
+                      border: "1px solid var(--border-subtle)",
                       background:
                         "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
                     }}
@@ -595,7 +595,7 @@ function Packages() {
             style={{
               padding: isMobile ? "30px" : "48px",
               borderRadius: "28px",
-              border: `1px solid ${theme.colors.lineStrong}`,
+              border: `1px solid ${"rgba(184,149,106,0.34)"}`,
               background:
                 "linear-gradient(180deg, rgba(188,153,102,0.08), rgba(255,255,255,0.02))",
               display: "grid",
@@ -661,8 +661,8 @@ function Packages() {
                 style={{
                   padding: "14px 22px",
                   borderRadius: "999px",
-                  border: `1px solid ${theme.colors.line}`,
-                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid var(--border-subtle)",
+                  background: "var(--bg-cream-soft)",
                   color: theme.colors.text,
                   fontWeight: 700,
                   fontSize: "14px",

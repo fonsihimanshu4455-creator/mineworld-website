@@ -30,9 +30,9 @@ function Card({ item }) {
         style={{
           padding: "26px 24px",
           borderRadius: "24px",
-          border: `1px solid ${theme.colors.line}`,
+          border: "1px solid var(--border-subtle)",
           background:
-            "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
+            "var(--bg-secondary)",
           display: "flex",
           flexDirection: "column",
           height: "100%",
@@ -52,7 +52,7 @@ function Card({ item }) {
               padding: "5px 10px",
               borderRadius: "999px",
               background: "rgba(188,153,102,0.12)",
-              color: theme.colors.goldSoft,
+              color: theme.colors.gold,
               fontSize: "11px",
               fontWeight: 700,
               letterSpacing: "1.4px",
@@ -63,7 +63,7 @@ function Card({ item }) {
           </span>
           <span
             style={{
-              color: "rgba(243,239,231,0.5)",
+              color: "var(--text-muted)",
               fontSize: "12px",
             }}
           >
@@ -105,13 +105,13 @@ function Card({ item }) {
             justifyContent: "space-between",
             alignItems: "center",
             fontSize: "12px",
-            color: "rgba(243,239,231,0.55)",
+            color: "var(--text-muted)",
           }}
         >
           <span>{formatDate(item.date)}</span>
           <span
             style={{
-              color: theme.colors.goldSoft,
+              color: theme.colors.gold,
               letterSpacing: "1.4px",
               textTransform: "uppercase",
               fontWeight: 700,
@@ -148,7 +148,7 @@ function Insights() {
       style={{
         background: `
           radial-gradient(circle at 14% 10%, rgba(188,153,102,0.10), transparent 22%),
-          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
+          linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-cream-soft) 50%, var(--bg-primary) 100%)
         `,
       }}
     >
@@ -160,14 +160,14 @@ function Insights() {
       <section
         style={{
           padding: isMobile ? "124px 0 40px" : "150px 0 60px",
-          borderBottom: `1px solid ${theme.colors.line}`,
+          borderBottom: "1px solid var(--border-subtle)",
         }}
       >
         <Container>
           <Reveal>
             <div
               style={{
-                color: theme.colors.goldSoft,
+                color: theme.colors.gold,
                 fontSize: "12px",
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -231,12 +231,12 @@ function Insights() {
                       borderRadius: "999px",
                       border: active
                         ? "1px solid rgba(188,153,102,0.85)"
-                        : `1px solid ${theme.colors.line}`,
+                        : "1px solid var(--border-subtle)",
                       background: active
                         ? "rgba(188,153,102,0.14)"
-                        : "rgba(255,255,255,0.03)",
+                        : "var(--bg-cream-soft)",
                       color: active
-                        ? theme.colors.goldSoft
+                        ? theme.colors.gold
                         : theme.colors.text,
                       fontSize: "13px",
                       fontWeight: 700,

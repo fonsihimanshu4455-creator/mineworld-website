@@ -49,6 +49,44 @@ video {
   color: #1A1A1A;
 }
 
+/* ─── Universal Surface Classes (PR-1.6) ───
+   Safety-net classes for any container — child text auto-becomes
+   readable on the surface. */
+.surface-light {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+.surface-light-cream {
+  background: var(--bg-cream-soft);
+  color: var(--text-primary);
+}
+.surface-white {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.surface-dark {
+  background: var(--accent-navy);
+  color: #FFFFFF;
+}
+.surface-dark h1,
+.surface-dark h2,
+.surface-dark h3,
+.surface-dark h4 {
+  color: #FFFFFF;
+}
+.surface-dark p,
+.surface-dark li {
+  color: rgba(245, 239, 230, 0.85);
+}
+.surface-dark .text-muted {
+  color: rgba(245, 239, 230, 0.6);
+}
+.surface-dark .eyebrow,
+.surface-dark .accent {
+  color: var(--accent-gold);
+}
+
 a {
   text-decoration: none;
 }

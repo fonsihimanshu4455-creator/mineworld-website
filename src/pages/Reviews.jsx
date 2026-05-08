@@ -54,9 +54,9 @@ function ReviewCard({ item, onOpen }) {
         textAlign: "left",
         padding: "16px 16px 14px",
         borderRadius: "16px",
-        border: `1px solid ${theme.colors.line}`,
+        border: "1px solid var(--border-subtle)",
         background:
-          "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
+          "var(--bg-secondary)",
         display: "flex",
         flexDirection: "column",
         minHeight: "150px",
@@ -185,7 +185,7 @@ function Reviews() {
       style={{
         background: `
           radial-gradient(circle at 14% 10%, rgba(188,153,102,0.1), transparent 22%),
-          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
+          linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-cream-soft) 50%, var(--bg-primary) 100%)
         `,
       }}
     >
@@ -197,7 +197,7 @@ function Reviews() {
       <section
         style={{
           padding: isMobile ? "124px 0 40px" : "150px 0 60px",
-          borderBottom: `1px solid ${theme.colors.line}`,
+          borderBottom: "1px solid var(--border-subtle)",
         }}
       >
         <Container>
@@ -208,7 +208,7 @@ function Reviews() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                color: theme.colors.goldSoft,
+                color: theme.colors.gold,
                 fontSize: "13px",
                 letterSpacing: "1.4px",
                 textTransform: "uppercase",
@@ -224,7 +224,7 @@ function Reviews() {
           <Reveal delay={0.06}>
             <div
               style={{
-                color: theme.colors.goldSoft,
+                color: theme.colors.gold,
                 fontSize: "12px",
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -321,8 +321,8 @@ function Reviews() {
                   style={{
                     padding: isMobile ? "12px 10px" : "18px",
                     borderRadius: "16px",
-                    border: `1px solid ${theme.colors.line}`,
-                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid var(--border-subtle)",
+                    background: "var(--bg-cream-soft)",
                     textAlign: "center",
                   }}
                 >
@@ -378,11 +378,11 @@ function Reviews() {
                     borderRadius: "999px",
                     border: active
                       ? "1px solid rgba(188,153,102,0.85)"
-                      : `1px solid ${theme.colors.line}`,
+                      : "1px solid var(--border-subtle)",
                     background: active
                       ? "rgba(188,153,102,0.14)"
-                      : "rgba(255,255,255,0.03)",
-                    color: active ? theme.colors.goldSoft : theme.colors.text,
+                      : "var(--bg-cream-soft)",
+                    color: active ? theme.colors.gold : theme.colors.text,
                     fontSize: "12.5px",
                     fontWeight: 700,
                     cursor: "pointer",
@@ -402,8 +402,8 @@ function Reviews() {
                 textAlign: "center",
                 color: theme.colors.textSoft,
                 borderRadius: "20px",
-                border: `1px solid ${theme.colors.line}`,
-                background: "rgba(255,255,255,0.02)",
+                border: "1px solid var(--border-subtle)",
+                background: "var(--bg-cream-soft)",
               }}
             >
               No reviews in this filter yet.

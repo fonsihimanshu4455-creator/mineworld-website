@@ -18,7 +18,7 @@ function MetricCard({ metric }) {
         borderRadius: "22px",
         border: `1px solid ${theme.colors.line}`,
         background:
-          "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
+          "linear-gradient(180deg, rgba(184,149,106,0.12), rgba(255,255,255,0.02))",
       }}
     >
       <div
@@ -127,8 +127,8 @@ function CaseStudyDetail() {
     <article
       style={{
         background: `
-          radial-gradient(circle at 14% 10%, rgba(188,153,102,0.12), transparent 22%),
-          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
+          radial-gradient(circle at 14% 10%, rgba(184,149,106,0.12), transparent 22%),
+          linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-cream-soft) 50%, var(--bg-primary) 100%)
         `,
       }}
     >

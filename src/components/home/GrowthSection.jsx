@@ -1,6 +1,5 @@
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
-import { theme } from "../../styles/theme";
 import useIsMobile from "../../utils/useIsMobile";
 
 function GrowthSection() {
@@ -11,8 +10,8 @@ function GrowthSection() {
       style={{
         position: "relative",
         padding: isMobile ? "70px 0" : "90px 0",
-        background: theme.colors.bg,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--accent-navy)",
+        borderBottom: "1px solid rgba(184,149,106,0.20)",
         overflow: "hidden",
       }}
     >
@@ -27,7 +26,7 @@ function GrowthSection() {
           >
             <div
               style={{
-                color: theme.colors.goldSoft,
+                color: "var(--accent-gold)",
                 fontSize: "12px",
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -43,7 +42,7 @@ function GrowthSection() {
                 fontSize: isMobile ? "38px" : "58px",
                 lineHeight: 1.04,
                 fontWeight: 800,
-                color: theme.colors.text,
+                color: "#FFFFFF",
               }}
             >
               Most agencies focus on content.
@@ -55,7 +54,7 @@ function GrowthSection() {
               style={{
                 margin: "0 auto",
                 maxWidth: "760px",
-                color: theme.colors.textSoft,
+                color: "rgba(245,239,230,0.85)",
                 fontSize: isMobile ? "16px" : "18px",
                 lineHeight: 1.9,
               }}
@@ -87,9 +86,9 @@ function GrowthSection() {
                   style={{
                     padding: "11px 16px",
                     borderRadius: "999px",
-                    border: `1px solid ${theme.colors.line}`,
-                    background: theme.colors.bgCard,
-                    color: theme.colors.text,
+                    border: "1px solid rgba(184,149,106,0.20)",
+                    background: "rgba(255,255,255,0.05)",
+                    color: "#FFFFFF",
                     fontSize: "14px",
                   }}
                 >
@@ -101,7 +100,7 @@ function GrowthSection() {
             <div
               style={{
                 marginTop: "26px",
-                color: theme.colors.goldSoft,
+                color: "var(--accent-gold)",
                 fontSize: isMobile ? "16px" : "18px",
                 fontWeight: 700,
                 lineHeight: 1.6,
@@ -113,7 +112,7 @@ function GrowthSection() {
             <div
               style={{
                 marginTop: "18px",
-                color: theme.colors.textSoft,
+                color: "rgba(245,239,230,0.85)",
                 fontSize: isMobile ? "14px" : "15px",
                 lineHeight: 1.7,
               }}
