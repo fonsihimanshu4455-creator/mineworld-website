@@ -207,7 +207,7 @@ function Pricing() {
         <Reveal delay={0.08}>
           <SectionHeading
             title="Transparent pricing. No DM-for-rate games."
-            subtitle="Monthly retainers built around content systems — not hourly rates. Pick a plan that matches your business stage. Every plan can be customised if you need a different mix."
+            subtitle="Monthly retainers for ongoing growth, plus project-based pricing for websites and apps. Pick a plan that matches your stage — every plan can be customised if you need a different mix."
           />
         </Reveal>
 

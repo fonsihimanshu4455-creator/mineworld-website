@@ -105,9 +105,9 @@ function Dashboard() {
   return (
     <div>
       <PageHeader
-        eyebrow="Dashboard"
+        eyebrow="Mineworld Admin"
         title="Your content control room."
-        subtitle="Edit any section from the sidebar. All changes are saved in your browser and can be exported as a JSON backup."
+        subtitle="Edit services, portfolio, team, pricing, and site settings from the sidebar. Website Development, App Development, and Meta Ads are now your flagship services — keep them sharp here. All changes are saved in your browser and can be exported as a JSON backup."
       />
 
       <div

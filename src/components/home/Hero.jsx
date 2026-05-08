@@ -101,7 +101,7 @@ function Hero() {
             >
               <span style={{ display: "inline-block", overflow: "hidden" }}>
                 <span data-anim style={{ display: "inline-block" }}>
-                  Content that earns attention.
+                  Websites. Apps.
                 </span>
               </span>
               <br />
@@ -386,7 +386,7 @@ function Hero() {
                     marginBottom: "12px",
                   }}
                 >
-                  Video + Design + Digital
+                  Websites · Apps · Ads
                 </div>
 
                 <div
@@ -399,9 +399,9 @@ function Hero() {
                     maxWidth: isMobile ? "88%" : "100%",
                   }}
                 >
-                  Premium content systems
+                  Premium digital systems
                   <br />
-                  built to strengthen brand presence
+                  engineered to convert visitors into customers
                 </div>
               </div>
             </motion.div>

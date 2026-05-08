@@ -33,11 +33,15 @@ function CategoryCard({ item, isMobile, size = "default" }) {
           position: "relative",
           borderRadius: isMobile ? "22px" : "26px",
           overflow: "hidden",
-          border: `1px solid ${theme.colors.line}`,
+          border: `1px solid ${
+            item.flagship ? "rgba(214,176,96,0.34)" : theme.colors.line
+          }`,
           background: theme.colors.bgCard,
-          boxShadow: theme.shadow.soft,
+          boxShadow: item.flagship
+            ? "0 18px 44px rgba(214,176,96,0.12), 0 12px 28px rgba(0,0,0,0.28)"
+            : theme.shadow.soft,
           height: "100%",
-          minHeight: isMobile ? "320px" : isLarge ? "440px" : "360px",
+          minHeight: isMobile ? "320px" : isLarge ? "460px" : "360px",
           display: "flex",
           flexDirection: "column",
         }}
@@ -46,7 +50,7 @@ function CategoryCard({ item, isMobile, size = "default" }) {
           style={{
             position: "relative",
             flex: 1,
-            minHeight: isMobile ? "220px" : isLarge ? "300px" : "240px",
+            minHeight: isMobile ? "220px" : isLarge ? "320px" : "240px",
             overflow: "hidden",
           }}
         >
@@ -83,6 +87,28 @@ function CategoryCard({ item, isMobile, size = "default" }) {
               pointerEvents: "none",
             }}
           />
+
+          {item.flagship && (
+            <div
+              style={{
+                position: "absolute",
+                top: "16px",
+                left: "16px",
+                padding: "6px 12px",
+                borderRadius: "999px",
+                background:
+                  "linear-gradient(135deg, rgba(214,176,96,0.95), rgba(231,201,138,0.95))",
+                color: "#18140F",
+                fontSize: "10.5px",
+                fontWeight: 800,
+                letterSpacing: "1.6px",
+                textTransform: "uppercase",
+                boxShadow: "0 8px 18px rgba(214,176,96,0.32)",
+              }}
+            >
+              Flagship
+            </div>
+          )}
 
           <div
             aria-hidden="true"
@@ -150,6 +176,8 @@ function CategoryCard({ item, isMobile, size = "default" }) {
 
 function Services() {
   const isMobile = useIsMobile(768);
+  const flagshipServices = serviceCategories.filter((s) => s.flagship);
+  const supportingServices = serviceCategories.filter((s) => !s.flagship);
 
   return (
     <section
@@ -201,27 +229,84 @@ function Services() {
 
         <Reveal delay={0.08}>
           <SectionHeading
-            title="What we do — tap a category to see the details."
-            subtitle="Each service is a standalone system, and also plugs into a larger content + growth engine. Click any card to see what's included, our approach, deliverables, and the pricing plan that fits."
+            title="Websites, apps & ads — plus everything that grows them."
+            subtitle="Three flagship offerings up top — websites, apps, and Meta ads — supported by a full creative studio underneath. Tap any card to see what's included, our approach, deliverables, and the pricing plan that fits."
           />
         </Reveal>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: isMobile
-              ? "1fr"
-              : "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: isMobile ? "18px" : "22px",
-            alignItems: "stretch",
-          }}
-        >
-          {serviceCategories.map((item, i) => (
-            <Reveal key={item.slug} delay={0.05 * i}>
-              <CategoryCard item={item} isMobile={isMobile} />
+        {flagshipServices.length > 0 && (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: isMobile ? "18px" : "24px",
+              alignItems: "stretch",
+              marginBottom: isMobile ? "32px" : "44px",
+            }}
+          >
+            {flagshipServices.map((item, i) => (
+              <Reveal key={item.slug} delay={0.05 * i}>
+                <CategoryCard item={item} isMobile={isMobile} size="large" />
+              </Reveal>
+            ))}
+          </div>
+        )}
+
+        {supportingServices.length > 0 && (
+          <>
+            <Reveal>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "14px",
+                  marginBottom: isMobile ? "16px" : "22px",
+                  marginTop: isMobile ? "8px" : "0",
+                }}
+              >
+                <div
+                  style={{
+                    color: theme.colors.goldSoft,
+                    fontSize: "11px",
+                    letterSpacing: "2px",
+                    textTransform: "uppercase",
+                    fontWeight: 800,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Also from the studio
+                </div>
+                <div
+                  style={{
+                    flex: 1,
+                    height: "1px",
+                    background:
+                      "linear-gradient(90deg, rgba(214,176,96,0.32), transparent)",
+                  }}
+                />
+              </div>
             </Reveal>
-          ))}
-        </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: isMobile
+                  ? "1fr"
+                  : "repeat(auto-fit, minmax(260px, 1fr))",
+                gap: isMobile ? "18px" : "22px",
+                alignItems: "stretch",
+              }}
+            >
+              {supportingServices.map((item, i) => (
+                <Reveal key={item.slug} delay={0.05 * i}>
+                  <CategoryCard item={item} isMobile={isMobile} />
+                </Reveal>
+              ))}
+            </div>
+          </>
+        )}
 
         <Reveal delay={0.25}>
           <div

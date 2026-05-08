@@ -76,11 +76,11 @@ function GrowthSection() {
               }}
             >
               {[
-                "Content Strategy",
-                "Video Editing",
+                "Websites",
+                "Mobile Apps",
                 "Meta Ads",
                 "Lead Generation",
-                "Page Management",
+                "Content & Social",
               ].map((item) => (
                 <div
                   key={item}
