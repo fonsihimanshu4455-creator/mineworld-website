@@ -24,15 +24,15 @@ function StatBlock({ stat, isMobile }) {
       style={{
         padding: isMobile ? "16px" : "22px",
         borderRadius: "18px",
-        border: `1px solid ${theme.colors.line}`,
-        background: "rgba(255,255,255,0.025)",
+        border: "1px solid var(--border-cream)",
+        background: "var(--bg-cream-soft)",
         textAlign: "center",
       }}
     >
       <div
         ref={ref}
         style={{
-          color: theme.colors.gold,
+          color: "var(--accent-gold)",
           fontSize: isMobile ? "22px" : "28px",
           fontWeight: 800,
           letterSpacing: "-0.8px",
@@ -45,7 +45,7 @@ function StatBlock({ stat, isMobile }) {
       </div>
       <div
         style={{
-          color: theme.colors.textSoft,
+          color: "var(--text-muted)",
           fontSize: isMobile ? "10.5px" : "11.5px",
           letterSpacing: "1.4px",
           textTransform: "uppercase",
@@ -114,20 +114,20 @@ function TestimonialCard({ item, onOpen, isMobile }) {
       style={{
         position: "relative",
         textAlign: "left",
-        padding: isMobile ? "16px 16px" : "18px 18px",
+        padding: isMobile ? "20px 20px 18px" : "24px 24px 22px",
         borderRadius: "16px",
-        border: `1px solid ${theme.colors.line}`,
-        background:
-          "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
-        width: isMobile ? "240px" : "270px",
-        minHeight: "180px",
+        border: "1px solid var(--border-cream)",
+        background: "var(--bg-cream-soft)",
+        width: isMobile ? "240px" : "300px",
+        minHeight: "200px",
         flexShrink: 0,
         display: "flex",
         flexDirection: "column",
         cursor: "pointer",
         overflow: "hidden",
-        color: theme.colors.text,
+        color: "var(--text-primary)",
         fontFamily: "inherit",
+        boxShadow: "0 14px 32px rgba(15,42,68,0.06)",
       }}
     >
       <div
@@ -145,6 +145,25 @@ function TestimonialCard({ item, onOpen, isMobile }) {
         }}
       />
 
+      <span
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "8px",
+          left: "16px",
+          fontSize: "44px",
+          color: "var(--accent-gold)",
+          opacity: 0.5,
+          fontFamily:
+            '"Playfair Display", Georgia, "Times New Roman", serif',
+          fontWeight: 800,
+          lineHeight: 1,
+          pointerEvents: "none",
+        }}
+      >
+        &ldquo;
+      </span>
+
       {item.result ? (
         <div
           style={{
@@ -154,8 +173,8 @@ function TestimonialCard({ item, onOpen, isMobile }) {
             padding: "5px 10px",
             borderRadius: "999px",
             border: `1px solid ${accentBorder}`,
-            background: "rgba(255,255,255,0.02)",
-            color: theme.colors.goldSoft,
+            background: "rgba(255,255,255,0.6)",
+            color: "var(--accent-gold)",
             fontSize: "10.5px",
             fontWeight: 700,
             letterSpacing: "1.4px",
@@ -164,6 +183,7 @@ function TestimonialCard({ item, onOpen, isMobile }) {
             marginBottom: "12px",
             position: "relative",
             zIndex: 2,
+            marginLeft: "20px",
           }}
         >
           <span
@@ -171,7 +191,7 @@ function TestimonialCard({ item, onOpen, isMobile }) {
               width: "5px",
               height: "5px",
               borderRadius: "50%",
-              background: theme.colors.gold,
+              background: "var(--accent-gold)",
             }}
           />
           {item.result}
@@ -183,9 +203,9 @@ function TestimonialCard({ item, onOpen, isMobile }) {
       <p
         style={{
           margin: "0 0 12px",
-          color: theme.colors.text,
-          fontSize: "13.5px",
-          lineHeight: 1.55,
+          color: "var(--text-secondary)",
+          fontSize: "14px",
+          lineHeight: 1.65,
           fontStyle: "italic",
           fontFamily:
             '"Playfair Display", Georgia, "Times New Roman", serif',
@@ -198,7 +218,7 @@ function TestimonialCard({ item, onOpen, isMobile }) {
           WebkitBoxOrient: "vertical",
         }}
       >
-        &ldquo;{item.quote}&rdquo;
+        {item.quote}
       </p>
 
       <div
@@ -212,15 +232,15 @@ function TestimonialCard({ item, onOpen, isMobile }) {
       >
         <div
           style={{
-            width: "38px",
-            height: "38px",
+            width: "44px",
+            height: "44px",
             borderRadius: "50%",
             background:
-              "linear-gradient(135deg, rgba(188,153,102,0.35), rgba(188,153,102,0.10))",
-            border: `1px solid ${accentBorder}`,
+              "linear-gradient(135deg, rgba(184,149,106,0.18), rgba(184,149,106,0.06))",
+            border: "2px solid var(--accent-gold)",
             display: "grid",
             placeItems: "center",
-            color: theme.colors.text,
+            color: "var(--accent-navy)",
             fontWeight: 800,
             fontSize: "13px",
             flexShrink: 0,
@@ -231,9 +251,9 @@ function TestimonialCard({ item, onOpen, isMobile }) {
         <div style={{ flex: 1, minWidth: 0 }}>
           <div
             style={{
-              color: theme.colors.text,
-              fontSize: "14px",
-              fontWeight: 700,
+              color: "var(--accent-navy)",
+              fontSize: "15px",
+              fontWeight: 600,
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -244,8 +264,8 @@ function TestimonialCard({ item, onOpen, isMobile }) {
           {meta ? (
             <div
               style={{
-                color: theme.colors.textSoft,
-                fontSize: "11.5px",
+                color: "var(--text-muted)",
+                fontSize: "12px",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -298,11 +318,8 @@ function Testimonials() {
       style={{
         position: "relative",
         padding: isMobile ? "72px 0" : "100px 0",
-        background: `
-          radial-gradient(circle at 80% 20%, rgba(188,153,102,0.08), transparent 26%),
-          linear-gradient(180deg, rgba(13,20,34,1) 0%, rgba(16,24,39,1) 100%)
-        `,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--bg-secondary)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >
@@ -366,14 +383,15 @@ function Testimonials() {
               style={{
                 padding: "12px 18px",
                 borderRadius: "999px",
-                border: `1px solid ${theme.colors.line}`,
-                background: "rgba(255,255,255,0.03)",
-                color: theme.colors.text,
+                border: "1px solid var(--accent-gold)",
+                background: "transparent",
+                color: "var(--accent-gold)",
                 fontWeight: 700,
                 fontSize: "13.5px",
                 textDecoration: "none",
                 display: "inline-flex",
                 alignItems: "center",
+                transition: "all 0.3s ease",
               }}
             >
               View all reviews →

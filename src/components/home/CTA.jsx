@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Container from "../common/Container";
 import MagneticButton from "../common/MagneticButton";
 import Reveal from "../common/Reveal";
-import { theme } from "../../styles/theme";
+import CursorRunaway from "../common/CursorRunaway";
 import { openContactModal } from "../../utils/contactActions";
 import useIsMobile from "../../utils/useIsMobile";
 
@@ -12,29 +12,27 @@ function CTA() {
   return (
     <section
       id="contact"
+      className="geo-tile-bg"
       style={{
         position: "relative",
-        padding: isMobile ? "56px 0" : "72px 0",
-        background: theme.colors.bgSoft,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        padding: isMobile ? "84px 0" : "120px 0",
+        backgroundColor: "var(--bg-cream-deep)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >
       <div
+        className="dot-grid dot-grid-md"
+        style={{ top: "60px", left: "40px" }}
         aria-hidden="true"
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
-          width: isMobile ? "260px" : "420px",
-          height: isMobile ? "260px" : "420px",
-          borderRadius: "50%",
-          background: "rgba(188,153,102,0.10)",
-          filter: "blur(140px)",
-          pointerEvents: "none",
-        }}
       />
+      <div
+        className="dot-grid dot-grid-gold dot-grid-md"
+        style={{ bottom: "60px", right: "60px" }}
+        aria-hidden="true"
+      />
+
+      <CursorRunaway />
 
       <Container>
         <Reveal>
@@ -44,39 +42,39 @@ function CTA() {
             style={{
               position: "relative",
               borderRadius: isMobile ? "22px" : "26px",
-              padding: isMobile ? "26px 22px" : "30px 36px",
-              background:
-                "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
-              border: "1px solid rgba(188,153,102,0.30)",
-              boxShadow: theme.shadow.deep,
+              padding: isMobile ? "30px 24px" : "44px 44px",
+              background: "var(--bg-secondary)",
+              border: "1px solid var(--border-cream)",
+              boxShadow: "0 24px 60px rgba(15,42,68,0.10)",
               display: "grid",
               gridTemplateColumns: isMobile ? "1fr" : "1.3fr 1fr",
-              gap: isMobile ? "20px" : "32px",
+              gap: isMobile ? "22px" : "36px",
               alignItems: "center",
               overflow: "hidden",
+              zIndex: 2,
             }}
           >
             <div>
               <div
                 style={{
-                  color: theme.colors.goldSoft,
+                  color: "var(--accent-gold)",
                   fontSize: "11px",
                   letterSpacing: "2px",
                   textTransform: "uppercase",
-                  fontWeight: 700,
-                  marginBottom: "10px",
+                  fontWeight: 800,
+                  marginBottom: "12px",
                 }}
               >
                 Start with Mineworld
               </div>
               <h2
                 style={{
-                  margin: "0 0 8px",
-                  fontSize: isMobile ? "26px" : "clamp(28px, 3.4vw, 36px)",
+                  margin: "0 0 12px",
+                  fontSize: isMobile ? "28px" : "clamp(30px, 3.4vw, 40px)",
                   lineHeight: 1.15,
                   letterSpacing: "-0.6px",
                   fontWeight: 800,
-                  color: theme.colors.text,
+                  color: "var(--text-primary)",
                   fontFamily:
                     '"Playfair Display", Georgia, "Times New Roman", serif',
                 }}
@@ -86,8 +84,8 @@ function CTA() {
               <p
                 style={{
                   margin: 0,
-                  color: theme.colors.textSoft,
-                  fontSize: "14.5px",
+                  color: "var(--text-secondary)",
+                  fontSize: "15.5px",
                   lineHeight: 1.8,
                   maxWidth: "520px",
                 }}

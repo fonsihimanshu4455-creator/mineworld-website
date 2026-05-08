@@ -16,9 +16,9 @@ function StepCard({ step, isMobile, isLast }) {
         position: "relative",
         padding: isMobile ? "24px 22px" : "28px 26px",
         borderRadius: "24px",
-        border: `1px solid ${theme.colors.line}`,
-        background:
-          "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
+        border: "1px solid var(--border-subtle)",
+        background: "var(--bg-secondary)",
+        boxShadow: "0 14px 32px rgba(15,42,68,0.06)",
         display: "flex",
         flexDirection: "column",
         height: "100%",
@@ -27,15 +27,12 @@ function StepCard({ step, isMobile, isLast }) {
       {!isLast && !isMobile && (
         <div
           aria-hidden="true"
+          className="chain-line-horizontal"
           style={{
-            position: "absolute",
             top: "42px",
-            right: "-24px",
-            width: "24px",
-            height: "1px",
-            background:
-              "linear-gradient(90deg, rgba(188,153,102,0.5), transparent)",
-            pointerEvents: "none",
+            right: "-32px",
+            width: "32px",
+            opacity: 0.5,
           }}
         />
       )}
@@ -70,7 +67,7 @@ function StepCard({ step, isMobile, isLast }) {
         <div>
           <div
             style={{
-              color: theme.colors.goldSoft,
+              color: "var(--accent-gold)",
               fontSize: "11px",
               letterSpacing: "1.6px",
               textTransform: "uppercase",
@@ -81,7 +78,7 @@ function StepCard({ step, isMobile, isLast }) {
           </div>
           <div
             style={{
-              color: theme.colors.text,
+              color: "var(--text-primary)",
               fontSize: "18px",
               fontWeight: 800,
               lineHeight: 1.2,
@@ -96,7 +93,7 @@ function StepCard({ step, isMobile, isLast }) {
       <p
         style={{
           margin: 0,
-          color: theme.colors.textSoft,
+          color: "var(--text-secondary)",
           fontSize: "14px",
           lineHeight: 1.8,
           flex: 1,
@@ -109,7 +106,7 @@ function StepCard({ step, isMobile, isLast }) {
         style={{
           marginTop: "18px",
           paddingTop: "16px",
-          borderTop: `1px solid ${theme.colors.line}`,
+          borderTop: "1px solid var(--border-subtle)",
         }}
       >
         <div
@@ -139,12 +136,12 @@ function StepCard({ step, isMobile, isLast }) {
               style={{
                 display: "flex",
                 gap: "8px",
-                color: theme.colors.text,
+                color: "var(--text-primary)",
                 fontSize: "13px",
                 lineHeight: 1.6,
               }}
             >
-              <span style={{ color: theme.colors.gold }}>·</span>
+              <span style={{ color: "var(--accent-gold)" }}>·</span>
               {d}
             </li>
           ))}
@@ -154,7 +151,7 @@ function StepCard({ step, isMobile, isLast }) {
       <div
         style={{
           marginTop: "14px",
-          color: theme.colors.goldSoft,
+          color: "var(--accent-gold)",
           fontSize: "12px",
           letterSpacing: "1.4px",
           textTransform: "uppercase",
@@ -176,14 +173,24 @@ function Process() {
       style={{
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
-        background: `
-          radial-gradient(circle at 22% 12%, rgba(88,110,180,0.08), transparent 22%),
-          linear-gradient(180deg, rgba(13,20,34,1) 0%, rgba(17,24,39,1) 100%)
-        `,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--bg-cream-soft)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "radial-gradient(circle, rgba(15, 42, 68, 0.10) 1.2px, transparent 1.2px)",
+          backgroundSize: "16px 16px",
+          opacity: 0.6,
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
       <Container>
         <Reveal>
           <SectionTag>Our Process</SectionTag>
