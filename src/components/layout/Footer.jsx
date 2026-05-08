@@ -3,7 +3,6 @@ import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import MagneticButton from "../common/MagneticButton";
 import NewsletterSignup from "../common/NewsletterSignup";
-import { theme } from "../../styles/theme";
 import { openContactModal } from "../../utils/contactActions";
 import useIsMobile from "../../utils/useIsMobile";
 import { useSiteSettings } from "../../admin/hooks";
@@ -58,12 +57,12 @@ function Footer() {
     width: "18px",
     height: "18px",
     flexShrink: 0,
-    color: theme.colors.goldSoft,
+    color: "var(--accent-gold)",
     marginTop: "2px",
   };
 
   const linkStyle = {
-    color: theme.colors.text,
+    color: "var(--bg-cream-soft)",
     textDecoration: "none",
     lineHeight: 1.9,
     fontSize: "15px",
@@ -75,10 +74,11 @@ function Footer() {
       style={{
         position: "relative",
         background: `
-          radial-gradient(circle at 14% 18%, rgba(188,153,102,0.08), transparent 22%),
-          linear-gradient(180deg, rgba(15,21,35,1) 0%, rgba(11,16,28,1) 100%)
+          radial-gradient(circle at 14% 18%, rgba(184, 149, 106, 0.08), transparent 32%),
+          radial-gradient(circle at 86% 78%, rgba(184, 149, 106, 0.05), transparent 36%),
+          var(--accent-navy)
         `,
-        borderTop: `1px solid ${theme.colors.line}`,
+        borderTop: "1px solid rgba(184, 149, 106, 0.20)",
         overflow: "hidden",
       }}
     >
@@ -105,19 +105,19 @@ function Footer() {
         <Reveal>
           <div
             style={{
-              border: `1px solid ${theme.colors.line}`,
+              border: `1px solid ${"rgba(184, 149, 106, 0.20)"}`,
               borderRadius: isMobile ? "24px" : "30px",
               padding: isMobile ? "28px 20px" : "36px 34px",
               background:
                 "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02))",
-              boxShadow: theme.shadow.soft,
+              boxShadow: "0 14px 32px rgba(0,0,0,0.20)",
               marginBottom: isMobile ? "42px" : "54px",
               textAlign: "center",
             }}
           >
             <div
               style={{
-                color: theme.colors.goldSoft,
+                color: "var(--accent-gold)",
                 fontSize: isMobile ? "11px" : "12px",
                 letterSpacing: "2.4px",
                 textTransform: "uppercase",
@@ -131,7 +131,7 @@ function Footer() {
             <h2
               style={{
                 margin: 0,
-                color: theme.colors.text,
+                color: "var(--bg-cream-soft)",
                 fontSize: isMobile ? "38px" : "clamp(40px, 5vw, 72px)",
                 lineHeight: isMobile ? 1.02 : 0.98,
                 fontWeight: 800,
@@ -149,7 +149,7 @@ function Footer() {
               style={{
                 margin: "20px auto 0",
                 maxWidth: "860px",
-                color: theme.colors.textSoft,
+                color: "rgba(245, 239, 230, 0.7)",
                 fontSize: isMobile ? "15px" : "17px",
                 lineHeight: 1.9,
               }}
@@ -204,9 +204,9 @@ function Footer() {
                   style={{
                     padding: "10px 14px",
                     borderRadius: "999px",
-                    border: `1px solid ${theme.colors.line}`,
+                    border: `1px solid ${"rgba(184, 149, 106, 0.20)"}`,
                     background: "rgba(58,78,115,0.48)",
-                    color: theme.colors.text,
+                    color: "var(--bg-cream-soft)",
                     fontSize: isMobile ? "12px" : "13px",
                     lineHeight: 1.3,
                   }}
@@ -225,7 +225,7 @@ function Footer() {
             gap: isMobile ? "34px" : "40px",
             alignItems: "start",
             paddingBottom: isMobile ? "28px" : "34px",
-            borderBottom: `1px solid ${theme.colors.line}`,
+            borderBottom: `1px solid ${"rgba(184, 149, 106, 0.20)"}`,
           }}
         >
           <Reveal delay={0.08}>
@@ -267,7 +267,7 @@ function Footer() {
                 <div>
                   <div
                     style={{
-                      color: theme.colors.text,
+                      color: "var(--bg-cream-soft)",
                       fontSize: isMobile ? "21px" : "27px",
                       fontWeight: 650,
                       lineHeight: 1,
@@ -277,7 +277,7 @@ function Footer() {
                   </div>
                   <div
                     style={{
-                      color: theme.colors.goldSoft,
+                      color: "var(--accent-gold)",
                       fontSize: isMobile ? "10px" : "12px",
                       fontWeight: 700,
                       letterSpacing: "2.4px",
@@ -294,7 +294,7 @@ function Footer() {
                 style={{
                   margin: 0,
                   maxWidth: "390px",
-                  color: theme.colors.textSoft,
+                  color: "rgba(245, 239, 230, 0.7)",
                   fontSize: "15px",
                   lineHeight: 1.95,
                 }}
@@ -343,7 +343,7 @@ function Footer() {
             <div>
               <div
                 style={{
-                  color: theme.colors.goldSoft,
+                  color: "var(--accent-gold)",
                   fontSize: "12px",
                   letterSpacing: "2px",
                   textTransform: "uppercase",
@@ -370,7 +370,7 @@ function Footer() {
                       padding: 0,
                       textAlign: "left",
                       cursor: "pointer",
-                      color: theme.colors.text,
+                      color: "var(--bg-cream-soft)",
                       fontSize: "15px",
                       lineHeight: 1.85,
                     }}
@@ -386,7 +386,7 @@ function Footer() {
             <div>
               <div
                 style={{
-                  color: theme.colors.goldSoft,
+                  color: "var(--accent-gold)",
                   fontSize: "12px",
                   letterSpacing: "2px",
                   textTransform: "uppercase",
@@ -407,7 +407,7 @@ function Footer() {
                   <div
                     key={item}
                     style={{
-                      color: theme.colors.text,
+                      color: "var(--bg-cream-soft)",
                       fontSize: "15px",
                       lineHeight: 1.85,
                     }}
@@ -423,7 +423,7 @@ function Footer() {
             <div>
               <div
                 style={{
-                  color: theme.colors.goldSoft,
+                  color: "var(--accent-gold)",
                   fontSize: "12px",
                   letterSpacing: "2px",
                   textTransform: "uppercase",
@@ -602,7 +602,7 @@ function Footer() {
           style={{
             paddingTop: isMobile ? "24px" : "32px",
             paddingBottom: isMobile ? "20px" : "28px",
-            borderTop: "1px solid rgba(255,255,255,0.06)",
+            borderTop: "1px solid rgba(184, 149, 106, 0.20)",
             marginBottom: isMobile ? "16px" : "20px",
           }}
         >
@@ -612,6 +612,8 @@ function Footer() {
         <div
           style={{
             paddingTop: isMobile ? "20px" : "24px",
+            marginTop: isMobile ? "20px" : "20px",
+            borderTop: "1px dashed rgba(184, 149, 106, 0.25)",
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
             justifyContent: "space-between",
@@ -621,7 +623,7 @@ function Footer() {
         >
           <div
             style={{
-              color: theme.colors.textSoft,
+              color: "rgba(245, 239, 230, 0.5)",
               fontSize: "13px",
               lineHeight: 1.7,
             }}
@@ -631,7 +633,7 @@ function Footer() {
 
           <div
             style={{
-              color: theme.colors.text,
+              color: "var(--bg-cream-soft)",
               fontSize: "13px",
               lineHeight: 1.7,
               textAlign: isMobile ? "left" : "right",
@@ -646,6 +648,15 @@ function Footer() {
           </div>
         </div>
       </Container>
+      <style>{`
+        #footer a {
+          transition: color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+        }
+        #footer a:hover {
+          color: var(--accent-gold) !important;
+          opacity: 1;
+        }
+      `}</style>
     </footer>
   );
 }

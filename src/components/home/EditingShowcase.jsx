@@ -1,10 +1,8 @@
 import { useState } from "react";
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
-import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import BeforeAfterSlider from "../common/BeforeAfterSlider";
-import { theme } from "../../styles/theme";
 import useIsMobile from "../../utils/useIsMobile";
 
 import reelsShowcase from "../../assets/reels-showcase.jpg";
@@ -55,37 +53,70 @@ function EditingShowcase() {
       id="work"
       style={{
         position: "relative",
-        padding: isMobile ? "64px 0" : "90px 0",
-        background: theme.colors.bg,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        padding: isMobile ? "76px 0" : "108px 0",
+        background: `
+          radial-gradient(ellipse at top, rgba(184, 149, 106, 0.12), transparent 50%),
+          radial-gradient(ellipse at bottom right, rgba(184, 149, 106, 0.06), transparent 60%),
+          var(--accent-navy)
+        `,
+        borderTop: "1px solid rgba(184, 149, 106, 0.20)",
+        borderBottom: "1px solid rgba(184, 149, 106, 0.20)",
         overflow: "hidden",
       }}
     >
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "18%",
-          right: "-10%",
-          width: isMobile ? "220px" : "360px",
-          height: isMobile ? "220px" : "360px",
-          borderRadius: "50%",
-          background: "rgba(188,153,102,0.07)",
-          filter: "blur(130px)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <Container>
+      <Container style={{ position: "relative", zIndex: 1 }}>
         <Reveal>
           <SectionTag>Editing Showcase</SectionTag>
         </Reveal>
 
         <Reveal delay={0.06}>
-          <SectionHeading
-            title="Drag to see what retention-first editing actually changes."
-            subtitle="Same raw footage, different structure — that's where most of the growth comes from."
-          />
+          <div style={{ marginBottom: "32px", maxWidth: "780px" }}>
+            <h2
+              style={{
+                margin: "0 0 12px",
+                color: "var(--bg-cream-soft)",
+                fontSize: isMobile ? "30px" : "clamp(32px, 4vw, 46px)",
+                lineHeight: 1.1,
+                letterSpacing: "-0.7px",
+                fontWeight: 500,
+                fontFamily:
+                  '"Playfair Display", Georgia, "Times New Roman", serif',
+              }}
+            >
+              Drag to see what retention-first editing{" "}
+              <span
+                style={{
+                  color: "var(--accent-gold)",
+                  fontStyle: "italic",
+                }}
+              >
+                actually changes.
+              </span>
+            </h2>
+            <span
+              aria-hidden="true"
+              style={{
+                display: "block",
+                width: "60px",
+                height: "3px",
+                background: "var(--accent-gold)",
+                borderRadius: "999px",
+                marginBottom: "18px",
+              }}
+            />
+            <p
+              style={{
+                margin: 0,
+                color: "var(--bg-cream-soft)",
+                fontSize: isMobile ? "15px" : "16px",
+                lineHeight: 1.85,
+                opacity: 0.78,
+              }}
+            >
+              Same raw footage, different structure — that&rsquo;s where most
+              of the growth comes from.
+            </p>
+          </div>
         </Reveal>
 
         <Reveal delay={0.1}>
@@ -95,11 +126,13 @@ function EditingShowcase() {
               gridTemplateColumns: isMobile ? "1fr" : "1.15fr 0.85fr",
               gap: isMobile ? "22px" : "32px",
               alignItems: "center",
-              padding: isMobile ? "20px" : "28px",
-              borderRadius: isMobile ? "22px" : "28px",
-              border: `1px solid ${theme.colors.lineStrong}`,
-              background:
-                "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))",
+              padding: isMobile ? "22px" : "32px",
+              borderRadius: isMobile ? "16px" : "20px",
+              border: "1px solid rgba(184, 149, 106, 0.20)",
+              background: "rgba(255,255,255,0.04)",
+              boxShadow: "0 24px 48px rgba(0, 0, 0, 0.20)",
+              transition:
+                "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
             }}
           >
             <BeforeAfterSlider
@@ -113,7 +146,7 @@ function EditingShowcase() {
             <div>
               <div
                 style={{
-                  color: theme.colors.goldSoft,
+                  color: "var(--accent-gold)",
                   fontSize: "11px",
                   letterSpacing: "1.8px",
                   textTransform: "uppercase",
@@ -128,8 +161,8 @@ function EditingShowcase() {
                   margin: "0 0 10px",
                   fontSize: isMobile ? "22px" : "28px",
                   lineHeight: 1.15,
-                  fontWeight: 800,
-                  color: theme.colors.text,
+                  fontWeight: 500,
+                  color: "var(--bg-cream-soft)",
                   letterSpacing: "-0.6px",
                   fontFamily:
                     '"Playfair Display", Georgia, "Times New Roman", serif',
@@ -139,11 +172,12 @@ function EditingShowcase() {
               </h3>
               <p
                 style={{
-                  margin: "0 0 18px",
-                  color: theme.colors.textSoft,
+                  margin: "0 0 22px",
+                  color: "var(--bg-cream-soft)",
                   fontSize: "14.5px",
                   lineHeight: 1.8,
                   maxWidth: "440px",
+                  opacity: 0.78,
                 }}
               >
                 {pair.description}
@@ -167,18 +201,19 @@ function EditingShowcase() {
                         padding: "9px 13px",
                         borderRadius: "999px",
                         border: active
-                          ? "1px solid rgba(188,153,102,0.85)"
-                          : `1px solid ${theme.colors.line}`,
+                          ? "1px solid var(--accent-gold)"
+                          : "1px solid rgba(184, 149, 106, 0.30)",
                         background: active
-                          ? "rgba(188,153,102,0.16)"
-                          : "rgba(255,255,255,0.03)",
+                          ? "rgba(184, 149, 106, 0.18)"
+                          : "rgba(255,255,255,0.04)",
                         color: active
-                          ? theme.colors.goldSoft
-                          : theme.colors.text,
+                          ? "var(--accent-gold)"
+                          : "var(--bg-cream-soft)",
                         fontSize: "12.5px",
                         fontWeight: 700,
                         cursor: "pointer",
-                        transition: "all 0.22s ease",
+                        transition:
+                          "all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
                       }}
                     >
                       {p.eyebrow}
@@ -190,7 +225,7 @@ function EditingShowcase() {
               <div
                 style={{
                   marginTop: "16px",
-                  color: "rgba(243,239,231,0.55)",
+                  color: "rgba(245, 239, 230, 0.6)",
                   fontSize: "12px",
                   lineHeight: 1.6,
                 }}
