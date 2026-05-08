@@ -11,6 +11,9 @@ import InsightDetail from "./pages/InsightDetail";
 import Insights from "./pages/Insights";
 import Packages from "./pages/Packages";
 import Reviews from "./pages/Reviews";
+import About from "./pages/About";
+import ProcessPage from "./pages/Process";
+import FAQPage from "./pages/FAQPage";
 
 const AdminApp = lazy(() => import("./admin/AdminApp"));
 
@@ -54,6 +57,9 @@ function App() {
         <Route path="/insights/:slug" element={<InsightDetail />} />
         <Route path="/packages" element={<Packages />} />
         <Route path="/reviews" element={<Reviews />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/process" element={<ProcessPage />} />
+        <Route path="/faq" element={<FAQPage />} />
       </Route>
     </Routes>
   );

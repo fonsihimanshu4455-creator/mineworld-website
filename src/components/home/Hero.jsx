@@ -301,64 +301,17 @@ function Hero() {
                 `,
               }}
             >
-              {isMobile ? (
-                <img
-                  src={heroPoster}
-                  alt="Mineworld Production video editing and digital growth agency in Delhi"
-                  loading="eager"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    opacity: 0.95,
-                    transform: "scale(1.03)",
-                  }}
-                />
-              ) : (
-                <LazyVideo
-                  src={heroVideo}
-                  poster={heroPoster}
-                  ariaLabel="Mineworld Production showreel"
-                  rootMargin="0px"
-                  videoStyle={{
-                    opacity: 0.95,
-                    transform: "scale(1.12)",
-                    filter: "contrast(1.15) brightness(1.05) saturate(1.1)",
-                  }}
-                />
-              )}
-
-              {isMobile && (
-                <div
-                  style={{
-                    position: "absolute",
-                    left: "50%",
-                    top: "46%",
-                    transform: "translate(-50%, -50%)",
-                    width: "86px",
-                    height: "86px",
-                    borderRadius: "50%",
-                    background: "rgba(0,0,0,0.28)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backdropFilter: "blur(10px)",
-                    WebkitBackdropFilter: "blur(10px)",
-                    zIndex: 2,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 0,
-                      height: 0,
-                      borderTop: "15px solid transparent",
-                      borderBottom: "15px solid transparent",
-                      borderLeft: "24px solid #ffffff",
-                      marginLeft: "6px",
-                    }}
-                  />
-                </div>
-              )}
+              <LazyVideo
+                src={heroVideo}
+                poster={heroPoster}
+                ariaLabel="Mineworld Production showreel"
+                rootMargin="0px"
+                videoStyle={{
+                  opacity: 0.95,
+                  transform: isMobile ? "scale(1.05)" : "scale(1.12)",
+                  filter: "contrast(1.15) brightness(1.05) saturate(1.1)",
+                }}
+              />
 
               <div
                 style={{

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import SectionTag from "../common/SectionTag";
@@ -6,6 +7,67 @@ import useIsMobile from "../../utils/useIsMobile";
 import { useCollection } from "../../admin/hooks";
 import { capabilityPillars as defaultPillars } from "../../data/capabilityPillars";
 import { techStack as defaultStack } from "../../data/techStack";
+
+function buildLogoSources(tool) {
+  if (tool.customLogo) return [tool.customLogo];
+  if (!tool.slug) return [];
+  const color = tool.color || "FFFFFF";
+  return [
+    `https://cdn.simpleicons.org/${tool.slug}/${color}`,
+    `https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${tool.slug}.svg`,
+    `https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/${tool.slug}.svg`,
+  ];
+}
+
+function TechLogo({ tool }) {
+  const sources = buildLogoSources(tool);
+  const [idx, setIdx] = useState(0);
+  const failed = idx >= sources.length;
+
+  if (failed || sources.length === 0) {
+    const initial = (tool.name || "?").trim().charAt(0).toUpperCase();
+    const tint = `#${tool.color || "D6B060"}`;
+    return (
+      <span
+        aria-label={`${tool.name} logo`}
+        style={{
+          width: "20px",
+          height: "20px",
+          flexShrink: 0,
+          display: "grid",
+          placeItems: "center",
+          borderRadius: "6px",
+          background: `linear-gradient(135deg, ${tint}33, ${tint}11)`,
+          border: `1px solid ${tint}55`,
+          color: "#F5F1E8",
+          fontSize: "11px",
+          fontWeight: 800,
+          lineHeight: 1,
+        }}
+      >
+        {initial}
+      </span>
+    );
+  }
+
+  return (
+    <img
+      src={sources[idx]}
+      alt={`${tool.name} logo`}
+      width="20"
+      height="20"
+      loading="lazy"
+      decoding="async"
+      onError={() => setIdx((i) => i + 1)}
+      style={{
+        width: "20px",
+        height: "20px",
+        flexShrink: 0,
+        objectFit: "contain",
+      }}
+    />
+  );
+}
 
 function CapabilitiesBand() {
   const isMobile = useIsMobile(768);
@@ -313,25 +375,7 @@ function CapabilitiesBand() {
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
-                  <img
-                    src={
-                      s.customLogo ||
-                      `https://cdn.simpleicons.org/${s.slug}/${
-                        s.color || "FFFFFF"
-                      }`
-                    }
-                    alt={`${s.name} logo`}
-                    width="20"
-                    height="20"
-                    loading="lazy"
-                    decoding="async"
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      flexShrink: 0,
-                      objectFit: "contain",
-                    }}
-                  />
+                  <TechLogo tool={s} />
                   <span style={{ whiteSpace: "nowrap" }}>{s.name}</span>
                 </div>
               ))}

@@ -42,6 +42,9 @@ export const siteConfig = {
   navbar: {
     showInsights: false,
     showReviews: false,
+    showAbout: false,
+    showProcess: false,
+    showFaq: false,
   },
 };
 

@@ -410,9 +410,23 @@ function SettingsEditor() {
             marginBottom: "4px",
           }}
         >
-          Add extra page links to the top navbar. Default navbar items (Home,
-          Services, Portfolio, Packages, Contact) always show.
+          Add extra page links to the top navbar. Default items (Home, Services,
+          Portfolio, Packages, Contact) always show. Tip: when you hide a
+          section from the home page above, expose it here so visitors can still
+          find it.
         </div>
+        <ToggleRow
+          label="Show 'About' in navbar"
+          hint="Links to /about — Founder + Team page"
+          checked={Boolean(settings.navbar?.showAbout)}
+          onChange={(v) => updatePath(["navbar", "showAbout"], v)}
+        />
+        <ToggleRow
+          label="Show 'Process' in navbar"
+          hint="Links to /process — your delivery workflow page"
+          checked={Boolean(settings.navbar?.showProcess)}
+          onChange={(v) => updatePath(["navbar", "showProcess"], v)}
+        />
         <ToggleRow
           label="Show 'Insights' in navbar"
           hint="Links to /insights — your blog / articles page"
@@ -424,6 +438,12 @@ function SettingsEditor() {
           hint="Links to /reviews — full client reviews page"
           checked={Boolean(settings.navbar?.showReviews)}
           onChange={(v) => updatePath(["navbar", "showReviews"], v)}
+        />
+        <ToggleRow
+          label="Show 'FAQ' in navbar"
+          hint="Links to /faq — questions & answers page"
+          checked={Boolean(settings.navbar?.showFaq)}
+          onChange={(v) => updatePath(["navbar", "showFaq"], v)}
         />
       </Section>
 

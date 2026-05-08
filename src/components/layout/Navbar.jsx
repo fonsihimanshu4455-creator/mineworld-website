@@ -35,14 +35,29 @@ export default function Navbar() {
   const settings = useSiteSettings(defaultSiteConfig);
   const navItems = useMemo(() => {
     const extras = [];
+    if (settings.navbar?.showAbout) {
+      extras.push({ label: "About", path: "/about" });
+    }
+    if (settings.navbar?.showProcess) {
+      extras.push({ label: "Process", path: "/process" });
+    }
     if (settings.navbar?.showInsights) {
       extras.push({ label: "Insights", path: "/insights" });
     }
     if (settings.navbar?.showReviews) {
       extras.push({ label: "Reviews", path: "/reviews" });
     }
+    if (settings.navbar?.showFaq) {
+      extras.push({ label: "FAQ", path: "/faq" });
+    }
     return [...baseNavItems, ...extras, trailingNavItem];
-  }, [settings.navbar?.showInsights, settings.navbar?.showReviews]);
+  }, [
+    settings.navbar?.showAbout,
+    settings.navbar?.showProcess,
+    settings.navbar?.showInsights,
+    settings.navbar?.showReviews,
+    settings.navbar?.showFaq,
+  ]);
   const logoSrc = settings.logo?.src || defaultLogo;
   const logoWidth = Number(settings.logo?.width) || 40;
   const logoScale = Number(settings.logo?.scale) || 1.7;
