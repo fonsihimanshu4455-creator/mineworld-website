@@ -1,3 +1,21 @@
+:root {
+  --bg-primary: #FAF7F2;
+  --bg-secondary: #FFFFFF;
+  --bg-cream-soft: #F5EFE6;
+  --bg-cream-deep: #EDE4D3;
+
+  --text-primary: #1A1A1A;
+  --text-secondary: #4A4A4A;
+  --text-muted: #6B6B6B;
+
+  --accent-navy: #0F2A44;
+  --accent-gold: #B8956A;
+  --accent-gold-light: #D4B896;
+
+  --border-subtle: rgba(26, 26, 26, 0.08);
+  --border-cream: rgba(184, 149, 106, 0.2);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,13 +29,8 @@ html {
 
 body {
   font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  background:
-    radial-gradient(ellipse at 18% 8%, rgba(255,200,130,0.18), transparent 32%),
-    radial-gradient(ellipse at 82% 22%, rgba(217,185,135,0.14), transparent 38%),
-    radial-gradient(ellipse at 50% 100%, rgba(142,110,61,0.20), transparent 50%),
-    linear-gradient(180deg, #251A1F 0%, #2B2235 25%, #221C2E 55%, #2A2335 80%, #1F1B2B 100%);
-  background-attachment: fixed;
-  color: #F5F1E8;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -32,8 +45,8 @@ video {
 }
 
 ::selection {
-  background: rgba(188, 153, 102, 0.32);
-  color: #FFFBF1;
+  background: rgba(184, 149, 106, 0.32);
+  color: #1A1A1A;
 }
 
 a {
@@ -41,7 +54,7 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid #D9B987;
+  outline: 2px solid var(--accent-gold);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -58,7 +71,7 @@ a:focus:not(:focus-visible) {
   z-index: 5000;
   padding: 10px 16px;
   border-radius: 12px;
-  background: #BC9966;
+  background: var(--accent-gold);
   color: #18140F;
   font-weight: 800;
   font-size: 14px;
@@ -71,6 +84,211 @@ a:focus:not(:focus-visible) {
   top: 12px;
 }
 
+/* ─── Geometric Tile Background (Task 2) ─── */
+.geo-tile-bg {
+  position: relative;
+  background-color: var(--bg-primary);
+  background-image:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.7) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(0, 0, 0, 0.025) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(0, 0, 0, 0.015) 25%, transparent 25%);
+  background-size: 90px 90px;
+  background-position: 0 0, 0 0, 45px 45px, 45px 45px;
+  isolation: isolate;
+}
+
+.geo-tile-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(250, 247, 242, 0.75) 0%,
+    rgba(245, 239, 230, 0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.geo-tile-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Dot Grid Decorative Patterns (Task 4) ─── */
+.dot-grid {
+  position: absolute;
+  background-image: radial-gradient(
+    circle,
+    rgba(15, 42, 68, 0.2) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 18px 18px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dot-grid-gold {
+  background-image: radial-gradient(
+    circle,
+    rgba(184, 149, 106, 0.35) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 16px 16px;
+}
+
+.dot-grid-sm { width: 100px; height: 100px; }
+.dot-grid-md { width: 160px; height: 160px; }
+.dot-grid-lg { width: 220px; height: 220px; }
+
+/* ─── Chain / Connecting Line Elements (Task 5) ─── */
+.chain-line-vertical {
+  position: absolute;
+  width: 2px;
+  background-image: linear-gradient(
+    to bottom,
+    var(--accent-gold) 50%,
+    transparent 50%
+  );
+  background-size: 2px 12px;
+  background-repeat: repeat-y;
+  opacity: 0.4;
+}
+
+.chain-line-horizontal {
+  position: absolute;
+  height: 2px;
+  background-image: linear-gradient(
+    to right,
+    var(--accent-navy) 50%,
+    transparent 50%
+  );
+  background-size: 12px 2px;
+  background-repeat: repeat-x;
+  opacity: 0.3;
+}
+
+/* ─── Cursor Runaway Shapes (Task 3) ─── */
+.cursor-runaway-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.runaway-shape {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.shape-circle {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  opacity: 0.35;
+}
+
+.shape-circle-sm {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent-navy);
+  opacity: 0.25;
+}
+
+.shape-square {
+  width: 22px; height: 22px;
+  background: var(--accent-navy);
+  opacity: 0.2;
+  border-radius: 4px;
+}
+
+.shape-square-sm {
+  width: 12px; height: 12px;
+  background: var(--accent-gold);
+  opacity: 0.4;
+  border-radius: 2px;
+}
+
+.shape-ring {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-gold);
+  opacity: 0.5;
+}
+
+.shape-ring-sm {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent-navy);
+  opacity: 0.35;
+}
+
+.shape-plus {
+  width: 24px; height: 24px;
+  color: var(--accent-gold);
+  font-size: 28px;
+  font-weight: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.45;
+}
+
+.shape-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent-navy);
+  opacity: 0.4;
+}
+
+.shape-triangle {
+  width: 0; height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 20px solid var(--accent-gold);
+  opacity: 0.3;
+}
+
+@media (hover: none) {
+  .cursor-runaway-container { display: none; }
+}
+
+/* ─── Hover Polish (Task 6) ─── */
+.mw-service-card,
+.capability-card {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mw-service-card:hover,
+.capability-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(184, 149, 106, 0.15);
+  border-color: var(--accent-gold);
+}
+
+.mw-btn-pop {
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.mw-btn-pop:hover {
+  transform: scale(1.03);
+}
+
+.mw-h2-underline::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--accent-gold);
+  margin-top: 12px;
+  border-radius: 999px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -79,44 +297,3 @@ a:focus:not(:focus-visible) {
     scroll-behavior: auto !important;
   }
 }
-
-@keyframes mw-drift-x {
-  0%   { transform: translateX(-30px) rotate(-22deg); }
-  50%  { transform: translateX(30px)  rotate(-18deg); }
-  100% { transform: translateX(-30px) rotate(-22deg); }
-}
-
-@keyframes mw-drift-x-reverse {
-  0%   { transform: translateX(30px)  rotate(28deg); }
-  50%  { transform: translateX(-30px) rotate(32deg); }
-  100% { transform: translateX(30px)  rotate(28deg); }
-}
-
-@keyframes mw-drift-y {
-  0%   { transform: translateY(0) rotate(-8deg); }
-  50%  { transform: translateY(40px) rotate(-4deg); }
-  100% { transform: translateY(0) rotate(-8deg); }
-}
-
-@keyframes mw-pulse-soft {
-  0%, 100% { opacity: 0.85; transform: scale(1); }
-  50%      { opacity: 1;    transform: scale(1.06); }
-}
-
-@keyframes mw-float {
-  0%   { transform: translate(0, 0); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translate(40px, -120px); opacity: 0; }
-}
-
-.mw-orn-chain-1 { animation: mw-drift-x 18s ease-in-out infinite; }
-.mw-orn-chain-2 { animation: mw-drift-x-reverse 22s ease-in-out infinite; }
-.mw-orn-film    { animation: mw-drift-y 14s ease-in-out infinite; }
-.mw-orn-glow-1  { animation: mw-pulse-soft 9s ease-in-out infinite; }
-.mw-orn-glow-2  { animation: mw-pulse-soft 12s ease-in-out infinite reverse; }
-
-.mw-particle      { animation: mw-float 7s linear infinite; }
-.mw-particle-1    { animation-duration: 9s; }
-.mw-particle-2    { animation-duration: 11s; }
-.mw-particle-3    { animation-duration: 13s; }

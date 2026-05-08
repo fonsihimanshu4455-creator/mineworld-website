@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Container from "../common/Container";
 import MagneticButton from "../common/MagneticButton";
 import Reveal from "../common/Reveal";
+import CursorRunaway from "../common/CursorRunaway";
 import { theme } from "../../styles/theme";
 import { openContactModal, scrollToSection } from "../../utils/contactActions";
 import useIsMobile from "../../utils/useIsMobile";
@@ -39,22 +40,25 @@ function Hero() {
         alignItems: "center",
         overflow: "hidden",
         background: `
-          radial-gradient(circle at 18% 24%, rgba(188,153,102,0.14), transparent 22%),
-          radial-gradient(circle at 82% 20%, rgba(255,255,255,0.04), transparent 18%),
-          linear-gradient(135deg, #1B2747 0%, #1F2D52 45%, #1b2740 100%)
+          radial-gradient(ellipse at 12% 18%, rgba(184,149,106,0.10), transparent 28%),
+          radial-gradient(ellipse at 88% 78%, rgba(15,42,68,0.06), transparent 30%),
+          linear-gradient(180deg, #FFFFFF 0%, #FAF7F2 100%)
         `,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        borderBottom: "1px solid var(--border-subtle)",
       }}
     >
       <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.015), transparent 28%, transparent 72%, rgba(188,153,102,0.04))",
-          pointerEvents: "none",
-        }}
+        className="dot-grid dot-grid-md"
+        style={{ top: "100px", left: "40px" }}
+        aria-hidden="true"
       />
+      <div
+        className="dot-grid dot-grid-gold dot-grid-sm"
+        style={{ bottom: "60px", right: "40px" }}
+        aria-hidden="true"
+      />
+
+      <CursorRunaway />
 
       <Container
         style={{
@@ -79,7 +83,8 @@ function Hero() {
                 fontSize: isMobile ? "11px" : "12px",
                 letterSpacing: isMobile ? "2px" : "3px",
                 textTransform: "uppercase",
-                color: theme.colors.goldSoft,
+                color: "var(--accent-gold)",
+                fontWeight: 800,
                 marginBottom: "24px",
               }}
             >
@@ -95,8 +100,7 @@ function Hero() {
                 fontWeight: 800,
                 letterSpacing: isMobile ? "-1.5px" : "-2.2px",
                 maxWidth: isMobile ? "100%" : "820px",
-                color: theme.colors.text,
-                textShadow: "0 6px 30px rgba(0,0,0,0.18)",
+                color: "var(--text-primary)",
               }}
             >
               <span style={{ display: "inline-block", overflow: "hidden" }}>
@@ -110,7 +114,7 @@ function Hero() {
                   Ads that{" "}
                   <span
                     style={{
-                      color: theme.colors.gold,
+                      color: "var(--accent-gold)",
                       fontStyle: "italic",
                       fontFamily:
                         '"Playfair Display", Georgia, "Times New Roman", serif',
@@ -131,7 +135,7 @@ function Hero() {
                 maxWidth: isMobile ? "100%" : "720px",
                 marginLeft: isMobile ? "auto" : 0,
                 marginRight: isMobile ? "auto" : 0,
-                color: theme.colors.textSoft,
+                color: "var(--text-secondary)",
                 fontSize: isMobile ? "16px" : "18px",
                 lineHeight: 1.9,
               }}
@@ -202,12 +206,13 @@ function Hero() {
                   data-gsap-reveal
                   style={{
                     padding: "11px 16px",
-                    border: `1px solid ${theme.colors.line}`,
+                    border: "1px solid var(--border-cream)",
                     borderRadius: "999px",
-                    color: theme.colors.text,
+                    color: "var(--text-primary)",
                     fontSize: isMobile ? "13px" : "14px",
-                    background: "rgba(58,78,115,0.75)",
-                    boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
+                    background: "var(--bg-secondary)",
+                    boxShadow: "0 4px 14px rgba(15,42,68,0.08)",
+                    fontWeight: 600,
                   }}
                 >
                   {item}
@@ -221,8 +226,8 @@ function Hero() {
                   marginTop: "28px",
                   fontSize: isMobile ? "12px" : "13px",
                   letterSpacing: isMobile ? "1.2px" : "1.8px",
-                  color: theme.colors.textSoft,
-                  opacity: 0.85,
+                  color: "var(--text-muted)",
+                  opacity: 0.95,
                   textTransform: "uppercase",
                 }}
               >
