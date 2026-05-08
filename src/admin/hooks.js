@@ -30,6 +30,14 @@ export function useSiteSettings(defaultConfig) {
         ...(saved.stores || {}),
       },
       integrations: { ...(defaultConfig.integrations || {}) },
+      sectionVisibility: {
+        ...(defaultConfig.sectionVisibility || {}),
+        ...(saved.sectionVisibility || {}),
+      },
+      navbar: {
+        ...(defaultConfig.navbar || {}),
+        ...(saved.navbar || {}),
+      },
     };
   };
 
@@ -64,4 +72,19 @@ export function getOverlaySnapshot(key, defaults) {
   const override = contentStore.get(key);
   const list = Array.isArray(override) ? override : defaults;
   return list.filter((item) => !item?.__hidden);
+}
+
+export function useSectionVisible(key, defaultVisible = true) {
+  const compute = () => {
+    const saved = contentStore.get("settings") || {};
+    const sv = saved.sectionVisibility || {};
+    if (typeof sv[key] === "boolean") return sv[key];
+    return defaultVisible;
+  };
+  const [visible, setVisible] = useState(compute);
+  useEffect(() => {
+    return subscribe(() => setVisible(compute()));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+  return visible;
 }

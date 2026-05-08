@@ -15,9 +15,25 @@ import EditingShowcase from "../components/home/EditingShowcase";
 import ReelScoreTool from "../components/home/ReelScoreTool";
 import InsightsPreview from "../components/home/InsightsPreview";
 import FAQ from "../components/home/FAQ";
+import { useSectionVisible } from "../admin/hooks";
 
 function Home() {
   const location = useLocation();
+
+  const showClientLogoWall = useSectionVisible("clientLogoWall");
+  const showResultsSection = useSectionVisible("resultsSection");
+  const showServices = useSectionVisible("services");
+  const showCapabilitiesBand = useSectionVisible("capabilitiesBand");
+  const showTrustStrip = useSectionVisible("trustStrip");
+  const showProcess = useSectionVisible("process");
+  const showPortfolio = useSectionVisible("portfolio");
+  const showTestimonials = useSectionVisible("testimonials");
+  const showFounderSection = useSectionVisible("founderSection");
+  const showTeamSection = useSectionVisible("teamSection");
+  const showEditingShowcase = useSectionVisible("editingShowcase");
+  const showReelScoreTool = useSectionVisible("reelScoreTool");
+  const showInsightsPreview = useSectionVisible("insightsPreview");
+  const showFAQ = useSectionVisible("faq");
 
   useEffect(() => {
     if (!location.hash) return;
@@ -32,20 +48,20 @@ function Home() {
   return (
     <>
       <Hero />
-      <ClientLogoWall />
-      <ResultsSection />
-      <Services />
-      <CapabilitiesBand />
-      <TrustStrip />
-      <Process />
-      <Portfolio />
-      <Testimonials />
-      <FounderSection />
-      <TeamSection />
-      <EditingShowcase />
-      <ReelScoreTool />
-      <InsightsPreview />
-      <FAQ />
+      {showClientLogoWall && <ClientLogoWall />}
+      {showResultsSection && <ResultsSection />}
+      {showServices && <Services />}
+      {showCapabilitiesBand && <CapabilitiesBand />}
+      {showTrustStrip && <TrustStrip />}
+      {showProcess && <Process />}
+      {showPortfolio && <Portfolio />}
+      {showTestimonials && <Testimonials />}
+      {showFounderSection && <FounderSection />}
+      {showTeamSection && <TeamSection />}
+      {showEditingShowcase && <EditingShowcase />}
+      {showReelScoreTool && <ReelScoreTool />}
+      {showInsightsPreview && <InsightsPreview />}
+      {showFAQ && <FAQ />}
     </>
   );
 }

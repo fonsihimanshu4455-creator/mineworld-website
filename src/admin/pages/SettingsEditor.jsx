@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { contentStore } from "../contentStore";
-import { siteConfig as defaultConfig } from "../../data/siteConfig";
+import {
+  siteConfig as defaultConfig,
+  sectionVisibilityMeta,
+} from "../../data/siteConfig";
 import Field from "../components/Field";
 import { PageHeader } from "./Dashboard";
 
@@ -26,7 +29,93 @@ function mergedSettings() {
       playStore: "",
       ...(saved.stores || {}),
     },
+    sectionVisibility: {
+      ...(defaultConfig.sectionVisibility || {}),
+      ...(saved.sectionVisibility || {}),
+    },
+    navbar: {
+      ...(defaultConfig.navbar || {}),
+      ...(saved.navbar || {}),
+    },
   };
+}
+
+function ToggleRow({ label, checked, onChange, hint }) {
+  return (
+    <label
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: "12px",
+        padding: "12px 14px",
+        borderRadius: "12px",
+        border: "1px solid rgba(255,255,255,0.08)",
+        background: checked
+          ? "rgba(214,176,96,0.08)"
+          : "rgba(255,255,255,0.02)",
+        cursor: "pointer",
+        transition: "all 0.2s ease",
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+        <span
+          style={{
+            color: "#F5F1E8",
+            fontSize: "14px",
+            fontWeight: 700,
+          }}
+        >
+          {label}
+        </span>
+        {hint ? (
+          <span
+            style={{
+              color: "rgba(243,239,231,0.55)",
+              fontSize: "11.5px",
+            }}
+          >
+            {hint}
+          </span>
+        ) : null}
+      </div>
+      <span
+        role="switch"
+        aria-checked={checked}
+        style={{
+          position: "relative",
+          width: "42px",
+          height: "24px",
+          borderRadius: "999px",
+          background: checked
+            ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+            : "rgba(255,255,255,0.18)",
+          flexShrink: 0,
+          transition: "background 0.2s ease",
+        }}
+      >
+        <span
+          style={{
+            position: "absolute",
+            top: "2px",
+            left: checked ? "20px" : "2px",
+            width: "20px",
+            height: "20px",
+            borderRadius: "50%",
+            background: "#fff",
+            transition: "left 0.2s ease",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
+          }}
+        />
+      </span>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        style={{ display: "none" }}
+      />
+    </label>
+  );
 }
 
 function Section({ title, children }) {
@@ -284,6 +373,58 @@ function SettingsEditor() {
             )}
           </div>
         </div>
+      </Section>
+
+      <Section title="Home Page Sections — Show / Hide">
+        <div
+          style={{
+            color: "rgba(243,239,231,0.65)",
+            fontSize: "12.5px",
+            lineHeight: 1.6,
+            marginBottom: "4px",
+          }}
+        >
+          Toggle individual home-page sections. Turn off any section you don't
+          want to show — it'll disappear from the live site immediately.
+        </div>
+        <div style={{ display: "grid", gap: "8px" }}>
+          {sectionVisibilityMeta.map((meta) => (
+            <ToggleRow
+              key={meta.key}
+              label={meta.label}
+              checked={settings.sectionVisibility?.[meta.key] !== false}
+              onChange={(v) =>
+                updatePath(["sectionVisibility", meta.key], v)
+              }
+            />
+          ))}
+        </div>
+      </Section>
+
+      <Section title="Navbar — Extra Pages">
+        <div
+          style={{
+            color: "rgba(243,239,231,0.65)",
+            fontSize: "12.5px",
+            lineHeight: 1.6,
+            marginBottom: "4px",
+          }}
+        >
+          Add extra page links to the top navbar. Default navbar items (Home,
+          Services, Portfolio, Packages, Contact) always show.
+        </div>
+        <ToggleRow
+          label="Show 'Insights' in navbar"
+          hint="Links to /insights — your blog / articles page"
+          checked={Boolean(settings.navbar?.showInsights)}
+          onChange={(v) => updatePath(["navbar", "showInsights"], v)}
+        />
+        <ToggleRow
+          label="Show 'Reviews' in navbar"
+          hint="Links to /reviews — full client reviews page"
+          checked={Boolean(settings.navbar?.showReviews)}
+          onChange={(v) => updatePath(["navbar", "showReviews"], v)}
+        />
       </Section>
 
       <div

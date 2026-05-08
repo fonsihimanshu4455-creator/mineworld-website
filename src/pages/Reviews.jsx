@@ -51,14 +51,14 @@ function ReviewCard({ item, onOpen }) {
       transition={{ type: "spring", stiffness: 180, damping: 18 }}
       style={{
         textAlign: "left",
-        padding: "22px 22px 20px",
-        borderRadius: "22px",
+        padding: "16px 16px 14px",
+        borderRadius: "16px",
         border: `1px solid ${theme.colors.line}`,
         background:
           "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
         display: "flex",
         flexDirection: "column",
-        minHeight: "220px",
+        minHeight: "150px",
         color: theme.colors.text,
         fontFamily: "inherit",
         cursor: "pointer",
@@ -68,17 +68,17 @@ function ReviewCard({ item, onOpen }) {
 
       <p
         style={{
-          margin: "0 0 16px",
+          margin: "0 0 12px",
           color: theme.colors.text,
-          fontSize: "14.5px",
-          lineHeight: 1.65,
+          fontSize: "13.5px",
+          lineHeight: 1.55,
           fontStyle: "italic",
           fontFamily:
             '"Playfair Display", Georgia, "Times New Roman", serif',
           flex: 1,
           overflow: "hidden",
           display: "-webkit-box",
-          WebkitLineClamp: 6,
+          WebkitLineClamp: 4,
           WebkitBoxOrient: "vertical",
         }}
       >
@@ -408,9 +408,9 @@ function Reviews() {
               style={{
                 display: "grid",
                 gridTemplateColumns: isMobile
-                  ? "1fr"
-                  : "repeat(auto-fit, minmax(280px, 1fr))",
-                gap: "16px",
+                  ? "repeat(auto-fit, minmax(220px, 1fr))"
+                  : "repeat(auto-fit, minmax(240px, 1fr))",
+                gap: "14px",
               }}
             >
               {filtered.map((item, i) => (

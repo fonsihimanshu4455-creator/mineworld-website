@@ -6,13 +6,14 @@ import { useSiteSettings } from "../../admin/hooks";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 import defaultLogo from "../../assets/mineworld-logo.png";
 
-const navItems = [
+const baseNavItems = [
   { label: "Home", target: "home" },
   { label: "Services", target: "services" },
   { label: "Portfolio", target: "portfolio" },
   { label: "Packages", path: "/packages" },
-  { label: "Contact", target: "footer" },
 ];
+
+const trailingNavItem = { label: "Contact", target: "footer" };
 
 function scrollToSection(id) {
   const el = document.getElementById(id);
@@ -32,6 +33,16 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const settings = useSiteSettings(defaultSiteConfig);
+  const navItems = useMemo(() => {
+    const extras = [];
+    if (settings.navbar?.showInsights) {
+      extras.push({ label: "Insights", path: "/insights" });
+    }
+    if (settings.navbar?.showReviews) {
+      extras.push({ label: "Reviews", path: "/reviews" });
+    }
+    return [...baseNavItems, ...extras, trailingNavItem];
+  }, [settings.navbar?.showInsights, settings.navbar?.showReviews]);
   const logoSrc = settings.logo?.src || defaultLogo;
   const logoWidth = Number(settings.logo?.width) || 40;
   const logoScale = Number(settings.logo?.scale) || 1.7;
@@ -61,7 +72,7 @@ export default function Navbar() {
 
   const sectionIds = useMemo(
     () => navItems.filter((i) => i.target).map((i) => i.target),
-    []
+    [navItems]
   );
 
   useEffect(() => {

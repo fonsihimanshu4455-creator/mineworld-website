@@ -114,13 +114,13 @@ function TestimonialCard({ item, onOpen, isMobile }) {
       style={{
         position: "relative",
         textAlign: "left",
-        padding: isMobile ? "22px 20px" : "26px 24px",
-        borderRadius: "22px",
+        padding: isMobile ? "16px 16px" : "18px 18px",
+        borderRadius: "16px",
         border: `1px solid ${theme.colors.line}`,
         background:
           "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
-        width: isMobile ? "280px" : "320px",
-        minHeight: "260px",
+        width: isMobile ? "240px" : "270px",
+        minHeight: "180px",
         flexShrink: 0,
         display: "flex",
         flexDirection: "column",
@@ -182,10 +182,10 @@ function TestimonialCard({ item, onOpen, isMobile }) {
 
       <p
         style={{
-          margin: "0 0 16px",
+          margin: "0 0 12px",
           color: theme.colors.text,
-          fontSize: "14.5px",
-          lineHeight: 1.65,
+          fontSize: "13.5px",
+          lineHeight: 1.55,
           fontStyle: "italic",
           fontFamily:
             '"Playfair Display", Georgia, "Times New Roman", serif',
@@ -194,7 +194,7 @@ function TestimonialCard({ item, onOpen, isMobile }) {
           flex: 1,
           overflow: "hidden",
           display: "-webkit-box",
-          WebkitLineClamp: 5,
+          WebkitLineClamp: 4,
           WebkitBoxOrient: "vertical",
         }}
       >

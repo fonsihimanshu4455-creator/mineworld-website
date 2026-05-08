@@ -21,4 +21,43 @@ export const siteConfig = {
       import.meta.env.VITE_SHEET_WEBHOOK_URL ||
       "https://script.google.com/macros/s/AKfycby-F_y5bbvEwCapMtOn74W7j9t65l9KnL1-bzY1gpeeS7Tbr0xc3YQrQYnW3pdi8E_bvg/exec",
   },
+
+  sectionVisibility: {
+    clientLogoWall: true,
+    resultsSection: true,
+    services: true,
+    capabilitiesBand: true,
+    trustStrip: true,
+    process: true,
+    portfolio: true,
+    testimonials: true,
+    founderSection: true,
+    teamSection: true,
+    editingShowcase: true,
+    reelScoreTool: true,
+    insightsPreview: true,
+    faq: true,
+  },
+
+  navbar: {
+    showInsights: false,
+    showReviews: false,
+  },
 };
+
+export const sectionVisibilityMeta = [
+  { key: "clientLogoWall", label: "Client Logo Wall" },
+  { key: "resultsSection", label: "Results / Stats" },
+  { key: "services", label: "Services" },
+  { key: "capabilitiesBand", label: "Capabilities (Build / Create / Grow)" },
+  { key: "trustStrip", label: "Trust Strip / Press" },
+  { key: "process", label: "Process" },
+  { key: "portfolio", label: "Portfolio" },
+  { key: "testimonials", label: "Testimonials / Reviews" },
+  { key: "founderSection", label: "About / Founder" },
+  { key: "teamSection", label: "Team" },
+  { key: "editingShowcase", label: "Editing Showcase" },
+  { key: "reelScoreTool", label: "Reel Score Tool" },
+  { key: "insightsPreview", label: "Insights Preview" },
+  { key: "faq", label: "FAQ" },
+];
