@@ -1,6 +1,5 @@
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
-import { theme } from "../../styles/theme";
 import useIsMobile from "../../utils/useIsMobile";
 import { useCollection, useSiteSettings } from "../../admin/hooks";
 import { pressLogos as defaultPressLogos } from "../../data/pressLogos";
@@ -19,22 +18,23 @@ function PressWordmark({ name, style, logo, url }) {
         width: "auto",
         maxWidth: "160px",
         objectFit: "contain",
-        opacity: 0.78,
-        filter: "grayscale(0.2)",
+        opacity: 0.85,
       }}
     />
   ) : (
     <span
+      className="mw-press-wordmark"
       style={{
-        color: "rgba(243,239,231,0.62)",
+        color: "var(--text-secondary)",
         fontSize: "16px",
-        fontWeight: isSerif ? 700 : 800,
+        fontWeight: isSerif ? 600 : 500,
         letterSpacing: isSerif ? "-0.2px" : "0.4px",
         textTransform: isSerif ? "none" : "uppercase",
         fontFamily: isSerif
           ? '"Playfair Display", Georgia, "Times New Roman", serif'
           : '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
         whiteSpace: "nowrap",
+        transition: "color 0.3s ease",
       }}
     >
       {name}
@@ -44,8 +44,7 @@ function PressWordmark({ name, style, logo, url }) {
   const wrapStyle = {
     display: "inline-flex",
     alignItems: "center",
-    opacity: 0.9,
-    transition: "opacity 0.25s ease, color 0.25s ease, transform 0.2s ease",
+    transition: "transform 0.3s ease",
     textDecoration: "none",
     cursor: url ? "pointer" : "default",
   };
@@ -58,12 +57,14 @@ function PressWordmark({ name, style, logo, url }) {
         rel="noreferrer"
         style={wrapStyle}
         onMouseEnter={(e) => {
-          e.currentTarget.style.opacity = "1";
           e.currentTarget.style.transform = "translateY(-1px)";
+          const span = e.currentTarget.querySelector(".mw-press-wordmark");
+          if (span) span.style.color = "var(--accent-navy)";
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.opacity = "0.9";
           e.currentTarget.style.transform = "translateY(0)";
+          const span = e.currentTarget.querySelector(".mw-press-wordmark");
+          if (span) span.style.color = "var(--text-secondary)";
         }}
       >
         {inner}
@@ -238,10 +239,9 @@ function TrustStrip() {
       style={{
         position: "relative",
         padding: isMobile ? "62px 0" : "92px 0",
-        background:
-          "linear-gradient(180deg, rgba(11,16,28,1) 0%, rgba(13,20,34,1) 100%)",
-        borderTop: `1px solid ${theme.colors.line}`,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--bg-secondary)",
+        borderTop: "1px solid var(--border-subtle)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >
@@ -255,7 +255,7 @@ function TrustStrip() {
           width: "560px",
           height: "560px",
           borderRadius: "50%",
-          background: "rgba(188,153,102,0.05)",
+          background: "rgba(184,149,106,0.06)",
           filter: "blur(140px)",
           pointerEvents: "none",
         }}
@@ -266,11 +266,11 @@ function TrustStrip() {
           <Reveal>
             <div
               style={{
-                color: theme.colors.goldSoft,
-                fontSize: "11px",
-                letterSpacing: "2.4px",
+                color: "var(--accent-gold)",
+                fontSize: "12px",
+                letterSpacing: "2px",
                 textTransform: "uppercase",
-                fontWeight: 800,
+                fontWeight: 500,
                 marginBottom: "12px",
               }}
             >
@@ -282,7 +282,7 @@ function TrustStrip() {
               style={{
                 margin: "0 auto",
                 fontSize: isMobile ? "24px" : "clamp(26px, 3vw, 34px)",
-                color: theme.colors.text,
+                color: "var(--text-primary)",
                 lineHeight: 1.2,
                 letterSpacing: "-0.6px",
                 fontFamily:
@@ -299,17 +299,16 @@ function TrustStrip() {
         <Reveal delay={0.1}>
           <div
             style={{
-              padding: isMobile ? "20px 16px" : "28px 32px",
+              padding: isMobile ? "20px 16px" : "16px 32px",
               borderRadius: isMobile ? "20px" : "999px",
-              border: `1px solid ${theme.colors.line}`,
-              background:
-                "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.012))",
+              border: "1px solid var(--border-cream)",
+              background: "var(--bg-cream-soft)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               gap: isMobile ? "18px 28px" : "44px",
               flexWrap: "wrap",
-              boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.02)",
+              boxShadow: "0 8px 24px rgba(15,42,68,0.06)",
             }}
           >
             {pressLogos.map((p) => (
@@ -337,11 +336,11 @@ function TrustStrip() {
             <div>
               <div
                 style={{
-                  color: theme.colors.goldSoft,
-                  fontSize: "11px",
-                  letterSpacing: "2.4px",
+                  color: "var(--accent-gold)",
+                  fontSize: "12px",
+                  letterSpacing: "2px",
                   textTransform: "uppercase",
-                  fontWeight: 800,
+                  fontWeight: 500,
                   marginBottom: "10px",
                 }}
               >
@@ -353,8 +352,8 @@ function TrustStrip() {
                   fontSize: isMobile ? "26px" : "clamp(28px, 3.6vw, 38px)",
                   lineHeight: 1.18,
                   letterSpacing: "-0.6px",
-                  color: theme.colors.text,
-                  fontWeight: 800,
+                  color: "var(--text-primary)",
+                  fontWeight: 700,
                   fontFamily:
                     '"Playfair Display", Georgia, "Times New Roman", serif',
                 }}
@@ -364,9 +363,9 @@ function TrustStrip() {
               <p
                 style={{
                   margin: 0,
-                  color: theme.colors.textSoft,
+                  color: "var(--text-secondary)",
                   fontSize: "15px",
-                  lineHeight: 1.85,
+                  lineHeight: 1.7,
                   maxWidth: "520px",
                 }}
               >
