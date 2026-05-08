@@ -41,6 +41,14 @@ export function useSiteSettings(defaultConfig) {
         ...(defaultConfig.navbar || {}),
         ...(saved.navbar || {}),
       },
+      seo: {
+        ...(defaultConfig.seo || {}),
+        ...(saved.seo || {}),
+      },
+      chat: {
+        ...(defaultConfig.chat || {}),
+        ...(saved.chat || {}),
+      },
     };
   };
 

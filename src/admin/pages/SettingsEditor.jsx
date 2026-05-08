@@ -51,6 +51,14 @@ function mergedSettings() {
       ...(defaultConfig.navbar || {}),
       ...(saved.navbar || {}),
     },
+    seo: {
+      ...(defaultConfig.seo || {}),
+      ...(saved.seo || {}),
+    },
+    chat: {
+      ...(defaultConfig.chat || {}),
+      ...(saved.chat || {}),
+    },
   };
 }
 
@@ -658,6 +666,78 @@ function SettingsEditor() {
           hint="Links to /faq — questions & answers page"
           checked={Boolean(settings.navbar?.showFaq)}
           onChange={(v) => updatePath(["navbar", "showFaq"], v)}
+        />
+      </Section>
+
+      <Section title="SEO & Social Sharing">
+        <div
+          style={{
+            color: "rgba(243,239,231,0.65)",
+            fontSize: "12.5px",
+            lineHeight: 1.6,
+            marginBottom: "4px",
+          }}
+        >
+          The Open Graph image shows up when someone shares your site on
+          WhatsApp, LinkedIn, Twitter, Slack, etc. Recommended:{" "}
+          <strong>1200×630 JPG/PNG</strong>, under 1 MB.
+        </div>
+        <Field
+          field={{
+            key: "defaultOgImage",
+            label: "Default share preview image (1200×630)",
+            type: "media-src",
+          }}
+          value={settings.seo?.defaultOgImage}
+          onChange={(v) => updatePath(["seo", "defaultOgImage"], v)}
+        />
+        <Field
+          field={{
+            key: "defaultDescription",
+            label: "Default site description (used as fallback)",
+            type: "textarea",
+          }}
+          value={settings.seo?.defaultDescription}
+          onChange={(v) => updatePath(["seo", "defaultDescription"], v)}
+        />
+      </Section>
+
+      <Section title="Chat Widget">
+        <div
+          style={{
+            color: "rgba(243,239,231,0.65)",
+            fontSize: "12.5px",
+            lineHeight: 1.6,
+            marginBottom: "4px",
+          }}
+        >
+          A floating chat button (bottom-right) that opens a panel with quick
+          replies. Each reply jumps the visitor to WhatsApp with a pre-filled
+          message.
+        </div>
+        <ToggleRow
+          label="Enable chat widget"
+          hint="Show the chat bubble across the site"
+          checked={settings.chat?.enabled !== false}
+          onChange={(v) => updatePath(["chat", "enabled"], v)}
+        />
+        <Field
+          field={{
+            key: "greeting",
+            label: "Welcome message",
+            type: "text",
+          }}
+          value={settings.chat?.greeting}
+          onChange={(v) => updatePath(["chat", "greeting"], v)}
+        />
+        <Field
+          field={{
+            key: "quickReplies",
+            label: "Quick reply options (one per line)",
+            type: "string-list",
+          }}
+          value={settings.chat?.quickReplies || []}
+          onChange={(v) => updatePath(["chat", "quickReplies"], v)}
         />
       </Section>
 

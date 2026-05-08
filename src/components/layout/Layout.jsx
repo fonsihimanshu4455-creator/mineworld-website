@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MobileBottomNav from "./MobileBottomNav";
 import ContactModal from "../common/ContactModal";
-import FloatingWhatsApp from "../common/FloatingWhatsApp";
+import ChatWidget from "../common/ChatWidget";
 import { initAnalytics, trackPageView } from "../../utils/analytics";
 
 function Layout() {
@@ -41,7 +41,7 @@ function Layout() {
       <Footer />
       <MobileBottomNav />
       <ContactModal />
-      <FloatingWhatsApp />
+      <ChatWidget />
     </div>
   );
 }

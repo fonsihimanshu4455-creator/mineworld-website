@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import SettingsEditor from "./pages/SettingsEditor";
 import CollectionEditor from "./pages/CollectionEditor";
 import SubmissionsEditor from "./pages/SubmissionsEditor";
+import PreviewEditor from "./pages/PreviewEditor";
 
 function AdminApp() {
   const { authed, ready } = useAdminAuth();
@@ -35,6 +36,7 @@ function AdminApp() {
       <Route element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="settings" element={<SettingsEditor />} />
+        <Route path="preview" element={<PreviewEditor />} />
         <Route path="submissions" element={<SubmissionsEditor />} />
         <Route path="collections/:key" element={<CollectionEditor />} />
       </Route>

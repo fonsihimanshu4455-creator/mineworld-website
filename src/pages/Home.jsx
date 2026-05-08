@@ -16,8 +16,14 @@ import ReelScoreTool from "../components/home/ReelScoreTool";
 import InsightsPreview from "../components/home/InsightsPreview";
 import FAQ from "../components/home/FAQ";
 import Seo from "../components/common/Seo";
-import { useSiteSettings, useSectionOrder } from "../admin/hooks";
+import { useSiteSettings, useSectionOrder, useCollection } from "../admin/hooks";
 import { siteConfig as defaultSiteConfig } from "../data/siteConfig";
+import { testimonials as defaultTestimonials } from "../data/testimonials";
+import {
+  organizationLd,
+  websiteLd,
+  reviewAggregateLd,
+} from "../utils/structuredData";
 
 const SECTION_COMPONENTS = {
   clientLogoWall: ClientLogoWall,
@@ -41,6 +47,17 @@ function Home() {
   const settings = useSiteSettings(defaultSiteConfig);
   const order = useSectionOrder(defaultSiteConfig.sectionOrder);
   const visibility = settings.sectionVisibility || {};
+  const testimonials = useCollection("testimonials", defaultTestimonials);
+
+  const reviewLd = reviewAggregateLd(testimonials, settings);
+  const homeJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      organizationLd(settings),
+      websiteLd(settings),
+      ...(reviewLd ? [reviewLd] : []),
+    ],
+  };
 
   useEffect(() => {
     if (!location.hash) return;
@@ -54,7 +71,7 @@ function Home() {
 
   return (
     <>
-      <Seo path="/" />
+      <Seo path="/" jsonLd={homeJsonLd} />
       <Hero />
       {order.map((key) => {
         const Component = SECTION_COMPONENTS[key];

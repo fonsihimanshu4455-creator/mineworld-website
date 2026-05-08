@@ -16,6 +16,23 @@ export const siteConfig = {
       "https://www.instagram.com/mineworld.production?igsh=MTIyYzZpOXdicXl6aw==",
   },
 
+  seo: {
+    defaultOgImage: "",
+    defaultDescription:
+      "Mineworld Production — Delhi-based content & digital growth studio. Premium video editing, websites, mobile apps, ad campaigns, and social media systems built for real businesses.",
+  },
+
+  chat: {
+    enabled: true,
+    greeting: "Hey! 👋 How can we help?",
+    quickReplies: [
+      "I want a quote",
+      "Tell me about packages",
+      "Book a discovery call",
+      "I have a different question",
+    ],
+  },
+
   integrations: {
     sheetWebhook:
       import.meta.env.VITE_SHEET_WEBHOOK_URL ||

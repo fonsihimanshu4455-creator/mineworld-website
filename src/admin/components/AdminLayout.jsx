@@ -7,6 +7,7 @@ import useIsMobile from "../../utils/useIsMobile";
 const sidebarLinks = [
   { to: "/admin", label: "Dashboard", end: true },
   { to: "/admin/settings", label: "Settings" },
+  { to: "/admin/preview", label: "Live Preview" },
   { to: "/admin/submissions", label: "Submissions" },
   ...collectionOrder.map((key) => ({
     to: `/admin/collections/${key}`,
