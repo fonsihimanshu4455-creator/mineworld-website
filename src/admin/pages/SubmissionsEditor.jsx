@@ -37,7 +37,7 @@ function StarPicker({ value, onChange }) {
             border: "none",
             cursor: "pointer",
             fontSize: "20px",
-            color: n <= value ? "#E7C98A" : "rgba(255,255,255,0.22)",
+            color: n <= value ? "#D9B987" : "rgba(255,255,255,0.22)",
             lineHeight: 1,
             padding: "2px",
           }}
@@ -150,12 +150,12 @@ function SubmissionsEditor() {
                 padding: "8px 14px",
                 borderRadius: "999px",
                 border: active
-                  ? "1px solid rgba(214,176,96,0.85)"
+                  ? "1px solid rgba(188,153,102,0.85)"
                   : "1px solid rgba(255,255,255,0.1)",
                 background: active
-                  ? "rgba(214,176,96,0.14)"
+                  ? "rgba(188,153,102,0.14)"
                   : "rgba(255,255,255,0.03)",
-                color: active ? "#E7C98A" : "#F5F1E8",
+                color: active ? "#D9B987" : "#F5F1E8",
                 fontSize: "12.5px",
                 fontWeight: 700,
                 cursor: "pointer",
@@ -173,8 +173,8 @@ function SubmissionsEditor() {
             marginBottom: "12px",
             padding: "8px 14px",
             borderRadius: "10px",
-            background: "rgba(214,176,96,0.12)",
-            color: "#E7C98A",
+            background: "rgba(188,153,102,0.12)",
+            color: "#D9B987",
             fontSize: "13px",
             fontWeight: 600,
             display: "inline-block",
@@ -208,7 +208,7 @@ function SubmissionsEditor() {
                 ? "#7fe0a2"
                 : status === "rejected"
                 ? "#ff9e9e"
-                : "#E7C98A";
+                : "#D9B987";
             return (
               <div
                 key={it.id}
@@ -216,10 +216,10 @@ function SubmissionsEditor() {
                   padding: isMobile ? "16px" : "22px",
                   borderRadius: "18px",
                   border: isEditing
-                    ? "1px solid rgba(214,176,96,0.55)"
+                    ? "1px solid rgba(188,153,102,0.55)"
                     : "1px solid rgba(255,255,255,0.08)",
                   background: isEditing
-                    ? "linear-gradient(180deg, rgba(214,176,96,0.08), rgba(255,255,255,0.015))"
+                    ? "linear-gradient(180deg, rgba(188,153,102,0.08), rgba(255,255,255,0.015))"
                     : "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
                   display: "grid",
                   gridTemplateColumns:
@@ -431,7 +431,7 @@ function SubmissionsEditor() {
                               style={{
                                 color:
                                   n <= current.rating
-                                    ? "#E7C98A"
+                                    ? "#D9B987"
                                     : "rgba(255,255,255,0.22)",
                                 fontSize: "15px",
                               }}
@@ -510,7 +510,7 @@ function EditLabel({ children }) {
         fontSize: "10.5px",
         letterSpacing: "1.4px",
         textTransform: "uppercase",
-        color: "#E7C98A",
+        color: "#D9B987",
         fontWeight: 700,
         marginBottom: "6px",
       }}
@@ -562,9 +562,9 @@ function actionBtn(kind) {
   if (kind === "edit") {
     return {
       ...base,
-      border: "1px solid rgba(214,176,96,0.4)",
-      background: "rgba(214,176,96,0.1)",
-      color: "#E7C98A",
+      border: "1px solid rgba(188,153,102,0.4)",
+      background: "rgba(188,153,102,0.1)",
+      color: "#D9B987",
     };
   }
   if (kind === "delete") {

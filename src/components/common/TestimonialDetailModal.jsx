@@ -11,7 +11,7 @@ function StarRow({ rating }) {
         <span
           key={n}
           style={{
-            color: n <= rating ? "#E7C98A" : "rgba(255,255,255,0.22)",
+            color: n <= rating ? "#D9B987" : "rgba(255,255,255,0.22)",
             fontSize: "18px",
             lineHeight: 1,
           }}
@@ -107,8 +107,8 @@ function TestimonialDetailModal({ open, item, onClose }) {
                   gap: "8px",
                   padding: "6px 12px",
                   borderRadius: "999px",
-                  background: "rgba(214,176,96,0.14)",
-                  border: "1px solid rgba(214,176,96,0.3)",
+                  background: "rgba(188,153,102,0.14)",
+                  border: "1px solid rgba(188,153,102,0.3)",
                   color: theme.colors.goldSoft,
                   fontSize: "11px",
                   fontWeight: 700,
@@ -190,8 +190,8 @@ function TestimonialDetailModal({ open, item, onClose }) {
                   height: "44px",
                   borderRadius: "50%",
                   background:
-                    "linear-gradient(135deg, rgba(214,176,96,0.35), rgba(214,176,96,0.1))",
-                  border: "1px solid rgba(214,176,96,0.3)",
+                    "linear-gradient(135deg, rgba(188,153,102,0.35), rgba(188,153,102,0.1))",
+                  border: "1px solid rgba(188,153,102,0.3)",
                   display: "grid",
                   placeItems: "center",
                   color: theme.colors.text,

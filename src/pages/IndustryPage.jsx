@@ -64,8 +64,8 @@ function IndustryPage() {
     <article
       style={{
         background: `
-          radial-gradient(circle at 14% 10%, rgba(214,176,96,0.10), transparent 22%),
-          linear-gradient(180deg, #111827 0%, #141c2f 50%, #111827 100%)
+          radial-gradient(circle at 14% 10%, rgba(188,153,102,0.10), transparent 22%),
+          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
         `,
       }}
     >
@@ -397,7 +397,7 @@ function IndustryPage() {
                   borderRadius: "28px",
                   border: `1px solid ${theme.colors.lineStrong}`,
                   background:
-                    "linear-gradient(180deg, rgba(214,176,96,0.06), rgba(255,255,255,0.02))",
+                    "linear-gradient(180deg, rgba(188,153,102,0.06), rgba(255,255,255,0.02))",
                 }}
               >
                 <div>
@@ -522,9 +522,9 @@ function IndustryPage() {
               style={{
                 padding: isMobile ? "28px" : "36px",
                 borderRadius: "26px",
-                border: "1px solid rgba(214,176,96,0.4)",
+                border: "1px solid rgba(188,153,102,0.4)",
                 background:
-                  "linear-gradient(180deg, rgba(214,176,96,0.09), rgba(255,255,255,0.02))",
+                  "linear-gradient(180deg, rgba(188,153,102,0.09), rgba(255,255,255,0.02))",
                 display: "grid",
                 gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
                 gap: "28px",
@@ -587,12 +587,12 @@ function IndustryPage() {
                     padding: "14px 22px",
                     borderRadius: "999px",
                     border: "none",
-                    background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+                    background: "linear-gradient(135deg, #BC9966, #D9B987)",
                     color: "#18140F",
                     fontWeight: 800,
                     fontSize: "14px",
                     cursor: "pointer",
-                    boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+                    boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
                   }}
                 >
                   {recommendedPlan.cta}

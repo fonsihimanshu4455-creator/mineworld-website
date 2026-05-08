@@ -18,9 +18,9 @@ function FAQItem({ item, index, openIndex, setOpenIndex }) {
     <div
       style={{
         borderRadius: "20px",
-        border: `1px solid ${open ? "rgba(214,176,96,0.4)" : theme.colors.line}`,
+        border: `1px solid ${open ? "rgba(188,153,102,0.4)" : theme.colors.line}`,
         background: open
-          ? "linear-gradient(180deg, rgba(214,176,96,0.06), rgba(255,255,255,0.02))"
+          ? "linear-gradient(180deg, rgba(188,153,102,0.06), rgba(255,255,255,0.02))"
           : "rgba(255,255,255,0.025)",
         overflow: "hidden",
         transition: "border-color 0.25s ease, background 0.25s ease",
@@ -143,12 +143,12 @@ function FAQ() {
                     padding: "12px 22px",
                     borderRadius: "999px",
                     border: "none",
-                    background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+                    background: "linear-gradient(135deg, #BC9966, #D9B987)",
                     color: "#18140F",
                     fontWeight: 800,
                     fontSize: "14px",
                     cursor: "pointer",
-                    boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+                    boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
                   }}
                 >
                   Ask your own question
@@ -178,12 +178,12 @@ function FAQ() {
                     padding: "14px 22px",
                     borderRadius: "999px",
                     border: "none",
-                    background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+                    background: "linear-gradient(135deg, #BC9966, #D9B987)",
                     color: "#18140F",
                     fontWeight: 800,
                     fontSize: "14px",
                     cursor: "pointer",
-                    boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+                    boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
                   }}
                 >
                   Ask your own question

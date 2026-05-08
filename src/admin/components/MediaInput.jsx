@@ -67,9 +67,9 @@ function MediaInput({
               style={{
                 padding: "4px 10px",
                 borderRadius: "999px",
-                border: "1px solid rgba(214,176,96,0.32)",
-                background: "rgba(214,176,96,0.08)",
-                color: "#E7C98A",
+                border: "1px solid rgba(188,153,102,0.32)",
+                background: "rgba(188,153,102,0.08)",
+                color: "#D9B987",
                 fontWeight: 700,
                 letterSpacing: "0.4px",
               }}
@@ -100,10 +100,10 @@ function MediaInput({
           padding: "14px",
           borderRadius: "14px",
           border: dragOver
-            ? "2px dashed rgba(214,176,96,0.85)"
+            ? "2px dashed rgba(188,153,102,0.85)"
             : "2px dashed rgba(255,255,255,0.10)",
           background: dragOver
-            ? "rgba(214,176,96,0.10)"
+            ? "rgba(188,153,102,0.10)"
             : "rgba(255,255,255,0.025)",
           transition: "border-color 0.18s ease, background 0.18s ease",
         }}
@@ -148,7 +148,7 @@ function MediaInput({
             borderRadius: "10px",
             background: "rgba(255,255,255,0.02)",
             border: "1px solid rgba(255,255,255,0.06)",
-            color: dragOver ? "#E7C98A" : "#9aa3b8",
+            color: dragOver ? "#D9B987" : "#9aa3b8",
             fontSize: "12.5px",
             textAlign: "center",
             cursor: "pointer",
@@ -255,9 +255,9 @@ const inputStyle = {
 const uploadBtnStyle = {
   padding: "10px 14px",
   borderRadius: "10px",
-  border: "1px solid rgba(214,176,96,0.45)",
-  background: "rgba(214,176,96,0.14)",
-  color: "#E7C98A",
+  border: "1px solid rgba(188,153,102,0.45)",
+  background: "rgba(188,153,102,0.14)",
+  color: "#D9B987",
   fontSize: "13px",
   fontWeight: 700,
   cursor: "pointer",

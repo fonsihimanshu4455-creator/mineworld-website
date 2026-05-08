@@ -88,13 +88,13 @@ function PortfolioCard({ item, isMobile }) {
               width: "40px",
               height: "40px",
               borderRadius: "50%",
-              background: "rgba(214,176,96,0.92)",
+              background: "rgba(188,153,102,0.92)",
               display: "grid",
               placeItems: "center",
               color: "#18140F",
               fontSize: "15px",
               fontWeight: 800,
-              boxShadow: "0 8px 20px rgba(214,176,96,0.35)",
+              boxShadow: "0 8px 20px rgba(188,153,102,0.35)",
             }}
           >
             →
@@ -152,7 +152,7 @@ function Portfolio() {
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
         background: `
-          radial-gradient(circle at 86% 18%, rgba(214,176,96,0.08), transparent 22%),
+          radial-gradient(circle at 86% 18%, rgba(188,153,102,0.08), transparent 22%),
           linear-gradient(180deg, rgba(16,24,39,1) 0%, rgba(13,20,34,1) 100%)
         `,
         borderBottom: `1px solid ${theme.colors.line}`,
@@ -168,7 +168,7 @@ function Portfolio() {
           width: isMobile ? "220px" : "360px",
           height: isMobile ? "220px" : "360px",
           borderRadius: "50%",
-          background: "rgba(214,176,96,0.08)",
+          background: "rgba(188,153,102,0.08)",
           filter: "blur(140px)",
           pointerEvents: "none",
         }}

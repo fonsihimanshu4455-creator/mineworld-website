@@ -377,7 +377,7 @@ function ContactModal() {
                     width: "220px",
                     height: "220px",
                     borderRadius: "50%",
-                    background: "rgba(214,176,96,0.16)",
+                    background: "rgba(188,153,102,0.16)",
                     filter: "blur(70px)",
                     pointerEvents: "none",
                   }}
@@ -478,8 +478,8 @@ function ContactModal() {
                         height: isMobile ? "72px" : "96px",
                         borderRadius: "20px",
                         background:
-                          "linear-gradient(180deg, rgba(214,176,96,0.95), rgba(214,176,96,0.75))",
-                        boxShadow: "0 16px 40px rgba(214,176,96,0.28)",
+                          "linear-gradient(180deg, rgba(188,153,102,0.95), rgba(188,153,102,0.75))",
+                        boxShadow: "0 16px 40px rgba(188,153,102,0.28)",
                       }}
                     />
 
@@ -849,10 +849,10 @@ function PhoneField({
                             padding: "12px 12px",
                             borderRadius: "12px",
                             background: activeCountry
-                              ? "rgba(214,176,96,0.14)"
+                              ? "rgba(188,153,102,0.14)"
                               : "transparent",
                             border: activeCountry
-                              ? "1px solid rgba(214,176,96,0.28)"
+                              ? "1px solid rgba(188,153,102,0.28)"
                               : "1px solid transparent",
                             color: "#FFFFFF",
                             cursor: "pointer",
@@ -933,10 +933,10 @@ function ServiceSelector({ label, selected, onSelect }) {
                 padding: "11px 14px",
                 borderRadius: "999px",
                 border: active
-                  ? "1px solid rgba(214,176,96,0.85)"
+                  ? "1px solid rgba(188,153,102,0.85)"
                   : "1px solid rgba(255,255,255,0.10)",
                 background: active
-                  ? "rgba(214,176,96,0.16)"
+                  ? "rgba(188,153,102,0.16)"
                   : "rgba(255,255,255,0.04)",
                 color: active ? theme.colors.goldSoft : theme.colors.text,
                 fontSize: "14px",
@@ -978,12 +978,12 @@ const primaryButtonStyle = {
   border: "none",
   borderRadius: "999px",
   padding: "14px 22px",
-  background: "#D6B060",
+  background: "#BC9966",
   color: "#1B1B1B",
   fontSize: "15px",
   fontWeight: 700,
   cursor: "pointer",
-  boxShadow: "0 16px 34px rgba(214,176,96,0.24)",
+  boxShadow: "0 16px 34px rgba(188,153,102,0.24)",
 };
 
 const secondaryButtonStyle = {

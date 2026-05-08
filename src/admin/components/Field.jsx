@@ -40,7 +40,7 @@ function Label({ children }) {
         fontSize: "11.5px",
         letterSpacing: "1.4px",
         textTransform: "uppercase",
-        color: "#E7C98A",
+        color: "#D9B987",
         fontWeight: 700,
         marginBottom: "8px",
       }}
@@ -129,7 +129,7 @@ export default function Field({ field, value, onChange, item, setItem }) {
             onChange={(e) => onChange(e.target.checked)}
             style={{ width: "18px", height: "18px", cursor: "pointer" }}
           />
-          <span style={{ color: "#E7C98A", fontSize: "13px", fontWeight: 600 }}>
+          <span style={{ color: "#D9B987", fontSize: "13px", fontWeight: 600 }}>
             {field.label}
           </span>
         </label>
@@ -264,9 +264,9 @@ export default function Field({ field, value, onChange, item, setItem }) {
               style={{
                 padding: "10px 14px",
                 borderRadius: "10px",
-                border: "1px solid rgba(214,176,96,0.45)",
-                background: "rgba(214,176,96,0.12)",
-                color: "#E7C98A",
+                border: "1px solid rgba(188,153,102,0.45)",
+                background: "rgba(188,153,102,0.12)",
+                color: "#D9B987",
                 fontSize: "13px",
                 fontWeight: 700,
                 cursor: "pointer",

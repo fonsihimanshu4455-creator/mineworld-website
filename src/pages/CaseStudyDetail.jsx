@@ -127,8 +127,8 @@ function CaseStudyDetail() {
     <article
       style={{
         background: `
-          radial-gradient(circle at 14% 10%, rgba(214,176,96,0.12), transparent 22%),
-          linear-gradient(180deg, #111827 0%, #141c2f 50%, #111827 100%)
+          radial-gradient(circle at 14% 10%, rgba(188,153,102,0.12), transparent 22%),
+          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
         `,
       }}
     >
@@ -540,7 +540,7 @@ function CaseStudyDetail() {
                       width: "36px",
                       height: "36px",
                       borderRadius: "50%",
-                      background: "rgba(214,176,96,0.14)",
+                      background: "rgba(188,153,102,0.14)",
                       color: theme.colors.gold,
                       display: "grid",
                       placeItems: "center",
@@ -675,7 +675,7 @@ function CaseStudyDetail() {
                   borderRadius: "28px",
                   border: `1px solid ${theme.colors.lineStrong}`,
                   background:
-                    "linear-gradient(180deg, rgba(214,176,96,0.06), rgba(255,255,255,0.02))",
+                    "linear-gradient(180deg, rgba(188,153,102,0.06), rgba(255,255,255,0.02))",
                 }}
               >
                 <div
@@ -735,7 +735,7 @@ function CaseStudyDetail() {
               borderRadius: "28px",
               border: `1px solid ${theme.colors.lineStrong}`,
               background:
-                "linear-gradient(180deg, rgba(214,176,96,0.08), rgba(255,255,255,0.02))",
+                "linear-gradient(180deg, rgba(188,153,102,0.08), rgba(255,255,255,0.02))",
             }}
           >
             <div>

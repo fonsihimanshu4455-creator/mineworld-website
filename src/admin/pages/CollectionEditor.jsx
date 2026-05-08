@@ -135,7 +135,7 @@ function CollectionEditor() {
     return (
       <div>
         <PageHeader eyebrow="Unknown" title="Collection not found." />
-        <Link to="/admin" style={{ color: "#E7C98A" }}>← Back to dashboard</Link>
+        <Link to="/admin" style={{ color: "#D9B987" }}>← Back to dashboard</Link>
       </div>
     );
   }
@@ -175,9 +175,9 @@ function CollectionEditor() {
               width: "100%",
               padding: "11px 14px",
               borderRadius: "10px",
-              border: "1px solid rgba(214,176,96,0.45)",
-              background: "rgba(214,176,96,0.14)",
-              color: "#E7C98A",
+              border: "1px solid rgba(188,153,102,0.45)",
+              background: "rgba(188,153,102,0.14)",
+              color: "#D9B987",
               fontWeight: 800,
               fontSize: "13px",
               cursor: "pointer",
@@ -216,12 +216,12 @@ function CollectionEditor() {
                       padding: "10px 12px",
                       borderRadius: "10px",
                       border: active
-                        ? "1px solid rgba(214,176,96,0.55)"
+                        ? "1px solid rgba(188,153,102,0.55)"
                         : "1px solid rgba(255,255,255,0.06)",
                       background: active
-                        ? "rgba(214,176,96,0.12)"
+                        ? "rgba(188,153,102,0.12)"
                         : "rgba(255,255,255,0.02)",
-                      color: active ? "#E7C98A" : "#F5F1E8",
+                      color: active ? "#D9B987" : "#F5F1E8",
                       fontSize: "13px",
                       fontWeight: active ? 700 : 600,
                       cursor: "pointer",
@@ -288,7 +288,7 @@ function CollectionEditor() {
                   onClick={() => toggleHidden(selectedIndex)}
                   style={{
                     ...actionBtn,
-                    color: selected.__hidden ? "#E7C98A" : "#F5F1E8",
+                    color: selected.__hidden ? "#D9B987" : "#F5F1E8",
                   }}
                 >
                   {selected.__hidden ? "Unhide" : "Hide"}
@@ -370,7 +370,7 @@ function CollectionEditor() {
             padding: "12px 20px",
             borderRadius: "999px",
             border: "none",
-            background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+            background: "linear-gradient(135deg, #BC9966, #D9B987)",
             color: "#18140F",
             fontWeight: 800,
             fontSize: "13.5px",
@@ -395,7 +395,7 @@ function CollectionEditor() {
           Reset to defaults
         </button>
         {savedMsg ? (
-          <span style={{ color: "#E7C98A", fontSize: "13px", fontWeight: 600 }}>
+          <span style={{ color: "#D9B987", fontSize: "13px", fontWeight: 600 }}>
             {savedMsg}
           </span>
         ) : null}

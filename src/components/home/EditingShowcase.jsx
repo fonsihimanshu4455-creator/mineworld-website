@@ -70,7 +70,7 @@ function EditingShowcase() {
           width: isMobile ? "220px" : "360px",
           height: isMobile ? "220px" : "360px",
           borderRadius: "50%",
-          background: "rgba(214,176,96,0.07)",
+          background: "rgba(188,153,102,0.07)",
           filter: "blur(130px)",
           pointerEvents: "none",
         }}
@@ -167,10 +167,10 @@ function EditingShowcase() {
                         padding: "9px 13px",
                         borderRadius: "999px",
                         border: active
-                          ? "1px solid rgba(214,176,96,0.85)"
+                          ? "1px solid rgba(188,153,102,0.85)"
                           : `1px solid ${theme.colors.line}`,
                         background: active
-                          ? "rgba(214,176,96,0.16)"
+                          ? "rgba(188,153,102,0.16)"
                           : "rgba(255,255,255,0.03)",
                         color: active
                           ? theme.colors.goldSoft

@@ -254,7 +254,7 @@ export default function Navbar() {
               </div>
               <div
                 style={{
-                  color: "#D6B060",
+                  color: "#BC9966",
                   fontSize: isMobile ? "10px" : "12px",
                   fontWeight: 700,
                   letterSpacing: isMobile ? "1.8px" : "2.4px",
@@ -301,7 +301,7 @@ export default function Navbar() {
                       style={{
                         position: "relative",
                         background: isActive
-                          ? "rgba(214,176,96,0.10)"
+                          ? "rgba(188,153,102,0.10)"
                           : "transparent",
                         border: "none",
                         color: isActive ? "#F7D58A" : "#F3EFE7",
@@ -315,7 +315,7 @@ export default function Navbar() {
                         fontFamily:
                           '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
                         boxShadow: isActive
-                          ? "inset 0 0 0 1px rgba(214,176,96,0.18), 0 8px 20px rgba(214,176,96,0.08)"
+                          ? "inset 0 0 0 1px rgba(188,153,102,0.18), 0 8px 20px rgba(188,153,102,0.08)"
                           : "none",
                       }}
                     >
@@ -336,7 +336,7 @@ export default function Navbar() {
                           height: "2px",
                           borderRadius: "999px",
                           background:
-                            "linear-gradient(90deg, rgba(214,176,96,0.15), rgba(214,176,96,0.98), rgba(214,176,96,0.15))",
+                            "linear-gradient(90deg, rgba(188,153,102,0.15), rgba(188,153,102,0.98), rgba(188,153,102,0.15))",
                           transformOrigin: "center",
                         }}
                       />
@@ -354,13 +354,13 @@ export default function Navbar() {
                   borderRadius: "999px",
                   padding: "14px 22px",
                   background:
-                    "linear-gradient(180deg, rgba(214,176,96,1), rgba(214,176,96,0.90))",
+                    "linear-gradient(180deg, rgba(188,153,102,1), rgba(188,153,102,0.90))",
                   color: "#171717",
                   fontSize: "15px",
                   fontWeight: 800,
                   letterSpacing: "0.1px",
                   cursor: "pointer",
-                  boxShadow: "0 14px 30px rgba(214,176,96,0.22)",
+                  boxShadow: "0 14px 30px rgba(188,153,102,0.22)",
                   fontFamily:
                     '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
                 }}
@@ -428,10 +428,10 @@ export default function Navbar() {
                       }}
                       style={{
                         background: isActive
-                          ? "rgba(214,176,96,0.10)"
+                          ? "rgba(188,153,102,0.10)"
                           : "transparent",
                         border: isActive
-                          ? "1px solid rgba(214,176,96,0.18)"
+                          ? "1px solid rgba(188,153,102,0.18)"
                           : "1px solid transparent",
                         color: isActive ? "#F7D58A" : "#F5F0E8",
                         textAlign: "left",
@@ -461,7 +461,7 @@ export default function Navbar() {
                     borderRadius: "999px",
                     padding: "14px 18px",
                     background:
-                      "linear-gradient(180deg, rgba(214,176,96,1), rgba(214,176,96,0.90))",
+                      "linear-gradient(180deg, rgba(188,153,102,1), rgba(188,153,102,0.90))",
                     color: "#171717",
                     fontSize: "15px",
                     fontWeight: 800,

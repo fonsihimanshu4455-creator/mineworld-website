@@ -51,7 +51,7 @@ function Card({ item }) {
             style={{
               padding: "5px 10px",
               borderRadius: "999px",
-              background: "rgba(214,176,96,0.12)",
+              background: "rgba(188,153,102,0.12)",
               color: theme.colors.goldSoft,
               fontSize: "11px",
               fontWeight: 700,
@@ -147,8 +147,8 @@ function Insights() {
     <article
       style={{
         background: `
-          radial-gradient(circle at 14% 10%, rgba(214,176,96,0.10), transparent 22%),
-          linear-gradient(180deg, #111827 0%, #141c2f 50%, #111827 100%)
+          radial-gradient(circle at 14% 10%, rgba(188,153,102,0.10), transparent 22%),
+          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
         `,
       }}
     >
@@ -230,10 +230,10 @@ function Insights() {
                       padding: "9px 14px",
                       borderRadius: "999px",
                       border: active
-                        ? "1px solid rgba(214,176,96,0.85)"
+                        ? "1px solid rgba(188,153,102,0.85)"
                         : `1px solid ${theme.colors.line}`,
                       background: active
-                        ? "rgba(214,176,96,0.14)"
+                        ? "rgba(188,153,102,0.14)"
                         : "rgba(255,255,255,0.03)",
                       color: active
                         ? theme.colors.goldSoft

@@ -74,13 +74,13 @@ function TeamCard({ member, isMobile }) {
               width: "36px",
               height: "36px",
               borderRadius: "50%",
-              background: "rgba(214,176,96,0.92)",
+              background: "rgba(188,153,102,0.92)",
               display: "grid",
               placeItems: "center",
               color: "#18140F",
               fontSize: "14px",
               fontWeight: 800,
-              boxShadow: "0 8px 20px rgba(214,176,96,0.3)",
+              boxShadow: "0 8px 20px rgba(188,153,102,0.3)",
             }}
           >
             →
@@ -150,7 +150,7 @@ function TeamSection() {
           width: isMobile ? "220px" : "360px",
           height: isMobile ? "220px" : "360px",
           borderRadius: "50%",
-          background: "rgba(214,176,96,0.07)",
+          background: "rgba(188,153,102,0.07)",
           filter: "blur(140px)",
           pointerEvents: "none",
         }}

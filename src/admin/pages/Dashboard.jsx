@@ -8,7 +8,7 @@ function PageHeader({ eyebrow, title, subtitle }) {
     <header style={{ marginBottom: "28px" }}>
       <div
         style={{
-          color: "#E7C98A",
+          color: "#D9B987",
           fontSize: "11px",
           letterSpacing: "2px",
           textTransform: "uppercase",
@@ -136,7 +136,7 @@ function Dashboard() {
             >
               <div
                 style={{
-                  color: "#E7C98A",
+                  color: "#D9B987",
                   fontSize: "10.5px",
                   letterSpacing: "1.6px",
                   textTransform: "uppercase",
@@ -175,14 +175,14 @@ function Dashboard() {
         style={{
           padding: "22px 24px",
           borderRadius: "18px",
-          border: "1px solid rgba(214,176,96,0.32)",
+          border: "1px solid rgba(188,153,102,0.32)",
           background:
-            "linear-gradient(180deg, rgba(214,176,96,0.08), rgba(255,255,255,0.02))",
+            "linear-gradient(180deg, rgba(188,153,102,0.08), rgba(255,255,255,0.02))",
         }}
       >
         <div
           style={{
-            color: "#E7C98A",
+            color: "#D9B987",
             fontSize: "11px",
             letterSpacing: "1.8px",
             textTransform: "uppercase",
@@ -225,7 +225,7 @@ function Dashboard() {
               padding: "12px 18px",
               borderRadius: "999px",
               border: "none",
-              background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+              background: "linear-gradient(135deg, #BC9966, #D9B987)",
               color: "#18140F",
               fontWeight: 800,
               fontSize: "13.5px",
@@ -280,8 +280,8 @@ function Dashboard() {
               marginTop: "14px",
               padding: "10px 14px",
               borderRadius: "10px",
-              background: "rgba(214,176,96,0.12)",
-              color: "#E7C98A",
+              background: "rgba(188,153,102,0.12)",
+              color: "#D9B987",
               fontSize: "13px",
               fontWeight: 600,
             }}
@@ -303,7 +303,7 @@ function Dashboard() {
           lineHeight: 1.75,
         }}
       >
-        <strong style={{ color: "#E7C98A" }}>Note:</strong> Edits are saved in
+        <strong style={{ color: "#D9B987" }}>Note:</strong> Edits are saved in
         this browser. For multi-device / public live updates, wire the admin to
         a backend (Firebase, Supabase, or a simple JSON endpoint) — the content
         store is already abstracted for that swap.

@@ -163,13 +163,13 @@ function BeforeAfterSlider({
           top: "14px",
           padding: "6px 12px",
           borderRadius: "999px",
-          background: "rgba(214,176,96,0.92)",
+          background: "rgba(188,153,102,0.92)",
           color: "#18140F",
           fontSize: "11px",
           letterSpacing: "1.4px",
           textTransform: "uppercase",
           fontWeight: 800,
-          boxShadow: "0 6px 16px rgba(214,176,96,0.28)",
+          boxShadow: "0 6px 16px rgba(188,153,102,0.28)",
           pointerEvents: "none",
           zIndex: 3,
         }}
@@ -212,7 +212,7 @@ function BeforeAfterSlider({
             width: "2px",
             height: "100%",
             background:
-              "linear-gradient(180deg, rgba(214,176,96,0.35), rgba(214,176,96,0.95), rgba(214,176,96,0.35))",
+              "linear-gradient(180deg, rgba(188,153,102,0.35), rgba(188,153,102,0.95), rgba(188,153,102,0.35))",
           }}
         />
         <div
@@ -222,7 +222,7 @@ function BeforeAfterSlider({
             height: "46px",
             borderRadius: "50%",
             background:
-              "linear-gradient(135deg, rgba(214,176,96,1), rgba(214,176,96,0.8))",
+              "linear-gradient(135deg, rgba(188,153,102,1), rgba(188,153,102,0.8))",
             boxShadow: "0 10px 28px rgba(0,0,0,0.35)",
             border: "2px solid rgba(255,255,255,0.22)",
             display: "grid",

@@ -29,7 +29,7 @@ function StarRow({ rating, small }) {
         <span
           key={n}
           style={{
-            color: n <= rating ? "#E7C98A" : "rgba(255,255,255,0.22)",
+            color: n <= rating ? "#D9B987" : "rgba(255,255,255,0.22)",
             fontSize: small ? "14px" : "16px",
             lineHeight: 1,
           }}
@@ -93,8 +93,8 @@ function ReviewCard({ item, onOpen }) {
             height: "36px",
             borderRadius: "50%",
             background:
-              "linear-gradient(135deg, rgba(214,176,96,0.35), rgba(214,176,96,0.1))",
-            border: "1px solid rgba(214,176,96,0.3)",
+              "linear-gradient(135deg, rgba(188,153,102,0.35), rgba(188,153,102,0.1))",
+            border: "1px solid rgba(188,153,102,0.3)",
             display: "grid",
             placeItems: "center",
             color: theme.colors.text,
@@ -184,8 +184,8 @@ function Reviews() {
     <article
       style={{
         background: `
-          radial-gradient(circle at 14% 10%, rgba(214,176,96,0.1), transparent 22%),
-          linear-gradient(180deg, #111827 0%, #141c2f 50%, #111827 100%)
+          radial-gradient(circle at 14% 10%, rgba(188,153,102,0.1), transparent 22%),
+          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
         `,
       }}
     >
@@ -286,12 +286,12 @@ function Reviews() {
                   padding: "12px 20px",
                   borderRadius: "999px",
                   border: "none",
-                  background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+                  background: "linear-gradient(135deg, #BC9966, #D9B987)",
                   color: "#18140F",
                   fontWeight: 800,
                   fontSize: "13.5px",
                   cursor: "pointer",
-                  boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+                  boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
                 }}
               >
                 + Add your review
@@ -377,10 +377,10 @@ function Reviews() {
                     padding: "8px 14px",
                     borderRadius: "999px",
                     border: active
-                      ? "1px solid rgba(214,176,96,0.85)"
+                      ? "1px solid rgba(188,153,102,0.85)"
                       : `1px solid ${theme.colors.line}`,
                     background: active
-                      ? "rgba(214,176,96,0.14)"
+                      ? "rgba(188,153,102,0.14)"
                       : "rgba(255,255,255,0.03)",
                     color: active ? theme.colors.goldSoft : theme.colors.text,
                     fontSize: "12.5px",

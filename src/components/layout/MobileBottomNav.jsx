@@ -138,7 +138,7 @@ export default function MobileBottomNav() {
               aria-label={item.label}
               aria-current={isActive ? "page" : undefined}
               style={{
-                background: isActive ? "rgba(214,176,96,0.14)" : "transparent",
+                background: isActive ? "rgba(188,153,102,0.14)" : "transparent",
                 border: "none",
                 borderRadius: "16px",
                 padding: "8px 4px",

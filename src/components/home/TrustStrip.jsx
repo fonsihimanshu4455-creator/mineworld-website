@@ -98,7 +98,7 @@ function AppStoreBadge({ href }) {
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-2px)";
-        e.currentTarget.style.borderColor = "rgba(214,176,96,0.45)";
+        e.currentTarget.style.borderColor = "rgba(188,153,102,0.45)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = "translateY(0)";
@@ -166,7 +166,7 @@ function PlayStoreBadge({ href }) {
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-2px)";
-        e.currentTarget.style.borderColor = "rgba(214,176,96,0.45)";
+        e.currentTarget.style.borderColor = "rgba(188,153,102,0.45)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = "translateY(0)";
@@ -255,7 +255,7 @@ function TrustStrip() {
           width: "560px",
           height: "560px",
           borderRadius: "50%",
-          background: "rgba(214,176,96,0.05)",
+          background: "rgba(188,153,102,0.05)",
           filter: "blur(140px)",
           pointerEvents: "none",
         }}

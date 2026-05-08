@@ -61,10 +61,10 @@ function PreviewEditor() {
                 padding: "8px 14px",
                 borderRadius: "999px",
                 border: active
-                  ? "1px solid rgba(214,176,96,0.7)"
+                  ? "1px solid rgba(188,153,102,0.7)"
                   : "1px solid rgba(255,255,255,0.10)",
                 background: active
-                  ? "rgba(214,176,96,0.14)"
+                  ? "rgba(188,153,102,0.14)"
                   : "rgba(255,255,255,0.04)",
                 color: active ? "#F7D58A" : "#F5F1E8",
                 fontSize: "12.5px",
@@ -97,10 +97,10 @@ function PreviewEditor() {
                 padding: "8px 12px",
                 borderRadius: "10px",
                 border: active
-                  ? "1px solid rgba(214,176,96,0.6)"
+                  ? "1px solid rgba(188,153,102,0.6)"
                   : "1px solid rgba(255,255,255,0.10)",
                 background: active
-                  ? "rgba(214,176,96,0.10)"
+                  ? "rgba(188,153,102,0.10)"
                   : "rgba(255,255,255,0.04)",
                 color: active ? "#F7D58A" : "#F5F1E8",
                 fontSize: "12px",

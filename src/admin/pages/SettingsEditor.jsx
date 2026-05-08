@@ -124,7 +124,7 @@ function SectionOrderList({ order, visibility, onReorder, onToggle }) {
               borderRadius: "12px",
               border: "1px solid rgba(255,255,255,0.08)",
               background: isDragging
-                ? "rgba(214,176,96,0.12)"
+                ? "rgba(188,153,102,0.12)"
                 : visible
                 ? "rgba(255,255,255,0.025)"
                 : "rgba(255,120,120,0.04)",
@@ -137,7 +137,7 @@ function SectionOrderList({ order, visibility, onReorder, onToggle }) {
               title="Drag to reorder"
               style={{
                 cursor: "grab",
-                color: "#E7C98A",
+                color: "#D9B987",
                 fontWeight: 800,
                 fontSize: "16px",
                 userSelect: "none",
@@ -215,7 +215,7 @@ function SectionOrderList({ order, visibility, onReorder, onToggle }) {
                   height: "20px",
                   borderRadius: "999px",
                   background: visible
-                    ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+                    ? "linear-gradient(135deg, #BC9966, #D9B987)"
                     : "rgba(255,255,255,0.18)",
                   flexShrink: 0,
                   transition: "background 0.2s ease",
@@ -260,7 +260,7 @@ function ToggleRow({ label, checked, onChange, hint }) {
         borderRadius: "12px",
         border: "1px solid rgba(255,255,255,0.08)",
         background: checked
-          ? "rgba(214,176,96,0.08)"
+          ? "rgba(188,153,102,0.08)"
           : "rgba(255,255,255,0.02)",
         cursor: "pointer",
         transition: "all 0.2s ease",
@@ -296,7 +296,7 @@ function ToggleRow({ label, checked, onChange, hint }) {
           height: "24px",
           borderRadius: "999px",
           background: checked
-            ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+            ? "linear-gradient(135deg, #BC9966, #D9B987)"
             : "rgba(255,255,255,0.18)",
           flexShrink: 0,
           transition: "background 0.2s ease",
@@ -537,7 +537,7 @@ function SettingsEditor() {
               fontSize: "11.5px",
               letterSpacing: "1.4px",
               textTransform: "uppercase",
-              color: "#E7C98A",
+              color: "#D9B987",
               fontWeight: 700,
               marginBottom: "10px",
             }}
@@ -820,7 +820,7 @@ function SettingsEditor() {
             padding: "12px 20px",
             borderRadius: "999px",
             border: "none",
-            background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+            background: "linear-gradient(135deg, #BC9966, #D9B987)",
             color: "#18140F",
             fontWeight: 800,
             fontSize: "13.5px",
@@ -845,7 +845,7 @@ function SettingsEditor() {
           Reset to defaults
         </button>
         {savedMsg ? (
-          <span style={{ color: "#E7C98A", fontSize: "13px", fontWeight: 600 }}>
+          <span style={{ color: "#D9B987", fontSize: "13px", fontWeight: 600 }}>
             {savedMsg}
           </span>
         ) : null}

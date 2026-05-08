@@ -11,7 +11,7 @@ html {
 
 body {
   font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  background: #111827;
+  background: #1B2747;
   color: #F5F1E8;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,7 +27,7 @@ video {
 }
 
 ::selection {
-  background: rgba(214, 176, 96, 0.32);
+  background: rgba(188, 153, 102, 0.32);
   color: #FFFBF1;
 }
 
@@ -36,7 +36,7 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid #E7C98A;
+  outline: 2px solid #D9B987;
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -53,7 +53,7 @@ a:focus:not(:focus-visible) {
   z-index: 5000;
   padding: 10px 16px;
   border-radius: 12px;
-  background: #D6B060;
+  background: #BC9966;
   color: #18140F;
   font-weight: 800;
   font-size: 14px;

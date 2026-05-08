@@ -57,7 +57,7 @@ function AdminLayout() {
       >
         <div
           style={{
-            color: "#E7C98A",
+            color: "#D9B987",
             fontSize: "10.5px",
             letterSpacing: "2px",
             textTransform: "uppercase",
@@ -101,7 +101,7 @@ function AdminLayout() {
                   borderRadius: "10px",
                   color: isActive ? "#18140F" : "#F5F1E8",
                   background: isActive
-                    ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+                    ? "linear-gradient(135deg, #BC9966, #D9B987)"
                     : "transparent",
                   fontSize: isMobile ? "15px" : "13.5px",
                   fontWeight: isActive ? 800 : 600,
@@ -164,7 +164,7 @@ function AdminLayout() {
         <div
           style={{
             marginTop: "16px",
-            color: "#E7C98A",
+            color: "#D9B987",
             fontSize: "18px",
             fontStyle: "italic",
             fontFamily: '"Brush Script MT", "Segoe Script", cursive',
@@ -238,7 +238,7 @@ function AdminLayout() {
           <div style={{ textAlign: "center" }}>
             <div
               style={{
-                color: "#E7C98A",
+                color: "#D9B987",
                 fontSize: "10px",
                 letterSpacing: "1.8px",
                 textTransform: "uppercase",
