@@ -2,6 +2,7 @@ export const pricingPlans = [
   {
     id: "starter",
     name: "Starter",
+    type: "monthly",
     tagline: "For creators building a personal brand",
     monthly: "₹15,000",
     monthlyNote: "per month",
@@ -19,6 +20,7 @@ export const pricingPlans = [
   {
     id: "growth",
     name: "Growth",
+    type: "monthly",
     tagline: "Our most popular — for brands ready to scale content",
     monthly: "₹35,000",
     monthlyNote: "per month",
@@ -37,6 +39,7 @@ export const pricingPlans = [
   {
     id: "scale",
     name: "Scale",
+    type: "monthly",
     tagline: "For clinics and businesses running serious ads",
     monthly: "₹65,000+",
     monthlyNote: "per month",
@@ -54,19 +57,128 @@ export const pricingPlans = [
   {
     id: "custom",
     name: "Custom",
-    tagline: "Websites, apps, launches & enterprise retainers",
+    type: "monthly",
+    tagline: "Launches & enterprise retainers",
     monthly: "Custom",
     monthlyNote: "talk to us",
     bestFor:
-      "Website + app builds, campaigns, launches, and brands that need a bespoke plan",
+      "Campaigns, launches, multi-city brands that need a bespoke plan",
     cta: "Request Proposal",
     highlights: [
-      "Website development (Next.js / Shopify)",
-      "iOS + Android app builds (React Native / Flutter)",
       "Multi-city shoots + production crew",
       "Full brand + creative + paid ownership",
+      "Exclusivity arrangements available",
       "Dedicated account director",
+      "Quarterly strategy reviews",
     ],
     accent: "blue",
   },
+  {
+    id: "website-essentials",
+    name: "Website Essentials",
+    type: "project",
+    tagline: "A premium landing page that actually converts",
+    monthly: "₹35,000",
+    monthlyNote: "starting · one-time",
+    bestFor:
+      "Coaches, clinics, creators, and service businesses who need one strong page that ships fast",
+    cta: "Build my landing page",
+    highlights: [
+      "Single high-converting landing page",
+      "Mobile-first responsive design",
+      "Lead capture form + WhatsApp / email",
+      "Sub-2-second loads + Core Web Vitals",
+      "GA4 + Meta Pixel pre-installed",
+      "Ships in 7–10 working days",
+    ],
+    accent: "blue",
+  },
+  {
+    id: "website-pro",
+    name: "Website Pro",
+    type: "project",
+    tagline: "Multi-page website with CMS — edit it yourself",
+    monthly: "₹85,000",
+    monthlyNote: "starting · one-time",
+    bestFor:
+      "D2C brands, clinics, studios, and businesses that need a real multi-page presence",
+    cta: "Build my website",
+    highlights: [
+      "Up to 6 production pages (custom design)",
+      "Custom CMS — edit text, images, sections",
+      "Blog / Insights module",
+      "On-page SEO + sitemap + schema",
+      "Hosting setup (Vercel / Cloudflare)",
+      "Ships in 18–25 working days",
+    ],
+    accent: "gold",
+    featured: true,
+  },
+  {
+    id: "ecommerce",
+    name: "E-commerce Storefront",
+    type: "project",
+    tagline: "Premium Shopify or Next.js storefront",
+    monthly: "₹1,25,000+",
+    monthlyNote: "starting · one-time",
+    bestFor:
+      "D2C brands ready to sell online with a premium storefront, payments, and inventory",
+    cta: "Build my store",
+    highlights: [
+      "Custom Shopify or Next.js + Stripe build",
+      "Up to 50 SKUs migrated + structured",
+      "Cart, checkout, payments, COD",
+      "Order + inventory dashboard",
+      "Reviews, upsells, abandoned cart flow",
+      "Ships in 4–6 weeks",
+    ],
+    accent: "gold",
+  },
+  {
+    id: "app-mvp",
+    name: "App MVP",
+    type: "project",
+    tagline: "Native-feel iOS + Android app, single codebase",
+    monthly: "₹2,50,000",
+    monthlyNote: "starting · one-time",
+    bestFor:
+      "Startups, D2C brands, clinics, and service businesses launching a v1 mobile app",
+    cta: "Scope my app",
+    highlights: [
+      "iOS + Android single codebase (React Native / Flutter)",
+      "Up to 10 production screens",
+      "Auth, push, payments, analytics",
+      "Backend + admin dashboard",
+      "Play Store + App Store submission",
+      "Ships in 8–12 weeks",
+    ],
+    accent: "blue",
+  },
+  {
+    id: "app-pro",
+    name: "App Pro",
+    type: "project",
+    tagline: "Production-grade app with full backend + scale support",
+    monthly: "₹5,00,000+",
+    monthlyNote: "starting · one-time",
+    bestFor:
+      "Funded startups, multi-location brands, and businesses building an app as a product line",
+    cta: "Scope my app",
+    highlights: [
+      "Up to 25 production screens",
+      "Custom backend + scalable architecture",
+      "Roles, permissions, multi-tenant support",
+      "Real-time features (chat, live data, push)",
+      "60-day post-launch support",
+      "Quarterly feature roadmap",
+    ],
+    accent: "gold",
+  },
 ];
+
+export const monthlyRetainerPlans = pricingPlans.filter(
+  (p) => p.type !== "project"
+);
+export const projectPricingPlans = pricingPlans.filter(
+  (p) => p.type === "project"
+);

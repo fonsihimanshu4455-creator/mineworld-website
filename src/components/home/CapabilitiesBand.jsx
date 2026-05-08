@@ -44,18 +44,18 @@ const pillars = [
 ];
 
 const stack = [
-  "Next.js",
-  "React",
-  "React Native",
-  "Flutter",
-  "Shopify",
-  "Node.js",
-  "Firebase",
-  "Figma",
-  "Premiere Pro",
-  "After Effects",
-  "Meta Ads Manager",
-  "GA4",
+  { name: "Next.js", slug: "nextdotjs", color: "FFFFFF" },
+  { name: "React", slug: "react", color: "61DAFB" },
+  { name: "React Native", slug: "react", color: "61DAFB" },
+  { name: "Flutter", slug: "flutter", color: "02569B" },
+  { name: "Shopify", slug: "shopify", color: "7AB55C" },
+  { name: "Node.js", slug: "nodedotjs", color: "5FA04E" },
+  { name: "Firebase", slug: "firebase", color: "DD2C00" },
+  { name: "Figma", slug: "figma", color: "F24E1E" },
+  { name: "Premiere Pro", slug: "adobepremierepro", color: "9999FF" },
+  { name: "After Effects", slug: "adobeaftereffects", color: "9999FF" },
+  { name: "Meta", slug: "meta", color: "0467DF" },
+  { name: "Google Analytics", slug: "googleanalytics", color: "E37400" },
 ];
 
 function CapabilitiesBand() {
@@ -289,61 +289,94 @@ function CapabilitiesBand() {
             style={{
               marginTop: isMobile ? "44px" : "64px",
               padding: isMobile ? "22px 18px" : "26px 28px",
-              borderRadius: "999px",
+              borderRadius: isMobile ? "22px" : "26px",
               border: `1px solid ${theme.colors.line}`,
               background:
                 "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))",
-              display: "flex",
-              alignItems: "center",
-              gap: isMobile ? "12px" : "20px",
-              flexWrap: "wrap",
-              justifyContent: "center",
             }}
           >
             <div
               style={{
-                color: theme.colors.goldSoft,
-                fontSize: "11px",
-                letterSpacing: "2px",
-                textTransform: "uppercase",
-                fontWeight: 800,
-                whiteSpace: "nowrap",
+                display: "flex",
+                alignItems: "center",
+                gap: "14px",
+                marginBottom: isMobile ? "16px" : "20px",
+                justifyContent: isMobile ? "flex-start" : "center",
               }}
             >
-              Stack
+              <div
+                style={{
+                  color: theme.colors.goldSoft,
+                  fontSize: "11px",
+                  letterSpacing: "2.4px",
+                  textTransform: "uppercase",
+                  fontWeight: 800,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Tools we ship with
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  height: "1px",
+                  background:
+                    "linear-gradient(90deg, rgba(214,176,96,0.32), transparent)",
+                  maxWidth: "320px",
+                }}
+              />
             </div>
+
             <div
               style={{
-                width: "1px",
-                height: "16px",
-                background: theme.colors.line,
-                display: isMobile ? "none" : "block",
-              }}
-            />
-            <div
-              style={{
-                display: "flex",
-                gap: isMobile ? "8px" : "10px",
-                flexWrap: "wrap",
-                justifyContent: "center",
+                display: "grid",
+                gridTemplateColumns: isMobile
+                  ? "repeat(2, minmax(0, 1fr))"
+                  : "repeat(auto-fit, minmax(140px, 1fr))",
+                gap: isMobile ? "10px" : "12px",
               }}
             >
               {stack.map((s) => (
-                <span
-                  key={s}
+                <div
+                  key={s.name}
                   style={{
-                    padding: "7px 12px",
-                    borderRadius: "999px",
-                    fontSize: isMobile ? "12px" : "12.5px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: isMobile ? "10px 12px" : "12px 14px",
+                    borderRadius: "14px",
+                    fontSize: isMobile ? "12.5px" : "13px",
                     fontWeight: 700,
                     color: theme.colors.text,
                     border: `1px solid ${theme.colors.line}`,
                     background: "rgba(255,255,255,0.03)",
-                    letterSpacing: "0.2px",
+                    transition: "border-color 0.22s ease, transform 0.22s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor =
+                      "rgba(214,176,96,0.34)";
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = theme.colors.line;
+                    e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
-                  {s}
-                </span>
+                  <img
+                    src={`https://cdn.simpleicons.org/${s.slug}/${s.color}`}
+                    alt={`${s.name} logo`}
+                    width="20"
+                    height="20"
+                    loading="lazy"
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      flexShrink: 0,
+                      objectFit: "contain",
+                    }}
+                  />
+                  <span style={{ whiteSpace: "nowrap" }}>{s.name}</span>
+                </div>
               ))}
             </div>
           </div>

@@ -4,7 +4,10 @@ import { motion } from "framer-motion";
 import Container from "../components/common/Container";
 import Reveal from "../components/common/Reveal";
 import { theme } from "../styles/theme";
-import { pricingPlans } from "../data/pricingPlans";
+import {
+  monthlyRetainerPlans,
+  projectPricingPlans,
+} from "../data/pricingPlans";
 import { faqItems } from "../data/faqItems";
 import { openContactModal, trackCtaClick } from "../utils/contactActions";
 import { trackEvent } from "../utils/analytics";
@@ -268,9 +271,9 @@ function Packages() {
                 maxWidth: "760px",
               }}
             >
-              Monthly retainers built around content systems — not hourly rates.
-              Pick a plan that matches your business stage. Every plan can be
-              customised if you need a different mix.
+              Monthly retainers for content + growth, plus project pricing for
+              websites and apps. Pick a plan that matches your stage — every
+              plan can be customised if you need a different mix.
             </p>
           </Reveal>
         </Container>
@@ -278,11 +281,37 @@ function Packages() {
 
       <section
         style={{
-          padding: isMobile ? "60px 0" : "90px 0",
-          borderBottom: `1px solid ${theme.colors.line}`,
+          padding: isMobile ? "60px 0 30px" : "90px 0 50px",
         }}
       >
         <Container>
+          <Reveal>
+            <div
+              style={{
+                color: theme.colors.goldSoft,
+                fontSize: "12px",
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                fontWeight: 800,
+                marginBottom: "8px",
+              }}
+            >
+              Monthly Retainers · Content + Growth
+            </div>
+            <h2
+              style={{
+                margin: "0 0 28px",
+                color: theme.colors.text,
+                fontSize: isMobile ? "26px" : "clamp(28px, 3.6vw, 38px)",
+                letterSpacing: "-0.7px",
+                fontFamily:
+                  '"Playfair Display", Georgia, "Times New Roman", serif',
+              }}
+            >
+              Ongoing systems for reels, ads, and social.
+            </h2>
+          </Reveal>
+
           <div
             style={{
               display: "grid",
@@ -293,7 +322,60 @@ function Packages() {
               alignItems: "stretch",
             }}
           >
-            {pricingPlans.map((plan, i) => (
+            {monthlyRetainerPlans.map((plan, i) => (
+              <Reveal key={plan.id} delay={0.05 * i}>
+                <PlanCard plan={plan} isMobile={isMobile} />
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section
+        style={{
+          padding: isMobile ? "30px 0 60px" : "50px 0 90px",
+          borderBottom: `1px solid ${theme.colors.line}`,
+        }}
+      >
+        <Container>
+          <Reveal>
+            <div
+              style={{
+                color: theme.colors.goldSoft,
+                fontSize: "12px",
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                fontWeight: 800,
+                marginBottom: "8px",
+              }}
+            >
+              Project Pricing · Websites + Apps
+            </div>
+            <h2
+              style={{
+                margin: "0 0 28px",
+                color: theme.colors.text,
+                fontSize: isMobile ? "26px" : "clamp(28px, 3.6vw, 38px)",
+                letterSpacing: "-0.7px",
+                fontFamily:
+                  '"Playfair Display", Georgia, "Times New Roman", serif',
+              }}
+            >
+              One-time builds for websites, stores, and mobile apps.
+            </h2>
+          </Reveal>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: isMobile ? "18px" : "22px",
+              alignItems: "stretch",
+            }}
+          >
+            {projectPricingPlans.map((plan, i) => (
               <Reveal key={plan.id} delay={0.05 * i}>
                 <PlanCard plan={plan} isMobile={isMobile} />
               </Reveal>
@@ -313,7 +395,8 @@ function Packages() {
               All plans include a free 20-minute strategy call before you
               commit.
               <br />
-              3-month minimum on monthly retainers. GST extra.
+              3-month minimum on monthly retainers. Project pricing is
+              one-time. GST extra.
             </div>
           </Reveal>
         </Container>

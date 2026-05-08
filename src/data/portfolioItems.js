@@ -14,7 +14,98 @@ import reelsShowcase from "../assets/reels-showcase.jpg";
 import reelsShowcase1 from "../assets/reels-showcase1.jpg";
 import marketing from "../assets/marketing.JPG";
 
+const websiteHero =
+  "https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=1600&q=80";
+const websiteShot1 =
+  "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=80";
+const websiteShot2 =
+  "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1600&q=80";
+const appHero =
+  "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=1600&q=80";
+const appShot1 =
+  "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=1600&q=80";
+const appShot2 =
+  "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1600&q=80";
+
 export const portfolioItems = [
+  {
+    slug: "premium-website-build",
+    title: "Premium D2C Website Build",
+    category: "Website Development",
+    short:
+      "A premium D2C storefront engineered for sub-2-second loads, mobile-first browsing, and conversion clarity.",
+    description:
+      "A bespoke, conversion-focused storefront built on a modern stack — designed to look premium, load instantly, and turn first-time visitors into buyers.",
+    longDescription:
+      "Designed and developed a multi-page premium website with a custom CMS, integrated payments, and pre-installed GA4 + Meta Pixel for measurable performance. The brand wanted to feel uncluttered, fast, and aspirational — so every section was structured around a single user decision: hero, proof, offer, CTA.",
+    cover: {
+      type: "image",
+      src: websiteHero,
+      alt: "Premium D2C website mockup on laptop",
+    },
+    gallery: [
+      { type: "image", src: websiteShot1, alt: "Website homepage hero" },
+      { type: "image", src: websiteShot2, alt: "Website product page" },
+    ],
+    resultPoints: [
+      "Sub-2-second LCP on mobile",
+      "Mobile-first responsive layout",
+      "Built-in CMS — edit yourself",
+    ],
+    metrics: [
+      { label: "Lighthouse Performance", value: "96 / 100" },
+      { label: "Core Web Vitals", value: "All green" },
+      { label: "Time to launch", value: "23 working days" },
+    ],
+    roles: [
+      "Information architecture",
+      "UI design",
+      "Frontend development",
+      "CMS integration",
+      "SEO + analytics",
+    ],
+    tools: ["Next.js", "React", "Figma", "Vercel", "GA4"],
+    serviceSlug: "website-development",
+  },
+  {
+    slug: "ios-android-app-launch",
+    title: "iOS + Android App Launch",
+    category: "App Development",
+    short:
+      "A native-feel cross-platform mobile app — scoped, designed, built, and shipped to both stores.",
+    description:
+      "A booking-first mobile app with a clean onboarding flow, payments, and push — built on a single codebase that ships to both App Store and Play Store.",
+    longDescription:
+      "Started from a one-page brief; ended with a production app live on iOS + Android. We scoped the spine — the three actions the app had to do well — shipped a clean v1 in 10 weeks, and layered features after launch based on real usage data. Onboarding, push timing, empty states, and loading states were all crafted to feel premium from the first tap.",
+    cover: {
+      type: "image",
+      src: appHero,
+      alt: "Mobile app mockup on iPhone in hand",
+    },
+    gallery: [
+      { type: "image", src: appShot1, alt: "App home screen" },
+      { type: "image", src: appShot2, alt: "App feature screen" },
+    ],
+    resultPoints: [
+      "Single codebase, native feel",
+      "Live on App Store + Play Store",
+      "Crash-free sessions on launch week",
+    ],
+    metrics: [
+      { label: "Time to v1 launch", value: "10 weeks" },
+      { label: "Crash-free sessions", value: "99.6%" },
+      { label: "Day-7 retention", value: "44%" },
+    ],
+    roles: [
+      "Product scoping",
+      "UI/UX design",
+      "React Native build",
+      "Backend + admin",
+      "Store submission",
+    ],
+    tools: ["React Native", "Figma", "Firebase", "Razorpay", "Sentry"],
+    serviceSlug: "app-development",
+  },
   {
     slug: "lead-generation-creative-system",
     title: "Lead Generation Creative System",

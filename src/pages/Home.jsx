@@ -5,6 +5,7 @@ import ClientLogoWall from "../components/home/ClientLogoWall";
 import ResultsSection from "../components/home/ResultsSection";
 import Services from "../components/home/Services";
 import CapabilitiesBand from "../components/home/CapabilitiesBand";
+import TrustStrip from "../components/home/TrustStrip";
 import Process from "../components/home/Process";
 import Portfolio from "../components/home/Portfolio";
 import Testimonials from "../components/home/Testimonials";
@@ -35,6 +36,7 @@ function Home() {
       <ResultsSection />
       <Services />
       <CapabilitiesBand />
+      <TrustStrip />
       <Process />
       <Portfolio />
       <Testimonials />

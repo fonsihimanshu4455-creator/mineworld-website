@@ -66,7 +66,7 @@ export const serviceCategories = [
       "Performance + SEO audit",
       "30 days post-launch support",
     ],
-    recommendedPlan: "custom",
+    recommendedPlan: "website-pro",
   },
   {
     slug: "app-development",
@@ -112,7 +112,7 @@ export const serviceCategories = [
       "Backend + admin dashboard",
       "Store submission + 60-day support",
     ],
-    recommendedPlan: "custom",
+    recommendedPlan: "app-mvp",
   },
   {
     slug: "meta-ads-lead-generation",
