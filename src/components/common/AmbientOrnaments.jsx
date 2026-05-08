@@ -12,21 +12,22 @@ function AmbientOrnaments() {
             id="mw-jaali"
             x="0"
             y="0"
-            width="40"
-            height="40"
+            width="56"
+            height="56"
             patternUnits="userSpaceOnUse"
           >
             <path
-              d="M0 20 H40 M20 0 V40 M0 0 L40 40 M40 0 L0 40"
-              stroke="rgba(188,153,102,0.12)"
-              strokeWidth="0.6"
+              d="M0 28 H56 M28 0 V56 M0 0 L56 56 M56 0 L0 56"
+              stroke="rgba(188,153,102,0.14)"
+              strokeWidth="0.7"
               fill="none"
             />
-            <circle cx="20" cy="20" r="1.5" fill="rgba(188,153,102,0.18)" />
-            <circle cx="0" cy="0" r="1" fill="rgba(217,185,135,0.16)" />
-            <circle cx="40" cy="0" r="1" fill="rgba(217,185,135,0.16)" />
-            <circle cx="0" cy="40" r="1" fill="rgba(217,185,135,0.16)" />
-            <circle cx="40" cy="40" r="1" fill="rgba(217,185,135,0.16)" />
+            <circle cx="28" cy="28" r="2" fill="rgba(217,185,135,0.30)" />
+            <circle cx="0" cy="0" r="1.4" fill="rgba(217,185,135,0.26)" />
+            <circle cx="56" cy="0" r="1.4" fill="rgba(217,185,135,0.26)" />
+            <circle cx="0" cy="56" r="1.4" fill="rgba(217,185,135,0.26)" />
+            <circle cx="56" cy="56" r="1.4" fill="rgba(217,185,135,0.26)" />
+            <circle cx="28" cy="28" r="6" fill="none" stroke="rgba(188,153,102,0.10)" strokeWidth="0.5" />
           </pattern>
 
           <symbol id="mw-chain-link" viewBox="0 0 64 28">
@@ -80,7 +81,7 @@ function AmbientOrnaments() {
         <svg
           width="100%"
           height="100%"
-          style={{ position: "absolute", inset: 0, opacity: 0.55 }}
+          style={{ position: "absolute", inset: 0, opacity: 0.85 }}
         >
           <rect width="100%" height="100%" fill="url(#mw-jaali)" />
         </svg>
