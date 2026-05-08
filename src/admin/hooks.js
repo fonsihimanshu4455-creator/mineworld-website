@@ -24,6 +24,11 @@ export function useSiteSettings(defaultConfig) {
         position: "center",
         ...(saved.logo || {}),
       },
+      stores: {
+        appStore: "",
+        playStore: "",
+        ...(saved.stores || {}),
+      },
       integrations: { ...(defaultConfig.integrations || {}) },
     };
   };

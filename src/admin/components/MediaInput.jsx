@@ -3,9 +3,16 @@ import { useRef, useState } from "react";
 // Firestore doc limit is 1MB. Base64 adds ~33%, so keep raw under ~700KB.
 const MAX_BYTES = 700 * 1024;
 
-function MediaInput({ value, onChange, accept = "image/*,video/*" }) {
+function MediaInput({
+  value,
+  onChange,
+  accept = "image/*,video/*",
+  hint,
+  recommendedSize,
+}) {
   const inputRef = useRef(null);
   const [error, setError] = useState("");
+  const [dragOver, setDragOver] = useState(false);
 
   const handleFile = (file) => {
     if (!file) return;
@@ -23,40 +30,136 @@ function MediaInput({ value, onChange, accept = "image/*,video/*" }) {
     reader.readAsDataURL(file);
   };
 
+  const onDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragOver(false);
+    const file = e.dataTransfer?.files?.[0];
+    if (file) handleFile(file);
+  };
+
   const isDataUrl = typeof value === "string" && value.startsWith("data:");
-  const isImage = typeof value === "string" && (
-    /\.(png|jpe?g|webp|gif|svg)(\?|$)/i.test(value) || value.startsWith("data:image")
-  );
-  const isVideo = typeof value === "string" && (
-    /\.(mp4|webm|mov)(\?|$)/i.test(value) || value.startsWith("data:video")
-  );
+  const isImage =
+    typeof value === "string" &&
+    (/\.(png|jpe?g|webp|gif|svg)(\?|$)/i.test(value) ||
+      value.startsWith("data:image"));
+  const isVideo =
+    typeof value === "string" &&
+    (/\.(mp4|webm|mov)(\?|$)/i.test(value) ||
+      value.startsWith("data:video"));
 
   return (
     <div>
-      <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
-        <input
-          type="text"
-          placeholder="Paste a URL or upload a file"
-          value={isDataUrl ? "" : value || ""}
-          onChange={(e) => onChange(e.target.value)}
-          style={inputStyle}
-        />
-        <button
-          type="button"
-          onClick={() => inputRef.current?.click()}
-          style={uploadBtnStyle}
+      {(hint || recommendedSize) && (
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "8px",
+            marginBottom: "10px",
+            fontSize: "11.5px",
+            lineHeight: 1.55,
+            color: "#9aa3b8",
+          }}
         >
-          Upload
-        </button>
-        {value ? (
+          {recommendedSize && (
+            <span
+              style={{
+                padding: "4px 10px",
+                borderRadius: "999px",
+                border: "1px solid rgba(214,176,96,0.32)",
+                background: "rgba(214,176,96,0.08)",
+                color: "#E7C98A",
+                fontWeight: 700,
+                letterSpacing: "0.4px",
+              }}
+            >
+              Recommended: {recommendedSize}
+            </span>
+          )}
+          {hint && <span style={{ flex: 1, minWidth: "200px" }}>{hint}</span>}
+        </div>
+      )}
+
+      <div
+        onDragOver={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!dragOver) setDragOver(true);
+        }}
+        onDragEnter={(e) => {
+          e.preventDefault();
+          setDragOver(true);
+        }}
+        onDragLeave={(e) => {
+          if (e.currentTarget.contains(e.relatedTarget)) return;
+          setDragOver(false);
+        }}
+        onDrop={onDrop}
+        style={{
+          padding: "14px",
+          borderRadius: "14px",
+          border: dragOver
+            ? "2px dashed rgba(214,176,96,0.85)"
+            : "2px dashed rgba(255,255,255,0.10)",
+          background: dragOver
+            ? "rgba(214,176,96,0.10)"
+            : "rgba(255,255,255,0.025)",
+          transition: "border-color 0.18s ease, background 0.18s ease",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "8px",
+            marginBottom: "10px",
+            flexWrap: "wrap",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Paste a URL — or drop a file below"
+            value={isDataUrl ? "" : value || ""}
+            onChange={(e) => onChange(e.target.value)}
+            style={inputStyle}
+          />
           <button
             type="button"
-            onClick={() => onChange("")}
-            style={clearBtnStyle}
+            onClick={() => inputRef.current?.click()}
+            style={uploadBtnStyle}
           >
-            Clear
+            Upload
           </button>
-        ) : null}
+          {value ? (
+            <button
+              type="button"
+              onClick={() => onChange("")}
+              style={clearBtnStyle}
+            >
+              Clear
+            </button>
+          ) : null}
+        </div>
+
+        <div
+          onClick={() => inputRef.current?.click()}
+          style={{
+            padding: "12px 14px",
+            borderRadius: "10px",
+            background: "rgba(255,255,255,0.02)",
+            border: "1px solid rgba(255,255,255,0.06)",
+            color: dragOver ? "#E7C98A" : "#9aa3b8",
+            fontSize: "12.5px",
+            textAlign: "center",
+            cursor: "pointer",
+            fontWeight: 600,
+            letterSpacing: "0.2px",
+          }}
+        >
+          {dragOver
+            ? "Drop the file to upload…"
+            : "Drag & drop a file here, or click to browse"}
+        </div>
       </div>
 
       <input
@@ -139,6 +242,7 @@ function MediaInput({ value, onChange, accept = "image/*,video/*" }) {
 
 const inputStyle = {
   flex: 1,
+  minWidth: "180px",
   padding: "10px 12px",
   borderRadius: "10px",
   border: "1px solid rgba(255,255,255,0.12)",

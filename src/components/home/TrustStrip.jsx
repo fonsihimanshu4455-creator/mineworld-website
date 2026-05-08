@@ -2,20 +2,29 @@ import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
 import useIsMobile from "../../utils/useIsMobile";
+import { useCollection, useSiteSettings } from "../../admin/hooks";
+import { pressLogos as defaultPressLogos } from "../../data/pressLogos";
+import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 
-const pressLogos = [
-  { name: "YourStory", style: "serif" },
-  { name: "Inc42", style: "sans-bold" },
-  { name: "Entrepreneur India", style: "serif" },
-  { name: "ET BrandEquity", style: "sans-bold" },
-  { name: "BW Businessworld", style: "serif" },
-  { name: "Times of India", style: "serif" },
-];
-
-function PressWordmark({ name, style }) {
+function PressWordmark({ name, style, logo, url }) {
   const isSerif = style === "serif";
-  return (
-    <div
+  const inner = logo ? (
+    <img
+      src={logo}
+      alt={`${name} logo`}
+      loading="lazy"
+      decoding="async"
+      style={{
+        height: "26px",
+        width: "auto",
+        maxWidth: "160px",
+        objectFit: "contain",
+        opacity: 0.78,
+        filter: "grayscale(0.2)",
+      }}
+    />
+  ) : (
+    <span
       style={{
         color: "rgba(243,239,231,0.62)",
         fontSize: "16px",
@@ -26,26 +35,54 @@ function PressWordmark({ name, style }) {
           ? '"Playfair Display", Georgia, "Times New Roman", serif'
           : '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
         whiteSpace: "nowrap",
-        opacity: 0.85,
-        transition: "opacity 0.25s ease, color 0.25s ease",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.color = "rgba(243,239,231,0.95)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.color = "rgba(243,239,231,0.62)";
       }}
     >
       {name}
-    </div>
+    </span>
   );
+
+  const wrapStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    opacity: 0.9,
+    transition: "opacity 0.25s ease, color 0.25s ease, transform 0.2s ease",
+    textDecoration: "none",
+    cursor: url ? "pointer" : "default",
+  };
+
+  if (url) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        style={wrapStyle}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.opacity = "1";
+          e.currentTarget.style.transform = "translateY(-1px)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.opacity = "0.9";
+          e.currentTarget.style.transform = "translateY(0)";
+        }}
+      >
+        {inner}
+      </a>
+    );
+  }
+  return <div style={wrapStyle}>{inner}</div>;
 }
 
-function AppStoreBadge() {
+function AppStoreBadge({ href }) {
+  const isLive = href && href !== "#";
   return (
     <a
-      href="#"
-      onClick={(e) => e.preventDefault()}
+      href={isLive ? href : "#"}
+      onClick={(e) => {
+        if (!isLive) e.preventDefault();
+      }}
+      target={isLive ? "_blank" : undefined}
+      rel={isLive ? "noreferrer" : undefined}
       aria-label="Download on the App Store"
       style={{
         display: "inline-flex",
@@ -104,11 +141,16 @@ function AppStoreBadge() {
   );
 }
 
-function PlayStoreBadge() {
+function PlayStoreBadge({ href }) {
+  const isLive = href && href !== "#";
   return (
     <a
-      href="#"
-      onClick={(e) => e.preventDefault()}
+      href={isLive ? href : "#"}
+      onClick={(e) => {
+        if (!isLive) e.preventDefault();
+      }}
+      target={isLive ? "_blank" : undefined}
+      rel={isLive ? "noreferrer" : undefined}
       aria-label="Get it on Google Play"
       style={{
         display: "inline-flex",
@@ -183,6 +225,12 @@ function PlayStoreBadge() {
 
 function TrustStrip() {
   const isMobile = useIsMobile(768);
+  const pressLogos = useCollection("pressLogos", defaultPressLogos);
+  const settings = useSiteSettings(defaultSiteConfig);
+  const appStoreHref = settings.stores?.appStore || "";
+  const playStoreHref = settings.stores?.playStore || "";
+
+  if (!pressLogos.length && !appStoreHref && !playStoreHref) return null;
 
   return (
     <section
@@ -265,7 +313,13 @@ function TrustStrip() {
             }}
           >
             {pressLogos.map((p) => (
-              <PressWordmark key={p.name} name={p.name} style={p.style} />
+              <PressWordmark
+                key={p.name}
+                name={p.name}
+                style={p.style}
+                logo={p.logo}
+                url={p.url}
+              />
             ))}
           </div>
         </Reveal>
@@ -333,8 +387,8 @@ function TrustStrip() {
                 justifyContent: isMobile ? "flex-start" : "flex-end",
               }}
             >
-              <AppStoreBadge />
-              <PlayStoreBadge />
+              <AppStoreBadge href={appStoreHref} />
+              <PlayStoreBadge href={playStoreHref} />
             </div>
           </Reveal>
         </div>

@@ -21,6 +21,11 @@ function mergedSettings() {
       position: "center",
       ...(saved.logo || {}),
     },
+    stores: {
+      appStore: "",
+      playStore: "",
+      ...(saved.stores || {}),
+    },
   };
 }
 
@@ -156,6 +161,38 @@ function SettingsEditor() {
           value={settings.social.linkedin}
           onChange={(v) => updatePath(["social", "linkedin"], v)}
         />
+      </Section>
+
+      <Section title="App Store Links">
+        <Field
+          field={{
+            key: "appStore",
+            label: "Apple App Store URL",
+            type: "text",
+          }}
+          value={settings.stores.appStore}
+          onChange={(v) => updatePath(["stores", "appStore"], v)}
+        />
+        <Field
+          field={{
+            key: "playStore",
+            label: "Google Play Store URL",
+            type: "text",
+          }}
+          value={settings.stores.playStore}
+          onChange={(v) => updatePath(["stores", "playStore"], v)}
+        />
+        <div
+          style={{
+            color: "#9aa3b8",
+            fontSize: "12px",
+            lineHeight: 1.6,
+          }}
+        >
+          Leave blank if you don&apos;t have an app yet — the badges will
+          render unclickable. Once you paste real URLs the badges become live
+          download links.
+        </div>
       </Section>
 
       <Section title="Logo">

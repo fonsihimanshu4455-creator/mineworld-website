@@ -3,63 +3,14 @@ import Reveal from "../common/Reveal";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 import useIsMobile from "../../utils/useIsMobile";
-
-const pillars = [
-  {
-    label: "Build",
-    title: "Websites & Apps",
-    description:
-      "Bespoke websites, e-commerce storefronts, and iOS + Android apps — built on modern stacks, tuned for speed, and designed to convert.",
-    bullets: [
-      "Next.js · React · Shopify",
-      "React Native · Flutter",
-      "Sub-2s loads · Core Web Vitals",
-    ],
-    accent: "gold",
-  },
-  {
-    label: "Create",
-    title: "Video, Design & Shoots",
-    description:
-      "Retention-first reels, ad creative, podcast shoots, and platform-ready design — produced under one roof, finished to a broadcast standard.",
-    bullets: [
-      "Premiere Pro · After Effects · DaVinci",
-      "Figma · Photoshop · Illustrator",
-      "Director-led shoots in Delhi NCR",
-    ],
-    accent: "blue",
-  },
-  {
-    label: "Grow",
-    title: "Ads, Social & SEO",
-    description:
-      "Meta ad campaigns, social media systems, and SEO foundations engineered around real leads and measurable revenue — never vanity reach.",
-    bullets: [
-      "Meta Ads · Google Ads",
-      "GA4 · Pixel · Attribution",
-      "Instagram · LinkedIn · YouTube",
-    ],
-    accent: "gold",
-  },
-];
-
-const stack = [
-  { name: "Next.js", slug: "nextdotjs", color: "FFFFFF" },
-  { name: "React", slug: "react", color: "61DAFB" },
-  { name: "React Native", slug: "react", color: "61DAFB" },
-  { name: "Flutter", slug: "flutter", color: "02569B" },
-  { name: "Shopify", slug: "shopify", color: "7AB55C" },
-  { name: "Node.js", slug: "nodedotjs", color: "5FA04E" },
-  { name: "Firebase", slug: "firebase", color: "DD2C00" },
-  { name: "Figma", slug: "figma", color: "F24E1E" },
-  { name: "Premiere Pro", slug: "adobepremierepro", color: "9999FF" },
-  { name: "After Effects", slug: "adobeaftereffects", color: "9999FF" },
-  { name: "Meta", slug: "meta", color: "0467DF" },
-  { name: "Google Analytics", slug: "googleanalytics", color: "E37400" },
-];
+import { useCollection } from "../../admin/hooks";
+import { capabilityPillars as defaultPillars } from "../../data/capabilityPillars";
+import { techStack as defaultStack } from "../../data/techStack";
 
 function CapabilitiesBand() {
   const isMobile = useIsMobile(768);
+  const pillars = useCollection("capabilityPillars", defaultPillars);
+  const stack = useCollection("techStack", defaultStack);
 
   return (
     <section
@@ -363,11 +314,17 @@ function CapabilitiesBand() {
                   }}
                 >
                   <img
-                    src={`https://cdn.simpleicons.org/${s.slug}/${s.color}`}
+                    src={
+                      s.customLogo ||
+                      `https://cdn.simpleicons.org/${s.slug}/${
+                        s.color || "FFFFFF"
+                      }`
+                    }
                     alt={`${s.name} logo`}
                     width="20"
                     height="20"
                     loading="lazy"
+                    decoding="async"
                     style={{
                       width: "20px",
                       height: "20px",

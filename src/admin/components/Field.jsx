@@ -139,7 +139,13 @@ export default function Field({ field, value, onChange, item, setItem }) {
       return (
         <div>
           <Label>{field.label}</Label>
-          <MediaInput value={v} onChange={onChange} />
+          <MediaInput
+            value={v}
+            onChange={onChange}
+            hint={field.hint}
+            recommendedSize={field.recommendedSize}
+            accept={field.accept}
+          />
         </div>
       );
 

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
@@ -10,12 +11,38 @@ import InsightDetail from "./pages/InsightDetail";
 import Insights from "./pages/Insights";
 import Packages from "./pages/Packages";
 import Reviews from "./pages/Reviews";
-import AdminApp from "./admin/AdminApp";
+
+const AdminApp = lazy(() => import("./admin/AdminApp"));
+
+function AdminFallback() {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+        background: "#0b0f1a",
+        color: "#E7C98A",
+        fontSize: "14px",
+        letterSpacing: "1.4px",
+      }}
+    >
+      Loading admin…
+    </div>
+  );
+}
 
 function App() {
   return (
     <Routes>
-      <Route path="/admin/*" element={<AdminApp />} />
+      <Route
+        path="/admin/*"
+        element={
+          <Suspense fallback={<AdminFallback />}>
+            <AdminApp />
+          </Suspense>
+        }
+      />
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
