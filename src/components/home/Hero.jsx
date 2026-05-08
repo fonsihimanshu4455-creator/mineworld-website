@@ -3,6 +3,7 @@ import Container from "../common/Container";
 import MagneticButton from "../common/MagneticButton";
 import Reveal from "../common/Reveal";
 import CursorRunaway from "../common/CursorRunaway";
+import RotatingCircleText from "../common/RotatingCircleText";
 import { theme } from "../../styles/theme";
 import { openContactModal, scrollToSection } from "../../utils/contactActions";
 import useIsMobile from "../../utils/useIsMobile";
@@ -59,6 +60,20 @@ function Hero() {
       />
 
       <CursorRunaway />
+
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "120px",
+          right: "48px",
+          zIndex: 0,
+          display: "block",
+        }}
+        className="hide-tablet"
+      >
+        <RotatingCircleText size={130} />
+      </div>
 
       <Container
         style={{
