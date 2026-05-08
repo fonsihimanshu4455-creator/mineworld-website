@@ -52,8 +52,8 @@ function LogoChip({ brand }) {
               width: "auto",
               height: "auto",
               objectFit: "contain",
-              filter: "grayscale(100%)",
-              opacity: 0.55,
+              filter: "none",
+              opacity: 0.85,
               transition: "all 0.3s ease",
               display: "block",
             }}
@@ -204,8 +204,8 @@ function ClientLogoWall() {
           animation-play-state: paused;
         }
         .mw-logo-chip:hover .mw-logo-img {
-          filter: grayscale(0%);
           opacity: 1;
+          transform: scale(1.05);
         }
         @media (prefers-reduced-motion: reduce) {
           .mw-logo-marquee {

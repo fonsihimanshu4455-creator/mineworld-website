@@ -100,7 +100,9 @@ function FounderSection() {
                   position: "absolute",
                   inset: 0,
                   background:
-                    "linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.18) 35%, rgba(0,0,0,0.78) 100%)",
+                    "linear-gradient(to top, rgba(31, 45, 77, 0.94) 0%, rgba(31, 45, 77, 0.7) 22%, rgba(31, 45, 77, 0.2) 45%, transparent 65%)",
+                  pointerEvents: "none",
+                  zIndex: 1,
                 }}
               />
 
@@ -113,9 +115,10 @@ function FounderSection() {
                       left: "20px",
                       width: "70px",
                       height: "70px",
-                      borderTop: `1px solid ${theme.colors.goldSoft}`,
-                      borderLeft: `1px solid ${theme.colors.goldSoft}`,
+                      borderTop: "1px solid var(--accent-gold)",
+                      borderLeft: "1px solid var(--accent-gold)",
                       opacity: 0.9,
+                      zIndex: 2,
                     }}
                   />
                   <div
@@ -125,9 +128,10 @@ function FounderSection() {
                       right: "20px",
                       width: "70px",
                       height: "70px",
-                      borderBottom: `1px solid ${theme.colors.goldSoft}`,
-                      borderRight: `1px solid ${theme.colors.goldSoft}`,
+                      borderBottom: "1px solid var(--accent-gold)",
+                      borderRight: "1px solid var(--accent-gold)",
                       opacity: 0.9,
+                      zIndex: 2,
                     }}
                   />
                 </>
@@ -136,18 +140,20 @@ function FounderSection() {
               <div
                 style={{
                   position: "absolute",
-                  left: "28px",
-                  right: "28px",
-                  bottom: "28px",
+                  left: "24px",
+                  right: "24px",
+                  bottom: "24px",
+                  zIndex: 2,
                 }}
               >
                 <div
                   style={{
-                    color: theme.colors.goldSoft,
+                    color: "var(--accent-gold)",
                     fontSize: "12px",
                     letterSpacing: "2px",
                     textTransform: "uppercase",
-                    marginBottom: "12px",
+                    fontWeight: 500,
+                    marginBottom: "8px",
                   }}
                 >
                   Founder & Creative Director
@@ -155,11 +161,12 @@ function FounderSection() {
 
                 <div
                   style={{
-                    fontSize: isMobile ? "28px" : "34px",
-                    fontWeight: 800,
-                    lineHeight: 1.05,
-                    marginBottom: "12px",
-                    color: theme.colors.text,
+                    fontSize: isMobile ? "24px" : "32px",
+                    fontWeight: 600,
+                    lineHeight: 1.1,
+                    marginBottom: "8px",
+                    color: "#FFFFFF",
+                    textShadow: "0 2px 12px rgba(0, 0, 0, 0.4)",
                   }}
                 >
                   Himanshu Bhardwaj
@@ -167,10 +174,11 @@ function FounderSection() {
 
                 <div
                   style={{
-                    color: theme.colors.textSoft,
-                    lineHeight: 1.7,
-                    fontSize: "15px",
+                    color: "rgba(255, 255, 255, 0.88)",
+                    lineHeight: 1.5,
+                    fontSize: "14px",
                     maxWidth: "90%",
+                    textShadow: "0 1px 6px rgba(0, 0, 0, 0.3)",
                   }}
                 >
                   Building Mineworld with an editing-first mindset, premium
