@@ -281,7 +281,9 @@ export default function Navbar() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "8px",
+                  gap: "4px",
+                  flexWrap: "wrap",
+                  justifyContent: "flex-end",
                 }}
               >
                 {navItems.map((item) => {
@@ -303,11 +305,11 @@ export default function Navbar() {
                           : "transparent",
                         border: "none",
                         color: isActive ? "#F7D58A" : "#F3EFE7",
-                        fontSize: "16px",
+                        fontSize: "14.5px",
                         fontWeight: isActive ? 800 : 700,
                         letterSpacing: "0.1px",
                         cursor: "pointer",
-                        padding: "10px 14px",
+                        padding: "9px 12px",
                         borderRadius: "999px",
                         transition: "all 0.28s ease",
                         fontFamily:

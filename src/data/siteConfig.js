@@ -55,15 +55,15 @@ export const siteConfig = {
     services: true,
     capabilitiesBand: true,
     trustStrip: true,
-    process: true,
+    process: false,
     portfolio: true,
     testimonials: true,
-    founderSection: true,
-    teamSection: true,
+    founderSection: false,
+    teamSection: false,
     editingShowcase: true,
     reelScoreTool: true,
-    insightsPreview: true,
-    faq: true,
+    insightsPreview: false,
+    faq: false,
   },
 
   sectionOrder: [
@@ -84,11 +84,11 @@ export const siteConfig = {
   ],
 
   navbar: {
-    showInsights: false,
-    showReviews: false,
-    showAbout: false,
-    showProcess: false,
-    showFaq: false,
+    showAbout: true,
+    showProcess: true,
+    showInsights: true,
+    showReviews: true,
+    showFaq: true,
   },
 };
 
