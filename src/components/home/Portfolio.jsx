@@ -28,9 +28,9 @@ function PortfolioCard({ item, isMobile }) {
           position: "relative",
           borderRadius: isMobile ? "22px" : "26px",
           overflow: "hidden",
-          border: `1px solid ${theme.colors.line}`,
-          background: theme.colors.bgCard,
-          boxShadow: theme.shadow.soft,
+          border: "1px solid var(--border-cream)",
+          background: "var(--bg-cream-soft)",
+          boxShadow: "0 14px 32px rgba(15,42,68,0.08)",
           height: "100%",
           minHeight: isMobile ? "320px" : "380px",
           display: "flex",
@@ -104,14 +104,13 @@ function PortfolioCard({ item, isMobile }) {
         <div
           style={{
             padding: isMobile ? "20px 22px 22px" : "22px 26px 24px",
-            borderTop: `1px solid ${theme.colors.line}`,
-            background:
-              "linear-gradient(180deg, rgba(17,24,39,0.86), rgba(17,24,39,1))",
+            borderTop: "1px solid var(--border-cream)",
+            background: "var(--bg-secondary)",
           }}
         >
           <div
             style={{
-              color: theme.colors.goldSoft,
+              color: "var(--accent-gold)",
               fontSize: "11px",
               letterSpacing: "1.8px",
               textTransform: "uppercase",
@@ -124,7 +123,7 @@ function PortfolioCard({ item, isMobile }) {
           <h3
             style={{
               margin: 0,
-              color: theme.colors.text,
+              color: "var(--text-primary)",
               fontSize: isMobile ? "20px" : "22px",
               lineHeight: 1.2,
               fontWeight: 800,
@@ -151,11 +150,8 @@ function Portfolio() {
       style={{
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
-        background: `
-          radial-gradient(circle at 86% 18%, rgba(188,153,102,0.08), transparent 22%),
-          linear-gradient(180deg, rgba(16,24,39,1) 0%, rgba(13,20,34,1) 100%)
-        `,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--bg-secondary)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >

@@ -149,7 +149,7 @@ export default function Navbar() {
         zIndex: 1200,
         padding: isMobile ? "10px 14px 0" : "12px 22px 0",
         background:
-          "linear-gradient(180deg, rgba(17,24,39,0.98) 0%, rgba(17,24,39,0.96) 58%, rgba(17,24,39,0.72) 82%, rgba(17,24,39,0) 100%)",
+          "linear-gradient(180deg, rgba(250,247,242,0.98) 0%, rgba(250,247,242,0.92) 58%, rgba(250,247,242,0.55) 82%, rgba(250,247,242,0) 100%)",
       }}
     >
       <motion.nav
@@ -160,13 +160,15 @@ export default function Navbar() {
           width: "min(1240px, 100%)",
           margin: "0 auto",
           borderRadius: isMobile ? "24px" : "28px",
-          border: "1px solid rgba(255,255,255,0.10)",
+          border: scrolled
+            ? "1px solid rgba(26,26,26,0.08)"
+            : "1px solid rgba(26,26,26,0.05)",
           background: scrolled
-            ? "linear-gradient(180deg, rgba(20,28,46,0.96), rgba(20,28,46,0.93))"
-            : "linear-gradient(180deg, rgba(20,28,46,0.90), rgba(20,28,46,0.86))",
+            ? "rgba(255,255,255,0.92)"
+            : "rgba(255,255,255,0.78)",
           boxShadow: scrolled
-            ? "0 18px 42px rgba(0,0,0,0.28)"
-            : "0 10px 28px rgba(0,0,0,0.16)",
+            ? "0 18px 42px rgba(15,42,68,0.10)"
+            : "0 10px 28px rgba(15,42,68,0.06)",
           backdropFilter: "blur(14px)",
           WebkitBackdropFilter: "blur(14px)",
           padding: isMobile ? "14px 16px" : "15px 22px",
@@ -242,7 +244,7 @@ export default function Navbar() {
             >
               <div
                 style={{
-                  color: "#F5F1E9",
+                  color: "var(--text-primary)",
                   fontSize: isMobile ? "21px" : "27px",
                   fontWeight: 650,
                   letterSpacing: "-0.3px",
@@ -301,22 +303,31 @@ export default function Navbar() {
                       style={{
                         position: "relative",
                         background: isActive
-                          ? "rgba(188,153,102,0.10)"
+                          ? "rgba(184,149,106,0.12)"
                           : "transparent",
                         border: "none",
-                        color: isActive ? "#F7D58A" : "#F3EFE7",
+                        color: isActive
+                          ? "var(--accent-gold)"
+                          : "var(--text-primary)",
                         fontSize: "14.5px",
-                        fontWeight: isActive ? 800 : 700,
+                        fontWeight: isActive ? 800 : 600,
                         letterSpacing: "0.1px",
                         cursor: "pointer",
                         padding: "9px 12px",
                         borderRadius: "999px",
-                        transition: "all 0.28s ease",
+                        transition:
+                          "all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
                         fontFamily:
                           '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
                         boxShadow: isActive
-                          ? "inset 0 0 0 1px rgba(188,153,102,0.18), 0 8px 20px rgba(188,153,102,0.08)"
+                          ? "inset 0 0 0 1px rgba(184,149,106,0.20)"
                           : "none",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive) e.currentTarget.style.color = "var(--accent-gold)";
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) e.currentTarget.style.color = "var(--text-primary)";
                       }}
                     >
                       {item.label}
@@ -353,16 +364,22 @@ export default function Navbar() {
                   border: "none",
                   borderRadius: "999px",
                   padding: "14px 22px",
-                  background:
-                    "linear-gradient(180deg, rgba(188,153,102,1), rgba(188,153,102,0.90))",
-                  color: "#171717",
+                  background: "var(--accent-navy)",
+                  color: "#FFFFFF",
                   fontSize: "15px",
-                  fontWeight: 800,
+                  fontWeight: 700,
                   letterSpacing: "0.1px",
                   cursor: "pointer",
-                  boxShadow: "0 14px 30px rgba(188,153,102,0.22)",
+                  boxShadow: "0 14px 30px rgba(15,42,68,0.18)",
                   fontFamily:
                     '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                  transition: "all 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "var(--accent-gold)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "var(--accent-navy)";
                 }}
               >
                 Start a Project
@@ -378,12 +395,19 @@ export default function Navbar() {
                 width: "52px",
                 height: "52px",
                 borderRadius: "16px",
-                border: "1px solid rgba(255,255,255,0.10)",
-                background: "rgba(255,255,255,0.03)",
-                color: "#F5F0E8",
+                border: "1px solid rgba(26,26,26,0.10)",
+                background: "rgba(255,255,255,0.5)",
+                color: "var(--text-primary)",
                 fontSize: "24px",
                 cursor: "pointer",
                 flexShrink: 0,
+                transition: "color 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "var(--accent-gold)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--text-primary)";
               }}
             >
               <span aria-hidden="true">{menuOpen ? "✕" : "☰"}</span>
@@ -407,7 +431,7 @@ export default function Navbar() {
                 style={{
                   marginTop: "16px",
                   paddingTop: "16px",
-                  borderTop: "1px solid rgba(255,255,255,0.10)",
+                  borderTop: "1px solid rgba(26,26,26,0.08)",
                   display: "flex",
                   flexDirection: "column",
                   gap: "10px",
@@ -428,19 +452,22 @@ export default function Navbar() {
                       }}
                       style={{
                         background: isActive
-                          ? "rgba(188,153,102,0.10)"
+                          ? "rgba(184,149,106,0.12)"
                           : "transparent",
                         border: isActive
-                          ? "1px solid rgba(188,153,102,0.18)"
+                          ? "1px solid rgba(184,149,106,0.25)"
                           : "1px solid transparent",
-                        color: isActive ? "#F7D58A" : "#F5F0E8",
+                        color: isActive
+                          ? "var(--accent-gold)"
+                          : "var(--text-primary)",
                         textAlign: "left",
                         fontSize: "18px",
-                        fontWeight: isActive ? 800 : 700,
+                        fontWeight: isActive ? 800 : 600,
                         padding: "12px 14px",
                         borderRadius: "16px",
                         cursor: "pointer",
-                        transition: "all 0.25s ease",
+                        transition:
+                          "all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
                         fontFamily:
                           '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
                       }}
@@ -460,12 +487,12 @@ export default function Navbar() {
                     border: "none",
                     borderRadius: "999px",
                     padding: "14px 18px",
-                    background:
-                      "linear-gradient(180deg, rgba(188,153,102,1), rgba(188,153,102,0.90))",
-                    color: "#171717",
+                    background: "var(--accent-navy)",
+                    color: "#FFFFFF",
                     fontSize: "15px",
-                    fontWeight: 800,
+                    fontWeight: 700,
                     cursor: "pointer",
+                    transition: "all 0.3s ease",
                     fontFamily:
                       '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
                   }}

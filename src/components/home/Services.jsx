@@ -5,6 +5,7 @@ import Reveal from "../common/Reveal";
 import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import LazyVideo from "../common/LazyVideo";
+import CursorRunaway from "../common/CursorRunaway";
 import { theme } from "../../styles/theme";
 import { serviceCategories } from "../../data/serviceCategories";
 import useIsMobile from "../../utils/useIsMobile";
@@ -34,12 +35,12 @@ function CategoryCard({ item, isMobile, size = "default" }) {
           borderRadius: isMobile ? "22px" : "26px",
           overflow: "hidden",
           border: `1px solid ${
-            item.flagship ? "rgba(188,153,102,0.34)" : theme.colors.line
+            item.flagship ? "rgba(184,149,106,0.34)" : "var(--border-subtle)"
           }`,
-          background: theme.colors.bgCard,
+          background: "var(--bg-secondary)",
           boxShadow: item.flagship
-            ? "0 18px 44px rgba(188,153,102,0.12), 0 12px 28px rgba(0,0,0,0.28)"
-            : theme.shadow.soft,
+            ? "0 18px 44px rgba(184,149,106,0.18), 0 12px 28px rgba(15,42,68,0.10)"
+            : "0 14px 32px rgba(15,42,68,0.08)",
           height: "100%",
           minHeight: isMobile ? "320px" : isLarge ? "460px" : "360px",
           display: "flex",
@@ -137,14 +138,13 @@ function CategoryCard({ item, isMobile, size = "default" }) {
         <div
           style={{
             padding: isMobile ? "20px 22px 22px" : "22px 26px 24px",
-            borderTop: `1px solid ${theme.colors.line}`,
-            background:
-              "linear-gradient(180deg, rgba(17,24,39,0.86), rgba(17,24,39,1))",
+            borderTop: "1px solid var(--border-subtle)",
+            background: "var(--bg-secondary)",
           }}
         >
           <div
             style={{
-              color: theme.colors.goldSoft,
+              color: "var(--accent-gold)",
               fontSize: "11px",
               letterSpacing: "1.8px",
               textTransform: "uppercase",
@@ -157,7 +157,7 @@ function CategoryCard({ item, isMobile, size = "default" }) {
           <h3
             style={{
               margin: 0,
-              color: theme.colors.text,
+              color: "var(--text-primary)",
               fontSize: isMobile ? "22px" : isLarge ? "28px" : "24px",
               lineHeight: 1.18,
               fontWeight: 800,
@@ -182,17 +182,21 @@ function Services() {
   return (
     <section
       id="services"
+      className="geo-tile-bg"
       style={{
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
-        background: `
-          radial-gradient(circle at 12% 80%, rgba(188,153,102,0.08), transparent 26%),
-          linear-gradient(180deg, rgba(19,29,48,0.98) 0%, rgba(16,24,39,1) 100%)
-        `,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        backgroundColor: "var(--bg-cream-soft)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >
+      <div
+        className="dot-grid dot-grid-md"
+        style={{ top: "60px", left: "40px" }}
+        aria-hidden="true"
+      />
+      <CursorRunaway />
       <div
         aria-hidden="true"
         style={{
@@ -268,7 +272,7 @@ function Services() {
               >
                 <div
                   style={{
-                    color: theme.colors.goldSoft,
+                    color: "var(--accent-gold)",
                     fontSize: "11px",
                     letterSpacing: "2px",
                     textTransform: "uppercase",
@@ -313,7 +317,7 @@ function Services() {
             style={{
               marginTop: "36px",
               textAlign: "center",
-              color: theme.colors.textSoft,
+              color: "var(--text-secondary)",
               fontSize: "14px",
               lineHeight: 1.8,
             }}
@@ -322,7 +326,7 @@ function Services() {
             <Link
               to="/packages"
               style={{
-                color: theme.colors.goldSoft,
+                color: "var(--accent-gold)",
                 fontWeight: 700,
                 textDecoration: "none",
               }}

@@ -39,7 +39,7 @@ function TechLogo({ tool }) {
           borderRadius: "6px",
           background: `linear-gradient(135deg, ${tint}33, ${tint}11)`,
           border: `1px solid ${tint}55`,
-          color: "#F5F1E8",
+          color: "var(--text-primary)",
           fontSize: "11px",
           fontWeight: 800,
           lineHeight: 1,
@@ -81,12 +81,12 @@ function CapabilitiesBand() {
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
         background: `
-          radial-gradient(circle at 88% 12%, rgba(188,153,102,0.10), transparent 24%),
-          radial-gradient(circle at 8% 80%, rgba(88,110,180,0.10), transparent 26%),
-          linear-gradient(180deg, #0c1322 0%, #111a2c 100%)
+          radial-gradient(circle at 88% 12%, rgba(184,149,106,0.10), transparent 24%),
+          radial-gradient(circle at 8% 80%, rgba(15,42,68,0.05), transparent 26%),
+          var(--bg-cream-soft)
         `,
-        borderTop: `1px solid ${theme.colors.line}`,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        borderTop: "1px solid var(--border-subtle)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >
@@ -111,7 +111,7 @@ function CapabilitiesBand() {
                 fontSize: isMobile ? "34px" : "clamp(36px, 5vw, 58px)",
                 lineHeight: 1.05,
                 letterSpacing: "-1.4px",
-                color: theme.colors.text,
+                color: "var(--text-primary)",
                 fontWeight: 800,
                 fontFamily:
                   '"Playfair Display", Georgia, "Times New Roman", serif',
@@ -119,7 +119,7 @@ function CapabilitiesBand() {
               }}
             >
               One studio.{" "}
-              <span style={{ color: theme.colors.gold, fontStyle: "italic" }}>
+              <span style={{ color: "var(--accent-gold)", fontStyle: "italic" }}>
                 Every layer of your brand.
               </span>
             </h2>
@@ -130,7 +130,7 @@ function CapabilitiesBand() {
               style={{
                 margin: "0 auto",
                 maxWidth: "720px",
-                color: theme.colors.textSoft,
+                color: "var(--text-secondary)",
                 fontSize: isMobile ? "15px" : "17px",
                 lineHeight: 1.85,
               }}
@@ -164,9 +164,9 @@ function CapabilitiesBand() {
                     position: "relative",
                     padding: isMobile ? "26px 24px" : "32px 30px",
                     borderRadius: "24px",
-                    border: `1px solid ${theme.colors.line}`,
-                    background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
+                    border: "1px solid var(--border-subtle)",
+                    background: "var(--bg-secondary)",
+                    boxShadow: "0 14px 32px rgba(15,42,68,0.06)",
                     height: "100%",
                     overflow: "hidden",
                   }}
@@ -214,7 +214,7 @@ function CapabilitiesBand() {
                     />
                     <div
                       style={{
-                        color: theme.colors.goldSoft,
+                        color: "var(--accent-gold)",
                         fontSize: "11px",
                         letterSpacing: "2px",
                         textTransform: "uppercase",
@@ -231,7 +231,7 @@ function CapabilitiesBand() {
                       margin: "0 0 12px",
                       fontSize: isMobile ? "24px" : "26px",
                       lineHeight: 1.18,
-                      color: theme.colors.text,
+                      color: "var(--text-primary)",
                       fontWeight: 800,
                       letterSpacing: "-0.6px",
                       fontFamily:
@@ -245,7 +245,7 @@ function CapabilitiesBand() {
                     style={{
                       position: "relative",
                       margin: "0 0 18px",
-                      color: theme.colors.textSoft,
+                      color: "var(--text-secondary)",
                       fontSize: "14.5px",
                       lineHeight: 1.85,
                     }}
@@ -269,7 +269,7 @@ function CapabilitiesBand() {
                         style={{
                           display: "flex",
                           gap: "10px",
-                          color: theme.colors.text,
+                          color: "var(--text-primary)",
                           fontSize: "13.5px",
                           fontWeight: 600,
                           lineHeight: 1.55,
@@ -280,8 +280,8 @@ function CapabilitiesBand() {
                           style={{
                             color:
                               p.accent === "gold"
-                                ? theme.colors.gold
-                                : "#9DB3E0",
+                                ? "var(--accent-gold)"
+                                : "var(--accent-navy)",
                             fontWeight: 800,
                           }}
                         >
@@ -303,9 +303,9 @@ function CapabilitiesBand() {
               marginTop: isMobile ? "44px" : "64px",
               padding: isMobile ? "22px 18px" : "26px 28px",
               borderRadius: isMobile ? "22px" : "26px",
-              border: `1px solid ${theme.colors.line}`,
-              background:
-                "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))",
+              border: "1px solid var(--border-cream)",
+              background: "var(--bg-secondary)",
+              boxShadow: "0 14px 32px rgba(15,42,68,0.05)",
             }}
           >
             <div
@@ -319,7 +319,7 @@ function CapabilitiesBand() {
             >
               <div
                 style={{
-                  color: theme.colors.goldSoft,
+                  color: "var(--accent-gold)",
                   fontSize: "11px",
                   letterSpacing: "2.4px",
                   textTransform: "uppercase",
@@ -360,18 +360,18 @@ function CapabilitiesBand() {
                     borderRadius: "14px",
                     fontSize: isMobile ? "12.5px" : "13px",
                     fontWeight: 700,
-                    color: theme.colors.text,
-                    border: `1px solid ${theme.colors.line}`,
-                    background: "rgba(255,255,255,0.03)",
-                    transition: "border-color 0.22s ease, transform 0.22s ease",
+                    color: "var(--text-primary)",
+                    border: "1px solid var(--border-subtle)",
+                    background: "var(--bg-cream-soft)",
+                    transition:
+                      "border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor =
-                      "rgba(188,153,102,0.34)";
+                    e.currentTarget.style.borderColor = "var(--accent-gold)";
                     e.currentTarget.style.transform = "translateY(-2px)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = theme.colors.line;
+                    e.currentTarget.style.borderColor = "var(--border-subtle)";
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >

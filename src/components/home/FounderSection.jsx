@@ -4,6 +4,7 @@ import Reveal from "../common/Reveal";
 import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import MagneticButton from "../common/MagneticButton";
+import CursorRunaway from "../common/CursorRunaway";
 import { theme } from "../../styles/theme";
 import founderImage from "../../assets/himanshu.JPG";
 import useIsMobile from "../../utils/useIsMobile";
@@ -16,14 +17,21 @@ function FounderSection() {
   return (
     <section
       id="about"
+      className="geo-tile-bg"
       style={{
         position: "relative",
         padding: isMobile ? "80px 0" : "120px 0",
-        background: theme.colors.bg,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        backgroundColor: "var(--bg-primary)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >
+      <div
+        className="dot-grid dot-grid-gold dot-grid-lg"
+        style={{ bottom: "40px", right: "40px" }}
+        aria-hidden="true"
+      />
+      <CursorRunaway />
       <div
         style={{
           position: "absolute",
@@ -32,7 +40,7 @@ function FounderSection() {
           width: isMobile ? "220px" : "360px",
           height: isMobile ? "220px" : "360px",
           borderRadius: "50%",
-          background: "rgba(188,153,102,0.10)",
+          background: "rgba(184,149,106,0.10)",
           filter: "blur(140px)",
           pointerEvents: "none",
         }}
@@ -62,14 +70,15 @@ function FounderSection() {
             <motion.div
               whileHover={{ y: -6 }}
               transition={{ type: "spring", stiffness: 180, damping: 18 }}
+              className="mw-founder-frame"
               style={{
                 position: "relative",
                 minHeight: isMobile ? "420px" : "620px",
                 borderRadius: isMobile ? "24px" : "30px",
                 overflow: "hidden",
-                border: "1px solid rgba(188,153,102,0.32)",
-                boxShadow: theme.shadow.deep,
-                background: theme.colors.bgCard,
+                border: "1px solid rgba(184,149,106,0.32)",
+                boxShadow: "0 28px 80px rgba(15,42,68,0.16)",
+                background: "var(--bg-secondary)",
               }}
             >
               <img
@@ -180,10 +189,9 @@ function FounderSection() {
                 minHeight: isMobile ? "auto" : "620px",
                 borderRadius: isMobile ? "24px" : "30px",
                 padding: isMobile ? "24px" : "36px",
-                background:
-                  "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025))",
-                border: `1px solid ${theme.colors.line}`,
-                boxShadow: theme.shadow.deep,
+                background: "var(--bg-secondary)",
+                border: "1px solid var(--border-subtle)",
+                boxShadow: "0 14px 32px rgba(15,42,68,0.06)",
                 overflow: "hidden",
               }}
             >
@@ -203,10 +211,11 @@ function FounderSection() {
 
               <div
                 style={{
-                  color: theme.colors.goldSoft,
+                  color: "var(--accent-gold)",
                   fontSize: "12px",
                   letterSpacing: "2px",
                   textTransform: "uppercase",
+                  fontWeight: 800,
                   marginBottom: "14px",
                 }}
               >
@@ -220,7 +229,7 @@ function FounderSection() {
                   lineHeight: 1.03,
                   fontWeight: 800,
                   maxWidth: "640px",
-                  color: theme.colors.text,
+                  color: "var(--text-primary)",
                 }}
               >
                 Mineworld is not being built to look “nice.”
@@ -231,7 +240,7 @@ function FounderSection() {
               <p
                 style={{
                   margin: 0,
-                  color: theme.colors.textSoft,
+                  color: "var(--text-secondary)",
                   lineHeight: 1.9,
                   fontSize: isMobile ? "16px" : "17px",
                   maxWidth: "720px",
@@ -265,10 +274,11 @@ function FounderSection() {
                     style={{
                       padding: "16px 16px",
                       borderRadius: "18px",
-                      border: `1px solid ${theme.colors.line}`,
-                      background: theme.colors.bgCard,
+                      border: "1px solid var(--border-cream)",
+                      background: "var(--bg-cream-soft)",
                       fontSize: "14px",
-                      color: theme.colors.text,
+                      color: "var(--text-primary)",
+                      fontWeight: 500,
                     }}
                   >
                     {point}
@@ -281,16 +291,17 @@ function FounderSection() {
                   marginTop: "30px",
                   padding: "22px 22px",
                   borderRadius: "22px",
-                  border: `1px solid ${theme.colors.line}`,
-                  background: theme.colors.bgCard,
+                  border: "1px solid var(--border-cream)",
+                  background: "var(--bg-cream-soft)",
                 }}
               >
                 <div
                   style={{
-                    color: theme.colors.goldSoft,
+                    color: "var(--accent-gold)",
                     fontSize: "11px",
                     letterSpacing: "2px",
                     textTransform: "uppercase",
+                    fontWeight: 800,
                     marginBottom: "12px",
                   }}
                 >
@@ -300,9 +311,10 @@ function FounderSection() {
                 <p
                   style={{
                     margin: 0,
-                    color: theme.colors.textSoft,
+                    color: "var(--text-secondary)",
                     lineHeight: 1.85,
                     fontSize: "15px",
+                    fontStyle: "italic",
                   }}
                 >
                   “Mineworld is being built for clients and brands who want to

@@ -12,14 +12,14 @@ function LogoChip({ brand }) {
   return (
     <div
       title={brand.name}
+      className="mw-logo-chip"
       style={{
         flexShrink: 0,
         padding: "18px 24px 16px",
         marginRight: "18px",
         borderRadius: "20px",
-        border: `1px solid ${theme.colors.line}`,
-        background:
-          "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
+        border: "1px solid var(--border-subtle)",
+        background: "var(--bg-secondary)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -27,6 +27,7 @@ function LogoChip({ brand }) {
         gap: "10px",
         minWidth: "220px",
         height: "140px",
+        transition: "all 0.3s ease",
       }}
     >
       {hasLogo ? (
@@ -44,13 +45,16 @@ function LogoChip({ brand }) {
             src={brand.logo}
             alt={`${brand.name} logo`}
             loading="lazy"
+            className="mw-logo-img"
             style={{
               maxHeight: "72px",
               maxWidth: "180px",
               width: "auto",
               height: "auto",
               objectFit: "contain",
-              filter: "brightness(0.98)",
+              filter: "grayscale(100%)",
+              opacity: 0.55,
+              transition: "all 0.3s ease",
               display: "block",
             }}
             onError={(e) => {
@@ -81,14 +85,14 @@ function LogoChip({ brand }) {
       <div
         style={{
           textAlign: "center",
-          borderTop: `1px solid ${theme.colors.line}`,
+          borderTop: "1px solid var(--border-subtle)",
           paddingTop: "8px",
           width: "100%",
         }}
       >
         <div
           style={{
-            color: theme.colors.text,
+            color: "var(--text-primary)",
             fontSize: "14px",
             fontWeight: 700,
             letterSpacing: "-0.1px",
@@ -103,7 +107,7 @@ function LogoChip({ brand }) {
         {brand.industry ? (
           <div
             style={{
-              color: theme.colors.goldSoft,
+              color: "var(--accent-gold)",
               fontSize: "9.5px",
               fontWeight: 700,
               letterSpacing: "1.4px",
@@ -135,8 +139,9 @@ function ClientLogoWall() {
       style={{
         position: "relative",
         padding: isMobile ? "56px 0" : "72px 0",
-        background: "rgba(13,20,34,1)",
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--bg-secondary)",
+        borderTop: "1px solid var(--border-cream)",
+        borderBottom: "1px solid var(--border-cream)",
         overflow: "hidden",
       }}
     >
@@ -155,7 +160,7 @@ function ClientLogoWall() {
             <SectionTag style={{ marginBottom: 0 }}>Trusted By</SectionTag>
             <div
               style={{
-                color: theme.colors.textSoft,
+                color: "var(--text-muted)",
                 fontSize: "13px",
                 letterSpacing: "0.3px",
               }}
@@ -181,7 +186,7 @@ function ClientLogoWall() {
           style={{
             display: "flex",
             width: "max-content",
-            animation: "mw-marquee 36s linear infinite",
+            animation: "mw-marquee 40s linear infinite",
           }}
         >
           {doubled.map((brand, i) => (
@@ -197,6 +202,10 @@ function ClientLogoWall() {
         }
         .mw-logo-marquee:hover {
           animation-play-state: paused;
+        }
+        .mw-logo-chip:hover .mw-logo-img {
+          filter: grayscale(0%);
+          opacity: 1;
         }
         @media (prefers-reduced-motion: reduce) {
           .mw-logo-marquee {

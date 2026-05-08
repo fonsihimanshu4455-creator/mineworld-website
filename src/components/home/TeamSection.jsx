@@ -26,9 +26,9 @@ function TeamCard({ member, isMobile }) {
           position: "relative",
           borderRadius: isMobile ? "22px" : "24px",
           overflow: "hidden",
-          border: `1px solid ${theme.colors.line}`,
-          background: theme.colors.bgCard,
-          boxShadow: theme.shadow.soft,
+          border: "1px solid var(--border-subtle)",
+          background: "var(--bg-secondary)",
+          boxShadow: "0 14px 32px rgba(15,42,68,0.08)",
           height: "100%",
           minHeight: isMobile ? "340px" : "380px",
           display: "flex",
@@ -90,14 +90,13 @@ function TeamCard({ member, isMobile }) {
         <div
           style={{
             padding: isMobile ? "18px 20px 20px" : "20px 22px 22px",
-            borderTop: `1px solid ${theme.colors.line}`,
-            background:
-              "linear-gradient(180deg, rgba(17,24,39,0.86), rgba(17,24,39,1))",
+            borderTop: "1px solid var(--border-subtle)",
+            background: "var(--bg-secondary)",
           }}
         >
           <div
             style={{
-              color: theme.colors.goldSoft,
+              color: "var(--accent-gold)",
               fontSize: "10.5px",
               letterSpacing: "1.8px",
               textTransform: "uppercase",
@@ -110,7 +109,7 @@ function TeamCard({ member, isMobile }) {
           <h3
             style={{
               margin: 0,
-              color: theme.colors.text,
+              color: "var(--text-primary)",
               fontSize: isMobile ? "20px" : "22px",
               lineHeight: 1.18,
               fontWeight: 800,
@@ -136,8 +135,8 @@ function TeamSection() {
       style={{
         position: "relative",
         padding: isMobile ? "72px 0" : "108px 0",
-        background: theme.colors.bg,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--bg-cream-soft)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >

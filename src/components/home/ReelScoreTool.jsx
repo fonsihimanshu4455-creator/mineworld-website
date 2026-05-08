@@ -4,7 +4,6 @@ import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
-import { theme } from "../../styles/theme";
 import { openContactModal, trackCtaClick } from "../../utils/contactActions";
 import { trackEvent } from "../../utils/analytics";
 import useIsMobile from "../../utils/useIsMobile";
@@ -129,11 +128,11 @@ function Option({ option, active, onClick }) {
         borderRadius: "16px",
         border: active
           ? "1px solid rgba(188,153,102,0.85)"
-          : `1px solid ${theme.colors.line}`,
+          : "1px solid var(--border-subtle)",
         background: active
           ? "rgba(188,153,102,0.12)"
-          : "rgba(255,255,255,0.03)",
-        color: active ? theme.colors.goldSoft : theme.colors.text,
+          : "var(--bg-cream-soft)",
+        color: active ? "var(--accent-gold)" : "var(--text-primary)",
         fontSize: "14.5px",
         fontWeight: 600,
         cursor: "pointer",
@@ -195,11 +194,8 @@ function ReelScoreTool() {
       style={{
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
-        background: `
-          radial-gradient(circle at 80% 20%, rgba(188,153,102,0.08), transparent 24%),
-          linear-gradient(180deg, rgba(13,20,34,1) 0%, rgba(16,24,39,1) 100%)
-        `,
-        borderBottom: `1px solid ${theme.colors.line}`,
+        background: "var(--bg-primary)",
+        borderBottom: "1px solid var(--border-subtle)",
         overflow: "hidden",
       }}
     >
@@ -217,11 +213,10 @@ function ReelScoreTool() {
         <div
           style={{
             borderRadius: "28px",
-            border: `1px solid ${theme.colors.lineStrong}`,
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))",
+            border: "1px solid rgba(184,149,106,0.34)",
+            background: "var(--bg-secondary)",
             padding: isMobile ? "26px 22px" : "36px 40px",
-            boxShadow: theme.shadow.deep,
+            boxShadow: "0 24px 60px rgba(15,42,68,0.10)",
             maxWidth: "960px",
             margin: "0 auto",
           }}
@@ -238,7 +233,7 @@ function ReelScoreTool() {
           >
             <div
               style={{
-                color: theme.colors.goldSoft,
+                color: "var(--accent-gold)",
                 fontSize: "12px",
                 letterSpacing: "2px",
                 textTransform: "uppercase",
@@ -255,7 +250,7 @@ function ReelScoreTool() {
                 minWidth: "180px",
                 height: "6px",
                 borderRadius: "999px",
-                background: "rgba(255,255,255,0.08)",
+                background: "rgba(184,149,106,0.12)",
                 overflow: "hidden",
               }}
             >
@@ -282,7 +277,7 @@ function ReelScoreTool() {
               >
                 <div
                   style={{
-                    color: theme.colors.textSoft,
+                    color: "var(--text-secondary)",
                     fontSize: "12px",
                     letterSpacing: "1.6px",
                     textTransform: "uppercase",
@@ -296,7 +291,7 @@ function ReelScoreTool() {
                 <h3
                   style={{
                     margin: "0 0 8px",
-                    color: theme.colors.text,
+                    color: "var(--text-primary)",
                     fontSize: isMobile ? "22px" : "28px",
                     lineHeight: 1.2,
                     letterSpacing: "-0.4px",
@@ -309,7 +304,7 @@ function ReelScoreTool() {
                 <p
                   style={{
                     margin: "0 0 22px",
-                    color: theme.colors.textSoft,
+                    color: "var(--text-secondary)",
                     fontSize: "14px",
                     lineHeight: 1.75,
                   }}
@@ -342,9 +337,9 @@ function ReelScoreTool() {
                     style={{
                       padding: "12px 18px",
                       borderRadius: "999px",
-                      border: `1px solid ${theme.colors.line}`,
-                      background: "rgba(255,255,255,0.03)",
-                      color: theme.colors.text,
+                      border: "1px solid var(--border-subtle)",
+                      background: "var(--bg-cream-soft)",
+                      color: "var(--text-primary)",
                       fontWeight: 700,
                       fontSize: "14px",
                       cursor: step === 0 ? "not-allowed" : "pointer",
@@ -362,7 +357,7 @@ function ReelScoreTool() {
                       border: "none",
                       background: hasAnswer
                         ? "linear-gradient(135deg, #BC9966, #D9B987)"
-                        : "rgba(255,255,255,0.06)",
+                        : "rgba(184,149,106,0.10)",
                       color: hasAnswer ? "#18140F" : "rgba(255,255,255,0.4)",
                       fontWeight: 800,
                       fontSize: "14px",
@@ -418,7 +413,7 @@ function ReelScoreTool() {
                     >
                       <div
                         style={{
-                          color: theme.colors.text,
+                          color: "var(--text-primary)",
                           fontSize: "44px",
                           fontWeight: 800,
                           lineHeight: 1,
@@ -429,7 +424,7 @@ function ReelScoreTool() {
                       </div>
                       <div
                         style={{
-                          color: theme.colors.goldSoft,
+                          color: "var(--accent-gold)",
                           fontSize: "11px",
                           letterSpacing: "1.6px",
                           textTransform: "uppercase",
@@ -449,7 +444,7 @@ function ReelScoreTool() {
                         padding: "6px 12px",
                         borderRadius: "999px",
                         background: band.color,
-                        color: theme.colors.text,
+                        color: "var(--text-primary)",
                         fontSize: "11px",
                         letterSpacing: "1.6px",
                         textTransform: "uppercase",
@@ -464,7 +459,7 @@ function ReelScoreTool() {
                         margin: "0 0 12px",
                         fontSize: isMobile ? "22px" : "28px",
                         lineHeight: 1.2,
-                        color: theme.colors.text,
+                        color: "var(--text-primary)",
                         fontWeight: 800,
                         letterSpacing: "-0.4px",
                       }}
@@ -486,14 +481,14 @@ function ReelScoreTool() {
                           style={{
                             display: "flex",
                             gap: "10px",
-                            color: theme.colors.textSoft,
+                            color: "var(--text-secondary)",
                             fontSize: "14.5px",
                             lineHeight: 1.75,
                           }}
                         >
                           <span
                             style={{
-                              color: theme.colors.goldSoft,
+                              color: "var(--accent-gold)",
                               flexShrink: 0,
                               fontWeight: 800,
                             }}
@@ -525,7 +520,7 @@ function ReelScoreTool() {
                     <div
                       style={{
                         fontSize: isMobile ? "18px" : "22px",
-                        color: theme.colors.text,
+                        color: "var(--text-primary)",
                         fontWeight: 700,
                         lineHeight: 1.35,
                         fontFamily:
@@ -536,7 +531,7 @@ function ReelScoreTool() {
                     </div>
                     <div
                       style={{
-                        color: theme.colors.textSoft,
+                        color: "var(--text-secondary)",
                         fontSize: "14px",
                         lineHeight: 1.75,
                         marginTop: "6px",
@@ -580,9 +575,9 @@ function ReelScoreTool() {
                       style={{
                         padding: "14px 22px",
                         borderRadius: "999px",
-                        border: `1px solid ${theme.colors.line}`,
-                        background: "rgba(255,255,255,0.03)",
-                        color: theme.colors.text,
+                        border: "1px solid var(--border-subtle)",
+                        background: "var(--bg-cream-soft)",
+                        color: "var(--text-primary)",
                         fontWeight: 700,
                         fontSize: "14px",
                         cursor: "pointer",
