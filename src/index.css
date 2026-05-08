@@ -12,10 +12,10 @@ html {
 body {
   font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   background:
-    radial-gradient(ellipse at 18% 8%, rgba(188,153,102,0.10), transparent 32%),
-    radial-gradient(ellipse at 82% 22%, rgba(126,151,214,0.08), transparent 38%),
-    radial-gradient(ellipse at 50% 100%, rgba(142,110,61,0.10), transparent 50%),
-    linear-gradient(180deg, #1A2440 0%, #1F2D52 25%, #221C2E 55%, #2A2335 80%, #1B2747 100%);
+    radial-gradient(ellipse at 18% 8%, rgba(255,200,130,0.18), transparent 32%),
+    radial-gradient(ellipse at 82% 22%, rgba(217,185,135,0.14), transparent 38%),
+    radial-gradient(ellipse at 50% 100%, rgba(142,110,61,0.20), transparent 50%),
+    linear-gradient(180deg, #251A1F 0%, #2B2235 25%, #221C2E 55%, #2A2335 80%, #1F1B2B 100%);
   background-attachment: fixed;
   color: #F5F1E8;
   -webkit-font-smoothing: antialiased;
