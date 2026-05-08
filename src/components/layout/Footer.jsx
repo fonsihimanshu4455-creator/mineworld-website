@@ -7,10 +7,13 @@ import { openContactModal } from "../../utils/contactActions";
 import useIsMobile from "../../utils/useIsMobile";
 import { useSiteSettings } from "../../admin/hooks";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
+import defaultLogo from "../../assets/mineworld-logo.png";
 
 function Footer() {
   const isMobile = useIsMobile(768);
   const settings = useSiteSettings(defaultSiteConfig);
+  const logoSrc = settings.logo?.src || defaultLogo;
+  const logoScale = Number(settings.logo?.scale) || 1.45;
   const phoneDigits = (settings.contact?.whatsappNumber || "919758850933").replace(/\D/g, "");
   const phoneDisplay = phoneDigits.length > 10
     ? `+${phoneDigits.slice(0, phoneDigits.length - 10)} ${phoneDigits.slice(-10)}`
@@ -249,16 +252,13 @@ function Footer() {
                   }}
                 >
                   <img
-                    src="/src/assets/mineworld-logo.png"
+                    src={logoSrc}
                     alt="Mineworld Production logo"
                     style={{
                       width: isMobile ? "36px" : "44px",
                       height: "auto",
                       objectFit: "contain",
-                      transform: "scale(1.45)",
-                    }}
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
+                      transform: `scale(${logoScale})`,
                     }}
                   />
                 </div>
