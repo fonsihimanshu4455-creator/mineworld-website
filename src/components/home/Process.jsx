@@ -67,11 +67,11 @@ function StepCard({ step, isMobile, isLast }) {
         <div>
           <div
             style={{
-              color: "var(--accent-gold)",
+              color: "var(--accent-navy)",
               fontSize: "11px",
-              letterSpacing: "1.6px",
+              letterSpacing: "1.5px",
               textTransform: "uppercase",
-              fontWeight: 700,
+              fontWeight: 600,
             }}
           >
             {step.eyebrow}
@@ -111,11 +111,11 @@ function StepCard({ step, isMobile, isLast }) {
       >
         <div
           style={{
-            color: "rgba(243,239,231,0.5)",
+            color: "var(--accent-navy)",
             fontSize: "11px",
-            letterSpacing: "1.4px",
+            letterSpacing: "1.5px",
             textTransform: "uppercase",
-            fontWeight: 700,
+            fontWeight: 600,
             marginBottom: "8px",
           }}
         >
@@ -151,11 +151,11 @@ function StepCard({ step, isMobile, isLast }) {
       <div
         style={{
           marginTop: "14px",
-          color: "var(--accent-gold)",
+          color: "var(--accent-navy)",
           fontSize: "12px",
-          letterSpacing: "1.4px",
+          letterSpacing: "1.5px",
           textTransform: "uppercase",
-          fontWeight: 700,
+          fontWeight: 600,
         }}
       >
         {step.duration}
