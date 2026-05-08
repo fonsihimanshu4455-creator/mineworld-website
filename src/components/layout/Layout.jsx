@@ -27,7 +27,7 @@ function Layout() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#111827",
+        background: "#1B2747",
         color: "#fff",
       }}
     >

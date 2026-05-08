@@ -108,7 +108,7 @@ export default function AdminAuth() {
           minHeight: "100vh",
           display: "grid",
           placeItems: "center",
-          color: "#E7C98A",
+          color: "#D9B987",
           background: "#0b0f1a",
           fontSize: "14px",
         }}
@@ -126,7 +126,7 @@ export default function AdminAuth() {
         placeItems: "center",
         padding: "24px",
         background:
-          "radial-gradient(circle at 20% 10%, rgba(214,176,96,0.14), transparent 24%), linear-gradient(180deg, #0b0f1a, #141c2f)",
+          "radial-gradient(circle at 20% 10%, rgba(188,153,102,0.14), transparent 24%), linear-gradient(180deg, #0b0f1a, #141c2f)",
       }}
     >
       <form
@@ -136,7 +136,7 @@ export default function AdminAuth() {
           maxWidth: "440px",
           padding: "36px 30px",
           borderRadius: "24px",
-          border: "1px solid rgba(214,176,96,0.32)",
+          border: "1px solid rgba(188,153,102,0.32)",
           background:
             "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
           boxShadow: "0 28px 72px rgba(0,0,0,0.45)",
@@ -144,7 +144,7 @@ export default function AdminAuth() {
       >
         <div
           style={{
-            color: "#E7C98A",
+            color: "#D9B987",
             fontSize: "12px",
             letterSpacing: "2px",
             textTransform: "uppercase",
@@ -186,7 +186,7 @@ export default function AdminAuth() {
                 fontSize: "11.5px",
                 letterSpacing: "1.4px",
                 textTransform: "uppercase",
-                color: "#E7C98A",
+                color: "#D9B987",
                 fontWeight: 700,
                 marginBottom: "8px",
               }}
@@ -210,7 +210,7 @@ export default function AdminAuth() {
               fontSize: "11.5px",
               letterSpacing: "1.4px",
               textTransform: "uppercase",
-              color: "#E7C98A",
+              color: "#D9B987",
               fontWeight: 700,
               marginBottom: "8px",
             }}
@@ -248,13 +248,13 @@ export default function AdminAuth() {
             borderRadius: "999px",
             border: "none",
             background: loading
-              ? "rgba(214,176,96,0.5)"
-              : "linear-gradient(135deg, #D6B060, #E7C98A)",
+              ? "rgba(188,153,102,0.5)"
+              : "linear-gradient(135deg, #BC9966, #D9B987)",
             color: "#18140F",
             fontWeight: 800,
             fontSize: "14px",
             cursor: loading ? "not-allowed" : "pointer",
-            boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+            boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
             letterSpacing: "0.3px",
           }}
         >
@@ -266,7 +266,7 @@ export default function AdminAuth() {
             marginTop: "28px",
             paddingTop: "20px",
             borderTop: "1px solid rgba(255,255,255,0.08)",
-            color: "#E7C98A",
+            color: "#D9B987",
             fontSize: "20px",
             fontStyle: "italic",
             fontFamily: '"Brush Script MT", "Segoe Script", cursive',

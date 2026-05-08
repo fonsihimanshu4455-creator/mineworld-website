@@ -81,7 +81,7 @@ function CapabilitiesBand() {
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
         background: `
-          radial-gradient(circle at 88% 12%, rgba(214,176,96,0.10), transparent 24%),
+          radial-gradient(circle at 88% 12%, rgba(188,153,102,0.10), transparent 24%),
           radial-gradient(circle at 8% 80%, rgba(88,110,180,0.10), transparent 26%),
           linear-gradient(180deg, #0c1322 0%, #111a2c 100%)
         `,
@@ -154,7 +154,7 @@ function CapabilitiesBand() {
         >
           {pillars.map((p, i) => {
             const accentColor =
-              p.accent === "gold" ? "rgba(214,176,96,0.6)" : "rgba(88,110,180,0.55)";
+              p.accent === "gold" ? "rgba(188,153,102,0.6)" : "rgba(88,110,180,0.55)";
 
             return (
               <Reveal key={p.title} delay={0.06 * i}>
@@ -207,7 +207,7 @@ function CapabilitiesBand() {
                             : "#7E97D6",
                         boxShadow: `0 0 12px ${
                           p.accent === "gold"
-                            ? "rgba(214,176,96,0.6)"
+                            ? "rgba(188,153,102,0.6)"
                             : "rgba(126,151,214,0.55)"
                         }`,
                       }}
@@ -334,7 +334,7 @@ function CapabilitiesBand() {
                   flex: 1,
                   height: "1px",
                   background:
-                    "linear-gradient(90deg, rgba(214,176,96,0.32), transparent)",
+                    "linear-gradient(90deg, rgba(188,153,102,0.32), transparent)",
                   maxWidth: "320px",
                 }}
               />
@@ -367,7 +367,7 @@ function CapabilitiesBand() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderColor =
-                      "rgba(214,176,96,0.34)";
+                      "rgba(188,153,102,0.34)";
                     e.currentTarget.style.transform = "translateY(-2px)";
                   }}
                   onMouseLeave={(e) => {

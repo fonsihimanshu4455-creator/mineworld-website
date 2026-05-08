@@ -30,7 +30,7 @@ function CTA() {
           width: isMobile ? "260px" : "420px",
           height: isMobile ? "260px" : "420px",
           borderRadius: "50%",
-          background: "rgba(214,176,96,0.10)",
+          background: "rgba(188,153,102,0.10)",
           filter: "blur(140px)",
           pointerEvents: "none",
         }}
@@ -47,7 +47,7 @@ function CTA() {
               padding: isMobile ? "26px 22px" : "30px 36px",
               background:
                 "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
-              border: "1px solid rgba(214,176,96,0.30)",
+              border: "1px solid rgba(188,153,102,0.30)",
               boxShadow: theme.shadow.deep,
               display: "grid",
               gridTemplateColumns: isMobile ? "1fr" : "1.3fr 1fr",

@@ -81,7 +81,7 @@ function StarRow({ rating }) {
         <span
           key={n}
           style={{
-            color: n <= rating ? "#E7C98A" : "rgba(255,255,255,0.22)",
+            color: n <= rating ? "#D9B987" : "rgba(255,255,255,0.22)",
             fontSize: "15px",
             lineHeight: 1,
           }}
@@ -97,11 +97,11 @@ function TestimonialCard({ item, onOpen, isMobile }) {
   const accent =
     item.accent === "blue"
       ? "rgba(88,110,180,0.18)"
-      : "rgba(214,176,96,0.18)";
+      : "rgba(188,153,102,0.18)";
   const accentBorder =
     item.accent === "blue"
       ? "rgba(88,110,180,0.38)"
-      : "rgba(214,176,96,0.38)";
+      : "rgba(188,153,102,0.38)";
 
   const author = item.author || item.name;
   const meta = [item.role, item.location].filter(Boolean).join(" · ");
@@ -216,7 +216,7 @@ function TestimonialCard({ item, onOpen, isMobile }) {
             height: "38px",
             borderRadius: "50%",
             background:
-              "linear-gradient(135deg, rgba(214,176,96,0.35), rgba(214,176,96,0.10))",
+              "linear-gradient(135deg, rgba(188,153,102,0.35), rgba(188,153,102,0.10))",
             border: `1px solid ${accentBorder}`,
             display: "grid",
             placeItems: "center",
@@ -299,7 +299,7 @@ function Testimonials() {
         position: "relative",
         padding: isMobile ? "72px 0" : "100px 0",
         background: `
-          radial-gradient(circle at 80% 20%, rgba(214,176,96,0.08), transparent 26%),
+          radial-gradient(circle at 80% 20%, rgba(188,153,102,0.08), transparent 26%),
           linear-gradient(180deg, rgba(13,20,34,1) 0%, rgba(16,24,39,1) 100%)
         `,
         borderBottom: `1px solid ${theme.colors.line}`,
@@ -351,12 +351,12 @@ function Testimonials() {
                 padding: "12px 18px",
                 borderRadius: "999px",
                 border: "none",
-                background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+                background: "linear-gradient(135deg, #BC9966, #D9B987)",
                 color: "#18140F",
                 fontWeight: 800,
                 fontSize: "13.5px",
                 cursor: "pointer",
-                boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+                boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
               }}
             >
               + Add your review

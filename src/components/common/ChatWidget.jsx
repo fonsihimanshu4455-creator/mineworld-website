@@ -189,7 +189,7 @@ function ChatWidget() {
               justifyContent: "space-between",
               gap: "10px",
               background:
-                "linear-gradient(135deg, rgba(214,176,96,0.18), rgba(214,176,96,0.04))",
+                "linear-gradient(135deg, rgba(188,153,102,0.18), rgba(188,153,102,0.04))",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -198,7 +198,7 @@ function ChatWidget() {
                   width: "34px",
                   height: "34px",
                   borderRadius: "50%",
-                  background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+                  background: "linear-gradient(135deg, #BC9966, #D9B987)",
                   color: "#18140F",
                   display: "grid",
                   placeItems: "center",
@@ -320,8 +320,8 @@ function ChatWidget() {
                     style={{
                       padding: "8px 12px",
                       borderRadius: "999px",
-                      border: "1px solid rgba(214,176,96,0.34)",
-                      background: "rgba(214,176,96,0.08)",
+                      border: "1px solid rgba(188,153,102,0.34)",
+                      background: "rgba(188,153,102,0.08)",
                       color: "#F7D58A",
                       fontSize: "12.5px",
                       fontWeight: 700,
@@ -383,7 +383,7 @@ function ChatWidget() {
                 border: "none",
                 background:
                   draft.trim() && !inputDisabled
-                    ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+                    ? "linear-gradient(135deg, #BC9966, #D9B987)"
                     : "rgba(255,255,255,0.08)",
                 color: "#18140F",
                 cursor:
@@ -416,9 +416,9 @@ function ChatWidget() {
           borderRadius: "50%",
           border: "none",
           background:
-            "linear-gradient(135deg, rgba(214,176,96,1), rgba(214,176,96,0.85))",
+            "linear-gradient(135deg, rgba(188,153,102,1), rgba(188,153,102,0.85))",
           color: "#18140F",
-          boxShadow: "0 18px 40px rgba(214,176,96,0.32)",
+          boxShadow: "0 18px 40px rgba(188,153,102,0.32)",
           cursor: "pointer",
           display: "grid",
           placeItems: "center",
@@ -478,7 +478,7 @@ function Bubble({ role, children, offline }) {
         padding: "10px 14px",
         borderRadius: isUser ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
         background: isUser
-          ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+          ? "linear-gradient(135deg, #BC9966, #D9B987)"
           : offline
           ? "rgba(239,68,68,0.10)"
           : "rgba(255,255,255,0.06)",
@@ -508,7 +508,7 @@ function Dot({ delay }) {
         width: "6px",
         height: "6px",
         borderRadius: "50%",
-        background: "#E7C98A",
+        background: "#D9B987",
         animation: `mw-typing 1.2s ${delay}s ease-in-out infinite`,
       }}
     />

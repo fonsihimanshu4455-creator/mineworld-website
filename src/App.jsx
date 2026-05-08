@@ -25,7 +25,7 @@ function AdminFallback() {
         display: "grid",
         placeItems: "center",
         background: "#0b0f1a",
-        color: "#E7C98A",
+        color: "#D9B987",
         fontSize: "14px",
         letterSpacing: "1.4px",
       }}

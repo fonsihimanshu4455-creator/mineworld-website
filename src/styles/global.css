@@ -9,7 +9,7 @@ section {
 
 .capability-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(214, 176, 96, 0.34);
+  border-color: rgba(188, 153, 102, 0.34);
   box-shadow: 0 28px 60px rgba(0, 0, 0, 0.32);
 }
 

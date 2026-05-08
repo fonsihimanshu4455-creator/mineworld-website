@@ -46,7 +46,7 @@ function SuccessScreen({ show, onClose }) {
             inset: 0,
             zIndex: 4000,
             background:
-              "radial-gradient(circle at 18% 20%, rgba(214,176,96,0.12), transparent 22%), radial-gradient(circle at 80% 72%, rgba(87,120,210,0.14), transparent 26%), linear-gradient(135deg, #09101d 0%, #101827 42%, #0d1424 100%)",
+              "radial-gradient(circle at 18% 20%, rgba(188,153,102,0.12), transparent 22%), radial-gradient(circle at 80% 72%, rgba(87,120,210,0.14), transparent 26%), linear-gradient(135deg, #09101d 0%, #101827 42%, #0d1424 100%)",
             overflow: "hidden",
             display: "flex",
             alignItems: "center",
@@ -71,7 +71,7 @@ function SuccessScreen({ show, onClose }) {
               width: "320px",
               height: "320px",
               borderRadius: "50%",
-              background: "rgba(214,176,96,0.18)",
+              background: "rgba(188,153,102,0.18)",
               filter: "blur(96px)",
               top: "8%",
               left: "6%",
@@ -142,7 +142,7 @@ function SuccessScreen({ show, onClose }) {
               width: "26%",
               height: "2px",
               background:
-                "linear-gradient(90deg, transparent, rgba(214,176,96,0.18), transparent)",
+                "linear-gradient(90deg, transparent, rgba(188,153,102,0.18), transparent)",
               filter: "blur(2px)",
               pointerEvents: "none",
             }}
@@ -206,7 +206,7 @@ function SuccessScreen({ show, onClose }) {
                   width: "180px",
                   height: "180px",
                   borderRadius: "50%",
-                  background: "rgba(214,176,96,0.12)",
+                  background: "rgba(188,153,102,0.12)",
                   filter: "blur(70px)",
                   pointerEvents: "none",
                   opacity: isClosing ? 0 : 1,
@@ -291,7 +291,7 @@ function SuccessScreen({ show, onClose }) {
                   height: "1px",
                   margin: "18px auto 0",
                   background:
-                    "linear-gradient(90deg, transparent, rgba(214,176,96,0.9), transparent)",
+                    "linear-gradient(90deg, transparent, rgba(188,153,102,0.9), transparent)",
                 }}
               />
 
@@ -338,12 +338,12 @@ function SuccessScreen({ show, onClose }) {
                   borderRadius: "999px",
                   border: "none",
                   background:
-                    "linear-gradient(180deg, rgba(214,176,96,1), rgba(214,176,96,0.92))",
+                    "linear-gradient(180deg, rgba(188,153,102,1), rgba(188,153,102,0.92))",
                   color: "#1B1B1B",
                   fontSize: "15px",
                   fontWeight: 800,
                   cursor: "pointer",
-                  boxShadow: "0 18px 36px rgba(214,176,96,0.26)",
+                  boxShadow: "0 18px 36px rgba(188,153,102,0.26)",
                 }}
               >
                 Continue

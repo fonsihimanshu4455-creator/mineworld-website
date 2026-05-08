@@ -11,10 +11,10 @@ import useIsMobile from "../../utils/useIsMobile";
 function PlanCard({ plan, isMobile }) {
   const featured = plan.featured;
   const borderColor = featured
-    ? "rgba(214,176,96,0.58)"
+    ? "rgba(188,153,102,0.58)"
     : theme.colors.line;
   const bg = featured
-    ? "linear-gradient(180deg, rgba(214,176,96,0.12), rgba(255,255,255,0.02))"
+    ? "linear-gradient(180deg, rgba(188,153,102,0.12), rgba(255,255,255,0.02))"
     : "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))";
 
   return (
@@ -42,13 +42,13 @@ function PlanCard({ plan, isMobile }) {
             transform: "translateX(-50%)",
             padding: "6px 14px",
             borderRadius: "999px",
-            background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+            background: "linear-gradient(135deg, #BC9966, #D9B987)",
             color: "#18140F",
             fontSize: "11px",
             fontWeight: 800,
             letterSpacing: "1.6px",
             textTransform: "uppercase",
-            boxShadow: "0 10px 22px rgba(214,176,96,0.28)",
+            boxShadow: "0 10px 22px rgba(188,153,102,0.28)",
           }}
         >
           Most Popular
@@ -166,14 +166,14 @@ function PlanCard({ plan, isMobile }) {
           borderRadius: "999px",
           border: featured ? "none" : `1px solid ${theme.colors.line}`,
           background: featured
-            ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+            ? "linear-gradient(135deg, #BC9966, #D9B987)"
             : "rgba(255,255,255,0.04)",
           color: featured ? "#18140F" : theme.colors.text,
           fontWeight: 800,
           fontSize: "14px",
           letterSpacing: "0.2px",
           cursor: "pointer",
-          boxShadow: featured ? "0 10px 24px rgba(214,176,96,0.28)" : "none",
+          boxShadow: featured ? "0 10px 24px rgba(188,153,102,0.28)" : "none",
           transition: "all 0.22s ease",
         }}
       >
@@ -193,7 +193,7 @@ function Pricing() {
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
         background: `
-          radial-gradient(circle at 18% 80%, rgba(214,176,96,0.06), transparent 24%),
+          radial-gradient(circle at 18% 80%, rgba(188,153,102,0.06), transparent 24%),
           linear-gradient(180deg, rgba(16,24,39,1) 0%, rgba(13,20,34,1) 100%)
         `,
         borderBottom: `1px solid ${theme.colors.line}`,

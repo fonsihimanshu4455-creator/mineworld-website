@@ -60,8 +60,8 @@ function TeamRoleDetail() {
     <article
       style={{
         background: `
-          radial-gradient(circle at 14% 10%, rgba(214,176,96,0.10), transparent 22%),
-          linear-gradient(180deg, #111827 0%, #141c2f 50%, #111827 100%)
+          radial-gradient(circle at 14% 10%, rgba(188,153,102,0.10), transparent 22%),
+          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
         `,
       }}
     >
@@ -408,7 +408,7 @@ function TeamRoleDetail() {
                   borderRadius: "28px",
                   border: `1px solid ${theme.colors.lineStrong}`,
                   background:
-                    "linear-gradient(180deg, rgba(214,176,96,0.06), rgba(255,255,255,0.02))",
+                    "linear-gradient(180deg, rgba(188,153,102,0.06), rgba(255,255,255,0.02))",
                 }}
               >
                 <div>

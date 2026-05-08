@@ -75,7 +75,7 @@ function Footer() {
       style={{
         position: "relative",
         background: `
-          radial-gradient(circle at 14% 18%, rgba(214,176,96,0.08), transparent 22%),
+          radial-gradient(circle at 14% 18%, rgba(188,153,102,0.08), transparent 22%),
           linear-gradient(180deg, rgba(15,21,35,1) 0%, rgba(11,16,28,1) 100%)
         `,
         borderTop: `1px solid ${theme.colors.line}`,
@@ -90,7 +90,7 @@ function Footer() {
           width: isMobile ? "180px" : "300px",
           height: isMobile ? "180px" : "300px",
           borderRadius: "50%",
-          background: "rgba(214,176,96,0.07)",
+          background: "rgba(188,153,102,0.07)",
           filter: "blur(120px)",
           pointerEvents: "none",
         }}
@@ -315,7 +315,7 @@ function Footer() {
               >
                 <div
                   style={{
-                    color: "rgba(214,176,96,0.96)",
+                    color: "rgba(188,153,102,0.96)",
                     fontSize: isMobile ? "28px" : "34px",
                     lineHeight: 1,
                     fontStyle: "italic",
@@ -332,7 +332,7 @@ function Footer() {
                     width: isMobile ? "180px" : "220px",
                     height: "1px",
                     background:
-                      "linear-gradient(90deg, rgba(214,176,96,0.72), rgba(214,176,96,0.12), transparent)",
+                      "linear-gradient(90deg, rgba(188,153,102,0.72), rgba(188,153,102,0.12), transparent)",
                   }}
                 />
               </div>

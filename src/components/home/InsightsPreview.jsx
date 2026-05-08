@@ -50,7 +50,7 @@ function InsightCard({ item }) {
             style={{
               padding: "4px 9px",
               borderRadius: "999px",
-              background: "rgba(214,176,96,0.12)",
+              background: "rgba(188,153,102,0.12)",
               color: theme.colors.goldSoft,
               fontSize: "10.5px",
               fontWeight: 700,

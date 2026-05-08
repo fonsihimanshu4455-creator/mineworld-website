@@ -68,9 +68,9 @@ export default function NewsletterSignup({
       style={{
         padding: isInline ? "28px 22px" : "0",
         borderRadius: isInline ? "20px" : "0",
-        border: isInline ? "1px solid rgba(214,176,96,0.28)" : "none",
+        border: isInline ? "1px solid rgba(188,153,102,0.28)" : "none",
         background: isInline
-          ? "linear-gradient(180deg, rgba(214,176,96,0.10), rgba(255,255,255,0.02))"
+          ? "linear-gradient(180deg, rgba(188,153,102,0.10), rgba(255,255,255,0.02))"
           : "transparent",
         maxWidth: isInline ? "640px" : "100%",
         margin: isInline ? "0 auto" : "0",
@@ -78,7 +78,7 @@ export default function NewsletterSignup({
     >
       <div
         style={{
-          color: "#E7C98A",
+          color: "#D9B987",
           fontSize: "11px",
           letterSpacing: "2px",
           textTransform: "uppercase",
@@ -167,8 +167,8 @@ export default function NewsletterSignup({
               border: "none",
               background:
                 status === "loading"
-                  ? "rgba(214,176,96,0.5)"
-                  : "linear-gradient(135deg, #D6B060, #E7C98A)",
+                  ? "rgba(188,153,102,0.5)"
+                  : "linear-gradient(135deg, #BC9966, #D9B987)",
               color: "#18140F",
               fontWeight: 800,
               fontSize: "13px",

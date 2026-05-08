@@ -17,7 +17,7 @@ function AdminApp() {
           minHeight: "100vh",
           display: "grid",
           placeItems: "center",
-          color: "#E7C98A",
+          color: "#D9B987",
           background: "#0b0f1a",
           fontSize: "14px",
         }}

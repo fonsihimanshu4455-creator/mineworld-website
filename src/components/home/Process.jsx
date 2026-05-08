@@ -34,7 +34,7 @@ function StepCard({ step, isMobile, isLast }) {
             width: "24px",
             height: "1px",
             background:
-              "linear-gradient(90deg, rgba(214,176,96,0.5), transparent)",
+              "linear-gradient(90deg, rgba(188,153,102,0.5), transparent)",
             pointerEvents: "none",
           }}
         />
@@ -54,7 +54,7 @@ function StepCard({ step, isMobile, isLast }) {
             height: "44px",
             borderRadius: "50%",
             background:
-              "linear-gradient(135deg, rgba(214,176,96,0.92), rgba(231,201,139,0.85))",
+              "linear-gradient(135deg, rgba(188,153,102,0.92), rgba(231,201,139,0.85))",
             color: "#18140F",
             display: "grid",
             placeItems: "center",
@@ -62,7 +62,7 @@ function StepCard({ step, isMobile, isLast }) {
             fontSize: "14px",
             letterSpacing: "0.4px",
             flexShrink: 0,
-            boxShadow: "0 10px 22px rgba(214,176,96,0.28)",
+            boxShadow: "0 10px 22px rgba(188,153,102,0.28)",
           }}
         >
           {step.number}

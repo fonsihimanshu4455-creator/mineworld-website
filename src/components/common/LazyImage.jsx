@@ -45,7 +45,7 @@ function LazyImage({
         height: height || "100%",
         overflow: "hidden",
         background:
-          "linear-gradient(135deg, rgba(214,176,96,0.10), rgba(88,110,180,0.08))",
+          "linear-gradient(135deg, rgba(188,153,102,0.10), rgba(88,110,180,0.08))",
         ...style,
       }}
     >
@@ -55,7 +55,7 @@ function LazyImage({
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(135deg, rgba(214,176,96,0.15), rgba(20,28,46,0.5))",
+            "linear-gradient(135deg, rgba(188,153,102,0.15), rgba(20,28,46,0.5))",
           opacity: loaded ? 0 : 1,
           transition: "opacity 0.45s ease",
           filter: "blur(18px)",

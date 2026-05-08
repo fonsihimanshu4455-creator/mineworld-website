@@ -39,9 +39,9 @@ function Hero() {
         alignItems: "center",
         overflow: "hidden",
         background: `
-          radial-gradient(circle at 18% 24%, rgba(214,176,96,0.14), transparent 22%),
+          radial-gradient(circle at 18% 24%, rgba(188,153,102,0.14), transparent 22%),
           radial-gradient(circle at 82% 20%, rgba(255,255,255,0.04), transparent 18%),
-          linear-gradient(135deg, #111827 0%, #162033 45%, #1b2740 100%)
+          linear-gradient(135deg, #1B2747 0%, #1F2D52 45%, #1b2740 100%)
         `,
         borderBottom: `1px solid ${theme.colors.line}`,
       }}
@@ -51,7 +51,7 @@ function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(180deg, rgba(255,255,255,0.015), transparent 28%, transparent 72%, rgba(214,176,96,0.04))",
+            "linear-gradient(180deg, rgba(255,255,255,0.015), transparent 28%, transparent 72%, rgba(188,153,102,0.04))",
           pointerEvents: "none",
         }}
       />
@@ -242,7 +242,7 @@ function Hero() {
             >
               <div
                 style={{
-                  color: "rgba(214,176,96,0.96)",
+                  color: "rgba(188,153,102,0.96)",
                   fontSize: isMobile ? "34px" : "44px",
                   lineHeight: 1,
                   fontStyle: "italic",
@@ -250,7 +250,7 @@ function Hero() {
                   fontFamily:
                     '"Brush Script MT", "Lucida Handwriting", "Segoe Script", cursive',
                   letterSpacing: "0.3px",
-                  textShadow: "0 0 16px rgba(214,176,96,0.10)",
+                  textShadow: "0 0 16px rgba(188,153,102,0.10)",
                 }}
               >
                 Mineworld Production
@@ -261,7 +261,7 @@ function Hero() {
                   width: isMobile ? "180px" : "240px",
                   height: "1px",
                   background:
-                    "linear-gradient(90deg, rgba(214,176,96,0.72), rgba(214,176,96,0.16), transparent)",
+                    "linear-gradient(90deg, rgba(188,153,102,0.72), rgba(188,153,102,0.16), transparent)",
                 }}
               />
             </div>

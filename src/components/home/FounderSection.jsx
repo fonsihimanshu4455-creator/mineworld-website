@@ -32,7 +32,7 @@ function FounderSection() {
           width: isMobile ? "220px" : "360px",
           height: isMobile ? "220px" : "360px",
           borderRadius: "50%",
-          background: "rgba(214,176,96,0.10)",
+          background: "rgba(188,153,102,0.10)",
           filter: "blur(140px)",
           pointerEvents: "none",
         }}
@@ -67,7 +67,7 @@ function FounderSection() {
                 minHeight: isMobile ? "420px" : "620px",
                 borderRadius: isMobile ? "24px" : "30px",
                 overflow: "hidden",
-                border: "1px solid rgba(214,176,96,0.32)",
+                border: "1px solid rgba(188,153,102,0.32)",
                 boxShadow: theme.shadow.deep,
                 background: theme.colors.bgCard,
               }}
@@ -195,7 +195,7 @@ function FounderSection() {
                   width: isMobile ? "160px" : "220px",
                   height: isMobile ? "160px" : "220px",
                   borderRadius: "50%",
-                  background: "rgba(214,176,96,0.10)",
+                  background: "rgba(188,153,102,0.10)",
                   filter: "blur(90px)",
                   pointerEvents: "none",
                 }}

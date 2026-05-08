@@ -85,7 +85,7 @@ function getBand(score) {
     return {
       band: "Solid Base",
       headline: "You're ahead of most creators. A few tweaks unlock growth.",
-      color: "rgba(214,176,96,0.38)",
+      color: "rgba(188,153,102,0.38)",
       tips: [
         "Sharpen the first 1 second — visual + claim + motion.",
         "Add a mid-reel pattern interrupt to hold past the 7s decision point.",
@@ -97,7 +97,7 @@ function getBand(score) {
     return {
       band: "Growing",
       headline: "Good intent. The execution layer needs upgrading.",
-      color: "rgba(214,176,96,0.28)",
+      color: "rgba(188,153,102,0.28)",
       tips: [
         "Rewrite hooks to be 1.5 seconds of motion + claim.",
         "Cut filler b-roll; every shot must earn its place.",
@@ -128,10 +128,10 @@ function Option({ option, active, onClick }) {
         padding: "14px 16px",
         borderRadius: "16px",
         border: active
-          ? "1px solid rgba(214,176,96,0.85)"
+          ? "1px solid rgba(188,153,102,0.85)"
           : `1px solid ${theme.colors.line}`,
         background: active
-          ? "rgba(214,176,96,0.12)"
+          ? "rgba(188,153,102,0.12)"
           : "rgba(255,255,255,0.03)",
         color: active ? theme.colors.goldSoft : theme.colors.text,
         fontSize: "14.5px",
@@ -196,7 +196,7 @@ function ReelScoreTool() {
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
         background: `
-          radial-gradient(circle at 80% 20%, rgba(214,176,96,0.08), transparent 24%),
+          radial-gradient(circle at 80% 20%, rgba(188,153,102,0.08), transparent 24%),
           linear-gradient(180deg, rgba(13,20,34,1) 0%, rgba(16,24,39,1) 100%)
         `,
         borderBottom: `1px solid ${theme.colors.line}`,
@@ -265,7 +265,7 @@ function ReelScoreTool() {
                 style={{
                   height: "100%",
                   background:
-                    "linear-gradient(90deg, #D6B060, #E7C98A)",
+                    "linear-gradient(90deg, #BC9966, #D9B987)",
                 }}
               />
             </div>
@@ -361,14 +361,14 @@ function ReelScoreTool() {
                       borderRadius: "999px",
                       border: "none",
                       background: hasAnswer
-                        ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+                        ? "linear-gradient(135deg, #BC9966, #D9B987)"
                         : "rgba(255,255,255,0.06)",
                       color: hasAnswer ? "#18140F" : "rgba(255,255,255,0.4)",
                       fontWeight: 800,
                       fontSize: "14px",
                       cursor: hasAnswer ? "pointer" : "not-allowed",
                       boxShadow: hasAnswer
-                        ? "0 10px 24px rgba(214,176,96,0.28)"
+                        ? "0 10px 24px rgba(188,153,102,0.28)"
                         : "none",
                     }}
                   >
@@ -397,7 +397,7 @@ function ReelScoreTool() {
                       width: isMobile ? "180px" : "200px",
                       height: isMobile ? "180px" : "200px",
                       borderRadius: "50%",
-                      background: `conic-gradient(#D6B060 ${score * 3.6}deg, rgba(255,255,255,0.08) 0deg)`,
+                      background: `conic-gradient(#BC9966 ${score * 3.6}deg, rgba(255,255,255,0.08) 0deg)`,
                       display: "grid",
                       placeItems: "center",
                       margin: isMobile ? "0 auto" : 0,
@@ -512,9 +512,9 @@ function ReelScoreTool() {
                     marginTop: "32px",
                     padding: isMobile ? "22px" : "28px",
                     borderRadius: "22px",
-                    border: "1px solid rgba(214,176,96,0.38)",
+                    border: "1px solid rgba(188,153,102,0.38)",
                     background:
-                      "linear-gradient(180deg, rgba(214,176,96,0.08), rgba(255,255,255,0.02))",
+                      "linear-gradient(180deg, rgba(188,153,102,0.08), rgba(255,255,255,0.02))",
                     display: "grid",
                     gridTemplateColumns: isMobile ? "1fr" : "1.4fr 1fr",
                     gap: "20px",
@@ -565,12 +565,12 @@ function ReelScoreTool() {
                         borderRadius: "999px",
                         border: "none",
                         background:
-                          "linear-gradient(135deg, #D6B060, #E7C98A)",
+                          "linear-gradient(135deg, #BC9966, #D9B987)",
                         color: "#18140F",
                         fontWeight: 800,
                         fontSize: "14px",
                         cursor: "pointer",
-                        boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+                        boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
                       }}
                     >
                       Get Free Audit

@@ -28,7 +28,7 @@ function StarPicker({ value, onChange }) {
             border: "none",
             cursor: "pointer",
             fontSize: "24px",
-            color: n <= value ? "#E7C98A" : "rgba(255,255,255,0.22)",
+            color: n <= value ? "#D9B987" : "rgba(255,255,255,0.22)",
             lineHeight: 1,
             padding: "2px",
           }}
@@ -230,14 +230,14 @@ function TestimonialSubmitModal({ open, onClose }) {
                     height: "68px",
                     borderRadius: "50%",
                     background:
-                      "linear-gradient(135deg, rgba(214,176,96,0.95), rgba(231,201,139,0.85))",
+                      "linear-gradient(135deg, rgba(188,153,102,0.95), rgba(231,201,139,0.85))",
                     display: "grid",
                     placeItems: "center",
                     margin: "0 auto 18px",
                     color: "#18140F",
                     fontSize: "30px",
                     fontWeight: 900,
-                    boxShadow: "0 14px 34px rgba(214,176,96,0.28)",
+                    boxShadow: "0 14px 34px rgba(188,153,102,0.28)",
                   }}
                 >
                   ✓
@@ -286,12 +286,12 @@ function TestimonialSubmitModal({ open, onClose }) {
                     padding: "12px 22px",
                     borderRadius: "999px",
                     border: "none",
-                    background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+                    background: "linear-gradient(135deg, #BC9966, #D9B987)",
                     color: "#18140F",
                     fontWeight: 800,
                     fontSize: "14px",
                     cursor: "pointer",
-                    boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+                    boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
                   }}
                 >
                   Done
@@ -414,9 +414,9 @@ function TestimonialSubmitModal({ open, onClose }) {
                       style={{
                         padding: "10px 14px",
                         borderRadius: "10px",
-                        border: "1px solid rgba(214,176,96,0.45)",
-                        background: "rgba(214,176,96,0.12)",
-                        color: "#E7C98A",
+                        border: "1px solid rgba(188,153,102,0.45)",
+                        background: "rgba(188,153,102,0.12)",
+                        color: "#D9B987",
                         fontWeight: 700,
                         fontSize: "13px",
                         cursor: "pointer",
@@ -524,13 +524,13 @@ function TestimonialSubmitModal({ open, onClose }) {
                       borderRadius: "999px",
                       border: "none",
                       background: sending
-                        ? "rgba(214,176,96,0.5)"
-                        : "linear-gradient(135deg, #D6B060, #E7C98A)",
+                        ? "rgba(188,153,102,0.5)"
+                        : "linear-gradient(135deg, #BC9966, #D9B987)",
                       color: "#18140F",
                       fontWeight: 800,
                       fontSize: "14px",
                       cursor: sending ? "not-allowed" : "pointer",
-                      boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+                      boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
                     }}
                   >
                     {sending ? "Submitting…" : "Submit for review"}
@@ -579,7 +579,7 @@ function Label({ children }) {
         fontSize: "11.5px",
         letterSpacing: "1.4px",
         textTransform: "uppercase",
-        color: "#E7C98A",
+        color: "#D9B987",
         fontWeight: 700,
         marginBottom: "8px",
       }}

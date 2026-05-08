@@ -17,10 +17,10 @@ import useIsMobile from "../utils/useIsMobile";
 function PlanCard({ plan, isMobile }) {
   const featured = plan.featured;
   const borderColor = featured
-    ? "rgba(214,176,96,0.58)"
+    ? "rgba(188,153,102,0.58)"
     : theme.colors.line;
   const bg = featured
-    ? "linear-gradient(180deg, rgba(214,176,96,0.12), rgba(255,255,255,0.02))"
+    ? "linear-gradient(180deg, rgba(188,153,102,0.12), rgba(255,255,255,0.02))"
     : "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))";
 
   return (
@@ -48,13 +48,13 @@ function PlanCard({ plan, isMobile }) {
             transform: "translateX(-50%)",
             padding: "6px 14px",
             borderRadius: "999px",
-            background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+            background: "linear-gradient(135deg, #BC9966, #D9B987)",
             color: "#18140F",
             fontSize: "11px",
             fontWeight: 800,
             letterSpacing: "1.6px",
             textTransform: "uppercase",
-            boxShadow: "0 10px 22px rgba(214,176,96,0.28)",
+            boxShadow: "0 10px 22px rgba(188,153,102,0.28)",
           }}
         >
           Most Popular
@@ -179,7 +179,7 @@ function PlanCard({ plan, isMobile }) {
           borderRadius: "999px",
           border: featured ? "none" : `1px solid ${theme.colors.line}`,
           background: featured
-            ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+            ? "linear-gradient(135deg, #BC9966, #D9B987)"
             : "rgba(255,255,255,0.04)",
           color: featured ? "#18140F" : theme.colors.text,
           fontWeight: 800,
@@ -187,7 +187,7 @@ function PlanCard({ plan, isMobile }) {
           letterSpacing: "0.2px",
           cursor: "pointer",
           boxShadow: featured
-            ? "0 10px 24px rgba(214,176,96,0.28)"
+            ? "0 10px 24px rgba(188,153,102,0.28)"
             : "none",
           transition: "all 0.22s ease",
         }}
@@ -218,8 +218,8 @@ function Packages() {
     <article
       style={{
         background: `
-          radial-gradient(circle at 14% 10%, rgba(214,176,96,0.10), transparent 22%),
-          linear-gradient(180deg, #111827 0%, #141c2f 50%, #111827 100%)
+          radial-gradient(circle at 14% 10%, rgba(188,153,102,0.10), transparent 22%),
+          linear-gradient(180deg, #1B2747 0%, #141c2f 50%, #1B2747 100%)
         `,
       }}
     >
@@ -597,7 +597,7 @@ function Packages() {
               borderRadius: "28px",
               border: `1px solid ${theme.colors.lineStrong}`,
               background:
-                "linear-gradient(180deg, rgba(214,176,96,0.08), rgba(255,255,255,0.02))",
+                "linear-gradient(180deg, rgba(188,153,102,0.08), rgba(255,255,255,0.02))",
               display: "grid",
               gridTemplateColumns: isMobile ? "1fr" : "1.4fr 1fr",
               gap: "28px",
@@ -646,12 +646,12 @@ function Packages() {
                   padding: "14px 22px",
                   borderRadius: "999px",
                   border: "none",
-                  background: "linear-gradient(135deg, #D6B060, #E7C98A)",
+                  background: "linear-gradient(135deg, #BC9966, #D9B987)",
                   color: "#18140F",
                   fontWeight: 800,
                   fontSize: "14px",
                   cursor: "pointer",
-                  boxShadow: "0 10px 24px rgba(214,176,96,0.28)",
+                  boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
                 }}
               >
                 Book Strategy Call

@@ -14,7 +14,7 @@ function CategoryCard({ item, isMobile, size = "default" }) {
   const accent =
     item.color === "blue"
       ? "rgba(88,110,180,0.4)"
-      : "rgba(214,176,96,0.48)";
+      : "rgba(188,153,102,0.48)";
 
   return (
     <Link
@@ -34,11 +34,11 @@ function CategoryCard({ item, isMobile, size = "default" }) {
           borderRadius: isMobile ? "22px" : "26px",
           overflow: "hidden",
           border: `1px solid ${
-            item.flagship ? "rgba(214,176,96,0.34)" : theme.colors.line
+            item.flagship ? "rgba(188,153,102,0.34)" : theme.colors.line
           }`,
           background: theme.colors.bgCard,
           boxShadow: item.flagship
-            ? "0 18px 44px rgba(214,176,96,0.12), 0 12px 28px rgba(0,0,0,0.28)"
+            ? "0 18px 44px rgba(188,153,102,0.12), 0 12px 28px rgba(0,0,0,0.28)"
             : theme.shadow.soft,
           height: "100%",
           minHeight: isMobile ? "320px" : isLarge ? "460px" : "360px",
@@ -97,13 +97,13 @@ function CategoryCard({ item, isMobile, size = "default" }) {
                 padding: "6px 12px",
                 borderRadius: "999px",
                 background:
-                  "linear-gradient(135deg, rgba(214,176,96,0.95), rgba(231,201,138,0.95))",
+                  "linear-gradient(135deg, rgba(188,153,102,0.95), rgba(231,201,138,0.95))",
                 color: "#18140F",
                 fontSize: "10.5px",
                 fontWeight: 800,
                 letterSpacing: "1.6px",
                 textTransform: "uppercase",
-                boxShadow: "0 8px 18px rgba(214,176,96,0.32)",
+                boxShadow: "0 8px 18px rgba(188,153,102,0.32)",
               }}
             >
               Flagship
@@ -186,7 +186,7 @@ function Services() {
         position: "relative",
         padding: isMobile ? "82px 0" : "122px 0",
         background: `
-          radial-gradient(circle at 12% 80%, rgba(214,176,96,0.08), transparent 26%),
+          radial-gradient(circle at 12% 80%, rgba(188,153,102,0.08), transparent 26%),
           linear-gradient(180deg, rgba(19,29,48,0.98) 0%, rgba(16,24,39,1) 100%)
         `,
         borderBottom: `1px solid ${theme.colors.line}`,
@@ -202,7 +202,7 @@ function Services() {
           width: isMobile ? "220px" : "340px",
           height: isMobile ? "220px" : "340px",
           borderRadius: "50%",
-          background: "rgba(214,176,96,0.08)",
+          background: "rgba(188,153,102,0.08)",
           filter: "blur(120px)",
           pointerEvents: "none",
         }}
@@ -283,7 +283,7 @@ function Services() {
                     flex: 1,
                     height: "1px",
                     background:
-                      "linear-gradient(90deg, rgba(214,176,96,0.32), transparent)",
+                      "linear-gradient(90deg, rgba(188,153,102,0.32), transparent)",
                   }}
                 />
               </div>
