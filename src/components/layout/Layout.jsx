@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import MobileBottomNav from "./MobileBottomNav";
 import ContactModal from "../common/ContactModal";
 import ChatWidget from "../common/ChatWidget";
-import CustomCursor from "../common/CustomCursor";
+import CursorEvader from "../common/CursorEvader";
 import AmbientOrnaments from "../common/AmbientOrnaments";
 import { initAnalytics, trackPageView } from "../../utils/analytics";
 
@@ -29,14 +29,15 @@ function Layout() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#1B2747",
         color: "#fff",
+        position: "relative",
       }}
     >
       <a href="#main-content" className="skip-link">
         Skip to content
       </a>
       <AmbientOrnaments />
+      <CursorEvader />
       <div style={{ position: "relative", zIndex: 1 }}>
         <Navbar />
         <main id="main-content" tabIndex={-1}>
@@ -47,7 +48,6 @@ function Layout() {
       <MobileBottomNav />
       <ContactModal />
       <ChatWidget />
-      <CustomCursor />
     </div>
   );
 }
