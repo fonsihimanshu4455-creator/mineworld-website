@@ -49,6 +49,10 @@ export function useSiteSettings(defaultConfig) {
         ...(defaultConfig.chat || {}),
         ...(saved.chat || {}),
       },
+      newsletter: {
+        ...(defaultConfig.newsletter || {}),
+        ...(saved.newsletter || {}),
+      },
     };
   };
 

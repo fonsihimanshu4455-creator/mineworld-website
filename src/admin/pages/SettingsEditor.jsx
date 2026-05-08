@@ -59,6 +59,10 @@ function mergedSettings() {
       ...(defaultConfig.chat || {}),
       ...(saved.chat || {}),
     },
+    newsletter: {
+      ...(defaultConfig.newsletter || {}),
+      ...(saved.newsletter || {}),
+    },
   };
 }
 
@@ -721,6 +725,12 @@ function SettingsEditor() {
           checked={settings.chat?.enabled !== false}
           onChange={(v) => updatePath(["chat", "enabled"], v)}
         />
+        <ToggleRow
+          label="AI mode (Claude assistant)"
+          hint="When ON, visitors get instant AI replies. When OFF, every quick reply jumps straight to WhatsApp. Requires ANTHROPIC_API_KEY env var on Vercel."
+          checked={settings.chat?.aiMode !== false}
+          onChange={(v) => updatePath(["chat", "aiMode"], v)}
+        />
         <Field
           field={{
             key: "greeting",
@@ -738,6 +748,51 @@ function SettingsEditor() {
           }}
           value={settings.chat?.quickReplies || []}
           onChange={(v) => updatePath(["chat", "quickReplies"], v)}
+        />
+      </Section>
+
+      <Section title="Newsletter Signup">
+        <div
+          style={{
+            color: "rgba(243,239,231,0.65)",
+            fontSize: "12.5px",
+            lineHeight: 1.6,
+            marginBottom: "4px",
+          }}
+        >
+          A simple email-capture form for the footer (and anywhere else you drop
+          the component). Submissions go to your existing sheet webhook with
+          <code style={{ background: "rgba(255,255,255,0.06)", padding: "1px 5px", borderRadius: "4px", margin: "0 4px", fontSize: "11px" }}>type: "newsletter"</code>
+          so you can filter them in your spreadsheet.
+        </div>
+        <ToggleRow
+          label="Show newsletter signup"
+          checked={settings.newsletter?.enabled !== false}
+          onChange={(v) => updatePath(["newsletter", "enabled"], v)}
+        />
+        <Field
+          field={{ key: "title", label: "Heading", type: "text" }}
+          value={settings.newsletter?.title}
+          onChange={(v) => updatePath(["newsletter", "title"], v)}
+        />
+        <Field
+          field={{ key: "subtitle", label: "Subtitle", type: "textarea" }}
+          value={settings.newsletter?.subtitle}
+          onChange={(v) => updatePath(["newsletter", "subtitle"], v)}
+        />
+        <Field
+          field={{ key: "ctaLabel", label: "Button label", type: "text" }}
+          value={settings.newsletter?.ctaLabel}
+          onChange={(v) => updatePath(["newsletter", "ctaLabel"], v)}
+        />
+        <Field
+          field={{
+            key: "successMessage",
+            label: "Success message",
+            type: "text",
+          }}
+          value={settings.newsletter?.successMessage}
+          onChange={(v) => updatePath(["newsletter", "successMessage"], v)}
         />
       </Section>
 

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import MagneticButton from "../common/MagneticButton";
+import NewsletterSignup from "../common/NewsletterSignup";
 import { theme } from "../../styles/theme";
 import { openContactModal } from "../../utils/contactActions";
 import useIsMobile from "../../utils/useIsMobile";
@@ -595,6 +596,17 @@ function Footer() {
               </div>
             </div>
           </Reveal>
+        </div>
+
+        <div
+          style={{
+            paddingTop: isMobile ? "24px" : "32px",
+            paddingBottom: isMobile ? "20px" : "28px",
+            borderTop: "1px solid rgba(255,255,255,0.06)",
+            marginBottom: isMobile ? "16px" : "20px",
+          }}
+        >
+          <NewsletterSignup variant="footer" />
         </div>
 
         <div

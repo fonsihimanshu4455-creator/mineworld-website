@@ -24,6 +24,7 @@ export const siteConfig = {
 
   chat: {
     enabled: true,
+    aiMode: true,
     greeting: "Hey! 👋 How can we help?",
     quickReplies: [
       "I want a quote",
@@ -31,6 +32,15 @@ export const siteConfig = {
       "Book a discovery call",
       "I have a different question",
     ],
+  },
+
+  newsletter: {
+    enabled: true,
+    title: "Get the studio newsletter",
+    subtitle:
+      "One email a month — what's working in content, ads, and growth. No spam.",
+    ctaLabel: "Subscribe",
+    successMessage: "Thanks! Check your inbox to confirm.",
   },
 
   integrations: {

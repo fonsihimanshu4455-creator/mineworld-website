@@ -1,18 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSiteSettings } from "../../admin/hooks";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 import { trackEvent } from "../../utils/analytics";
 import useIsMobile from "../../utils/useIsMobile";
+
+const MAX_TURNS = 18;
 
 function ChatWidget() {
   const settings = useSiteSettings(defaultSiteConfig);
   const isMobile = useIsMobile(900);
   const [open, setOpen] = useState(false);
   const [showPing, setShowPing] = useState(true);
+  const [messages, setMessages] = useState([]);
+  const [draft, setDraft] = useState("");
+  const [sending, setSending] = useState(false);
+  const [aiAvailable, setAiAvailable] = useState(true);
+  const scrollRef = useRef(null);
+  const inputRef = useRef(null);
 
   const enabled = settings.chat?.enabled !== false;
-  const greeting =
-    settings.chat?.greeting || "Hey! 👋 How can we help?";
+  const aiMode = settings.chat?.aiMode !== false;
+  const greeting = settings.chat?.greeting || "Hey! 👋 How can we help?";
   const quickReplies = Array.isArray(settings.chat?.quickReplies)
     ? settings.chat.quickReplies.filter(Boolean)
     : [];
@@ -20,18 +28,32 @@ function ChatWidget() {
     (settings.contact?.whatsappNumber || "919758850933").replace(/\D/g, "");
   const brandShortName = settings.brand?.shortName || "Mineworld";
 
+  const buttonBottom = isMobile ? 100 : 22;
+  const panelBottom = isMobile ? 172 : 96;
+
   useEffect(() => {
     if (!enabled) return;
     const timer = setTimeout(() => setShowPing(false), 6000);
     return () => clearTimeout(timer);
   }, [enabled]);
 
+  useEffect(() => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [messages, sending]);
+
+  useEffect(() => {
+    if (open && !isMobile) {
+      const t = setTimeout(() => inputRef.current?.focus(), 60);
+      return () => clearTimeout(t);
+    }
+  }, [open, isMobile]);
+
   if (!enabled) return null;
 
-  const handleQuickReply = (text) => {
-    trackEvent("chat_quick_reply", { text });
+  const openWhatsApp = (text) => {
     const message = encodeURIComponent(
-      `Hi ${brandShortName}, ${text.toLowerCase().startsWith("i") ? text : `I'm interested — ${text}`}`
+      text || `Hi ${brandShortName}, I have a question.`
     );
     window.open(
       `https://wa.me/${whatsappNumber}?text=${message}`,
@@ -40,14 +62,96 @@ function ChatWidget() {
     );
   };
 
+  const sendToAi = async (history) => {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: history }),
+    });
+    if (!res.ok) {
+      let payload = null;
+      try {
+        payload = await res.json();
+      } catch {
+        // ignore
+      }
+      const err = new Error(payload?.error || `HTTP ${res.status}`);
+      err.fallback = payload?.fallback;
+      err.status = res.status;
+      throw err;
+    }
+    return res.json();
+  };
+
+  const sendMessage = async (text) => {
+    if (!text.trim() || sending) return;
+    const userMsg = { role: "user", content: text.trim() };
+    const next = [...messages, userMsg].slice(-MAX_TURNS);
+    setMessages(next);
+    setDraft("");
+    setSending(true);
+    trackEvent("chat_message_sent", { length: text.length });
+
+    try {
+      const data = await sendToAi(next);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: data.reply || "(no reply)" },
+      ]);
+    } catch (error) {
+      const status = error.status || 0;
+      if (status === 503 || error.fallback === "whatsapp") {
+        setAiAvailable(false);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content:
+              "Hmm — chat is offline right now. Tap any quick reply below to continue on WhatsApp.",
+            offline: true,
+          },
+        ]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content:
+              "Couldn't reach the assistant. Mind continuing on WhatsApp? Tap a quick reply below.",
+            offline: true,
+          },
+        ]);
+      }
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const handleQuickReply = (reply) => {
+    trackEvent("chat_quick_reply", { text: reply });
+    if (!aiAvailable || !aiMode) {
+      openWhatsApp(`Hi ${brandShortName}, ${reply.toLowerCase()}`);
+      return;
+    }
+    sendMessage(reply);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendMessage(draft);
+  };
+
   const handleToggle = () => {
     setOpen((p) => !p);
     setShowPing(false);
     if (!open) trackEvent("chat_open", {});
   };
 
-  const buttonBottom = isMobile ? 100 : 22;
-  const panelBottom = isMobile ? 172 : 96;
+  const showQuickReplies =
+    quickReplies.length > 0 && messages.length === 0 && !sending;
+  const showFallbackReplies =
+    quickReplies.length > 0 && (!aiAvailable || !aiMode) && messages.length > 0;
+  const inputDisabled = sending || !aiAvailable || !aiMode;
 
   return (
     <>
@@ -60,8 +164,9 @@ function ChatWidget() {
             right: isMobile ? "10px" : "18px",
             left: isMobile ? "10px" : "auto",
             bottom: `${panelBottom}px`,
-            width: isMobile ? "auto" : "340px",
-            maxHeight: "70vh",
+            width: isMobile ? "auto" : "360px",
+            height: isMobile ? "auto" : "520px",
+            maxHeight: isMobile ? "70vh" : "70vh",
             zIndex: 1305,
             display: "flex",
             flexDirection: "column",
@@ -77,7 +182,7 @@ function ChatWidget() {
         >
           <div
             style={{
-              padding: "16px 18px",
+              padding: "14px 16px",
               borderBottom: "1px solid rgba(255,255,255,0.08)",
               display: "flex",
               alignItems: "center",
@@ -113,7 +218,7 @@ function ChatWidget() {
                     lineHeight: 1.1,
                   }}
                 >
-                  {brandShortName}
+                  {brandShortName} Assistant
                 </div>
                 <div
                   style={{
@@ -134,7 +239,11 @@ function ChatWidget() {
                       background: "#34d399",
                     }}
                   />
-                  Online — replies in minutes
+                  {!aiMode
+                    ? "Continues on WhatsApp"
+                    : aiAvailable
+                    ? "Online — answers in seconds"
+                    : "Offline — try WhatsApp"}
                 </div>
               </div>
             </div>
@@ -157,32 +266,45 @@ function ChatWidget() {
           </div>
 
           <div
+            ref={scrollRef}
             style={{
-              padding: "18px",
+              padding: "16px",
               overflowY: "auto",
               flex: 1,
               display: "flex",
               flexDirection: "column",
-              gap: "14px",
+              gap: "10px",
             }}
           >
-            <div
-              style={{
-                alignSelf: "flex-start",
-                padding: "12px 14px",
-                borderRadius: "16px 16px 16px 4px",
-                background: "rgba(255,255,255,0.06)",
-                color: "#F5F1E8",
-                fontSize: "13.5px",
-                lineHeight: 1.5,
-                maxWidth: "85%",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              {greeting}
-            </div>
+            <Bubble role="assistant">{greeting}</Bubble>
 
-            {quickReplies.length > 0 && (
+            {messages.map((m, idx) => (
+              <Bubble key={idx} role={m.role} offline={m.offline}>
+                {m.content}
+              </Bubble>
+            ))}
+
+            {sending && (
+              <div
+                style={{
+                  alignSelf: "flex-start",
+                  padding: "10px 14px",
+                  borderRadius: "16px 16px 16px 4px",
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  display: "flex",
+                  gap: "4px",
+                  alignItems: "center",
+                }}
+                aria-label="Assistant typing"
+              >
+                <Dot delay={0} />
+                <Dot delay={0.15} />
+                <Dot delay={0.3} />
+              </div>
+            )}
+
+            {(showQuickReplies || showFallbackReplies) && (
               <div
                 style={{
                   display: "flex",
@@ -196,7 +318,7 @@ function ChatWidget() {
                     key={reply}
                     onClick={() => handleQuickReply(reply)}
                     style={{
-                      padding: "9px 14px",
+                      padding: "8px 12px",
                       borderRadius: "999px",
                       border: "1px solid rgba(214,176,96,0.34)",
                       background: "rgba(214,176,96,0.08)",
@@ -204,7 +326,6 @@ function ChatWidget() {
                       fontSize: "12.5px",
                       fontWeight: 700,
                       cursor: "pointer",
-                      transition: "all 0.18s ease",
                       fontFamily: "inherit",
                     }}
                   >
@@ -215,18 +336,69 @@ function ChatWidget() {
             )}
           </div>
 
-          <div
+          <form
+            onSubmit={handleSubmit}
             style={{
-              padding: "12px 14px",
+              display: "flex",
+              gap: "8px",
+              padding: "10px 12px",
               borderTop: "1px solid rgba(255,255,255,0.08)",
-              fontSize: "11px",
-              color: "rgba(243,239,231,0.5)",
-              textAlign: "center",
-              letterSpacing: "0.3px",
+              background: "rgba(0,0,0,0.20)",
             }}
           >
-            Tap a reply — we'll continue on WhatsApp
-          </div>
+            <input
+              ref={inputRef}
+              type="text"
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              placeholder={
+                !aiMode
+                  ? "Tap a quick reply to chat on WhatsApp"
+                  : aiAvailable
+                  ? "Type your question…"
+                  : "Use a quick reply above to continue on WhatsApp"
+              }
+              maxLength={1500}
+              disabled={inputDisabled}
+              style={{
+                flex: 1,
+                padding: "10px 14px",
+                borderRadius: "999px",
+                border: "1px solid rgba(255,255,255,0.10)",
+                background: "rgba(255,255,255,0.04)",
+                color: "#F5F1E8",
+                fontSize: "13.5px",
+                outline: "none",
+                fontFamily: "inherit",
+              }}
+            />
+            <button
+              type="submit"
+              disabled={!draft.trim() || inputDisabled}
+              aria-label="Send"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                border: "none",
+                background:
+                  draft.trim() && !inputDisabled
+                    ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+                    : "rgba(255,255,255,0.08)",
+                color: "#18140F",
+                cursor:
+                  draft.trim() && !inputDisabled ? "pointer" : "not-allowed",
+                display: "grid",
+                placeItems: "center",
+                transition: "background 0.2s ease",
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+            </button>
+          </form>
         </div>
       )}
 
@@ -288,8 +460,58 @@ function ChatWidget() {
           70% { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
           100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
         }
+        @keyframes mw-typing {
+          0%, 80%, 100% { opacity: 0.3; transform: translateY(0); }
+          40% { opacity: 1; transform: translateY(-3px); }
+        }
       `}</style>
     </>
+  );
+}
+
+function Bubble({ role, children, offline }) {
+  const isUser = role === "user";
+  return (
+    <div
+      style={{
+        alignSelf: isUser ? "flex-end" : "flex-start",
+        padding: "10px 14px",
+        borderRadius: isUser ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+        background: isUser
+          ? "linear-gradient(135deg, #D6B060, #E7C98A)"
+          : offline
+          ? "rgba(239,68,68,0.10)"
+          : "rgba(255,255,255,0.06)",
+        color: isUser ? "#18140F" : "#F5F1E8",
+        fontSize: "13.5px",
+        lineHeight: 1.5,
+        maxWidth: "85%",
+        border: isUser
+          ? "none"
+          : offline
+          ? "1px solid rgba(239,68,68,0.32)"
+          : "1px solid rgba(255,255,255,0.08)",
+        whiteSpace: "pre-wrap",
+        wordBreak: "break-word",
+        fontWeight: isUser ? 600 : 500,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Dot({ delay }) {
+  return (
+    <span
+      style={{
+        width: "6px",
+        height: "6px",
+        borderRadius: "50%",
+        background: "#E7C98A",
+        animation: `mw-typing 1.2s ${delay}s ease-in-out infinite`,
+      }}
+    />
   );
 }
 
