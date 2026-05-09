@@ -12,6 +12,7 @@ import {
   uploadToCloudinary,
 } from "../../lib/cloudinary";
 import { getAssetSpec } from "../../lib/asset-specs";
+import { getStaticAsset } from "../../lib/staticAssetManifest";
 import { getAssetById, saveAsset, saveSlot, useSlotDoc } from "../cmsStore";
 import AssetSlotCard from "./AssetSlotCard";
 
@@ -333,7 +334,37 @@ function AssetUploader({
             thumbnailSize="md"
           />
         </div>
-      ) : null}
+      ) : (
+        // Empty CMS slot — surface the bundled "live" asset (if any) so
+        // admin sees what's currently on production before replacing.
+        (() => {
+          const staticAsset = getStaticAsset(slotKey);
+          if (!staticAsset) return null;
+          return (
+            <div style={{ marginTop: 12 }}>
+              <AssetSlotCard
+                asset={{
+                  cloudinary_url: staticAsset.url,
+                  cloudinary_id: null,
+                  asset_type: staticAsset.type,
+                  isStatic: true,
+                  originalSource: staticAsset.originalSource,
+                  original_name: staticAsset.originalSource
+                    .split("/")
+                    .pop(),
+                  format: staticAsset.originalSource
+                    .split(".")
+                    .pop()
+                    .toLowerCase(),
+                }}
+                category={category}
+                showUsage={false}
+                thumbnailSize="md"
+              />
+            </div>
+          );
+        })()
+      )}
 
       <div
         onDragOver={(e) => {
@@ -346,7 +377,11 @@ function AssetUploader({
         style={dropStyle(dragActive)}
       >
         <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>
-          Drop file here or click to browse
+          {currentUrl
+            ? "Drop a new file to replace, or click to browse"
+            : getStaticAsset(slotKey)
+            ? "Replace built-in with a Cloudinary upload — drop or browse"
+            : "Drop file here or click to browse"}
         </div>
         <div style={muted}>
           {accept === "video"
