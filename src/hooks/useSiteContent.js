@@ -51,6 +51,65 @@ function resolveFromDoc(data, fallback) {
   }
 }
 
+// Asset-slot read — returns the full denormalised asset metadata
+// ({ publicId, url, type }) so consumers can build optimised
+// transformations (e.g. a 720p mobile variant). Falls back to
+// `fallback` (typically a bundled file URL string) when the slot is
+// empty, the doc is the wrong type, or Firestore is unreachable.
+export function useSiteAsset(slotKey, fallback) {
+  const fallbackRef = useRef(fallback);
+  fallbackRef.current = fallback;
+
+  const toAsset = (data) => {
+    if (!data || data.slot_type !== "asset" || !data.cloudinary_url) {
+      return null;
+    }
+    return {
+      publicId: data.cloudinary_id || null,
+      url: data.cloudinary_url,
+      type: data.asset_type || null,
+    };
+  };
+
+  const [value, setValue] = useState(() => {
+    const cached = readCache()[slotKey];
+    return toAsset(cached) || fallback;
+  });
+
+  useEffect(() => {
+    if (!firebaseEnabled || !db || !slotKey) {
+      setValue(fallbackRef.current);
+      return;
+    }
+
+    const ref = doc(db, "site_content", slotKey);
+    const unsub = onSnapshot(
+      ref,
+      (snap) => {
+        if (!snap.exists()) {
+          setValue(fallbackRef.current);
+          const cache = readCache();
+          if (cache[slotKey] !== undefined) {
+            delete cache[slotKey];
+            writeCache(cache);
+          }
+          return;
+        }
+        const data = snap.data();
+        setValue(toAsset(data) || fallbackRef.current);
+        const cache = readCache();
+        cache[slotKey] = data;
+        writeCache(cache);
+      },
+      () => setValue(fallbackRef.current)
+    );
+
+    return () => unsub();
+  }, [slotKey]);
+
+  return value;
+}
+
 export function useSiteContent(slotKey, fallback) {
   const fallbackRef = useRef(fallback);
   fallbackRef.current = fallback;

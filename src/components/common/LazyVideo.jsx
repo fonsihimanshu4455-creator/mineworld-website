@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 function LazyVideo({
   src,
+  sources,
   poster,
   ariaLabel,
   style = {},
@@ -11,12 +12,21 @@ function LazyVideo({
   loop = true,
   muted = true,
   playsInline = true,
+  onError,
   children,
 }) {
   const wrapperRef = useRef(null);
   const videoRef = useRef(null);
   const [inView, setInView] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+
+  const sourceList =
+    Array.isArray(sources) && sources.length > 0
+      ? sources
+      : src
+      ? [{ src, type: "video/mp4" }]
+      : [];
 
   useEffect(() => {
     const el = wrapperRef.current;
@@ -71,7 +81,7 @@ function LazyVideo({
         />
       )}
 
-      {inView && (
+      {inView && !errored && sourceList.length > 0 && (
         <video
           ref={videoRef}
           autoPlay={autoPlay}
@@ -83,6 +93,10 @@ function LazyVideo({
           aria-label={ariaLabel}
           onLoadedData={() => setLoaded(true)}
           onCanPlay={() => setLoaded(true)}
+          onError={() => {
+            setErrored(true);
+            if (typeof onError === "function") onError();
+          }}
           style={{
             position: "absolute",
             inset: 0,
@@ -94,7 +108,14 @@ function LazyVideo({
             ...videoStyle,
           }}
         >
-          <source src={src} type="video/mp4" />
+          {sourceList.map((s, i) => (
+            <source
+              key={`${s.src}-${i}`}
+              src={s.src}
+              type={s.type || "video/mp4"}
+              {...(s.media ? { media: s.media } : {})}
+            />
+          ))}
         </video>
       )}
 

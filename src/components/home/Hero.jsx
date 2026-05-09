@@ -13,7 +13,12 @@ import {
   useFadeIn,
   useRevealOnScroll,
 } from "../../utils/gsapHooks";
-import { useSiteContent } from "../../hooks/useSiteContent";
+import { useSiteAsset, useSiteContent } from "../../hooks/useSiteContent";
+import {
+  getMobileVideoUrl,
+  getOptimizedVideoUrl,
+  getVideoPosterUrl,
+} from "../../lib/cloudinary";
 
 import heroVideo from "../../assets/hero-video.mp4";
 import heroPoster from "../../assets/hero.png";
@@ -25,7 +30,24 @@ const DEFAULT_SUBHEAD =
 function Hero() {
   const isMobile = useIsMobile(768);
 
-  const heroVideoSrc = useSiteContent("hero.video", heroVideo);
+  const heroVideoAsset = useSiteAsset("hero.video", null);
+  const heroPublicId =
+    typeof heroVideoAsset === "object" && heroVideoAsset
+      ? heroVideoAsset.publicId
+      : null;
+  const desktopVideoSrc = heroPublicId
+    ? getOptimizedVideoUrl(heroPublicId, { maxWidth: 1920 })
+    : heroVideoAsset?.url || heroVideo;
+  const mobileVideoSrc = heroPublicId
+    ? getMobileVideoUrl(heroPublicId)
+    : heroVideoAsset?.url || heroVideo;
+  const videoPoster = heroPublicId
+    ? getVideoPosterUrl(heroPublicId, { width: 1280 })
+    : heroPoster;
+  const videoSources = [
+    { src: mobileVideoSrc, type: "video/mp4", media: "(max-width: 768px)" },
+    { src: desktopVideoSrc, type: "video/mp4" },
+  ];
   const heroEyebrow = useSiteContent("hero.eyebrow", DEFAULT_EYEBROW);
   const heroHeadlineOverride = useSiteContent("hero.headline", null);
   const heroHeadlineColor = useSiteContent("hero.headline_color", null);
@@ -339,7 +361,7 @@ function Hero() {
                 borderRadius: isMobile ? "24px" : "34px",
                 overflow: "hidden",
                 position: "relative",
-                background: theme.colors.bgCard,
+                background: "var(--accent-navy)",
                 border: `1px solid ${theme.colors.lineStrong}`,
                 boxShadow: `
                   0 30px 80px rgba(0,0,0,0.5),
@@ -348,8 +370,8 @@ function Hero() {
               }}
             >
               <LazyVideo
-                src={heroVideoSrc}
-                poster={heroPoster}
+                sources={videoSources}
+                poster={videoPoster}
                 ariaLabel="Mineworld Production showreel"
                 rootMargin="0px"
                 videoStyle={{

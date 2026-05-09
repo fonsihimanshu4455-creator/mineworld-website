@@ -109,3 +109,32 @@ export function buildCloudinaryUrl(publicId, opts = {}) {
   const tx = transformations.length ? `${transformations.join(",")}/` : "";
   return `https://res.cloudinary.com/${CLOUD_NAME}/${resourceType}/upload/${tx}${publicId}`;
 }
+
+// Optimized delivery for video <source> tags.
+// q_auto + f_auto + vc_auto = automatic quality, format, codec
+// c_limit = downscale only, never upscale
+// w_<n>   = cap viewport width (mobile uses 720, desktop 1280-1920)
+export function getOptimizedVideoUrl(publicId, options = {}) {
+  if (!CLOUD_NAME || !publicId) return null;
+  const transforms = [
+    "q_auto",
+    "f_auto",
+    "c_limit",
+    `w_${options.maxWidth || 1280}`,
+    "vc_auto",
+  ].join(",");
+  return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${transforms}/${publicId}.mp4`;
+}
+
+// 720p mp4 for narrow viewports (saves ~60-70% bytes vs 1080p).
+export function getMobileVideoUrl(publicId) {
+  return getOptimizedVideoUrl(publicId, { maxWidth: 720 });
+}
+
+// First-frame still as a JPEG poster — renders instantly while the
+// video downloads.
+export function getVideoPosterUrl(publicId, options = {}) {
+  if (!CLOUD_NAME || !publicId) return null;
+  const width = options.width || 1920;
+  return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/so_0,f_jpg,q_auto,w_${width}/${publicId}.jpg`;
+}

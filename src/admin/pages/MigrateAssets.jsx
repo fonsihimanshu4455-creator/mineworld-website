@@ -149,7 +149,9 @@ function MigrateAssets() {
         await setSiteContent(asset.target_slot, {
           slot_type: "asset",
           asset_id: savedAsset.id,
+          cloudinary_id: result.public_id,
           cloudinary_url: result.secure_url,
+          asset_type: asset.asset_type,
         });
       }
 

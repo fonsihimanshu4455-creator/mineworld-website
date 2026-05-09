@@ -290,6 +290,18 @@ function ContactModal() {
         onClose={() => setShowSuccess(false)}
       />
 
+      <style>{`
+        .mw-contact-input::placeholder { color: rgba(245, 239, 230, 0.4); }
+        .mw-contact-input:focus {
+          border-color: var(--accent-gold);
+          box-shadow: 0 0 0 3px rgba(184, 149, 106, 0.15);
+        }
+        .mw-contact-close:hover {
+          background: rgba(184, 149, 106, 0.2);
+          color: var(--accent-gold);
+        }
+      `}</style>
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -322,10 +334,9 @@ function ContactModal() {
                 maxWidth: "920px",
                 maxHeight: "92vh",
                 overflow: "hidden",
-                borderRadius: isMobile ? "24px" : "30px",
-                background:
-                  "linear-gradient(135deg, rgba(18,28,44,0.98) 0%, rgba(13,21,36,0.98) 100%)",
-                border: `1px solid ${theme.colors.lineStrong}`,
+                borderRadius: isMobile ? "24px" : "20px",
+                background: "rgba(15, 22, 41, 0.98)",
+                border: "1px solid rgba(184, 149, 106, 0.2)",
                 boxShadow:
                   "0 28px 90px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.05)",
                 display: "grid",
@@ -336,6 +347,7 @@ function ContactModal() {
               <button
                 onClick={() => setIsOpen(false)}
                 aria-label="Close form"
+                className="mw-contact-close"
                 style={{
                   position: "absolute",
                   top: "16px",
@@ -344,7 +356,7 @@ function ContactModal() {
                   height: "42px",
                   borderRadius: "50%",
                   border: "1px solid rgba(184, 149, 106, 0.4)",
-                  background: "rgba(255,255,255,0.06)",
+                  background: "rgba(255, 255, 255, 0.08)",
                   color: "var(--bg-cream-soft)",
                   fontSize: "22px",
                   cursor: "pointer",
@@ -410,7 +422,7 @@ function ContactModal() {
                   <div>
                     <div
                       style={{
-                        color: theme.colors.goldSoft,
+                        color: "var(--accent-gold)",
                         fontSize: "12px",
                         letterSpacing: "2px",
                         textTransform: "uppercase",
@@ -436,7 +448,7 @@ function ContactModal() {
                     <p
                       style={{
                         margin: 0,
-                        color: "rgba(245, 239, 230, 0.78)",
+                        color: "rgba(245, 239, 230, 0.75)",
                         fontSize: isMobile ? "14px" : "15px",
                         lineHeight: 1.85,
                         maxWidth: "430px",
@@ -519,7 +531,7 @@ function ContactModal() {
               >
                 <div
                   style={{
-                    color: theme.colors.goldSoft,
+                    color: "var(--accent-gold)",
                     fontSize: "12px",
                     letterSpacing: "2px",
                     textTransform: "uppercase",
@@ -544,7 +556,7 @@ function ContactModal() {
                 <p
                   style={{
                     margin: "0 0 22px",
-                    color: "rgba(245, 239, 230, 0.78)",
+                    color: "rgba(245, 239, 230, 0.75)",
                     fontSize: "14px",
                     lineHeight: 1.8,
                     maxWidth: "520px",
@@ -638,7 +650,7 @@ function ContactModal() {
                       animate={{ opacity: 1, y: 0 }}
                       style={{
                         marginTop: "16px",
-                        color: theme.colors.goldSoft,
+                        color: "var(--accent-gold)",
                         fontSize: "14px",
                         lineHeight: 1.6,
                       }}
@@ -679,8 +691,8 @@ function ContactModal() {
                   <div
                     style={{
                       marginTop: "18px",
-                      color: "rgba(255,255,255,0.52)",
-                      fontSize: "12px",
+                      color: "rgba(245, 239, 230, 0.5)",
+                      fontSize: "13px",
                       lineHeight: 1.7,
                     }}
                   >
@@ -713,6 +725,7 @@ function Field({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        className="mw-contact-input"
         style={inputStyle}
       />
     </label>
@@ -904,6 +917,7 @@ function PhoneField({
           value={phone}
           onChange={onPhoneChange}
           placeholder="Enter mobile number"
+          className="mw-contact-input"
           style={inputStyle}
         />
       </div>
@@ -931,31 +945,31 @@ function ServiceSelector({ label, selected, onSelect }) {
               type="button"
               onClick={() => onSelect(service)}
               style={{
-                padding: "11px 14px",
+                padding: "10px 18px",
                 borderRadius: "999px",
                 border: active
-                  ? "1px solid rgba(188,153,102,0.85)"
-                  : "1px solid rgba(255,255,255,0.10)",
+                  ? "1px solid var(--accent-gold)"
+                  : "1px solid rgba(184, 149, 106, 0.25)",
                 background: active
-                  ? "rgba(188,153,102,0.16)"
-                  : "rgba(255,255,255,0.04)",
-                color: active ? theme.colors.goldSoft : "var(--bg-cream-soft)",
+                  ? "var(--accent-gold)"
+                  : "rgba(255, 255, 255, 0.06)",
+                color: active ? "#1F2D4D" : "var(--bg-cream-soft)",
                 fontSize: "14px",
-                fontWeight: 600,
+                fontWeight: active ? 600 : 500,
                 cursor: "pointer",
-                transition: "all 0.22s ease",
+                transition: "all 0.2s ease",
               }}
               onMouseEnter={(e) => {
                 if (!active) {
-                  e.currentTarget.style.background = "rgba(184, 149, 106, 0.12)";
-                  e.currentTarget.style.borderColor = "rgba(184, 149, 106, 0.5)";
+                  e.currentTarget.style.background = "rgba(184, 149, 106, 0.15)";
+                  e.currentTarget.style.borderColor = "var(--accent-gold)";
                   e.currentTarget.style.color = "#FFFFFF";
                 }
               }}
               onMouseLeave={(e) => {
                 if (!active) {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.10)";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.06)";
+                  e.currentTarget.style.borderColor = "rgba(184, 149, 106, 0.25)";
                   e.currentTarget.style.color = "var(--bg-cream-soft)";
                 }
               }}
@@ -971,16 +985,16 @@ function ServiceSelector({ label, selected, onSelect }) {
 
 const labelStyle = {
   marginBottom: "8px",
-  color: "#EAE6DD",
+  color: "var(--bg-cream-soft)",
   fontSize: "14px",
-  fontWeight: 600,
+  fontWeight: 500,
 };
 
 const inputStyle = {
   width: "100%",
-  borderRadius: "16px",
-  border: "1px solid rgba(255,255,255,0.10)",
-  background: "rgba(255,255,255,0.04)",
+  borderRadius: "8px",
+  border: "1px solid rgba(184, 149, 106, 0.25)",
+  background: "rgba(255, 255, 255, 0.05)",
   color: "#FFFFFF",
   padding: "14px 16px",
   fontSize: "15px",
@@ -992,24 +1006,25 @@ const inputStyle = {
 const primaryButtonStyle = {
   border: "none",
   borderRadius: "999px",
-  padding: "14px 22px",
-  background: "#BC9966",
-  color: "#1B1B1B",
+  padding: "14px 28px",
+  background: "var(--accent-gold)",
+  color: "#1F2D4D",
   fontSize: "15px",
-  fontWeight: 700,
+  fontWeight: 500,
   cursor: "pointer",
-  boxShadow: "0 16px 34px rgba(188,153,102,0.24)",
+  boxShadow: "0 16px 34px rgba(184, 149, 106, 0.24)",
 };
 
 const secondaryButtonStyle = {
-  border: "1px solid rgba(255,255,255,0.12)",
+  border: "1.5px solid rgba(184, 149, 106, 0.4)",
   borderRadius: "999px",
-  padding: "14px 22px",
-  background: "rgba(255,255,255,0.03)",
-  color: "#FFFFFF",
+  padding: "14px 28px",
+  background: "transparent",
+  color: "var(--bg-cream-soft)",
   fontSize: "15px",
-  fontWeight: 600,
+  fontWeight: 500,
   cursor: "pointer",
+  transition: "all 0.22s ease",
 };
 
 export default ContactModal;
