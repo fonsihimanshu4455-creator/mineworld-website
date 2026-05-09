@@ -9,10 +9,25 @@ import { theme } from "../../styles/theme";
 import founderImage from "../../assets/himanshu.JPG";
 import useIsMobile from "../../utils/useIsMobile";
 import { useParallax } from "../../utils/gsapHooks";
+import { useSiteAsset, useSiteContent } from "../../hooks/useSiteContent";
+
+const DEFAULT_FOUNDER_NAME = "Himanshu Bhardwaj";
+const DEFAULT_FOUNDER_TITLE = "Founder & Creative Director";
+const DEFAULT_FOUNDER_TAGLINE =
+  "Building Mineworld with an editing-first mindset, premium standards, and a sharp focus on how brands are perceived.";
 
 function FounderSection() {
   const isMobile = useIsMobile(768);
   const parallaxRef = useParallax({ speed: 0.12 });
+
+  const founderPhoto = useSiteAsset("founder.photo", founderImage);
+  const founderPhotoUrl =
+    typeof founderPhoto === "string"
+      ? founderPhoto
+      : founderPhoto?.url || founderImage;
+  const founderName = useSiteContent("founder.name", DEFAULT_FOUNDER_NAME);
+  const founderTitle = useSiteContent("founder.title", DEFAULT_FOUNDER_TITLE);
+  const founderBio = useSiteContent("founder.bio", DEFAULT_FOUNDER_TAGLINE);
 
   return (
     <section
@@ -83,8 +98,8 @@ function FounderSection() {
             >
               <img
                 ref={parallaxRef}
-                src={founderImage}
-                alt="Himanshu Bhardwaj"
+                src={founderPhotoUrl}
+                alt={founderName}
                 loading="lazy"
                 style={{
                   width: "100%",
@@ -156,7 +171,7 @@ function FounderSection() {
                     marginBottom: "8px",
                   }}
                 >
-                  Founder & Creative Director
+                  {founderTitle}
                 </div>
 
                 <div
@@ -169,7 +184,7 @@ function FounderSection() {
                     textShadow: "0 2px 12px rgba(0, 0, 0, 0.4)",
                   }}
                 >
-                  Himanshu Bhardwaj
+                  {founderName}
                 </div>
 
                 <div
@@ -181,8 +196,7 @@ function FounderSection() {
                     textShadow: "0 1px 6px rgba(0, 0, 0, 0.3)",
                   }}
                 >
-                  Building Mineworld with an editing-first mindset, premium
-                  standards, and a sharp focus on how brands are perceived.
+                  {founderBio}
                 </div>
               </div>
             </motion.div>

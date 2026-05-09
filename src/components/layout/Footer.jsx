@@ -8,18 +8,31 @@ import useIsMobile from "../../utils/useIsMobile";
 import { useSiteSettings } from "../../admin/hooks";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 import defaultLogo from "../../assets/mineworld-logo.png";
+import { useSiteContent } from "../../hooks/useSiteContent";
 
 function Footer() {
   const isMobile = useIsMobile(768);
   const settings = useSiteSettings(defaultSiteConfig);
   const logoSrc = settings.logo?.src || defaultLogo;
   const logoScale = Number(settings.logo?.scale) || 1.45;
-  const phoneDigits = (settings.contact?.whatsappNumber || "919758850933").replace(/\D/g, "");
+
+  // CMS overlay — admin-set values take precedence over legacy settings.
+  const cmsEmail = useSiteContent("footer.email", null);
+  const cmsPhone = useSiteContent("footer.phone", null);
+  const cmsAddress = useSiteContent("footer.address", null);
+
+  const phoneDigits = (
+    cmsPhone || settings.contact?.whatsappNumber || "919758850933"
+  ).replace(/\D/g, "");
   const phoneDisplay = phoneDigits.length > 10
     ? `+${phoneDigits.slice(0, phoneDigits.length - 10)} ${phoneDigits.slice(-10)}`
     : `+${phoneDigits}`;
-  const email = settings.contact?.email || "mineworldproduction4455@gmail.com";
-  const address = settings.contact?.address || "Mayur Vihar Phase 1, Delhi, 110091";
+  const email =
+    cmsEmail || settings.contact?.email || "mineworldproduction4455@gmail.com";
+  const address =
+    cmsAddress ||
+    settings.contact?.address ||
+    "Mayur Vihar Phase 1, Delhi, 110091";
   const instagramHref = settings.social?.instagram || "https://instagram.com/";
   const facebookHref = settings.social?.facebook;
   const youtubeHref = settings.social?.youtube;

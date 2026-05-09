@@ -6,7 +6,23 @@ import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 import { teamRoles } from "../../data/teamRoles";
+import { useSiteList } from "../../hooks/useSiteList";
 import useIsMobile from "../../utils/useIsMobile";
+
+function mapAdminTeamMember(item) {
+  const photoUrl =
+    item?.avatar?.cloudinary_url ||
+    (typeof item?.avatar === "string" ? item.avatar : "");
+  const slugSafe =
+    (item.name || item.id || "").toLowerCase().replace(/[^a-z0-9-]+/g, "-");
+  return {
+    slug: slugSafe || `member-${item.id || ""}`,
+    name: item.name || "Team member",
+    role: item.role || "",
+    photo: photoUrl,
+    photoAlt: item.name || "Team member",
+  };
+}
 
 function TeamCard({ member, isMobile }) {
   return (
@@ -128,6 +144,8 @@ function TeamCard({ member, isMobile }) {
 
 function TeamSection() {
   const isMobile = useIsMobile(768);
+  const cmsMembers = useSiteList("team.members", null);
+  const members = cmsMembers ? cmsMembers.map(mapAdminTeamMember) : teamRoles;
 
   return (
     <section
@@ -177,8 +195,8 @@ function TeamSection() {
             alignItems: "stretch",
           }}
         >
-          {teamRoles.map((member, i) => (
-            <Reveal key={member.slug} delay={0.05 * i}>
+          {members.map((member, i) => (
+            <Reveal key={member.slug || i} delay={0.05 * i}>
               <TeamCard member={member} isMobile={isMobile} />
             </Reveal>
           ))}

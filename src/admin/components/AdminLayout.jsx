@@ -4,17 +4,73 @@ import { useAdminAuth } from "./AdminAuth";
 import { schemas, collectionOrder } from "../schemas";
 import useIsMobile from "../../utils/useIsMobile";
 
-const sidebarLinks = [
-  { to: "/admin", label: "Dashboard", end: true },
-  { to: "/admin/settings", label: "Settings" },
-  { to: "/admin/preview", label: "Live Preview" },
-  { to: "/admin/submissions", label: "Submissions" },
-  { to: "/admin/migrate", label: "CMS · Migrate (Phase 1)" },
-  ...collectionOrder.map((key) => ({
-    to: `/admin/collections/${key}`,
-    label: schemas[key].label,
-  })),
+const sidebarGroups = [
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    defaultOpen: true,
+    links: [
+      { to: "/admin", label: "Dashboard", end: true },
+      { to: "/admin/preview", label: "Live Preview" },
+      { to: "/admin/submissions", label: "Submissions" },
+    ],
+  },
+  {
+    id: "cms-content",
+    label: "CMS · Content",
+    defaultOpen: true,
+    links: [
+      { to: "/admin/cms/hero", label: "Hero" },
+      { to: "/admin/cms/founder", label: "Founder" },
+      { to: "/admin/cms/footer", label: "Footer" },
+      { to: "/admin/cms/client-logos", label: "Client Logos" },
+      { to: "/admin/cms/portfolio-items", label: "Portfolio Items" },
+      { to: "/admin/cms/team-members", label: "Team Members" },
+      { to: "/admin/cms/reels", label: "Reels" },
+      { to: "/admin/cms/press", label: "Press" },
+      { to: "/admin/cms/apps", label: "Apps We Ship" },
+    ],
+  },
+  {
+    id: "cms-assets",
+    label: "CMS · Assets",
+    defaultOpen: true,
+    links: [
+      { to: "/admin/cms/assets", label: "Asset Library" },
+      { to: "/admin/migrate", label: "Migrate (Phase 1)" },
+    ],
+  },
+  {
+    id: "legacy",
+    label: "Legacy",
+    defaultOpen: false,
+    links: [
+      { to: "/admin/settings", label: "Settings" },
+      ...collectionOrder.map((key) => ({
+        to: `/admin/collections/${key}`,
+        label: schemas[key].label,
+      })),
+    ],
+  },
 ];
+
+const COLLAPSE_KEY = "mineworld:admin:sidebar:v1";
+function readCollapseState() {
+  if (typeof window === "undefined") return {};
+  try {
+    return JSON.parse(window.localStorage.getItem(COLLAPSE_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+function writeCollapseState(state) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(COLLAPSE_KEY, JSON.stringify(state));
+  } catch {
+    // ignore
+  }
+}
 
 function AdminLayout() {
   const { logout } = useAdminAuth();
@@ -22,6 +78,15 @@ function AdminLayout() {
   const location = useLocation();
   const isMobile = useIsMobile(900);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => readCollapseState());
+
+  const toggleGroup = (id) => {
+    setCollapsed((prev) => {
+      const next = { ...prev, [id]: !prev[id] };
+      writeCollapseState(next);
+      return next;
+    });
+  };
 
   useEffect(() => {
     setDrawerOpen(false);
@@ -82,40 +147,86 @@ function AdminLayout() {
       </div>
 
       <nav style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
-        <ul
-          style={{
-            listStyle: "none",
-            margin: 0,
-            padding: 0,
-            display: "grid",
-            gap: "4px",
-          }}
-        >
-          {sidebarLinks.map((link) => (
-            <li key={link.to}>
-              <NavLink
-                to={link.to}
-                end={link.end}
-                style={({ isActive }) => ({
-                  display: "block",
-                  padding: "11px 14px",
-                  borderRadius: "10px",
-                  color: isActive ? "#18140F" : "#F5F1E8",
-                  background: isActive
-                    ? "linear-gradient(135deg, #BC9966, #D9B987)"
-                    : "transparent",
-                  fontSize: isMobile ? "15px" : "13.5px",
-                  fontWeight: isActive ? 800 : 600,
-                  textDecoration: "none",
-                  transition: "all 0.2s ease",
-                  letterSpacing: "0.1px",
-                })}
+        {sidebarGroups.map((group) => {
+          const isOpen =
+            collapsed[group.id] === undefined
+              ? group.defaultOpen
+              : !collapsed[group.id];
+          return (
+            <div key={group.id} style={{ marginBottom: 14 }}>
+              <button
+                type="button"
+                onClick={() => toggleGroup(group.id)}
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "8px 10px",
+                  borderRadius: 8,
+                  border: "none",
+                  background: "transparent",
+                  color: "#D9B987",
+                  fontSize: 10.5,
+                  letterSpacing: 1.6,
+                  textTransform: "uppercase",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  marginBottom: 4,
+                }}
               >
-                {link.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+                <span>{group.label}</span>
+                <span
+                  aria-hidden="true"
+                  style={{
+                    transition: "transform 0.18s ease",
+                    transform: isOpen ? "rotate(0deg)" : "rotate(-90deg)",
+                    fontSize: 10,
+                    opacity: 0.7,
+                  }}
+                >
+                  ▼
+                </span>
+              </button>
+              {isOpen && (
+                <ul
+                  style={{
+                    listStyle: "none",
+                    margin: 0,
+                    padding: 0,
+                    display: "grid",
+                    gap: 3,
+                  }}
+                >
+                  {group.links.map((link) => (
+                    <li key={link.to}>
+                      <NavLink
+                        to={link.to}
+                        end={link.end}
+                        style={({ isActive }) => ({
+                          display: "block",
+                          padding: "9px 14px",
+                          borderRadius: 9,
+                          color: isActive ? "#18140F" : "#F5F1E8",
+                          background: isActive
+                            ? "linear-gradient(135deg, #BC9966, #D9B987)"
+                            : "transparent",
+                          fontSize: isMobile ? "14.5px" : "13px",
+                          fontWeight: isActive ? 800 : 600,
+                          textDecoration: "none",
+                          transition: "all 0.2s ease",
+                          letterSpacing: "0.1px",
+                        })}
+                      >
+                        {link.label}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          );
+        })}
       </nav>
 
       <div

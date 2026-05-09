@@ -8,7 +8,33 @@ import LazyVideo from "../common/LazyVideo";
 import { theme } from "../../styles/theme";
 import { portfolioItems as defaultPortfolio } from "../../data/portfolioItems";
 import { useCollection } from "../../admin/hooks";
+import { useSiteList } from "../../hooks/useSiteList";
 import useIsMobile from "../../utils/useIsMobile";
+
+// Convert admin-shape portfolio item into the PortfolioCard shape the
+// existing presentation layer consumes.
+function mapAdminPortfolioItem(item) {
+  const thumbUrl =
+    item?.thumbnail?.cloudinary_url ||
+    (typeof item?.thumbnail === "string" ? item.thumbnail : "");
+  const isVideo = item?.thumbnail?.asset_type === "video";
+  const slugSafe =
+    (item.title || item.id || "").toLowerCase().replace(/[^a-z0-9-]+/g, "-");
+  return {
+    slug: item.link
+      ? item.link.replace(/^.*\//, "")
+      : slugSafe || `item-${item.id || ""}`,
+    title: item.title || "Untitled",
+    category: item.category || "Project",
+    description: item.description || "",
+    cover: {
+      type: isVideo ? "video" : "image",
+      src: thumbUrl,
+      alt: item.title || "",
+      poster: thumbUrl,
+    },
+  };
+}
 
 function PortfolioCard({ item, isMobile }) {
   return (
@@ -142,7 +168,11 @@ function PortfolioCard({ item, isMobile }) {
 
 function Portfolio() {
   const isMobile = useIsMobile(768);
-  const portfolioItems = useCollection("portfolioItems", defaultPortfolio);
+  const legacyItems = useCollection("portfolioItems", defaultPortfolio);
+  const cmsItems = useSiteList("portfolio.items", null);
+  const portfolioItems = cmsItems
+    ? cmsItems.map(mapAdminPortfolioItem)
+    : legacyItems;
 
   return (
     <section

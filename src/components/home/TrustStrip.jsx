@@ -4,6 +4,18 @@ import useIsMobile from "../../utils/useIsMobile";
 import { useCollection, useSiteSettings } from "../../admin/hooks";
 import { pressLogos as defaultPressLogos } from "../../data/pressLogos";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
+import { useSiteList } from "../../hooks/useSiteList";
+
+function mapAdminPress(item) {
+  const logoUrl =
+    item?.logo?.cloudinary_url ||
+    (typeof item?.logo === "string" ? item.logo : null);
+  return {
+    name: item.name || "",
+    logo: logoUrl,
+    url: item.link || null,
+  };
+}
 
 function PressWordmark({ name, style, logo, url }) {
   const isSerif = style === "serif";
@@ -226,7 +238,9 @@ function PlayStoreBadge({ href }) {
 
 function TrustStrip() {
   const isMobile = useIsMobile(768);
-  const pressLogos = useCollection("pressLogos", defaultPressLogos);
+  const legacyPress = useCollection("pressLogos", defaultPressLogos);
+  const cmsPress = useSiteList("trust.featured_in_logos", null);
+  const pressLogos = cmsPress ? cmsPress.map(mapAdminPress) : legacyPress;
   const settings = useSiteSettings(defaultSiteConfig);
   const appStoreHref = settings.stores?.appStore || "";
   const playStoreHref = settings.stores?.playStore || "";

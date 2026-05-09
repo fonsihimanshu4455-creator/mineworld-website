@@ -213,6 +213,25 @@ export async function findSlotsUsingAsset(assetDocId) {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
+// Clear all references to an asset from any site_content slot that
+// uses it (top-level slots only — list items are scrubbed by the list
+// editor itself). Called as part of safe-delete.
+export async function detachAssetFromSlots(assetDocId) {
+  ensureFirestore();
+  const slots = await findSlotsUsingAsset(assetDocId);
+  await Promise.all(
+    slots.map((slot) =>
+      saveSlot(slot.id, {
+        asset_id: null,
+        cloudinary_id: null,
+        cloudinary_url: null,
+        asset_type: null,
+      })
+    )
+  );
+  return slots.length;
+}
+
 // Convenience: build save handler with status tracking. Editors use
 // this to drive their save button label / spinner.
 export function useSaveStatus() {

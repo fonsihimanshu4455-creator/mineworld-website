@@ -4,7 +4,21 @@ import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 import { clientBrands as defaultBrands } from "../../data/clientBrands";
 import { useCollection } from "../../admin/hooks";
+import { useSiteList } from "../../hooks/useSiteList";
 import useIsMobile from "../../utils/useIsMobile";
+
+// Map an admin-edited logo item (from RepeatingListEditor) into the
+// LogoChip-compatible shape this component already understands.
+function mapAdminLogo(item) {
+  const logoUrl =
+    item?.logo_image?.cloudinary_url ||
+    (typeof item?.logo_image === "string" ? item.logo_image : null);
+  return {
+    name: item.name || "",
+    logo: logoUrl,
+    industry: item.industry || "",
+  };
+}
 
 function LogoChip({ brand }) {
   const hasLogo = Boolean(brand.logo);
@@ -128,7 +142,9 @@ function LogoChip({ brand }) {
 
 function ClientLogoWall() {
   const isMobile = useIsMobile(768);
-  const brands = useCollection("clientBrands", defaultBrands);
+  const legacyBrands = useCollection("clientBrands", defaultBrands);
+  const cmsLogos = useSiteList("logo_wall.client_logos", null);
+  const brands = cmsLogos ? cmsLogos.map(mapAdminLogo) : legacyBrands;
   const doubled = [...brands, ...brands];
 
   if (brands.length === 0) return null;
