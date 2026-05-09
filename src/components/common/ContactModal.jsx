@@ -343,12 +343,13 @@ function ContactModal() {
                   width: "42px",
                   height: "42px",
                   borderRadius: "50%",
-                  border: `1px solid ${theme.colors.line}`,
-                  background: "rgba(255,255,255,0.04)",
-                  color: theme.colors.text,
-                  fontSize: "20px",
+                  border: "1px solid rgba(184, 149, 106, 0.4)",
+                  background: "rgba(255,255,255,0.06)",
+                  color: "var(--bg-cream-soft)",
+                  fontSize: "22px",
                   cursor: "pointer",
                   zIndex: 5,
+                  transition: "all 0.22s ease",
                 }}
               >
                 ×
@@ -361,9 +362,9 @@ function ContactModal() {
                   padding: isMobile ? "26px 22px 14px" : "34px 30px",
                   borderRight: isMobile
                     ? "none"
-                    : `1px solid ${theme.colors.line}`,
+                    : "1px solid rgba(184, 149, 106, 0.18)",
                   borderBottom: isMobile
-                    ? `1px solid ${theme.colors.line}`
+                    ? "1px solid rgba(184, 149, 106, 0.18)"
                     : "none",
                   overflow: "hidden",
                   minHeight: isMobile ? "240px" : "100%",
@@ -422,7 +423,7 @@ function ContactModal() {
                     <h2
                       style={{
                         margin: "0 0 14px",
-                        color: theme.colors.text,
+                        color: "#FFFFFF",
                         fontSize: isMobile ? "34px" : "46px",
                         lineHeight: 1.02,
                         fontWeight: 800,
@@ -435,7 +436,7 @@ function ContactModal() {
                     <p
                       style={{
                         margin: 0,
-                        color: theme.colors.textSoft,
+                        color: "rgba(245, 239, 230, 0.78)",
                         fontSize: isMobile ? "14px" : "15px",
                         lineHeight: 1.85,
                         maxWidth: "430px",
@@ -453,7 +454,7 @@ function ContactModal() {
                       position: "relative",
                       height: isMobile ? "120px" : "240px",
                       borderRadius: isMobile ? "18px" : "24px",
-                      border: `1px solid ${theme.colors.line}`,
+                      border: "1px solid rgba(184, 149, 106, 0.18)",
                       background:
                         "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))",
                       overflow: "hidden",
@@ -534,7 +535,7 @@ function ContactModal() {
                     fontSize: isMobile ? "28px" : "34px",
                     lineHeight: 1.06,
                     fontWeight: 800,
-                    color: theme.colors.text,
+                    color: "#FFFFFF",
                   }}
                 >
                   Tell us what you need.
@@ -543,7 +544,7 @@ function ContactModal() {
                 <p
                   style={{
                     margin: "0 0 22px",
-                    color: theme.colors.textSoft,
+                    color: "rgba(245, 239, 230, 0.78)",
                     fontSize: "14px",
                     lineHeight: 1.8,
                     maxWidth: "520px",
@@ -938,11 +939,25 @@ function ServiceSelector({ label, selected, onSelect }) {
                 background: active
                   ? "rgba(188,153,102,0.16)"
                   : "rgba(255,255,255,0.04)",
-                color: active ? theme.colors.goldSoft : theme.colors.text,
+                color: active ? theme.colors.goldSoft : "var(--bg-cream-soft)",
                 fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
                 transition: "all 0.22s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (!active) {
+                  e.currentTarget.style.background = "rgba(184, 149, 106, 0.12)";
+                  e.currentTarget.style.borderColor = "rgba(184, 149, 106, 0.5)";
+                  e.currentTarget.style.color = "#FFFFFF";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!active) {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.10)";
+                  e.currentTarget.style.color = "var(--bg-cream-soft)";
+                }
               }}
             >
               {service}
