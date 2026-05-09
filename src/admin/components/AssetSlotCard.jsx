@@ -199,6 +199,7 @@ export default function AssetSlotCard({
   const isVideo = asset.asset_type === "video" || asset.type === "video";
   const isLogo = category === "logo-wall" || asset.asset_type === "logo";
   const transparentBg = isLogo;
+  const isStaticBuiltIn = !!asset.isStatic;
 
   const thumbW =
     thumbnailSize === "sm" ? 128 : thumbnailSize === "lg" ? 320 : 220;
@@ -298,7 +299,10 @@ export default function AssetSlotCard({
             {asset.format && (
               <span style={PILL()}>{asset.format.toUpperCase()}</span>
             )}
-            {showUsage && usage && (
+            <span style={PILL(isStaticBuiltIn ? "warn" : "ok")}>
+              {isStaticBuiltIn ? "📦 Built-in" : "☁ Cloudinary"}
+            </span>
+            {showUsage && usage && !isStaticBuiltIn && (
               <span style={PILL(usage.length > 0 ? "ok" : "warn")}>
                 {usage.length > 0
                   ? `Used in ${usage.length}`
@@ -348,6 +352,17 @@ export default function AssetSlotCard({
             {asset.created_at ? (
               <li>📅 Uploaded {timeAgo(asset.created_at)}</li>
             ) : null}
+            {isStaticBuiltIn && asset.originalSource ? (
+              <li
+                style={{
+                  fontFamily:
+                    "ui-monospace, SFMono-Regular, Menlo, monospace",
+                  fontSize: 11.5,
+                }}
+              >
+                📦 {asset.originalSource}
+              </li>
+            ) : null}
             {showUsage && usage && usage.length > 0 && (
               <li
                 style={{
@@ -389,7 +404,7 @@ export default function AssetSlotCard({
                   Replace
                 </button>
               )}
-              {onRemoveClick && (
+              {onRemoveClick && !isStaticBuiltIn && (
                 <button
                   type="button"
                   onClick={onRemoveClick}
@@ -406,6 +421,21 @@ export default function AssetSlotCard({
                 >
                   Remove
                 </button>
+              )}
+              {isStaticBuiltIn && (
+                <span
+                  style={{
+                    padding: "7px 12px",
+                    borderRadius: 999,
+                    border: "1px dashed rgba(217, 185, 135, 0.35)",
+                    color: "rgba(245,241,232,0.55)",
+                    fontSize: 11.5,
+                    fontWeight: 600,
+                  }}
+                  title="Built-in assets are bundled with the site and can't be removed from the admin. Replace it with a Cloudinary upload to override."
+                >
+                  Built-in (cannot remove)
+                </span>
               )}
             </div>
           )}
