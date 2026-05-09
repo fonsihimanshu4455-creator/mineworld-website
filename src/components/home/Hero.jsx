@@ -13,12 +13,32 @@ import {
   useFadeIn,
   useRevealOnScroll,
 } from "../../utils/gsapHooks";
+import { useSiteContent } from "../../hooks/useSiteContent";
 
 import heroVideo from "../../assets/hero-video.mp4";
 import heroPoster from "../../assets/hero.png";
 
+const DEFAULT_EYEBROW = "Delhi · Websites · Apps · Video · Meta Ads · Growth";
+const DEFAULT_SUBHEAD =
+  "Mineworld Production is Delhi's full-stack creative + growth studio — premium websites, native-feel mobile apps, retention-first video, Meta ad campaigns, and social media systems built for real leads and revenue, not vanity reach. One team, one standard, one outcome: a brand that looks impossible to ignore.";
+
 function Hero() {
   const isMobile = useIsMobile(768);
+
+  const heroVideoSrc = useSiteContent("hero.video", heroVideo);
+  const heroEyebrow = useSiteContent("hero.eyebrow", DEFAULT_EYEBROW);
+  const heroHeadlineOverride = useSiteContent("hero.headline", null);
+  const heroHeadlineColor = useSiteContent("hero.headline_color", null);
+  const heroSubhead = useSiteContent("hero.subhead", DEFAULT_SUBHEAD);
+  const heroSubheadColor = useSiteContent("hero.subhead_color", null);
+  const ctaPrimaryLabel = useSiteContent(
+    "hero.cta_primary_label",
+    "Start a Project"
+  );
+  const ctaSecondaryLabel = useSiteContent(
+    "hero.cta_secondary_label",
+    "View Work"
+  );
   const headlineRef = useMountStagger({
     delay: 0.2,
     duration: 0.95,
@@ -103,7 +123,7 @@ function Hero() {
                 marginBottom: "24px",
               }}
             >
-              Delhi · Websites · Apps · Video · Meta Ads · Growth
+              {heroEyebrow}
             </div>
 
             <h1
@@ -115,31 +135,41 @@ function Hero() {
                 fontWeight: 800,
                 letterSpacing: isMobile ? "-1.5px" : "-2.2px",
                 maxWidth: isMobile ? "100%" : "820px",
-                color: "var(--text-primary)",
+                color: heroHeadlineColor || "var(--text-primary)",
               }}
             >
-              <span style={{ display: "inline-block", overflow: "hidden" }}>
-                <span data-anim style={{ display: "inline-block" }}>
-                  Websites. Apps.
-                </span>
-              </span>
-              <br />
-              <span style={{ display: "inline-block", overflow: "hidden" }}>
-                <span data-anim style={{ display: "inline-block" }}>
-                  Ads that{" "}
-                  <span
-                    style={{
-                      color: "var(--accent-gold)",
-                      fontStyle: "italic",
-                      fontFamily:
-                        '"Playfair Display", Georgia, "Times New Roman", serif',
-                    }}
-                  >
-                    earn revenue
+              {heroHeadlineOverride ? (
+                <span style={{ display: "inline-block", overflow: "hidden" }}>
+                  <span data-anim style={{ display: "inline-block" }}>
+                    {heroHeadlineOverride}
                   </span>
-                  .
                 </span>
-              </span>
+              ) : (
+                <>
+                  <span style={{ display: "inline-block", overflow: "hidden" }}>
+                    <span data-anim style={{ display: "inline-block" }}>
+                      Websites. Apps.
+                    </span>
+                  </span>
+                  <br />
+                  <span style={{ display: "inline-block", overflow: "hidden" }}>
+                    <span data-anim style={{ display: "inline-block" }}>
+                      Ads that{" "}
+                      <span
+                        style={{
+                          color: "var(--accent-gold)",
+                          fontStyle: "italic",
+                          fontFamily:
+                            '"Playfair Display", Georgia, "Times New Roman", serif',
+                        }}
+                      >
+                        earn revenue
+                      </span>
+                      .
+                    </span>
+                  </span>
+                </>
+              )}
             </h1>
 
             <p
@@ -150,16 +180,12 @@ function Hero() {
                 maxWidth: isMobile ? "100%" : "720px",
                 marginLeft: isMobile ? "auto" : 0,
                 marginRight: isMobile ? "auto" : 0,
-                color: "var(--text-secondary)",
+                color: heroSubheadColor || "var(--text-secondary)",
                 fontSize: isMobile ? "16px" : "18px",
                 lineHeight: 1.9,
               }}
             >
-              Mineworld Production is Delhi's full-stack creative + growth
-              studio — premium websites, native-feel mobile apps, retention-first
-              video, Meta ad campaigns, and social media systems built for real
-              leads and revenue, not vanity reach. One team, one standard, one
-              outcome: a brand that looks impossible to ignore.
+              {heroSubhead}
             </p>
 
             <div
@@ -181,7 +207,7 @@ function Hero() {
                   cursor: "pointer",
                 }}
               >
-                <MagneticButton>Start a Project</MagneticButton>
+                <MagneticButton>{ctaPrimaryLabel}</MagneticButton>
               </button>
 
               <button
@@ -193,7 +219,7 @@ function Hero() {
                   cursor: "pointer",
                 }}
               >
-                <MagneticButton secondary>View Work</MagneticButton>
+                <MagneticButton secondary>{ctaSecondaryLabel}</MagneticButton>
               </button>
             </div>
 
@@ -322,7 +348,7 @@ function Hero() {
               }}
             >
               <LazyVideo
-                src={heroVideo}
+                src={heroVideoSrc}
                 poster={heroPoster}
                 ariaLabel="Mineworld Production showreel"
                 rootMargin="0px"
