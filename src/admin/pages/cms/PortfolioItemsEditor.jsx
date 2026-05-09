@@ -1,5 +1,7 @@
 import { PageHeader } from "../Dashboard";
 import RepeatingListEditor from "../../components/RepeatingListEditor";
+import CurrentSiteContentPreview from "../../components/CurrentSiteContentPreview";
+import { portfolioItems } from "../../../data/portfolioItems";
 
 const ITEM_FIELDS = [
   { name: "thumbnail", type: "image", label: "Thumbnail (16:9)" },
@@ -17,6 +19,11 @@ export default function PortfolioItemsEditor() {
         eyebrow="CMS · Portfolio"
         title="Portfolio Items"
         subtitle="Project cards on the home and portfolio page. 16:9 thumbnails recommended; reorder with the drag handle."
+      />
+      <CurrentSiteContentPreview
+        slotKey="portfolio.items"
+        legacyItems={portfolioItems}
+        describeItem={(i) => `${i.title} — ${i.category || "Project"}`}
       />
       <RepeatingListEditor
         slotKey="portfolio.items"

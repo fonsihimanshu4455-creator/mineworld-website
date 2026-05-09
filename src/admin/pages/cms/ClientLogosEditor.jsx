@@ -1,5 +1,7 @@
 import { PageHeader } from "../Dashboard";
 import RepeatingListEditor from "../../components/RepeatingListEditor";
+import CurrentSiteContentPreview from "../../components/CurrentSiteContentPreview";
+import { clientBrands } from "../../../data/clientBrands";
 
 const LOGO_FIELDS = [
   { name: "logo_image", type: "image", label: "Logo image" },
@@ -14,6 +16,13 @@ export default function ClientLogosEditor() {
         eyebrow="CMS · Client Logos"
         title="Client Logos"
         subtitle="Logos shown on the client wall marquee. Drag to reorder, hide individual ones, or add new logos with the inline uploader. Transparent PNG or SVG recommended."
+      />
+      <CurrentSiteContentPreview
+        slotKey="logo_wall.client_logos"
+        legacyItems={clientBrands}
+        describeItem={(b) =>
+          `${b.name}${b.industry ? " — " + b.industry : ""}`
+        }
       />
       <RepeatingListEditor
         slotKey="logo_wall.client_logos"
