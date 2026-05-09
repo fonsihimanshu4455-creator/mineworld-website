@@ -14,6 +14,7 @@ import {
   useRevealOnScroll,
 } from "../../utils/gsapHooks";
 import { useSiteAsset, useSiteContent } from "../../hooks/useSiteContent";
+import RichText from "../../lib/richText.jsx";
 import {
   getMobileVideoUrl,
   getOptimizedVideoUrl,
@@ -49,6 +50,7 @@ function Hero() {
     { src: desktopVideoSrc, type: "video/mp4" },
   ];
   const heroEyebrow = useSiteContent("hero.eyebrow", DEFAULT_EYEBROW);
+  const heroHeadlineRich = useSiteContent("hero.headline_rich", null);
   const heroHeadlineOverride = useSiteContent("hero.headline", null);
   const heroHeadlineColor = useSiteContent("hero.headline_color", null);
   const heroSubhead = useSiteContent("hero.subhead", DEFAULT_SUBHEAD);
@@ -160,7 +162,13 @@ function Hero() {
                 color: heroHeadlineColor || "var(--text-primary)",
               }}
             >
-              {heroHeadlineOverride ? (
+              {heroHeadlineRich ? (
+                <span style={{ display: "inline-block", overflow: "hidden" }}>
+                  <span data-anim style={{ display: "inline-block" }}>
+                    <RichText value={heroHeadlineRich} />
+                  </span>
+                </span>
+              ) : heroHeadlineOverride ? (
                 <span style={{ display: "inline-block", overflow: "hidden" }}>
                   <span data-anim style={{ display: "inline-block" }}>
                     {heroHeadlineOverride}

@@ -1,6 +1,8 @@
 import { PageHeader } from "../Dashboard";
+import TextEditor from "../../components/TextEditor";
 import RepeatingListEditor from "../../components/RepeatingListEditor";
 import CurrentSiteContentPreview from "../../components/CurrentSiteContentPreview";
+import EditorSection from "../../components/EditorSection";
 import { portfolioItems } from "../../../data/portfolioItems";
 
 const ITEM_FIELDS = [
@@ -18,20 +20,42 @@ export default function PortfolioItemsEditor() {
       <PageHeader
         eyebrow="CMS · Portfolio"
         title="Portfolio Items"
-        subtitle="Project cards on the home and portfolio page. 16:9 thumbnails recommended; reorder with the drag handle."
+        subtitle="Section heading + the project cards on the home / portfolio page. 16:9 thumbnails recommended."
       />
-      <CurrentSiteContentPreview
-        slotKey="portfolio.items"
-        legacyItems={portfolioItems}
-        describeItem={(i) => `${i.title} — ${i.category || "Project"}`}
-      />
-      <RepeatingListEditor
-        slotKey="portfolio.items"
-        label="Portfolio items"
-        itemFields={ITEM_FIELDS}
-        category="portfolio"
-        folder="mineworld/portfolio"
-      />
+
+      <EditorSection title="Section copy">
+        <TextEditor
+          slotKey="portfolio.eyebrow"
+          label="Eyebrow"
+          fallback="Portfolio"
+        />
+        <TextEditor
+          slotKey="portfolio.headline"
+          label="Headline"
+          fallback="Selected work — tap a card to see the breakdown."
+        />
+        <TextEditor
+          slotKey="portfolio.subhead"
+          label="Sub-paragraph"
+          multiline
+          fallback="Every piece here was built for a real business outcome — not a showreel."
+        />
+      </EditorSection>
+
+      <EditorSection title="Items" hint="Drag to reorder">
+        <CurrentSiteContentPreview
+          slotKey="portfolio.items"
+          legacyItems={portfolioItems}
+          describeItem={(i) => `${i.title} — ${i.category || "Project"}`}
+        />
+        <RepeatingListEditor
+          slotKey="portfolio.items"
+          label="Portfolio items"
+          itemFields={ITEM_FIELDS}
+          category="portfolio"
+          folder="mineworld/portfolio"
+        />
+      </EditorSection>
     </div>
   );
 }

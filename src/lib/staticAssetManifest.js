@@ -13,6 +13,13 @@
 import heroVideo from "../assets/hero-video.mp4";
 import heroPoster from "../assets/hero.png";
 import founderPhoto from "../assets/himanshu.JPG";
+import mineworldLogo from "../assets/mineworld-logo.png";
+import reelsShowcase from "../assets/reels-showcase.jpg";
+import reelsShowcase1 from "../assets/reels-showcase1.jpg";
+import podcastShowcase from "../assets/podcast-showcase.jpg";
+import podcastShowcase1 from "../assets/podcast-showcase1.jpg";
+import adsShowcase from "../assets/ads-showcase.jpg";
+import adsShowcase1 from "../assets/ads-showcase1.jpg";
 
 export const STATIC_ASSETS = {
   "hero.video": {
@@ -24,6 +31,14 @@ export const STATIC_ASSETS = {
     isStatic: true,
     label: "Built-in hero video",
   },
+  "hero.poster": {
+    type: "image",
+    url: heroPoster,
+    originalSource: "src/assets/hero.png",
+    category: "hero",
+    isStatic: true,
+    label: "Hero poster (first-frame fallback)",
+  },
   "founder.photo": {
     type: "image",
     url: founderPhoto,
@@ -31,6 +46,70 @@ export const STATIC_ASSETS = {
     category: "founder",
     isStatic: true,
     label: "Built-in founder portrait",
+  },
+  "nav.logo": {
+    type: "image",
+    url: mineworldLogo,
+    originalSource: "src/assets/mineworld-logo.png",
+    category: "brand",
+    isStatic: true,
+    label: "Brand logo (navbar + footer)",
+  },
+  "footer.logo": {
+    type: "image",
+    url: mineworldLogo,
+    originalSource: "src/assets/mineworld-logo.png",
+    category: "brand",
+    isStatic: true,
+    label: "Footer logo",
+  },
+  "editing.pair_reel.before": {
+    type: "image",
+    url: reelsShowcase,
+    originalSource: "src/assets/reels-showcase.jpg",
+    category: "editing-showcase",
+    isStatic: true,
+    label: "Reel — before (raw clip)",
+  },
+  "editing.pair_reel.after": {
+    type: "image",
+    url: reelsShowcase1,
+    originalSource: "src/assets/reels-showcase1.jpg",
+    category: "editing-showcase",
+    isStatic: true,
+    label: "Reel — after (retention edit)",
+  },
+  "editing.pair_podcast.before": {
+    type: "image",
+    url: podcastShowcase,
+    originalSource: "src/assets/podcast-showcase.jpg",
+    category: "editing-showcase",
+    isStatic: true,
+    label: "Podcast — before",
+  },
+  "editing.pair_podcast.after": {
+    type: "image",
+    url: podcastShowcase1,
+    originalSource: "src/assets/podcast-showcase1.jpg",
+    category: "editing-showcase",
+    isStatic: true,
+    label: "Podcast — after",
+  },
+  "editing.pair_ads.before": {
+    type: "image",
+    url: adsShowcase,
+    originalSource: "src/assets/ads-showcase.jpg",
+    category: "editing-showcase",
+    isStatic: true,
+    label: "Ads — before",
+  },
+  "editing.pair_ads.after": {
+    type: "image",
+    url: adsShowcase1,
+    originalSource: "src/assets/ads-showcase1.jpg",
+    category: "editing-showcase",
+    isStatic: true,
+    label: "Ads — after",
   },
 };
 

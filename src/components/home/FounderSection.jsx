@@ -10,11 +10,21 @@ import founderImage from "../../assets/himanshu.JPG";
 import useIsMobile from "../../utils/useIsMobile";
 import { useParallax } from "../../utils/gsapHooks";
 import { useSiteAsset, useSiteContent } from "../../hooks/useSiteContent";
+import { useSiteList } from "../../hooks/useSiteList";
+import RichText from "../../lib/richText.jsx";
 
 const DEFAULT_FOUNDER_NAME = "Himanshu Bhardwaj";
 const DEFAULT_FOUNDER_TITLE = "Founder & Creative Director";
 const DEFAULT_FOUNDER_TAGLINE =
   "Building Mineworld with an editing-first mindset, premium standards, and a sharp focus on how brands are perceived.";
+const DEFAULT_BULLETS = [
+  "Editing-first brand thinking",
+  "High visual standards",
+  "No-template creative direction",
+  "Premium digital positioning",
+  "Studio + growth integration",
+  "Authority-led execution",
+];
 
 function FounderSection() {
   const isMobile = useIsMobile(768);
@@ -28,6 +38,27 @@ function FounderSection() {
   const founderName = useSiteContent("founder.name", DEFAULT_FOUNDER_NAME);
   const founderTitle = useSiteContent("founder.title", DEFAULT_FOUNDER_TITLE);
   const founderBio = useSiteContent("founder.bio", DEFAULT_FOUNDER_TAGLINE);
+  const sectionEyebrow = useSiteContent("founder.eyebrow", "Founder");
+  const sectionHeading = useSiteContent(
+    "founder.section_heading",
+    "A premium brand needs a visible standard behind it."
+  );
+  const columnHeadingRich = useSiteContent("founder.column_heading_rich", null);
+  const mainParagraph = useSiteContent("founder.main_paragraph", null);
+  const cmsBullets = useSiteList("founder.bullets", null);
+  const bullets = cmsBullets
+    ? cmsBullets.map((b) => b.text || b.label || "")
+    : DEFAULT_BULLETS;
+  const noteEyebrow = useSiteContent("founder.note_eyebrow", "Founder Note");
+  const noteText = useSiteContent("founder.note_text", null);
+  const ctaPrimary = useSiteContent(
+    "founder.cta_primary_label",
+    "Explore Founder Profile"
+  );
+  const ctaSecondary = useSiteContent(
+    "founder.cta_secondary_label",
+    "Build with Mineworld"
+  );
 
   return (
     <section
@@ -63,12 +94,12 @@ function FounderSection() {
 
       <Container>
         <Reveal>
-          <SectionTag>Founder</SectionTag>
+          <SectionTag>{sectionEyebrow}</SectionTag>
         </Reveal>
 
         <Reveal delay={0.08}>
           <SectionHeading
-            title="A premium brand needs a visible standard behind it."
+            title={sectionHeading}
             subtitle="Mineworld is being built with a founder-led eye for sharp editing, strong perception, and a no-template approach to content, visuals, and digital authority."
           />
         </Reveal>
@@ -254,9 +285,15 @@ function FounderSection() {
                   color: "var(--text-primary)",
                 }}
               >
-                Mineworld is not being built to look “nice.”
-                <br />
-                It is being built to feel unforgettable.
+                {columnHeadingRich ? (
+                  <RichText value={columnHeadingRich} />
+                ) : (
+                  <>
+                    Mineworld is not being built to look “nice.”
+                    <br />
+                    It is being built to feel unforgettable.
+                  </>
+                )}
               </h3>
 
               <p
@@ -268,11 +305,8 @@ function FounderSection() {
                   maxWidth: "720px",
                 }}
               >
-                The vision behind Mineworld is simple: create a production and
-                digital brand that feels sharper, more cinematic, more premium,
-                and more strategically aware than the usual market standard.
-                Every section, every frame, and every output is meant to feel
-                intentional — not generic.
+                {mainParagraph ||
+                  "The vision behind Mineworld is simple: create a production and digital brand that feels sharper, more cinematic, more premium, and more strategically aware than the usual market standard. Every section, every frame, and every output is meant to feel intentional — not generic."}
               </p>
 
               <div
@@ -283,16 +317,9 @@ function FounderSection() {
                   marginTop: "30px",
                 }}
               >
-                {[
-                  "Editing-first brand thinking",
-                  "High visual standards",
-                  "No-template creative direction",
-                  "Premium digital positioning",
-                  "Studio + growth integration",
-                  "Authority-led execution",
-                ].map((point) => (
+                {bullets.map((point, i) => (
                   <div
-                    key={point}
+                    key={point || i}
                     style={{
                       padding: "16px 16px",
                       borderRadius: "18px",
@@ -327,7 +354,7 @@ function FounderSection() {
                     marginBottom: "12px",
                   }}
                 >
-                  Founder Note
+                  {noteEyebrow}
                 </div>
 
                 <p
@@ -339,9 +366,9 @@ function FounderSection() {
                     fontStyle: "italic",
                   }}
                 >
-                  “Mineworld is being built for clients and brands who want to
-                  look stronger, sharper, and harder to ignore. The goal is not
-                  to produce more content. The goal is to shape perception.”
+                  {noteText
+                    ? `“${noteText}”`
+                    : "“Mineworld is being built for clients and brands who want to look stronger, sharper, and harder to ignore. The goal is not to produce more content. The goal is to shape perception.”"}
                 </p>
               </div>
 
@@ -353,8 +380,8 @@ function FounderSection() {
                   marginTop: "28px",
                 }}
               >
-                <MagneticButton>Explore Founder Profile</MagneticButton>
-                <MagneticButton secondary>Build with Mineworld</MagneticButton>
+                <MagneticButton>{ctaPrimary}</MagneticButton>
+                <MagneticButton secondary>{ctaSecondary}</MagneticButton>
               </div>
             </motion.div>
           </Reveal>

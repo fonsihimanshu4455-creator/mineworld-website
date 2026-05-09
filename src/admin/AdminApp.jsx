@@ -17,6 +17,14 @@ import TeamMembersEditor from "./pages/cms/TeamMembersEditor";
 import ReelsEditor from "./pages/cms/ReelsEditor";
 import PressEditor from "./pages/cms/PressEditor";
 import AppsEditor from "./pages/cms/AppsEditor";
+import ManifestoEditor from "./pages/cms/ManifestoEditor";
+import CapabilitiesEditor from "./pages/cms/CapabilitiesEditor";
+import ServicesEditor from "./pages/cms/ServicesEditor";
+import ProcessEditor from "./pages/cms/ProcessEditor";
+import EditingShowcaseEditor from "./pages/cms/EditingShowcaseEditor";
+import CtaEditor from "./pages/cms/CtaEditor";
+import NavbarEditor from "./pages/cms/NavbarEditor";
+import ReviewsEditor from "./pages/cms/ReviewsEditor";
 
 function AdminApp() {
   const { authed, ready } = useAdminAuth();
@@ -65,6 +73,14 @@ function AdminApp() {
           <Route path="cms/reels" element={<ReelsEditor />} />
           <Route path="cms/press" element={<PressEditor />} />
           <Route path="cms/apps" element={<AppsEditor />} />
+          <Route path="cms/manifesto" element={<ManifestoEditor />} />
+          <Route path="cms/capabilities" element={<CapabilitiesEditor />} />
+          <Route path="cms/services" element={<ServicesEditor />} />
+          <Route path="cms/process" element={<ProcessEditor />} />
+          <Route path="cms/editing-showcase" element={<EditingShowcaseEditor />} />
+          <Route path="cms/cta" element={<CtaEditor />} />
+          <Route path="cms/navbar" element={<NavbarEditor />} />
+          <Route path="cms/reviews" element={<ReviewsEditor />} />
           <Route path="collections/:key" element={<CollectionEditor />} />
         </Route>
       </Routes>

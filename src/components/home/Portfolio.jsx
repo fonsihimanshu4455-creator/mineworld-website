@@ -9,6 +9,7 @@ import { theme } from "../../styles/theme";
 import { portfolioItems as defaultPortfolio } from "../../data/portfolioItems";
 import { useCollection } from "../../admin/hooks";
 import { useSiteList } from "../../hooks/useSiteList";
+import { useSiteContent } from "../../hooks/useSiteContent";
 import useIsMobile from "../../utils/useIsMobile";
 
 // Convert admin-shape portfolio item into the PortfolioCard shape the
@@ -173,6 +174,15 @@ function Portfolio() {
   const portfolioItems = cmsItems
     ? cmsItems.map(mapAdminPortfolioItem)
     : legacyItems;
+  const eyebrow = useSiteContent("portfolio.eyebrow", "Portfolio");
+  const headline = useSiteContent(
+    "portfolio.headline",
+    "Selected work — tap a card to see the breakdown."
+  );
+  const subhead = useSiteContent(
+    "portfolio.subhead",
+    "Every piece here was built for a real business outcome — not a showreel. Click any card to see the brief, our approach, deliverables, and measurable impact."
+  );
 
   return (
     <section
@@ -217,14 +227,11 @@ function Portfolio() {
 
       <Container>
         <Reveal>
-          <SectionTag>Portfolio</SectionTag>
+          <SectionTag>{eyebrow}</SectionTag>
         </Reveal>
 
         <Reveal delay={0.08}>
-          <SectionHeading
-            title="Selected work — tap a card to see the breakdown."
-            subtitle="Every piece here was built for a real business outcome — not a showreel. Click any card to see the brief, our approach, deliverables, and measurable impact."
-          />
+          <SectionHeading title={headline} subtitle={subhead} />
         </Reveal>
 
         <div

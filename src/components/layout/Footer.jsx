@@ -20,6 +20,23 @@ function Footer() {
   const cmsEmail = useSiteContent("footer.email", null);
   const cmsPhone = useSiteContent("footer.phone", null);
   const cmsAddress = useSiteContent("footer.address", null);
+  const ctaEyebrow = useSiteContent("footer.cta_eyebrow", "Start with Mineworld");
+  const ctaHeadline = useSiteContent(
+    "footer.cta_headline",
+    "If your brand still looks ordinary, that's the problem."
+  );
+  const brandDescription = useSiteContent(
+    "footer.brand_description",
+    "Mineworld Production is Delhi's premium full-stack creative and growth studio — websites, mobile apps, video editing, Meta ads, social media management, podcast production, and graphic design for brands, creators, clinics, and businesses."
+  );
+  const signatureText = useSiteContent(
+    "footer.signature_text",
+    "Mineworld Production"
+  );
+  const copyrightLine = useSiteContent(
+    "footer.copyright",
+    "©️ 2026 Mineworld Production. All rights reserved."
+  );
 
   const phoneDigits = (
     cmsPhone || settings.contact?.whatsappNumber || "919758850933"
@@ -138,7 +155,7 @@ function Footer() {
                 fontWeight: 700,
               }}
             >
-              Start with Mineworld
+              {ctaEyebrow}
             </div>
 
             <h2
@@ -153,9 +170,7 @@ function Footer() {
                   '"Playfair Display", Georgia, "Times New Roman", serif',
               }}
             >
-              If your brand still looks ordinary,
-              <br />
-              that’s the problem.
+              {ctaHeadline}
             </h2>
 
             <p
@@ -315,10 +330,7 @@ function Footer() {
                   lineHeight: 1.95,
                 }}
               >
-                Mineworld Production is Delhi's premium full-stack creative and
-                growth studio — websites, mobile apps, video editing, Meta ads,
-                social media management, podcast production, and graphic design
-                for brands, creators, clinics, and businesses.
+                {brandDescription}
               </p>
 
               <div
@@ -340,7 +352,7 @@ function Footer() {
                       '"Brush Script MT", "Lucida Handwriting", "Segoe Script", cursive',
                   }}
                 >
-                  Mineworld Production
+                  {signatureText}
                 </div>
 
                 <div
@@ -644,7 +656,7 @@ function Footer() {
               lineHeight: 1.7,
             }}
           >
-            ©️ 2026 Mineworld Production. All rights reserved.
+            {copyrightLine}
           </div>
 
           <div

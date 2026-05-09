@@ -8,6 +8,8 @@ import LazyVideo from "../common/LazyVideo";
 import CursorRunaway from "../common/CursorRunaway";
 import { theme } from "../../styles/theme";
 import { serviceCategories } from "../../data/serviceCategories";
+import { useSiteList } from "../../hooks/useSiteList";
+import { useSiteContent } from "../../hooks/useSiteContent";
 import useIsMobile from "../../utils/useIsMobile";
 
 function CategoryCard({ item, isMobile, size = "default" }) {
@@ -176,8 +178,27 @@ function CategoryCard({ item, isMobile, size = "default" }) {
 
 function Services() {
   const isMobile = useIsMobile(768);
-  const flagshipServices = serviceCategories.filter((s) => s.flagship);
-  const supportingServices = serviceCategories.filter((s) => !s.flagship);
+  const cmsItems = useSiteList("services.items", null);
+  // Map CMS items into the shape Services.jsx expects. Fall back to the
+  // canonical data when slot is empty so visual parity is preserved.
+  const allServices = cmsItems
+    ? cmsItems.map((item, i) => ({
+        slug: item.slug || `cms-svc-${i}`,
+        name: item.name || item.title || "",
+        short: item.short || "",
+        tagline: item.tagline || "",
+        color: item.color || "gold",
+        flagship: i < 3,
+        cover: item.cover_image?.cloudinary_url
+          ? { type: "image", src: item.cover_image.cloudinary_url, alt: item.name || "" }
+          : null,
+      }))
+    : serviceCategories;
+  const flagshipServices = allServices.filter((s) => s.flagship);
+  const supportingServices = allServices.filter((s) => !s.flagship);
+  const sectionEyebrow = useSiteContent("services.eyebrow", null);
+  const sectionHeadline = useSiteContent("services.headline", null);
+  const sectionSubhead = useSiteContent("services.subhead", null);
 
   return (
     <section
@@ -228,13 +249,19 @@ function Services() {
 
       <Container>
         <Reveal>
-          <SectionTag>Services</SectionTag>
+          <SectionTag>{sectionEyebrow || "Services"}</SectionTag>
         </Reveal>
 
         <Reveal delay={0.08}>
           <SectionHeading
-            title="Websites, apps & ads — plus everything that grows them."
-            subtitle="Three flagship offerings up top — websites, apps, and Meta ads — supported by a full creative studio underneath. Tap any card to see what's included, our approach, deliverables, and the pricing plan that fits."
+            title={
+              sectionHeadline ||
+              "Websites, apps & ads — plus everything that grows them."
+            }
+            subtitle={
+              sectionSubhead ||
+              "Three flagship offerings up top — websites, apps, and Meta ads — supported by a full creative studio underneath. Tap any card to see what's included, our approach, deliverables, and the pricing plan that fits."
+            }
           />
         </Reveal>
 

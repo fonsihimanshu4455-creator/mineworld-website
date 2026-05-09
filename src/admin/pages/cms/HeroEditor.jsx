@@ -1,6 +1,7 @@
 import { PageHeader } from "../Dashboard";
 import AssetUploader from "../../components/AssetUploader";
 import TextEditor from "../../components/TextEditor";
+import RichTextEditor from "../../components/RichTextEditor";
 import ColorPicker from "../../components/ColorPicker";
 import EditorSection from "../../components/EditorSection";
 
@@ -10,7 +11,7 @@ export default function HeroEditor() {
       <PageHeader
         eyebrow="CMS · Hero"
         title="Hero Section"
-        subtitle="The first impression. Background video, headline, sub-headline, colours, and the two CTAs. Public site updates live as you save."
+        subtitle="The first impression. Background video, headline (with rich gold-italic emphasis), sub-headline, colours, and the two CTAs."
       />
 
       <EditorSection title="Background Video" hint="Loops behind the headline">
@@ -23,23 +24,39 @@ export default function HeroEditor() {
         />
       </EditorSection>
 
+      <EditorSection title="Poster (first-frame fallback)">
+        <AssetUploader
+          slotKey="hero.poster"
+          accept="image"
+          category="hero"
+          folder="mineworld/hero"
+          tags={["hero", "poster"]}
+        />
+      </EditorSection>
+
       <EditorSection title="Headline & Copy">
         <TextEditor
           slotKey="hero.eyebrow"
           label="Eyebrow"
-          fallback="PRODUCTION HOUSE • DELHI"
+          fallback="Delhi · Websites · Apps · Video · Meta Ads · Growth"
+        />
+        <RichTextEditor
+          slotKey="hero.headline_rich"
+          label="Headline (rich)"
+          fallback="Websites. Apps.\nAds that *earn revenue*."
+          hint="Use *asterisks* for the gold italic span. \\n forces a line break."
         />
         <TextEditor
           slotKey="hero.headline"
-          label="Headline"
+          label="Plain headline (used only if rich is empty)"
           multiline
-          fallback="Mineworld — A premium production house."
+          fallback=""
         />
         <TextEditor
           slotKey="hero.subhead"
           label="Sub-headline"
           multiline
-          fallback="Editing-first. Premium standards. Building Mineworld with founder-led discipline and a sharp focus on perception."
+          fallback="Mineworld Production is Delhi's full-stack creative + growth studio — premium websites, native-feel mobile apps, retention-first video, Meta ad campaigns, and social media systems built for real leads and revenue, not vanity reach."
         />
       </EditorSection>
 
@@ -63,9 +80,19 @@ export default function HeroEditor() {
           fallback="Start a Project"
         />
         <TextEditor
+          slotKey="hero.cta_primary_link"
+          label="Primary CTA link (URL or 'contact-modal')"
+          fallback="contact-modal"
+        />
+        <TextEditor
           slotKey="hero.cta_secondary_label"
           label="Secondary CTA label"
-          fallback="View Our Work"
+          fallback="View Work"
+        />
+        <TextEditor
+          slotKey="hero.cta_secondary_link"
+          label="Secondary CTA link"
+          fallback="#portfolio"
         />
       </EditorSection>
     </div>

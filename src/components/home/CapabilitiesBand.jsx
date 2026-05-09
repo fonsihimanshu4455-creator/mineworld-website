@@ -7,6 +7,9 @@ import useIsMobile from "../../utils/useIsMobile";
 import { useCollection } from "../../admin/hooks";
 import { capabilityPillars as defaultPillars } from "../../data/capabilityPillars";
 import { techStack as defaultStack } from "../../data/techStack";
+import { useSiteContent } from "../../hooks/useSiteContent";
+import { useSiteList } from "../../hooks/useSiteList";
+import RichText from "../../lib/richText.jsx";
 
 function buildLogoSources(tool) {
   if (tool.customLogo) return [tool.customLogo];
@@ -71,8 +74,31 @@ function TechLogo({ tool }) {
 
 function CapabilitiesBand() {
   const isMobile = useIsMobile(768);
-  const pillars = useCollection("capabilityPillars", defaultPillars);
+  const legacyPillars = useCollection("capabilityPillars", defaultPillars);
+  const cmsPillars = useSiteList("capabilities.pillars", null);
+  const pillars = cmsPillars
+    ? cmsPillars.map((p) => ({
+        label: p.label || "",
+        title: p.title || "",
+        description: p.description || "",
+        bullets:
+          typeof p.bullets === "string"
+            ? p.bullets.split("\n").map((s) => s.trim()).filter(Boolean)
+            : Array.isArray(p.bullets)
+            ? p.bullets
+            : [],
+        accent: p.accent || "gold",
+      }))
+    : legacyPillars;
   const stack = useCollection("techStack", defaultStack);
+
+  const eyebrow = useSiteContent("capabilities.eyebrow", "Build · Create · Grow");
+  const headlineRich = useSiteContent("capabilities.headline_rich", null);
+  const subhead = useSiteContent("capabilities.subhead", null);
+  const toolsLabel = useSiteContent(
+    "capabilities.tools_label",
+    "Tools we ship with"
+  );
 
   return (
     <section
@@ -100,7 +126,7 @@ function CapabilitiesBand() {
                 display: "inline-block",
               }}
             >
-              Build · Create · Grow
+              {eyebrow}
             </SectionTag>
           </Reveal>
 
@@ -118,10 +144,16 @@ function CapabilitiesBand() {
                 maxWidth: "920px",
               }}
             >
-              One studio.{" "}
-              <span style={{ color: "var(--accent-gold)", fontStyle: "italic" }}>
-                Every layer of your brand.
-              </span>
+              {headlineRich ? (
+                <RichText value={headlineRich} />
+              ) : (
+                <>
+                  One studio.{" "}
+                  <span style={{ color: "var(--accent-gold)", fontStyle: "italic" }}>
+                    Every layer of your brand.
+                  </span>
+                </>
+              )}
             </h2>
           </Reveal>
 
@@ -135,9 +167,8 @@ function CapabilitiesBand() {
                 lineHeight: 1.85,
               }}
             >
-              Most agencies do one thing. We engineer the full stack — what
-              people see, what they click, and what makes them buy. Websites,
-              apps, content, and growth, calibrated to one premium standard.
+              {subhead ||
+                "Most agencies do one thing. We engineer the full stack — what people see, what they click, and what makes them buy. Websites, apps, content, and growth, calibrated to one premium standard."}
             </p>
           </Reveal>
         </div>
@@ -327,7 +358,7 @@ function CapabilitiesBand() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Tools we ship with
+                {toolsLabel}
               </div>
               <div
                 style={{

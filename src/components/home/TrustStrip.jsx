@@ -5,6 +5,7 @@ import { useCollection, useSiteSettings } from "../../admin/hooks";
 import { pressLogos as defaultPressLogos } from "../../data/pressLogos";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 import { useSiteList } from "../../hooks/useSiteList";
+import { useSiteContent } from "../../hooks/useSiteContent";
 
 function mapAdminPress(item) {
   const logoUrl =
@@ -241,6 +242,11 @@ function TrustStrip() {
   const legacyPress = useCollection("pressLogos", defaultPressLogos);
   const cmsPress = useSiteList("trust.featured_in_logos", null);
   const pressLogos = cmsPress ? cmsPress.map(mapAdminPress) : legacyPress;
+  const featuredEyebrow = useSiteContent("trust.featured_eyebrow", "As Featured In");
+  const featuredHeading = useSiteContent(
+    "trust.featured_heading",
+    "Trusted by founders. Spotted by the press."
+  );
   const settings = useSiteSettings(defaultSiteConfig);
   const appStoreHref = settings.stores?.appStore || "";
   const playStoreHref = settings.stores?.playStore || "";
@@ -288,7 +294,7 @@ function TrustStrip() {
                 marginBottom: "12px",
               }}
             >
-              As Featured In
+              {featuredEyebrow}
             </div>
           </Reveal>
           <Reveal delay={0.06}>
@@ -305,7 +311,7 @@ function TrustStrip() {
                 maxWidth: "720px",
               }}
             >
-              Trusted by founders. Spotted by the press.
+              {featuredHeading}
             </h2>
           </Reveal>
         </div>

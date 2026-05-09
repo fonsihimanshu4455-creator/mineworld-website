@@ -4,8 +4,10 @@ import Reveal from "../common/Reveal";
 import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
-import { processSteps } from "../../data/processSteps";
+import { processSteps as defaultProcessSteps } from "../../data/processSteps";
 import useIsMobile from "../../utils/useIsMobile";
+import { useSiteList } from "../../hooks/useSiteList";
+import { useSiteContent } from "../../hooks/useSiteContent";
 
 function StepCard({ step, isMobile, isLast }) {
   return (
@@ -164,8 +166,36 @@ function StepCard({ step, isMobile, isLast }) {
   );
 }
 
+function mapAdminStep(item, i) {
+  const bullets =
+    typeof item.deliverables === "string"
+      ? item.deliverables.split("\n").map((s) => s.trim()).filter(Boolean)
+      : Array.isArray(item.deliverables)
+      ? item.deliverables
+      : [];
+  return {
+    number: item.number || `0${i + 1}`,
+    eyebrow: item.eyebrow || "",
+    title: item.title || "",
+    duration: item.duration || "",
+    description: item.description || "",
+    deliverables: bullets,
+  };
+}
+
 function Process() {
   const isMobile = useIsMobile(768);
+  const cmsSteps = useSiteList("process.steps", null);
+  const processSteps = cmsSteps ? cmsSteps.map(mapAdminStep) : defaultProcessSteps;
+  const eyebrow = useSiteContent("process.eyebrow", "Our Process");
+  const headline = useSiteContent(
+    "process.headline",
+    "How we turn your content into a growth system."
+  );
+  const subhead = useSiteContent(
+    "process.subhead",
+    "No black box. Every project moves through the same 5 stages — from clarity call to live campaigns to monthly iteration. You always know what's next."
+  );
 
   return (
     <section
@@ -193,13 +223,10 @@ function Process() {
       />
       <Container>
         <Reveal>
-          <SectionTag>Our Process</SectionTag>
+          <SectionTag>{eyebrow}</SectionTag>
         </Reveal>
         <Reveal delay={0.08}>
-          <SectionHeading
-            title="How we turn your content into a growth system."
-            subtitle="No black box. Every project moves through the same 5 stages — from clarity call to live campaigns to monthly iteration. You always know what's next."
-          />
+          <SectionHeading title={headline} subtitle={subhead} />
         </Reveal>
 
         <div

@@ -5,6 +5,8 @@ import SectionTag from "../common/SectionTag";
 import BeforeAfterSlider from "../common/BeforeAfterSlider";
 import useIsMobile from "../../utils/useIsMobile";
 import { useSiteList } from "../../hooks/useSiteList";
+import { useSiteContent } from "../../hooks/useSiteContent";
+import RichText from "../../lib/richText.jsx";
 
 import reelsShowcase from "../../assets/reels-showcase.jpg";
 import reelsShowcase1 from "../../assets/reels-showcase1.jpg";
@@ -167,11 +169,39 @@ const beforeAfterPairs = [
   },
 ];
 
+function mapAdminPair(item, i) {
+  const before =
+    item?.before_image?.cloudinary_url ||
+    (typeof item?.before_image === "string" ? item.before_image : "");
+  const after =
+    item?.after_image?.cloudinary_url ||
+    (typeof item?.after_image === "string" ? item.after_image : "");
+  return {
+    id: item.id || `cms-pair-${i}`,
+    eyebrow: item.eyebrow || "Pair",
+    title: item.title || "",
+    description: item.description || "",
+    before,
+    after,
+  };
+}
+
 function EditingShowcase() {
   const isMobile = useIsMobile(768);
-  const [activePair, setActivePair] = useState(beforeAfterPairs[0].id);
+
+  const eyebrow = useSiteContent("editing.eyebrow", "Editing Showcase");
+  const headlineRich = useSiteContent("editing.headline_rich", null);
+  const subhead = useSiteContent("editing.subhead", null);
+  const beforeLabel = useSiteContent("editing.before_label", "Before");
+  const afterLabel = useSiteContent("editing.after_label", "After");
+
+  const cmsPairs = useSiteList("editing.pairs", null);
+  const pairs = cmsPairs ? cmsPairs.map(mapAdminPair) : beforeAfterPairs;
+
+  const [activePair, setActivePair] = useState(pairs[0]?.id || beforeAfterPairs[0].id);
   const pair =
-    beforeAfterPairs.find((p) => p.id === activePair) || beforeAfterPairs[0];
+    pairs.find((p) => p.id === activePair) || pairs[0] || beforeAfterPairs[0];
+
   // Optional vertical reels strip — only renders when the CMS slot has
   // visible items. Empty slot ⇒ no change to existing rendering.
   const reels = useSiteList("reel.videos", null);
@@ -194,7 +224,7 @@ function EditingShowcase() {
     >
       <Container style={{ position: "relative", zIndex: 1 }}>
         <Reveal>
-          <SectionTag>Editing Showcase</SectionTag>
+          <SectionTag>{eyebrow}</SectionTag>
         </Reveal>
 
         <Reveal delay={0.06}>
@@ -211,15 +241,21 @@ function EditingShowcase() {
                   '"Playfair Display", Georgia, "Times New Roman", serif',
               }}
             >
-              Drag to see what retention-first editing{" "}
-              <span
-                style={{
-                  color: "var(--accent-gold)",
-                  fontStyle: "italic",
-                }}
-              >
-                actually changes.
-              </span>
+              {headlineRich ? (
+                <RichText value={headlineRich} />
+              ) : (
+                <>
+                  Drag to see what retention-first editing{" "}
+                  <span
+                    style={{
+                      color: "var(--accent-gold)",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    actually changes.
+                  </span>
+                </>
+              )}
             </h2>
             <span
               aria-hidden="true"
@@ -241,8 +277,8 @@ function EditingShowcase() {
                 opacity: 0.78,
               }}
             >
-              Same raw footage, different structure — that’s where most
-              of the growth comes from.
+              {subhead ||
+                "Same raw footage, different structure — that’s where most of the growth comes from."}
             </p>
           </div>
         </Reveal>
@@ -270,8 +306,8 @@ function EditingShowcase() {
             <BeforeAfterSlider
               beforeSrc={pair.before}
               afterSrc={pair.after}
-              beforeLabel="Before"
-              afterLabel="After"
+              beforeLabel={beforeLabel}
+              afterLabel={afterLabel}
               aspectRatio={isMobile ? "4 / 5" : "16 / 10"}
             />
 

@@ -4,9 +4,29 @@ import Container from "../common/Container";
 import Reveal from "../common/Reveal";
 import { theme } from "../../styles/theme";
 import useIsMobile from "../../utils/useIsMobile";
+import { useSiteContent } from "../../hooks/useSiteContent";
+import { useSiteList } from "../../hooks/useSiteList";
+import RichText from "../../lib/richText.jsx";
+
+const DEFAULT_TAGS = [
+  { label: "Cinematic Edit", visible: true },
+  { label: "Performance Ad", visible: true },
+  { label: "Brand System", visible: true },
+  { label: "Studio Shoot", visible: true },
+];
 
 function ManifestoBand() {
   const isMobile = useIsMobile(768);
+  const eyebrow = useSiteContent(
+    "manifesto.eyebrow",
+    "Mineworld · The Studio Mantra"
+  );
+  const headlineRich = useSiteContent("manifesto.headline_rich", null);
+  const subhead = useSiteContent(
+    "manifesto.subhead",
+    null
+  );
+  const tags = useSiteList("manifesto.tags", DEFAULT_TAGS);
 
   return (
     <section
@@ -84,7 +104,7 @@ function ManifestoBand() {
               textAlign: isMobile ? "left" : "center",
             }}
           >
-            Mineworld · The Studio Mantra
+            {eyebrow}
           </div>
         </Reveal>
 
@@ -103,21 +123,27 @@ function ManifestoBand() {
               textAlign: isMobile ? "left" : "center",
             }}
           >
-            We don't make{" "}
-            <span style={{ color: theme.colors.goldDeep, fontStyle: "italic" }}>
-              content.
-            </span>{" "}
-            We engineer{" "}
-            <span style={{ color: theme.colors.goldDeep, fontStyle: "italic" }}>
-              attention,
-            </span>{" "}
-            <span style={{ color: theme.colors.goldDeep, fontStyle: "italic" }}>
-              authority,
-            </span>{" "}
-            and{" "}
-            <span style={{ color: theme.colors.goldDeep, fontStyle: "italic" }}>
-              revenue.
-            </span>
+            {headlineRich ? (
+              <RichText value={headlineRich} goldColor={theme.colors.goldDeep} />
+            ) : (
+              <>
+                We don't make{" "}
+                <span style={{ color: theme.colors.goldDeep, fontStyle: "italic" }}>
+                  content.
+                </span>{" "}
+                We engineer{" "}
+                <span style={{ color: theme.colors.goldDeep, fontStyle: "italic" }}>
+                  attention,
+                </span>{" "}
+                <span style={{ color: theme.colors.goldDeep, fontStyle: "italic" }}>
+                  authority,
+                </span>{" "}
+                and{" "}
+                <span style={{ color: theme.colors.goldDeep, fontStyle: "italic" }}>
+                  revenue.
+                </span>
+              </>
+            )}
           </h2>
         </Reveal>
 
@@ -132,9 +158,13 @@ function ManifestoBand() {
               textAlign: isMobile ? "left" : "center",
             }}
           >
-            Every reel, ad, and pixel that leaves this studio is calibrated to a
-            single question — <em>does it make the right person stop scrolling
-            and start trusting?</em> If yes, ship it. If not, cut it.
+            {subhead || (
+              <>
+                Every reel, ad, and pixel that leaves this studio is calibrated to a
+                single question — <em>does it make the right person stop scrolling
+                and start trusting?</em> If yes, ship it. If not, cut it.
+              </>
+            )}
           </p>
         </Reveal>
 
@@ -149,14 +179,9 @@ function ManifestoBand() {
               alignItems: "center",
             }}
           >
-            {[
-              "Cinematic Edit",
-              "Performance Ad",
-              "Brand System",
-              "Studio Shoot",
-            ].map((tag, i) => (
+            {tags.map((tag, i) => (
               <motion.div
-                key={tag}
+                key={tag.label || tag}
                 initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
@@ -174,7 +199,7 @@ function ManifestoBand() {
                   WebkitBackdropFilter: "blur(6px)",
                 }}
               >
-                {tag}
+                {tag.label || tag}
               </motion.div>
             ))}
           </div>
