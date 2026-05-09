@@ -318,15 +318,29 @@ function ChatWidget() {
                     key={reply}
                     onClick={() => handleQuickReply(reply)}
                     style={{
-                      padding: "8px 12px",
+                      padding: "9px 14px",
                       borderRadius: "999px",
-                      border: "1px solid rgba(188,153,102,0.34)",
-                      background: "rgba(188,153,102,0.08)",
-                      color: "#F7D58A",
+                      border: "1px solid rgba(184, 149, 106, 0.5)",
+                      background: "rgba(255, 255, 255, 0.06)",
+                      color: "var(--bg-cream-soft)",
                       fontSize: "12.5px",
-                      fontWeight: 700,
+                      fontWeight: 600,
                       cursor: "pointer",
                       fontFamily: "inherit",
+                      transition: "all 0.22s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background =
+                        "rgba(184, 149, 106, 0.18)";
+                      e.currentTarget.style.borderColor = "var(--accent-gold)";
+                      e.currentTarget.style.color = "#FFFFFF";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background =
+                        "rgba(255, 255, 255, 0.06)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(184, 149, 106, 0.5)";
+                      e.currentTarget.style.color = "var(--bg-cream-soft)";
                     }}
                   >
                     {reply}

@@ -177,11 +177,11 @@ function Footer() {
                   cursor: "pointer",
                 }}
               >
-                <MagneticButton>Start a Project</MagneticButton>
+                <MagneticButton onDark>Start a Project</MagneticButton>
               </button>
 
               <a href={telHref} style={{ textDecoration: "none" }}>
-                <MagneticButton secondary>Book a Strategy Call</MagneticButton>
+                <MagneticButton secondary onDark>Book a Strategy Call</MagneticButton>
               </a>
             </div>
 
@@ -201,14 +201,17 @@ function Footer() {
               ].map((item) => (
                 <div
                   key={item}
+                  className="cta-feature-pill"
                   style={{
-                    padding: "10px 14px",
+                    padding: "10px 20px",
                     borderRadius: "999px",
-                    border: `1px solid ${"rgba(184, 149, 106, 0.20)"}`,
-                    background: "rgba(58,78,115,0.48)",
+                    border: "1px solid rgba(184, 149, 106, 0.3)",
+                    background: "rgba(255, 255, 255, 0.08)",
                     color: "var(--bg-cream-soft)",
-                    fontSize: isMobile ? "12px" : "13px",
+                    fontSize: isMobile ? "13px" : "14px",
+                    fontWeight: 500,
                     lineHeight: 1.3,
+                    transition: "all 0.3s ease",
                   }}
                 >
                   {item}
@@ -591,7 +594,7 @@ function Footer() {
                     cursor: "pointer",
                   }}
                 >
-                  <MagneticButton secondary>Start a Project</MagneticButton>
+                  <MagneticButton secondary onDark>Start a Project</MagneticButton>
                 </button>
               </div>
             </div>
@@ -655,6 +658,11 @@ function Footer() {
         #footer a:hover {
           color: var(--accent-gold) !important;
           opacity: 1;
+        }
+        #footer .cta-feature-pill:hover {
+          background: rgba(184, 149, 106, 0.15);
+          border-color: var(--accent-gold);
+          color: #FFFFFF;
         }
       `}</style>
     </footer>
