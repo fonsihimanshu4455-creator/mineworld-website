@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { db, firebaseEnabled } from "../firebase";
 import { ASSETS_COLLECTION } from "../../lib/cms-schema";
+import { listStaticAssets } from "../../lib/staticAssetManifest";
 import { findSlotsUsingAsset } from "../cmsStore";
 import AssetSlotCard from "../components/AssetSlotCard";
 import DeleteAssetDialog from "../components/DeleteAssetDialog";
@@ -31,6 +32,8 @@ const CATEGORIES = [
 ];
 
 const TYPES = ["all", "image", "video"];
+
+const SOURCES = ["all", "cloudinary", "static"];
 
 const cardStyle = {
   background: "rgba(255,255,255,0.04)",
@@ -73,6 +76,7 @@ function AssetCard({ asset, selected, onSelect, onClick }) {
   const isLogo =
     asset.category === "logo-wall" || asset.asset_type === "logo";
   const transparent = isLogo;
+  const isStatic = !!asset.isStatic;
 
   return (
     <div
@@ -143,20 +147,42 @@ function AssetCard({ asset, selected, onSelect, onClick }) {
             </span>
           </span>
         )}
-        <input
-          type="checkbox"
-          checked={selected}
-          onClick={(e) => e.stopPropagation()}
-          onChange={onSelect}
+        {!isStatic && (
+          <input
+            type="checkbox"
+            checked={selected}
+            onClick={(e) => e.stopPropagation()}
+            onChange={onSelect}
+            style={{
+              position: "absolute",
+              top: 8,
+              left: 8,
+              width: 18,
+              height: 18,
+              cursor: "pointer",
+            }}
+          />
+        )}
+        <span
           style={{
             position: "absolute",
             top: 8,
-            left: 8,
-            width: 18,
-            height: 18,
-            cursor: "pointer",
+            right: 8,
+            padding: "3px 8px",
+            borderRadius: 999,
+            background: isStatic
+              ? "rgba(217, 185, 135, 0.9)"
+              : "rgba(134, 230, 156, 0.85)",
+            color: isStatic ? "#1F2D4D" : "#0a3a16",
+            fontSize: 10,
+            fontWeight: 800,
+            letterSpacing: 0.4,
+            textTransform: "uppercase",
           }}
-        />
+          title={isStatic ? "Bundled with the site (built-in)" : "Stored on Cloudinary"}
+        >
+          {isStatic ? "📦 Static" : "☁ Cloudinary"}
+        </span>
         {asset.format && (
           <span
             style={{
@@ -442,22 +468,41 @@ function AssetDetailModal({ asset, onClose, onDelete }) {
             marginTop: 18,
           }}
         >
-          <button
-            type="button"
-            onClick={onDelete}
-            style={{
-              padding: "10px 20px",
-              borderRadius: 999,
-              border: "1px solid rgba(255,120,120,0.35)",
-              background: "rgba(255,120,120,0.08)",
-              color: "#ff9e9e",
-              fontWeight: 700,
-              fontSize: 13,
-              cursor: "pointer",
-            }}
-          >
-            Delete asset
-          </button>
+          {asset.isStatic ? (
+            <span
+              style={{
+                padding: "10px 16px",
+                borderRadius: 999,
+                border: "1px dashed rgba(217, 185, 135, 0.35)",
+                color: "rgba(245,241,232,0.6)",
+                fontSize: 12.5,
+                fontWeight: 600,
+              }}
+            >
+              Built-in asset — replace it from the editor page (e.g.{" "}
+              {asset.slot_key
+                ? `/admin/cms/${asset.slot_key.split(".")[0]}`
+                : "the relevant editor"}
+              ).
+            </span>
+          ) : (
+            <button
+              type="button"
+              onClick={onDelete}
+              style={{
+                padding: "10px 20px",
+                borderRadius: 999,
+                border: "1px solid rgba(255,120,120,0.35)",
+                background: "rgba(255,120,120,0.08)",
+                color: "#ff9e9e",
+                fontWeight: 700,
+                fontSize: 13,
+                cursor: "pointer",
+              }}
+            >
+              Delete asset
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -471,6 +516,7 @@ function AssetLibrary() {
 
   const [category, setCategory] = useState("all");
   const [type, setType] = useState("all");
+  const [source, setSource] = useState("all");
   const [search, setSearch] = useState("");
   const [showOrphans, setShowOrphans] = useState(false);
 
@@ -536,8 +582,21 @@ function AssetLibrary() {
     };
   }, [showOrphans, assets]);
 
+  // Merge Cloudinary uploads with static (built-in) assets — static
+  // ones surface so admin can see what's currently live even before
+  // any upload happens.
+  const staticAssets = useMemo(() => listStaticAssets(), []);
+
   const filtered = useMemo(() => {
-    let list = assets;
+    let list = [...assets];
+    if (source === "all" || source === "static") {
+      list = [...list, ...staticAssets];
+    }
+    if (source === "static") {
+      list = list.filter((a) => a.isStatic);
+    } else if (source === "cloudinary") {
+      list = list.filter((a) => !a.isStatic);
+    }
     if (category !== "all")
       list = list.filter((a) => a.category === category);
     if (type !== "all")
@@ -552,16 +611,18 @@ function AssetLibrary() {
         (a) =>
           (a.original_name || "").toLowerCase().includes(q) ||
           (a.cloudinary_id || "").toLowerCase().includes(q) ||
+          (a.slot_key || "").toLowerCase().includes(q) ||
           (Array.isArray(a.tags)
             ? a.tags.join(",").toLowerCase().includes(q)
             : false)
       );
     }
     if (showOrphans && orphanIds) {
-      list = list.filter((a) => orphanIds.has(a.id));
+      // Static assets are never "orphan" candidates — they are bundled.
+      list = list.filter((a) => !a.isStatic && orphanIds.has(a.id));
     }
     return list;
-  }, [assets, category, type, search, showOrphans, orphanIds]);
+  }, [assets, staticAssets, source, category, type, search, showOrphans, orphanIds]);
 
   const toggleSelect = (id) => {
     setSelected((prev) => {
@@ -608,6 +669,21 @@ function AssetLibrary() {
             placeholder="Search by name or tags…"
             style={{ ...inputStyle, flex: "1 1 240px", minWidth: 200 }}
           />
+          <select
+            value={source}
+            onChange={(e) => setSource(e.target.value)}
+            style={inputStyle}
+          >
+            {SOURCES.map((s) => (
+              <option key={s} value={s}>
+                {s === "all"
+                  ? "All sources"
+                  : s === "cloudinary"
+                  ? "Cloudinary uploads"
+                  : "Static (built-in)"}
+              </option>
+            ))}
+          </select>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
