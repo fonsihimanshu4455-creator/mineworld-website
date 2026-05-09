@@ -9,6 +9,7 @@ const sidebarLinks = [
   { to: "/admin/settings", label: "Settings" },
   { to: "/admin/preview", label: "Live Preview" },
   { to: "/admin/submissions", label: "Submissions" },
+  { to: "/admin/migrate", label: "CMS · Migrate (Phase 1)" },
   ...collectionOrder.map((key) => ({
     to: `/admin/collections/${key}`,
     label: schemas[key].label,

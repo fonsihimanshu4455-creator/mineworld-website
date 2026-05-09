@@ -6,6 +6,7 @@ import SettingsEditor from "./pages/SettingsEditor";
 import CollectionEditor from "./pages/CollectionEditor";
 import SubmissionsEditor from "./pages/SubmissionsEditor";
 import PreviewEditor from "./pages/PreviewEditor";
+import MigrateAssets from "./pages/MigrateAssets";
 
 function AdminApp() {
   const { authed, ready } = useAdminAuth();
@@ -43,6 +44,7 @@ function AdminApp() {
           <Route path="settings" element={<SettingsEditor />} />
           <Route path="preview" element={<PreviewEditor />} />
           <Route path="submissions" element={<SubmissionsEditor />} />
+          <Route path="migrate" element={<MigrateAssets />} />
           <Route path="collections/:key" element={<CollectionEditor />} />
         </Route>
       </Routes>
