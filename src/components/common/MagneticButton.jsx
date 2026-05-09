@@ -26,9 +26,22 @@ function MagneticButton({
     color = "#1F2D4D";
   }
 
+  // Secondary buttons get an explicit "fill with gold on hover" treatment
+  // so the dark-on-cream version (Footer "Book a Strategy Call") becomes
+  // strong-contrast gold-on-navy on hover.
+  const hoverBackground = secondary ? "#B8956A" : background;
+  const hoverColor = secondary ? "#1F2D4D" : color;
+  const hoverBorderColor = secondary ? "#B8956A" : undefined;
+
   return (
     <motion.button
-      whileHover={{ scale: 1.04, y: -2 }}
+      whileHover={{
+        scale: 1.04,
+        y: -2,
+        backgroundColor: hoverBackground,
+        color: hoverColor,
+        ...(secondary ? { borderColor: hoverBorderColor } : {}),
+      }}
       whileTap={{ scale: 0.98 }}
       transition={{ type: "spring", stiffness: 260, damping: 18 }}
       style={{
