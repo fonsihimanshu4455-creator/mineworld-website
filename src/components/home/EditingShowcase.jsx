@@ -4,6 +4,9 @@ import Reveal from "../common/Reveal";
 import SectionTag from "../common/SectionTag";
 import BeforeAfterSlider from "../common/BeforeAfterSlider";
 import useIsMobile from "../../utils/useIsMobile";
+import { useSiteList } from "../../hooks/useSiteList";
+import { useSiteContent } from "../../hooks/useSiteContent";
+import RichText from "../../lib/richText.jsx";
 
 import reelsShowcase from "../../assets/reels-showcase.jpg";
 import reelsShowcase1 from "../../assets/reels-showcase1.jpg";
@@ -11,6 +14,130 @@ import podcastShowcase from "../../assets/podcast-showcase.jpg";
 import podcastShowcase1 from "../../assets/podcast-showcase1.jpg";
 import adsShowcase from "../../assets/ads-showcase.jpg";
 import adsShowcase1 from "../../assets/ads-showcase1.jpg";
+
+// Render a vertical 9:16 reel card from an admin-edited reel item.
+function ReelCard({ reel, isMobile }) {
+  const thumb =
+    reel?.thumbnail?.cloudinary_url ||
+    (typeof reel?.thumbnail === "string" ? reel.thumbnail : "");
+  const video =
+    reel?.video_file?.cloudinary_url ||
+    (typeof reel?.video_file === "string" ? reel.video_file : "");
+  return (
+    <div
+      style={{
+        position: "relative",
+        aspectRatio: "9 / 16",
+        borderRadius: 14,
+        overflow: "hidden",
+        background: "#000",
+        border: "1px solid rgba(184, 149, 106, 0.22)",
+        boxShadow: "0 12px 28px rgba(0,0,0,0.28)",
+      }}
+    >
+      {video ? (
+        <video
+          src={video}
+          poster={thumb || undefined}
+          muted
+          loop
+          playsInline
+          autoPlay
+          preload="metadata"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      ) : thumb ? (
+        <img
+          src={thumb}
+          alt={reel.title || ""}
+          loading="lazy"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      ) : null}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.2) 38%, transparent 60%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          left: 14,
+          right: 14,
+          bottom: 12,
+          color: "#fff",
+        }}
+      >
+        {reel.title ? (
+          <div
+            style={{
+              fontSize: isMobile ? 14 : 15,
+              fontWeight: 700,
+              letterSpacing: "-0.2px",
+              lineHeight: 1.2,
+            }}
+          >
+            {reel.title}
+          </div>
+        ) : null}
+        {reel.duration ? (
+          <div
+            style={{
+              fontSize: 11,
+              color: "rgba(255,255,255,0.78)",
+              marginTop: 4,
+              letterSpacing: 0.4,
+            }}
+          >
+            {reel.duration}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function ReelStrip({ reels, isMobile }) {
+  if (!reels || reels.length === 0) return null;
+  return (
+    <Reveal delay={0.06}>
+      <div
+        style={{
+          marginBottom: isMobile ? "32px" : "44px",
+          display: "grid",
+          gridTemplateColumns: isMobile
+            ? "repeat(2, minmax(0, 1fr))"
+            : `repeat(${Math.min(reels.length, 4)}, minmax(0, 1fr))`,
+          gap: isMobile ? "14px" : "18px",
+        }}
+      >
+        {reels.map((reel, i) => (
+          <ReelCard
+            key={reel.id || i}
+            reel={reel}
+            isMobile={isMobile}
+          />
+        ))}
+      </div>
+    </Reveal>
+  );
+}
 
 const beforeAfterPairs = [
   {
@@ -42,11 +169,42 @@ const beforeAfterPairs = [
   },
 ];
 
+function mapAdminPair(item, i) {
+  const before =
+    item?.before_image?.cloudinary_url ||
+    (typeof item?.before_image === "string" ? item.before_image : "");
+  const after =
+    item?.after_image?.cloudinary_url ||
+    (typeof item?.after_image === "string" ? item.after_image : "");
+  return {
+    id: item.id || `cms-pair-${i}`,
+    eyebrow: item.eyebrow || "Pair",
+    title: item.title || "",
+    description: item.description || "",
+    before,
+    after,
+  };
+}
+
 function EditingShowcase() {
   const isMobile = useIsMobile(768);
-  const [activePair, setActivePair] = useState(beforeAfterPairs[0].id);
+
+  const eyebrow = useSiteContent("editing.eyebrow", "Editing Showcase");
+  const headlineRich = useSiteContent("editing.headline_rich", null);
+  const subhead = useSiteContent("editing.subhead", null);
+  const beforeLabel = useSiteContent("editing.before_label", "Before");
+  const afterLabel = useSiteContent("editing.after_label", "After");
+
+  const cmsPairs = useSiteList("editing.pairs", null);
+  const pairs = cmsPairs ? cmsPairs.map(mapAdminPair) : beforeAfterPairs;
+
+  const [activePair, setActivePair] = useState(pairs[0]?.id || beforeAfterPairs[0].id);
   const pair =
-    beforeAfterPairs.find((p) => p.id === activePair) || beforeAfterPairs[0];
+    pairs.find((p) => p.id === activePair) || pairs[0] || beforeAfterPairs[0];
+
+  // Optional vertical reels strip — only renders when the CMS slot has
+  // visible items. Empty slot ⇒ no change to existing rendering.
+  const reels = useSiteList("reel.videos", null);
 
   return (
     <section
@@ -66,7 +224,7 @@ function EditingShowcase() {
     >
       <Container style={{ position: "relative", zIndex: 1 }}>
         <Reveal>
-          <SectionTag>Editing Showcase</SectionTag>
+          <SectionTag>{eyebrow}</SectionTag>
         </Reveal>
 
         <Reveal delay={0.06}>
@@ -83,15 +241,21 @@ function EditingShowcase() {
                   '"Playfair Display", Georgia, "Times New Roman", serif',
               }}
             >
-              Drag to see what retention-first editing{" "}
-              <span
-                style={{
-                  color: "var(--accent-gold)",
-                  fontStyle: "italic",
-                }}
-              >
-                actually changes.
-              </span>
+              {headlineRich ? (
+                <RichText value={headlineRich} />
+              ) : (
+                <>
+                  Drag to see what retention-first editing{" "}
+                  <span
+                    style={{
+                      color: "var(--accent-gold)",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    actually changes.
+                  </span>
+                </>
+              )}
             </h2>
             <span
               aria-hidden="true"
@@ -113,11 +277,15 @@ function EditingShowcase() {
                 opacity: 0.78,
               }}
             >
-              Same raw footage, different structure — that&rsquo;s where most
-              of the growth comes from.
+              {subhead ||
+                "Same raw footage, different structure — that’s where most of the growth comes from."}
             </p>
           </div>
         </Reveal>
+
+        {reels && reels.length > 0 ? (
+          <ReelStrip reels={reels} isMobile={isMobile} />
+        ) : null}
 
         <Reveal delay={0.1}>
           <div
@@ -138,8 +306,8 @@ function EditingShowcase() {
             <BeforeAfterSlider
               beforeSrc={pair.before}
               afterSrc={pair.after}
-              beforeLabel="Before"
-              afterLabel="After"
+              beforeLabel={beforeLabel}
+              afterLabel={afterLabel}
               aspectRatio={isMobile ? "4 / 5" : "16 / 10"}
             />
 

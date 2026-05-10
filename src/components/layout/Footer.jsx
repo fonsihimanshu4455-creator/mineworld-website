@@ -8,22 +8,61 @@ import useIsMobile from "../../utils/useIsMobile";
 import { useSiteSettings } from "../../admin/hooks";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 import defaultLogo from "../../assets/mineworld-logo.png";
+import { useSiteAsset, useSiteContent } from "../../hooks/useSiteContent";
 
 function Footer() {
   const isMobile = useIsMobile(768);
   const settings = useSiteSettings(defaultSiteConfig);
-  const logoSrc = settings.logo?.src || defaultLogo;
+  const cmsFooterLogo = useSiteAsset("footer.logo", null);
+  const cmsFooterLogoUrl =
+    typeof cmsFooterLogo === "object" && cmsFooterLogo?.url
+      ? cmsFooterLogo.url
+      : null;
+  const cmsFooterLogoSize = useSiteContent("footer.logo_size", null);
+  const cmsFooterLogoAlt = useSiteContent("footer.logo_alt", null);
+  const logoSrc = cmsFooterLogoUrl || settings.logo?.src || defaultLogo;
+  const parsedFooterSize = Number(cmsFooterLogoSize);
+  const footerLogoWidth =
+    Number.isFinite(parsedFooterSize) && parsedFooterSize > 0
+      ? parsedFooterSize
+      : null;
   const logoScale = Number(settings.logo?.scale) || 1.45;
-  const phoneDigits = (settings.contact?.whatsappNumber || "919758850933").replace(/\D/g, "");
+
+  // CMS overlay — admin-set values take precedence over legacy settings.
+  const cmsEmail = useSiteContent("footer.email", null);
+  const cmsPhone = useSiteContent("footer.phone", null);
+  const cmsAddress = useSiteContent("footer.address", null);
+  const ctaEyebrow = useSiteContent("footer.cta_eyebrow", "Start with Mineworld");
+  const ctaHeadline = useSiteContent(
+    "footer.cta_headline",
+    "If your brand still looks ordinary, that's the problem."
+  );
+  const brandDescription = useSiteContent(
+    "footer.brand_description",
+    "Mineworld Production is Delhi's premium full-stack creative and growth studio — websites, mobile apps, video editing, Meta ads, social media management, podcast production, and graphic design for brands, creators, clinics, and businesses."
+  );
+  const signatureText = useSiteContent(
+    "footer.signature_text",
+    "Mineworld Production"
+  );
+  const copyrightLine = useSiteContent(
+    "footer.copyright",
+    "©️ 2026 Mineworld Production. All rights reserved."
+  );
+
+  const phoneDigits = (
+    cmsPhone || settings.contact?.whatsappNumber || "919758850933"
+  ).replace(/\D/g, "");
   const phoneDisplay = phoneDigits.length > 10
     ? `+${phoneDigits.slice(0, phoneDigits.length - 10)} ${phoneDigits.slice(-10)}`
     : `+${phoneDigits}`;
-  const email = settings.contact?.email || "mineworldproduction4455@gmail.com";
-  const address = settings.contact?.address || "Mayur Vihar Phase 1, Delhi, 110091";
+  const email =
+    cmsEmail || settings.contact?.email || "mineworldproduction4455@gmail.com";
+  const address =
+    cmsAddress ||
+    settings.contact?.address ||
+    "Mayur Vihar Phase 1, Delhi, 110091";
   const instagramHref = settings.social?.instagram || "https://instagram.com/";
-  const facebookHref = settings.social?.facebook;
-  const youtubeHref = settings.social?.youtube;
-  const linkedinHref = settings.social?.linkedin;
   const whatsappHref = `https://wa.me/${phoneDigits}`;
   const telHref = `tel:+${phoneDigits}`;
 
@@ -125,7 +164,7 @@ function Footer() {
                 fontWeight: 700,
               }}
             >
-              Start with Mineworld
+              {ctaEyebrow}
             </div>
 
             <h2
@@ -140,9 +179,7 @@ function Footer() {
                   '"Playfair Display", Georgia, "Times New Roman", serif',
               }}
             >
-              If your brand still looks ordinary,
-              <br />
-              that’s the problem.
+              {ctaHeadline}
             </h2>
 
             <p
@@ -257,9 +294,13 @@ function Footer() {
                 >
                   <img
                     src={logoSrc}
-                    alt="Mineworld Production logo"
+                    alt={cmsFooterLogoAlt || "Mineworld Production logo"}
                     style={{
-                      width: isMobile ? "36px" : "44px",
+                      width: footerLogoWidth
+                        ? `${footerLogoWidth}px`
+                        : isMobile
+                        ? "36px"
+                        : "44px",
                       height: "auto",
                       objectFit: "contain",
                       transform: `scale(${logoScale})`,
@@ -302,10 +343,7 @@ function Footer() {
                   lineHeight: 1.95,
                 }}
               >
-                Mineworld Production is Delhi's premium full-stack creative and
-                growth studio — websites, mobile apps, video editing, Meta ads,
-                social media management, podcast production, and graphic design
-                for brands, creators, clinics, and businesses.
+                {brandDescription}
               </p>
 
               <div
@@ -327,7 +365,7 @@ function Footer() {
                       '"Brush Script MT", "Lucida Handwriting", "Segoe Script", cursive',
                   }}
                 >
-                  Mineworld Production
+                  {signatureText}
                 </div>
 
                 <div
@@ -357,12 +395,7 @@ function Footer() {
                 Navigation
               </div>
 
-              <div
-                style={{
-                  display: "grid",
-                  gap: "8px",
-                }}
-              >
+              <div style={{ display: "grid", gap: "8px" }}>
                 {navItems.map((item) => (
                   <button
                     key={item.target}
@@ -400,12 +433,7 @@ function Footer() {
                 Services
               </div>
 
-              <div
-                style={{
-                  display: "grid",
-                  gap: "8px",
-                }}
-              >
+              <div style={{ display: "grid", gap: "8px" }}>
                 {services.map((item) => (
                   <div
                     key={item}
@@ -437,19 +465,8 @@ function Footer() {
                 Work With Us
               </div>
 
-              <div
-                style={{
-                  display: "grid",
-                  gap: "14px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "flex-start",
-                  }}
-                >
+              <div style={{ display: "grid", gap: "14px" }}>
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
                   <div style={iconWrap}>
                     <svg viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z" />
@@ -465,84 +482,34 @@ function Footer() {
                   </a>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "flex-start",
-                  }}
-                >
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
                   <div style={iconWrap}>
                     <svg viewBox="0 0 24 24" fill="currentColor">
                       <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3.2-8 5-8-5V6l8 5 8-5v1.2z" />
                     </svg>
                   </div>
-                  <a
-                    href={`mailto:${email}`}
-                    style={linkStyle}
-                  >
-                    {email}
-                  </a>
+                  <a href={`mailto:${email}`} style={linkStyle}>{email}</a>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "flex-start",
-                  }}
-                >
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
                   <div style={iconWrap}>
                     <svg viewBox="0 0 24 24" fill="currentColor">
                       <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1-.24c1.12.37 2.33.57 3.59.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.85 21 3 13.15 3 3a1 1 0 0 1 1-1h3.49a1 1 0 0 1 1 1c0 1.26.2 2.47.57 3.59a1 1 0 0 1-.24 1l-2.2 2.2z" />
                     </svg>
                   </div>
-                  <div style={linkStyle}>
-                    <a
-                      href={telHref}
-                      style={{ ...linkStyle, display: "inline" }}
-                    >
-                      {phoneDisplay}
-                    </a>
-                    {", "}
-                    <a
-                      href={telHref}
-                      style={{ ...linkStyle, display: "inline" }}
-                    >
-                      {phoneDisplay}
-                    </a>
-                  </div>
+                  <a href={telHref} style={linkStyle}>{phoneDisplay}</a>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "flex-start",
-                  }}
-                >
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
                   <div style={iconWrap}>
                     <svg viewBox="0 0 24 24" fill="currentColor">
                       <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm8.37 1.72H7.88A4.16 4.16 0 0 0 3.72 7.88v8.24a4.16 4.16 0 0 0 4.16 4.16h8.24a4.16 4.16 0 0 0 4.16-4.16V7.88a4.16 4.16 0 0 0-4.16-4.16zM17.5 6.3a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.7A3.3 3.3 0 1 0 12 15.3 3.3 3.3 0 0 0 12 8.7z" />
                     </svg>
                   </div>
-                  <a
-                    href={instagramHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={linkStyle}
-                  >
-                    Instagram
-                  </a>
+                  <a href={instagramHref} target="_blank" rel="noreferrer" style={linkStyle}>Instagram</a>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "flex-start",
-                  }}
-                >
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
                   <div style={iconWrap}>
                     <svg viewBox="0 0 24 24" fill="currentColor">
                       <path d="M14 3v2h3.59L7 15.59 8.41 17 19 6.41V10h2V3z" />
@@ -550,49 +517,24 @@ function Footer() {
                       <path d="M19 19H5V9H3v12h18V7h-2z" />
                     </svg>
                   </div>
-                  <a
-                    href="https://www.mineworldproduction.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    style={linkStyle}
-                  >
-                    www.mineworldproduction.com
-                  </a>
+                  <a href="https://www.mineworldproduction.com" target="_blank" rel="noreferrer" style={linkStyle}>www.mineworldproduction.com</a>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "flex-start",
-                  }}
-                >
+                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
                   <div style={iconWrap}>
                     <svg viewBox="0 0 32 32" fill="currentColor">
                       <path d="M19.11 17.34c-.27-.13-1.58-.78-1.82-.87-.24-.09-.42-.13-.6.13-.18.27-.69.87-.85 1.05-.16.18-.31.2-.58.07-.27-.13-1.12-.41-2.13-1.3-.79-.7-1.32-1.56-1.48-1.82-.16-.27-.02-.41.12-.54.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.33-.02-.47-.07-.13-.6-1.45-.82-1.98-.22-.53-.44-.46-.6-.47h-.51c-.18 0-.47.07-.71.33-.24.27-.93.91-.93 2.22s.96 2.58 1.09 2.76c.13.18 1.88 2.87 4.56 4.03.64.27 1.14.43 1.53.55.64.2 1.22.17 1.68.1.51-.08 1.58-.64 1.8-1.25.22-.62.22-1.14.16-1.25-.07-.11-.24-.18-.51-.31z" />
                       <path d="M16.01 3.2c-7.07 0-12.8 5.72-12.8 12.78 0 2.26.59 4.46 1.71 6.39L3 29l6.84-1.79a12.8 12.8 0 0 0 6.17 1.57h.01c7.06 0 12.79-5.73 12.79-12.79 0-3.43-1.34-6.65-3.77-9.07A12.7 12.7 0 0 0 16.01 3.2zm0 23.42h-.01a10.65 10.65 0 0 1-5.43-1.49l-.39-.23-4.06 1.06 1.08-3.96-.25-.41a10.6 10.6 0 0 1-1.63-5.61c0-5.88 4.79-10.67 10.69-10.67 2.85 0 5.52 1.11 7.54 3.12a10.58 10.58 0 0 1 3.13 7.54c0 5.89-4.79 10.68-10.67 10.68z" />
                     </svg>
                   </div>
-                  <a
-                    href={whatsappHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={linkStyle}
-                  >
-                    WhatsApp
-                  </a>
+                  <a href={whatsappHref} target="_blank" rel="noreferrer" style={linkStyle}>WhatsApp</a>
                 </div>
               </div>
 
               <div style={{ marginTop: "22px" }}>
                 <button
                   onClick={openContactModal}
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    padding: 0,
-                    cursor: "pointer",
-                  }}
+                  style={{ background: "transparent", border: "none", padding: 0, cursor: "pointer" }}
                 >
                   <MagneticButton secondary onDark>Start a Project</MagneticButton>
                 </button>
@@ -631,7 +573,7 @@ function Footer() {
               lineHeight: 1.7,
             }}
           >
-            ©️ 2026 Mineworld Production. All rights reserved.
+            {copyrightLine}
           </div>
 
           <div

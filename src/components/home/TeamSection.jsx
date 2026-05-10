@@ -6,7 +6,24 @@ import SectionHeading from "../common/SectionHeading";
 import SectionTag from "../common/SectionTag";
 import { theme } from "../../styles/theme";
 import { teamRoles } from "../../data/teamRoles";
+import { useSiteList } from "../../hooks/useSiteList";
+import { useSiteContent } from "../../hooks/useSiteContent";
 import useIsMobile from "../../utils/useIsMobile";
+
+function mapAdminTeamMember(item) {
+  const photoUrl =
+    item?.avatar?.cloudinary_url ||
+    (typeof item?.avatar === "string" ? item.avatar : "");
+  const slugSafe =
+    (item.name || item.id || "").toLowerCase().replace(/[^a-z0-9-]+/g, "-");
+  return {
+    slug: slugSafe || `member-${item.id || ""}`,
+    name: item.name || "Team member",
+    role: item.role || "",
+    photo: photoUrl,
+    photoAlt: item.name || "Team member",
+  };
+}
 
 function TeamCard({ member, isMobile }) {
   return (
@@ -128,6 +145,17 @@ function TeamCard({ member, isMobile }) {
 
 function TeamSection() {
   const isMobile = useIsMobile(768);
+  const cmsMembers = useSiteList("team.members", null);
+  const members = cmsMembers ? cmsMembers.map(mapAdminTeamMember) : teamRoles;
+  const eyebrow = useSiteContent("team.eyebrow", "Team");
+  const headline = useSiteContent(
+    "team.headline",
+    "A specialist for every layer of the work."
+  );
+  const subhead = useSiteContent(
+    "team.subhead",
+    "Tap any role to see what they own, how they contribute, and the service they lead."
+  );
 
   return (
     <section
@@ -157,14 +185,11 @@ function TeamSection() {
 
       <Container>
         <Reveal>
-          <SectionTag>Team</SectionTag>
+          <SectionTag>{eyebrow}</SectionTag>
         </Reveal>
 
         <Reveal delay={0.08}>
-          <SectionHeading
-            title="A specialist for every layer of the work."
-            subtitle="Tap any role to see what they own, how they contribute, and the service they lead."
-          />
+          <SectionHeading title={headline} subtitle={subhead} />
         </Reveal>
 
         <div
@@ -177,8 +202,8 @@ function TeamSection() {
             alignItems: "stretch",
           }}
         >
-          {teamRoles.map((member, i) => (
-            <Reveal key={member.slug} delay={0.05 * i}>
+          {members.map((member, i) => (
+            <Reveal key={member.slug || i} delay={0.05 * i}>
               <TeamCard member={member} isMobile={isMobile} />
             </Reveal>
           ))}

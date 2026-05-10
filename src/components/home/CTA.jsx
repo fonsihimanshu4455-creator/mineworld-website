@@ -5,9 +5,21 @@ import Reveal from "../common/Reveal";
 import CursorRunaway from "../common/CursorRunaway";
 import { openContactModal } from "../../utils/contactActions";
 import useIsMobile from "../../utils/useIsMobile";
+import { useSiteContent } from "../../hooks/useSiteContent";
+import { useSiteList } from "../../hooks/useSiteList";
+import RichText from "../../lib/richText.jsx";
 
 function CTA() {
   const isMobile = useIsMobile(768);
+  const eyebrow = useSiteContent("cta.eyebrow", "Start with Mineworld");
+  const headlineRich = useSiteContent("cta.headline_rich", null);
+  const subhead = useSiteContent(
+    "cta.subhead",
+    "Sharper content, better editing, stronger brand perception — in one team."
+  );
+  const primaryLabel = useSiteContent("cta.primary_label", "Start a Project");
+  const secondaryLabel = useSiteContent("cta.secondary_label", "Book a Call");
+  const pills = useSiteList("cta.feature_pills", null);
 
   return (
     <section
@@ -65,7 +77,7 @@ function CTA() {
                   marginBottom: "12px",
                 }}
               >
-                Start with Mineworld
+                {eyebrow}
               </div>
               <h2
                 style={{
@@ -79,7 +91,11 @@ function CTA() {
                     '"Playfair Display", Georgia, "Times New Roman", serif',
                 }}
               >
-                If your brand still looks ordinary — that&rsquo;s the problem.
+                {headlineRich ? (
+                  <RichText value={headlineRich} />
+                ) : (
+                  <>If your brand still looks ordinary — that&rsquo;s the problem.</>
+                )}
               </h2>
               <p
                 style={{
@@ -90,9 +106,35 @@ function CTA() {
                   maxWidth: "520px",
                 }}
               >
-                Sharper content, better editing, stronger brand perception — in
-                one team.
+                {subhead}
               </p>
+              {pills && pills.length > 0 && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 8,
+                    marginTop: 14,
+                  }}
+                >
+                  {pills.map((p, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: 999,
+                        border: "1px solid rgba(184, 149, 106, 0.35)",
+                        background: "rgba(255,255,255,0.5)",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        color: "var(--text-primary)",
+                      }}
+                    >
+                      {p.label || p}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div
@@ -112,7 +154,7 @@ function CTA() {
                   cursor: "pointer",
                 }}
               >
-                <MagneticButton>Start a Project</MagneticButton>
+                <MagneticButton>{primaryLabel}</MagneticButton>
               </button>
               <button
                 onClick={() => openContactModal("cta-strategy-call")}
@@ -123,7 +165,7 @@ function CTA() {
                   cursor: "pointer",
                 }}
               >
-                <MagneticButton secondary>Book a Call</MagneticButton>
+                <MagneticButton secondary>{secondaryLabel}</MagneticButton>
               </button>
             </div>
           </motion.div>

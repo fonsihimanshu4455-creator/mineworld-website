@@ -13,6 +13,7 @@
 import { useEffect, useRef, useState } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db, firebaseEnabled } from "../admin/firebase";
+import { getStaticAsset } from "../lib/staticAssetManifest";
 
 const CACHE_KEY = "mineworld:cms:v1";
 
@@ -51,11 +52,16 @@ function resolveFromDoc(data, fallback) {
   }
 }
 
-// Asset-slot read — returns the full denormalised asset metadata
-// ({ publicId, url, type }) so consumers can build optimised
-// transformations (e.g. a 720p mobile variant). Falls back to
-// `fallback` (typically a bundled file URL string) when the slot is
-// empty, the doc is the wrong type, or Firestore is unreachable.
+// Asset-slot read — resolves in priority order:
+//   1. Cloudinary upload from site_content (admin replaced the asset)
+//   2. STATIC_ASSETS manifest (the bundled file currently live on site)
+//   3. Caller-supplied `fallback` (typically the same bundled URL)
+//
+// Returns either a string (for backwards-compat — most public consumers
+// just paint `<img src={value}>`) or an object with metadata. Callers
+// that need the metadata pass `{ asObject: true }` as a third arg, but
+// most can read either shape transparently because we coerce to string
+// in template literals.
 export function useSiteAsset(slotKey, fallback) {
   const fallbackRef = useRef(fallback);
   fallbackRef.current = fallback;
@@ -68,17 +74,32 @@ export function useSiteAsset(slotKey, fallback) {
       publicId: data.cloudinary_id || null,
       url: data.cloudinary_url,
       type: data.asset_type || null,
+      isStatic: false,
     };
+  };
+
+  const resolveFallback = () => {
+    const staticAsset = getStaticAsset(slotKey);
+    if (staticAsset) {
+      return {
+        publicId: null,
+        url: staticAsset.url,
+        type: staticAsset.type,
+        isStatic: true,
+        originalSource: staticAsset.originalSource,
+      };
+    }
+    return fallbackRef.current;
   };
 
   const [value, setValue] = useState(() => {
     const cached = readCache()[slotKey];
-    return toAsset(cached) || fallback;
+    return toAsset(cached) || resolveFallback();
   });
 
   useEffect(() => {
     if (!firebaseEnabled || !db || !slotKey) {
-      setValue(fallbackRef.current);
+      setValue(resolveFallback());
       return;
     }
 
@@ -87,7 +108,7 @@ export function useSiteAsset(slotKey, fallback) {
       ref,
       (snap) => {
         if (!snap.exists()) {
-          setValue(fallbackRef.current);
+          setValue(resolveFallback());
           const cache = readCache();
           if (cache[slotKey] !== undefined) {
             delete cache[slotKey];
@@ -96,15 +117,16 @@ export function useSiteAsset(slotKey, fallback) {
           return;
         }
         const data = snap.data();
-        setValue(toAsset(data) || fallbackRef.current);
+        setValue(toAsset(data) || resolveFallback());
         const cache = readCache();
         cache[slotKey] = data;
         writeCache(cache);
       },
-      () => setValue(fallbackRef.current)
+      () => setValue(resolveFallback())
     );
 
     return () => unsub();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slotKey]);
 
   return value;

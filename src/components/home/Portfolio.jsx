@@ -8,7 +8,34 @@ import LazyVideo from "../common/LazyVideo";
 import { theme } from "../../styles/theme";
 import { portfolioItems as defaultPortfolio } from "../../data/portfolioItems";
 import { useCollection } from "../../admin/hooks";
+import { useSiteList } from "../../hooks/useSiteList";
+import { useSiteContent } from "../../hooks/useSiteContent";
 import useIsMobile from "../../utils/useIsMobile";
+
+// Convert admin-shape portfolio item into the PortfolioCard shape the
+// existing presentation layer consumes.
+function mapAdminPortfolioItem(item) {
+  const thumbUrl =
+    item?.thumbnail?.cloudinary_url ||
+    (typeof item?.thumbnail === "string" ? item.thumbnail : "");
+  const isVideo = item?.thumbnail?.asset_type === "video";
+  const slugSafe =
+    (item.title || item.id || "").toLowerCase().replace(/[^a-z0-9-]+/g, "-");
+  return {
+    slug: item.link
+      ? item.link.replace(/^.*\//, "")
+      : slugSafe || `item-${item.id || ""}`,
+    title: item.title || "Untitled",
+    category: item.category || "Project",
+    description: item.description || "",
+    cover: {
+      type: isVideo ? "video" : "image",
+      src: thumbUrl,
+      alt: item.title || "",
+      poster: thumbUrl,
+    },
+  };
+}
 
 function PortfolioCard({ item, isMobile }) {
   return (
@@ -142,7 +169,20 @@ function PortfolioCard({ item, isMobile }) {
 
 function Portfolio() {
   const isMobile = useIsMobile(768);
-  const portfolioItems = useCollection("portfolioItems", defaultPortfolio);
+  const legacyItems = useCollection("portfolioItems", defaultPortfolio);
+  const cmsItems = useSiteList("portfolio.items", null);
+  const portfolioItems = cmsItems
+    ? cmsItems.map(mapAdminPortfolioItem)
+    : legacyItems;
+  const eyebrow = useSiteContent("portfolio.eyebrow", "Portfolio");
+  const headline = useSiteContent(
+    "portfolio.headline",
+    "Selected work — tap a card to see the breakdown."
+  );
+  const subhead = useSiteContent(
+    "portfolio.subhead",
+    "Every piece here was built for a real business outcome — not a showreel. Click any card to see the brief, our approach, deliverables, and measurable impact."
+  );
 
   return (
     <section
@@ -187,14 +227,11 @@ function Portfolio() {
 
       <Container>
         <Reveal>
-          <SectionTag>Portfolio</SectionTag>
+          <SectionTag>{eyebrow}</SectionTag>
         </Reveal>
 
         <Reveal delay={0.08}>
-          <SectionHeading
-            title="Selected work — tap a card to see the breakdown."
-            subtitle="Every piece here was built for a real business outcome — not a showreel. Click any card to see the brief, our approach, deliverables, and measurable impact."
-          />
+          <SectionHeading title={headline} subtitle={subhead} />
         </Reveal>
 
         <div

@@ -10,6 +10,8 @@ import TestimonialDetailModal from "../common/TestimonialDetailModal";
 import { theme } from "../../styles/theme";
 import { testimonials as defaultTestimonials } from "../../data/testimonials";
 import { useCollection } from "../../admin/hooks";
+import { useSiteList } from "../../hooks/useSiteList";
+import { useSiteContent } from "../../hooks/useSiteContent";
 import useIsMobile from "../../utils/useIsMobile";
 import { useCountUp } from "../../utils/gsapHooks";
 
@@ -282,10 +284,17 @@ function TestimonialCard({ item, onOpen, isMobile }) {
 
 function Testimonials() {
   const isMobile = useIsMobile(768);
-  const curated = useCollection("testimonials", defaultTestimonials);
+  const legacyCurated = useCollection("testimonials", defaultTestimonials);
+  const cmsItems = useSiteList("testimonials.items", null);
+  const curated = cmsItems ? cmsItems : legacyCurated;
   const submissions = useCollection("userSubmissions", []);
   const [submitOpen, setSubmitOpen] = useState(false);
   const [detailItem, setDetailItem] = useState(null);
+  const eyebrow = useSiteContent("testimonials.eyebrow", "Reviews");
+  const headline = useSiteContent("testimonials.headline", null);
+  const subhead = useSiteContent("testimonials.subhead", null);
+  const allowSubmissions =
+    useSiteContent("testimonials.allow_public_submissions", "true") !== "false";
 
   const combined = useMemo(() => {
     const approved = submissions
@@ -351,33 +360,38 @@ function Testimonials() {
         >
           <div>
             <Reveal>
-              <SectionTag>Reviews</SectionTag>
+              <SectionTag>{eyebrow}</SectionTag>
             </Reveal>
             <Reveal delay={0.08}>
               <SectionHeading
-                title="What clients say — in their own words."
-                subtitle="Tap any card to read the full review. Want to share your own? Add it in under a minute."
+                title={headline || "What clients say — in their own words."}
+                subtitle={
+                  subhead ||
+                  "Tap any card to read the full review. Want to share your own? Add it in under a minute."
+                }
               />
             </Reveal>
           </div>
 
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            <button
-              onClick={() => setSubmitOpen(true)}
-              style={{
-                padding: "12px 18px",
-                borderRadius: "999px",
-                border: "none",
-                background: "linear-gradient(135deg, #BC9966, #D9B987)",
-                color: "#18140F",
-                fontWeight: 800,
-                fontSize: "13.5px",
-                cursor: "pointer",
-                boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
-              }}
-            >
-              + Add your review
-            </button>
+            {allowSubmissions && (
+              <button
+                onClick={() => setSubmitOpen(true)}
+                style={{
+                  padding: "12px 18px",
+                  borderRadius: "999px",
+                  border: "none",
+                  background: "linear-gradient(135deg, #BC9966, #D9B987)",
+                  color: "#18140F",
+                  fontWeight: 800,
+                  fontSize: "13.5px",
+                  cursor: "pointer",
+                  boxShadow: "0 10px 24px rgba(188,153,102,0.28)",
+                }}
+              >
+                + Add your review
+              </button>
+            )}
             <Link
               to="/reviews"
               style={{

@@ -5,6 +5,7 @@ import { openContactModal } from "../../utils/contactActions";
 import { useSiteSettings } from "../../admin/hooks";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 import defaultLogo from "../../assets/mineworld-logo.png";
+import { useSiteAsset, useSiteContent } from "../../hooks/useSiteContent";
 
 const baseNavItems = [
   { label: "Home", target: "home" },
@@ -58,10 +59,23 @@ export default function Navbar() {
     settings.navbar?.showReviews,
     settings.navbar?.showFaq,
   ]);
-  const logoSrc = settings.logo?.src || defaultLogo;
-  const logoWidth = Number(settings.logo?.width) || 40;
+  // CMS overlay — admin can replace logo + tune size + position
+  const cmsLogo = useSiteAsset("navbar.logo", null);
+  const cmsLogoUrl =
+    typeof cmsLogo === "object" && cmsLogo?.url ? cmsLogo.url : null;
+  const cmsLogoSize = useSiteContent("navbar.logo_size", null);
+  const cmsLogoPosition = useSiteContent("navbar.logo_position", null);
+  const cmsLogoAlt = useSiteContent("navbar.logo_alt", null);
+
+  const logoSrc = cmsLogoUrl || settings.logo?.src || defaultLogo;
+  const parsedCmsSize = Number(cmsLogoSize);
+  const logoWidth =
+    Number.isFinite(parsedCmsSize) && parsedCmsSize > 0
+      ? parsedCmsSize
+      : Number(settings.logo?.width) || 40;
   const logoScale = Number(settings.logo?.scale) || 1.7;
-  const logoPosition = settings.logo?.position || "center";
+  const logoPosition = cmsLogoPosition || settings.logo?.position || "center";
+  const logoAltText = cmsLogoAlt || `${settings.brand?.shortName || "Mineworld"} logo`;
   const brandName = settings.brand?.shortName || "Mineworld";
 
   const goToSection = (id) => {
@@ -220,7 +234,7 @@ export default function Navbar() {
             >
               <img
                 src={logoSrc}
-                alt={`${brandName} Logo`}
+                alt={logoAltText}
                 style={{
                   width: isMobile ? `${Math.round(logoWidth * 0.85)}px` : `${logoWidth}px`,
                   height: "auto",

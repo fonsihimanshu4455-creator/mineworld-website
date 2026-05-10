@@ -12,7 +12,9 @@ import {
   uploadToCloudinary,
 } from "../../lib/cloudinary";
 import { getAssetSpec } from "../../lib/asset-specs";
-import { saveAsset, saveSlot, useSlotDoc } from "../cmsStore";
+import { getStaticAsset } from "../../lib/staticAssetManifest";
+import { getAssetById, saveAsset, saveSlot, useSlotDoc } from "../cmsStore";
+import AssetSlotCard from "./AssetSlotCard";
 
 const cardStyle = {
   background: "rgba(255,255,255,0.04)",
@@ -128,6 +130,27 @@ function AssetUploader({
 
   const currentUrl = slotDoc.data?.cloudinary_url || null;
   const currentType = slotDoc.data?.asset_type || null;
+  const currentAssetId = slotDoc.data?.asset_id || null;
+  const [currentAsset, setCurrentAsset] = useState(null);
+
+  // Hydrate the full asset doc for rich-preview metadata.
+  useEffect(() => {
+    let cancelled = false;
+    if (!currentAssetId) {
+      setCurrentAsset(null);
+      return;
+    }
+    getAssetById(currentAssetId)
+      .then((doc) => {
+        if (!cancelled) setCurrentAsset(doc);
+      })
+      .catch(() => {
+        if (!cancelled) setCurrentAsset(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [currentAssetId]);
 
   const startUpload = async (workFn) => {
     setError("");
@@ -259,15 +282,6 @@ function AssetUploader({
           </div>
           <div style={{ fontSize: "14px", fontWeight: 700 }}>{slotKey}</div>
         </div>
-        {currentUrl && (
-          <button
-            type="button"
-            onClick={handleClear}
-            style={buttonStyle("danger")}
-          >
-            Remove
-          </button>
-        )}
       </div>
 
       {!hideSpecCard && spec && (
@@ -305,37 +319,52 @@ function AssetUploader({
 
       {currentUrl ? (
         <div style={{ marginTop: 12 }}>
-          {currentType === "video" ? (
-            <video
-              src={currentUrl}
-              controls
-              muted
-              playsInline
-              style={{
-                width: "100%",
-                borderRadius: 10,
-                background: "#000",
-                maxHeight: 280,
-              }}
-            />
-          ) : (
-            <img
-              src={currentUrl}
-              alt=""
-              style={{
-                width: "100%",
-                borderRadius: 10,
-                maxHeight: 280,
-                objectFit: "contain",
-                background: "rgba(0,0,0,0.32)",
-              }}
-            />
-          )}
-          <div style={{ marginTop: 8, ...muted, wordBreak: "break-all" }}>
-            {currentUrl}
-          </div>
+          <AssetSlotCard
+            asset={
+              currentAsset || {
+                cloudinary_url: currentUrl,
+                cloudinary_id: slotDoc.data?.cloudinary_id,
+                asset_type: currentType,
+                docId: currentAssetId,
+              }
+            }
+            category={category}
+            onRemoveClick={handleClear}
+            showUsage={true}
+            thumbnailSize="md"
+          />
         </div>
-      ) : null}
+      ) : (
+        // Empty CMS slot — surface the bundled "live" asset (if any) so
+        // admin sees what's currently on production before replacing.
+        (() => {
+          const staticAsset = getStaticAsset(slotKey);
+          if (!staticAsset) return null;
+          return (
+            <div style={{ marginTop: 12 }}>
+              <AssetSlotCard
+                asset={{
+                  cloudinary_url: staticAsset.url,
+                  cloudinary_id: null,
+                  asset_type: staticAsset.type,
+                  isStatic: true,
+                  originalSource: staticAsset.originalSource,
+                  original_name: staticAsset.originalSource
+                    .split("/")
+                    .pop(),
+                  format: staticAsset.originalSource
+                    .split(".")
+                    .pop()
+                    .toLowerCase(),
+                }}
+                category={category}
+                showUsage={false}
+                thumbnailSize="md"
+              />
+            </div>
+          );
+        })()
+      )}
 
       <div
         onDragOver={(e) => {
@@ -348,7 +377,11 @@ function AssetUploader({
         style={dropStyle(dragActive)}
       >
         <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>
-          Drop file here or click to browse
+          {currentUrl
+            ? "Drop a new file to replace, or click to browse"
+            : getStaticAsset(slotKey)
+            ? "Replace built-in with a Cloudinary upload — drop or browse"
+            : "Drop file here or click to browse"}
         </div>
         <div style={muted}>
           {accept === "video"
