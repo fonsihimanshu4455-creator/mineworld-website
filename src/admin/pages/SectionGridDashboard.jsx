@@ -1,12 +1,13 @@
-// SectionGridDashboard — the new simple admin home. Replaces the
-// schema-driven counts grid with a plain-English card per section,
-// each showing the section's current main asset as a thumbnail. Click
-// the card → goes to that section's editor.
+// SectionGridDashboard — completely redesigned admin home (May 2026 v2).
+// User feedback: "bilkul alag layout / theme / format chaiye, sab kuchh
+// bada bada". Dropped the dark navy theme for a premium light-cream
+// surface, doubled the card size, doubled the typography, and gave each
+// section a pronounced 16:10 hero thumbnail with a big "Edit →" pill.
 //
-// User feedback (May 2026): "admin panel ko simple kro... bilkul new
-// layout / theme / format". This is that redesign — no slot keys, no
-// technical jargon, just "Top banner", "Customer reviews", etc., with
-// a visual preview of what's currently live.
+// Sidebar stays dark for brand recognition; this main content area
+// becomes a light, magazine-feel editing surface. Editor sub-pages
+// keep their existing dark cards which now visually pop against the
+// new light background.
 
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
@@ -18,35 +19,56 @@ import { db, firebaseEnabled } from "../firebase";
 import { SITE_CONTENT_COLLECTION } from "../../lib/cms-schema";
 import { getStaticAsset } from "../../lib/staticAssetManifest";
 
-// Section catalog. Order = top-to-bottom on the public homepage.
+// Section catalog — order = top-to-bottom on the public homepage.
 const SECTIONS = [
   {
-    group: "Homepage — top to bottom",
+    group: "Top of homepage",
     items: [
-      { route: "/admin/cms/navbar", name: "Top navigation", desc: "Logo, menu items, and the right-side button.", thumbSlot: "navbar.logo", accent: "#1F2D4D" },
-      { route: "/admin/cms/hero", name: "Top banner (with video)", desc: "Background video, headline, sub-headline, and the two main buttons.", thumbSlot: "hero.video", accent: "#0F2A44" },
-      { route: "/admin/cms/client-logos", name: "Client logo strip", desc: "Logos of brands you've worked with — scrolls across the screen.", thumbListSlot: "logo_wall.client_logos", thumbListKey: "logo_image", accent: "#3a5377" },
-      { route: "/admin/cms/manifesto", name: "Big quote strip", desc: "The cream-coloured studio mantra block with gold-italic emphasis.", accent: "#EBE3D1" },
-      { route: "/admin/cms/capabilities", name: "What we do — Build / Create / Grow", desc: "Three pillars + the tools-we-ship-with row.", accent: "#F5EFE6" },
-      { route: "/admin/cms/services", name: "Services tiles", desc: "The 9 service cards (Website, App, Meta Ads, etc.).", thumbListSlot: "services.items", thumbListKey: "cover_image", accent: "#B8956A" },
-      { route: "/admin/cms/process", name: "How we work — 5 steps", desc: "The Day 0 → Week 2 timeline.", accent: "#D4B896" },
-      { route: "/admin/cms/portfolio-items", name: "Project cards", desc: "Selected work — the case-study tiles on the home page.", thumbListSlot: "portfolio.items", thumbListKey: "thumbnail", accent: "#0F2A44" },
-      { route: "/admin/cms/editing-showcase", name: "Before / After slider", desc: "The retention-edit comparison + optional vertical reels strip.", accent: "#1F2D4D" },
-      { route: "/admin/cms/reels", name: "Vertical reels", desc: "9:16 reel videos — shown above the editing showcase.", thumbListSlot: "reel.videos", thumbListKey: "thumbnail", accent: "#1F2D4D" },
-      { route: "/admin/cms/founder", name: "Founder section", desc: "Portrait, name, title, bio, capability bullets, and the founder note.", thumbSlot: "founder.photo", accent: "#8B6E48" },
-      { route: "/admin/cms/team-members", name: "Team", desc: "Team member cards.", thumbListSlot: "team.members", thumbListKey: "avatar", accent: "#3a5377" },
-      { route: "/admin/cms/reviews", name: "Customer reviews", desc: "Approve public-submitted reviews + curate the list.", thumbListSlot: "testimonials.items", thumbListKey: "avatar", accent: "#B8956A" },
-      { route: "/admin/cms/press", name: "As featured in", desc: "Press logos in the trust strip.", thumbListSlot: "trust.featured_in_logos", thumbListKey: "logo", accent: "#0F2A44" },
-      { route: "/admin/cms/apps", name: "Apps we ship", desc: "App icons + store links.", thumbListSlot: "apps.list", thumbListKey: "icon", accent: "#1F2D4D" },
-      { route: "/admin/cms/cta", name: "Bottom call-to-action", desc: "The closing card before the footer.", accent: "#EDE4D3" },
-      { route: "/admin/cms/footer", name: "Footer", desc: "Logo, contact details, social links, copyright.", thumbSlot: "footer.logo", accent: "#0F2A44" },
+      { route: "/admin/cms/navbar", name: "Top navigation", desc: "Logo, menu items, and the right-side button.", thumbSlot: "navbar.logo" },
+      { route: "/admin/cms/hero", name: "Top banner (with video)", desc: "Background video, headline, sub-headline, and the two main buttons.", thumbSlot: "hero.video" },
+      { route: "/admin/cms/client-logos", name: "Client logo strip", desc: "Logos of brands you've worked with — scrolls across the screen.", thumbListSlot: "logo_wall.client_logos", thumbListKey: "logo_image" },
     ],
   },
   {
-    group: "Asset library & backups",
+    group: "What you do — middle of homepage",
     items: [
-      { route: "/admin/cms/assets", name: "Asset library", desc: "Every photo and video uploaded. Filter, replace, delete.", accent: "#B8956A", emoji: "🖼" },
-      { route: "/admin/migrate", name: "Migrate / seed slots", desc: "Initialise Firestore for first-run.", accent: "#3a5377", emoji: "🌱" },
+      { route: "/admin/cms/manifesto", name: "Big quote strip", desc: "The cream studio mantra block with gold-italic emphasis." },
+      { route: "/admin/cms/capabilities", name: "Build / Create / Grow", desc: "Three pillars + the tools-we-ship-with row." },
+      { route: "/admin/cms/services", name: "Services tiles", desc: "The 9 service cards (Website, App, Meta Ads, etc.).", thumbListSlot: "services.items", thumbListKey: "cover_image" },
+      { route: "/admin/cms/process", name: "How we work — 5 steps", desc: "The Day 0 → Week 2 timeline." },
+    ],
+  },
+  {
+    group: "Your work & people",
+    items: [
+      { route: "/admin/cms/portfolio-items", name: "Project cards", desc: "Selected work — the case-study tiles on the home page.", thumbListSlot: "portfolio.items", thumbListKey: "thumbnail" },
+      { route: "/admin/cms/editing-showcase", name: "Before / After slider", desc: "The retention-edit comparison + optional vertical reels strip." },
+      { route: "/admin/cms/reels", name: "Vertical reels", desc: "9:16 reel videos shown above the editing showcase.", thumbListSlot: "reel.videos", thumbListKey: "thumbnail" },
+      { route: "/admin/cms/founder", name: "Founder section", desc: "Portrait, name, title, bio, capability bullets, and the founder note.", thumbSlot: "founder.photo" },
+      { route: "/admin/cms/team-members", name: "Team", desc: "Team member cards.", thumbListSlot: "team.members", thumbListKey: "avatar" },
+    ],
+  },
+  {
+    group: "Trust & social proof",
+    items: [
+      { route: "/admin/cms/reviews", name: "Customer reviews", desc: "Approve public-submitted reviews + curate the list.", thumbListSlot: "testimonials.items", thumbListKey: "avatar" },
+      { route: "/admin/cms/press", name: "As featured in", desc: "Press logos in the trust strip.", thumbListSlot: "trust.featured_in_logos", thumbListKey: "logo" },
+      { route: "/admin/cms/apps", name: "Apps we ship", desc: "App icons + store links.", thumbListSlot: "apps.list", thumbListKey: "icon" },
+    ],
+  },
+  {
+    group: "Bottom of homepage",
+    items: [
+      { route: "/admin/cms/cta", name: "Bottom call-to-action", desc: "The closing card before the footer." },
+      { route: "/admin/cms/footer", name: "Footer", desc: "Logo, contact details, social links, copyright.", thumbSlot: "footer.logo" },
+    ],
+  },
+  {
+    group: "Files & utilities",
+    items: [
+      { route: "/admin/cms/assets", name: "Asset library", desc: "Every photo and video uploaded. Filter, replace, delete.", emoji: "🖼" },
+      { route: "/admin/legacy-dashboard", name: "Backup / Restore", desc: "Export your content as JSON, import a backup, reset everything.", emoji: "💾" },
+      { route: "/admin/migrate", name: "Initial setup", desc: "Run once to seed the Firestore slot keys.", emoji: "🌱" },
     ],
   },
 ];
@@ -55,8 +77,8 @@ function cldThumb(url, type) {
   if (!url) return null;
   const transform =
     type === "video"
-      ? "so_0,f_jpg,q_auto,w_640"
-      : "f_auto,q_auto,w_640";
+      ? "so_0,f_jpg,q_auto,w_960"
+      : "f_auto,q_auto,w_960";
   return url.replace("/upload/", `/upload/${transform}/`);
 }
 
@@ -78,12 +100,14 @@ function SectionCard({ entry, snapshot }) {
   let thumbUrl = null;
   let thumbType = "image";
   let isStatic = false;
+  let isLive = false;
 
   if (entry.thumbSlot) {
     const slotData = snapshot[entry.thumbSlot];
     if (slotData?.cloudinary_url) {
       thumbUrl = slotData.cloudinary_url;
       thumbType = slotData.asset_type || "image";
+      isLive = true;
     } else {
       const fallback = getStaticAsset(entry.thumbSlot);
       if (fallback) {
@@ -95,6 +119,7 @@ function SectionCard({ entry, snapshot }) {
   } else if (entry.thumbListSlot) {
     const slotData = snapshot[entry.thumbListSlot];
     thumbUrl = pickListItemThumb(slotData, entry.thumbListKey);
+    if (thumbUrl) isLive = true;
   }
 
   const renderableThumb = thumbUrl
@@ -111,34 +136,37 @@ function SectionCard({ entry, snapshot }) {
       style={{
         display: "block",
         textDecoration: "none",
-        borderRadius: 18,
+        borderRadius: 22,
         overflow: "hidden",
-        border: "1px solid rgba(255,255,255,0.08)",
-        background:
-          "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012))",
+        border: "1px solid rgba(184, 149, 106, 0.2)",
+        background: "#FFFFFF",
+        boxShadow: "0 6px 18px rgba(31, 45, 77, 0.06)",
         transition:
-          "border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease",
+          "transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "rgba(184, 149, 106, 0.4)";
-        e.currentTarget.style.transform = "translateY(-2px)";
+        e.currentTarget.style.borderColor = "rgba(184, 149, 106, 0.55)";
+        e.currentTarget.style.transform = "translateY(-4px)";
         e.currentTarget.style.boxShadow =
-          "0 16px 36px rgba(15, 42, 68, 0.22)";
+          "0 22px 44px rgba(31, 45, 77, 0.14)";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+        e.currentTarget.style.borderColor = "rgba(184, 149, 106, 0.2)";
         e.currentTarget.style.transform = "translateY(0)";
-        e.currentTarget.style.boxShadow = "none";
+        e.currentTarget.style.boxShadow =
+          "0 6px 18px rgba(31, 45, 77, 0.06)";
       }}
     >
       <div
         style={{
           position: "relative",
-          aspectRatio: "16 / 9",
+          width: "100%",
+          aspectRatio: "16 / 10",
           background: renderableThumb
-            ? "rgba(0,0,0,0.32)"
-            : `linear-gradient(135deg, ${entry.accent || "#1F2D4D"}, rgba(0,0,0,0.4))`,
+            ? "#F4EFE6"
+            : "linear-gradient(135deg, #F5EFE6 0%, #EBE3D1 100%)",
           overflow: "hidden",
+          borderBottom: "1px solid rgba(184, 149, 106, 0.18)",
         }}
       >
         {renderableThumb ? (
@@ -155,91 +183,79 @@ function SectionCard({ entry, snapshot }) {
               height: "100%",
               display: "grid",
               placeItems: "center",
-              fontSize: 36,
-              color: "rgba(255,255,255,0.65)",
+              fontSize: 64,
+              color: "rgba(184, 149, 106, 0.55)",
             }}
           >
             {entry.emoji || "✎"}
           </div>
         )}
-        {isStatic && (
-          <span
-            style={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              padding: "3px 8px",
-              borderRadius: 999,
-              background: "rgba(217, 185, 135, 0.95)",
-              color: "#1F2D4D",
-              fontSize: 9.5,
-              fontWeight: 800,
-              letterSpacing: 0.4,
-              textTransform: "uppercase",
-            }}
-            title="Built-in default — no upload yet"
-          >
-            📦 Default
-          </span>
-        )}
-        {thumbUrl && !isStatic && (
-          <span
-            style={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              padding: "3px 8px",
-              borderRadius: 999,
-              background: "rgba(134, 230, 156, 0.85)",
-              color: "#0a3a16",
-              fontSize: 9.5,
-              fontWeight: 800,
-              letterSpacing: 0.4,
-              textTransform: "uppercase",
-            }}
-            title="Edited via admin"
-          >
-            ☁ Live
-          </span>
-        )}
+        <span
+          style={{
+            position: "absolute",
+            top: 14,
+            right: 14,
+            padding: "5px 12px",
+            borderRadius: 999,
+            fontSize: 11,
+            fontWeight: 800,
+            letterSpacing: 0.6,
+            textTransform: "uppercase",
+            background: isLive
+              ? "rgba(46, 160, 79, 0.95)"
+              : isStatic
+              ? "rgba(184, 149, 106, 0.95)"
+              : "rgba(31, 45, 77, 0.85)",
+            color: "#FFFFFF",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.18)",
+          }}
+        >
+          {isLive ? "✓ Live" : isStatic ? "Default" : "Empty"}
+        </span>
       </div>
 
-      <div style={{ padding: "14px 16px 16px" }}>
-        <div
+      <div style={{ padding: "24px 26px 26px" }}>
+        <h3
           style={{
-            color: "#F5F1E8",
-            fontSize: 15,
+            margin: "0 0 8px",
+            fontSize: 22,
+            color: "#1A1A1A",
+            letterSpacing: "-0.4px",
+            lineHeight: 1.2,
             fontWeight: 800,
-            letterSpacing: "-0.2px",
-            marginBottom: 4,
-            fontFamily: '"Playfair Display", Georgia, serif',
+            fontFamily:
+              '"Playfair Display", Georgia, "Times New Roman", serif',
           }}
         >
           {entry.name}
-        </div>
-        <div
+        </h3>
+        <p
           style={{
-            color: "rgba(243,239,231,0.6)",
-            fontSize: 12.5,
-            lineHeight: 1.5,
-            marginBottom: 10,
+            margin: "0 0 18px",
+            color: "#6B5B47",
+            fontSize: 14.5,
+            lineHeight: 1.6,
+            minHeight: 47,
           }}
         >
           {entry.desc}
-        </div>
-        <div
+        </p>
+        <span
           style={{
             display: "inline-flex",
             alignItems: "center",
-            gap: 6,
-            color: "var(--accent-gold)",
-            fontSize: 12.5,
-            fontWeight: 700,
+            gap: 8,
+            padding: "10px 18px",
+            borderRadius: 999,
+            background: "linear-gradient(135deg, #BC9966, #D9B987)",
+            color: "#1F2D4D",
+            fontSize: 13.5,
+            fontWeight: 800,
             letterSpacing: 0.3,
           }}
         >
-          Edit <span aria-hidden="true">→</span>
-        </div>
+          Edit this section <span aria-hidden="true">→</span>
+        </span>
       </div>
     </Link>
   );
@@ -265,60 +281,148 @@ export default function SectionGridDashboard() {
     return () => unsub();
   }, []);
 
+  const totalLive = useMemo(() => {
+    let count = 0;
+    SECTIONS.forEach((g) =>
+      g.items.forEach((entry) => {
+        if (entry.thumbSlot && snapshot[entry.thumbSlot]?.cloudinary_url) {
+          count += 1;
+        } else if (entry.thumbListSlot) {
+          const items = snapshot[entry.thumbListSlot]?.json_value?.items;
+          if (Array.isArray(items) && items.length > 0) count += 1;
+        }
+      })
+    );
+    return count;
+  }, [snapshot]);
+
+  const totalSections = useMemo(() => {
+    let count = 0;
+    SECTIONS.forEach((g, gi) => {
+      if (gi < 5) count += g.items.length;
+    });
+    return count;
+  }, []);
+
   return (
-    <div>
-      <header style={{ marginBottom: 28 }}>
+    <div
+      style={{
+        background:
+          "radial-gradient(ellipse at 18% 12%, rgba(184,149,106,0.10), transparent 36%), radial-gradient(ellipse at 82% 88%, rgba(15,42,68,0.06), transparent 40%), #FAF7F2",
+        margin: "-36px -40px -80px",
+        padding: "44px 48px 96px",
+        minHeight: "calc(100vh - 0px)",
+        color: "#1A1A1A",
+      }}
+    >
+      <header
+        style={{
+          marginBottom: 40,
+          paddingBottom: 28,
+          borderBottom: "1px solid rgba(184, 149, 106, 0.22)",
+        }}
+      >
         <div
           style={{
-            color: "#D9B987",
-            fontSize: 11,
-            letterSpacing: 2,
+            color: "#8B6E48",
+            fontSize: 12,
+            letterSpacing: 2.4,
             textTransform: "uppercase",
-            fontWeight: 700,
-            marginBottom: 8,
+            fontWeight: 800,
+            marginBottom: 14,
           }}
         >
-          Mineworld Admin
+          Mineworld · Admin Control Room
         </div>
         <h1
           style={{
-            margin: "0 0 8px",
-            fontSize: 36,
-            color: "#F5F1E8",
-            letterSpacing: "-0.7px",
-            fontFamily: '"Playfair Display", Georgia, serif',
+            margin: "0 0 14px",
+            fontSize: "clamp(40px, 5.5vw, 64px)",
+            color: "#1A1A1A",
+            letterSpacing: "-1.6px",
+            lineHeight: 1.02,
+            fontFamily:
+              '"Playfair Display", Georgia, "Times New Roman", serif',
             fontWeight: 800,
+            maxWidth: 900,
           }}
         >
-          Edit your website.
+          Edit your website.{" "}
+          <span style={{ color: "#B8956A", fontStyle: "italic" }}>
+            One section at a time.
+          </span>
         </h1>
         <p
           style={{
-            margin: 0,
-            color: "rgba(243,239,231,0.65)",
-            fontSize: 14.5,
+            margin: "0 0 22px",
+            color: "#4A4A4A",
+            fontSize: 17,
             lineHeight: 1.7,
-            maxWidth: 720,
+            maxWidth: 820,
           }}
         >
-          Each card below is a section of the public site, in the order it
-          appears top-to-bottom. The thumbnail shows what’s live now —
-          green pill means you’ve already edited it, gold pill means
-          it’s using the built-in default. Click any card to change
-          the section’s photos, video, text, or colours.
+          Each card below is a section of the public website, ordered the way
+          a visitor sees them top-to-bottom. Click any card to change that
+          section&rsquo;s photos, video, text, or colours. Green badge =
+          you&rsquo;ve already edited it. Gold badge = still using the
+          built-in default.
         </p>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 14,
+            alignItems: "center",
+          }}
+        >
+          <span
+            style={{
+              padding: "10px 18px",
+              borderRadius: 999,
+              background: "rgba(46, 160, 79, 0.12)",
+              color: "#1F6E2C",
+              fontSize: 13.5,
+              fontWeight: 800,
+              border: "1px solid rgba(46, 160, 79, 0.35)",
+              letterSpacing: 0.2,
+            }}
+          >
+            ✓ {totalLive} of {totalSections} sections edited
+          </span>
+          <a
+            href="/"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              padding: "10px 18px",
+              borderRadius: 999,
+              background: "transparent",
+              color: "#1F2D4D",
+              fontSize: 13.5,
+              fontWeight: 800,
+              border: "1px solid rgba(31, 45, 77, 0.3)",
+              textDecoration: "none",
+              letterSpacing: 0.2,
+            }}
+          >
+            View live website ↗
+          </a>
+        </div>
       </header>
 
       {SECTIONS.map((group) => (
-        <section key={group.group} style={{ marginBottom: 36 }}>
+        <section key={group.group} style={{ marginBottom: 56 }}>
           <h2
             style={{
-              margin: "0 0 14px",
-              fontSize: 13,
-              fontWeight: 700,
-              color: "#D9B987",
-              letterSpacing: 1.6,
+              margin: "0 0 22px",
+              fontSize: 14,
+              fontWeight: 800,
+              color: "#8B6E48",
+              letterSpacing: 2,
               textTransform: "uppercase",
+              borderLeft: "3px solid #B8956A",
+              paddingLeft: 14,
             }}
           >
             {group.group}
@@ -326,12 +430,16 @@ export default function SectionGridDashboard() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: 16,
+              gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
+              gap: 22,
             }}
           >
             {group.items.map((entry) => (
-              <SectionCard key={entry.route} entry={entry} snapshot={snapshot} />
+              <SectionCard
+                key={entry.route}
+                entry={entry}
+                snapshot={snapshot}
+              />
             ))}
           </div>
         </section>
@@ -339,20 +447,60 @@ export default function SectionGridDashboard() {
 
       <div
         style={{
-          marginTop: 36,
-          padding: "14px 18px",
-          borderRadius: 14,
-          border: "1px dashed rgba(184, 149, 106, 0.32)",
-          background: "rgba(184, 149, 106, 0.04)",
-          color: "rgba(243,239,231,0.7)",
-          fontSize: 13,
-          lineHeight: 1.6,
+          marginTop: 64,
+          padding: "28px 32px",
+          borderRadius: 22,
+          background: "#FFFFFF",
+          border: "1px solid rgba(184, 149, 106, 0.25)",
+          boxShadow: "0 8px 22px rgba(31, 45, 77, 0.05)",
         }}
       >
-        <strong style={{ color: "#D9B987" }}>Where is my data stored?</strong>{" "}
-        All your text, colours, and content live in Firestore (Firebase).
-        Photos &amp; videos go to Cloudinary&apos;s CDN. Each save replicates
-        to every visitor instantly — no rebuild required.
+        <div
+          style={{
+            color: "#8B6E48",
+            fontSize: 12,
+            letterSpacing: 2,
+            textTransform: "uppercase",
+            fontWeight: 800,
+            marginBottom: 10,
+          }}
+        >
+          Where is my data?
+        </div>
+        <h3
+          style={{
+            margin: "0 0 12px",
+            fontSize: 22,
+            fontWeight: 800,
+            letterSpacing: "-0.3px",
+            fontFamily:
+              '"Playfair Display", Georgia, "Times New Roman", serif',
+          }}
+        >
+          Firestore stores text &amp; settings. Cloudinary stores photos &amp;
+          videos.
+        </h3>
+        <p
+          style={{
+            margin: 0,
+            color: "#4A4A4A",
+            fontSize: 15,
+            lineHeight: 1.7,
+            maxWidth: 760,
+          }}
+        >
+          Every save replicates instantly to every visitor — no rebuild
+          needed. Photos and videos go through Cloudinary&apos;s CDN with
+          automatic format conversion (AVIF / WebP), so your site loads fast
+          everywhere. Backups are available under{" "}
+          <Link
+            to="/admin/legacy-dashboard"
+            style={{ color: "#B8956A", fontWeight: 800 }}
+          >
+            Backup / Restore
+          </Link>
+          .
+        </p>
       </div>
     </div>
   );
