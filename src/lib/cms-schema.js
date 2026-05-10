@@ -161,6 +161,10 @@ export const SLOT_DEFINITIONS = [
   { key: "navbar.cta_label", type: "text", default: "Start a Project" },
   { key: "navbar.cta_link", type: "text", default: "" },
   { key: "navbar.nav_items", type: "json", default: { items: [] } },
+  { key: "navbar.logo", type: "asset", category: "brand" },
+  { key: "navbar.logo_size", type: "text", default: "40" },
+  { key: "navbar.logo_position", type: "text", default: "left" },
+  { key: "navbar.logo_alt", type: "text", default: "Mineworld Production logo" },
 
   // ──────────────── Footer ────────────────
   { key: "footer.tagline", type: "text", default: "" },
@@ -176,6 +180,9 @@ export const SLOT_DEFINITIONS = [
   { key: "footer.nav_links", type: "json", default: { items: [] } },
   { key: "footer.services_links", type: "json", default: { items: [] } },
   { key: "footer.copyright", type: "text", default: "" },
+  { key: "footer.logo", type: "asset", category: "brand" },
+  { key: "footer.logo_size", type: "text", default: "44" },
+  { key: "footer.logo_alt", type: "text", default: "Mineworld Production logo" },
 ];
 
 // Firestore doc ids cannot contain `/`. Cloudinary public_ids commonly

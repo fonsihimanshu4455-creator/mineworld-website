@@ -1,4 +1,5 @@
 import { PageHeader } from "../Dashboard";
+import AssetUploader from "../../components/AssetUploader";
 import TextEditor from "../../components/TextEditor";
 import RepeatingListEditor from "../../components/RepeatingListEditor";
 import EditorSection from "../../components/EditorSection";
@@ -14,8 +15,33 @@ export default function NavbarEditor() {
       <PageHeader
         eyebrow="CMS · Navbar"
         title="Navbar"
-        subtitle="Top navigation labels and the right-side CTA button. Public site falls back to the existing nav structure if no items are saved."
+        subtitle="Logo (image / size / position), nav labels, right-side CTA. Public site falls back to bundled defaults when slots are empty."
       />
+
+      <EditorSection title="Logo" hint="Replace the brand mark and tune its size + position">
+        <AssetUploader
+          slotKey="navbar.logo"
+          accept="image"
+          category="brand"
+          folder="mineworld/brand"
+          tags={["logo", "navbar"]}
+        />
+        <TextEditor
+          slotKey="navbar.logo_size"
+          label="Logo size in px (e.g. 40)"
+          fallback="40"
+        />
+        <TextEditor
+          slotKey="navbar.logo_position"
+          label="Logo position (left | center)"
+          fallback="left"
+        />
+        <TextEditor
+          slotKey="navbar.logo_alt"
+          label="Logo alt text"
+          fallback="Mineworld Production logo"
+        />
+      </EditorSection>
 
       <EditorSection title="Right-side CTA">
         <TextEditor
