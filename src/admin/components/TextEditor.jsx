@@ -12,36 +12,43 @@ import {
 } from "../cmsStore";
 
 const cardStyle = {
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(184, 149, 106, 0.20)",
-  borderRadius: "14px",
-  padding: "18px",
-  color: "#F5F1E8",
+  background: "var(--admin-surface, #FFFFFF)",
+  border: "1px solid var(--admin-border-gold, rgba(184,149,106,0.20))",
+  borderRadius: "var(--admin-radius-md, 16px)",
+  padding: "var(--admin-space-md, 24px)",
+  color: "var(--admin-text, #1A1A1A)",
+  boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
 };
 
 const inputBase = {
   width: "100%",
-  padding: "12px 14px",
-  borderRadius: 8,
-  border: "1px solid rgba(184, 149, 106, 0.25)",
-  background: "rgba(255,255,255,0.05)",
-  color: "#FFFFFF",
-  fontSize: 14,
+  padding: "14px 16px",
+  borderRadius: "var(--admin-radius-sm, 10px)",
+  border: "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))",
+  background: "var(--admin-surface, #FFFFFF)",
+  color: "var(--admin-text, #1A1A1A)",
+  fontSize: "var(--admin-text-base, 17px)",
   outline: "none",
   fontFamily: "inherit",
   boxSizing: "border-box",
 };
 
 const buttonStyle = (variant = "primary", disabled = false) => ({
-  padding: "9px 16px",
+  padding: "12px 22px",
   borderRadius: 999,
-  border: variant === "ghost" ? "1px solid rgba(184, 149, 106, 0.5)" : "none",
+  border:
+    variant === "ghost"
+      ? "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))"
+      : "none",
   background:
     variant === "ghost"
       ? "transparent"
-      : "linear-gradient(135deg, #BC9966, #D9B987)",
-  color: variant === "ghost" ? "#F5F1E8" : "#1F2D4D",
-  fontSize: 12.5,
+      : "linear-gradient(135deg, var(--admin-accent, #BC9966), var(--admin-accent-soft, #D9B987))",
+  color:
+    variant === "ghost"
+      ? "var(--admin-text, #1A1A1A)"
+      : "var(--admin-accent-dark, #1F2D4D)",
+  fontSize: "var(--admin-text-sm, 15px)",
   fontWeight: 700,
   cursor: disabled ? "not-allowed" : "pointer",
   opacity: disabled ? 0.5 : 1,

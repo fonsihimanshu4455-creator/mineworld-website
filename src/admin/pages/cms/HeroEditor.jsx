@@ -14,7 +14,11 @@ export default function HeroEditor() {
         subtitle="The first impression. Background video, headline (with rich gold-italic emphasis), sub-headline, colours, and the two CTAs."
       />
 
-      <EditorSection title="Background Video" hint="Loops behind the headline. The first frame becomes the cover photo automatically — no separate upload needed.">
+      <EditorSection
+        title="Background Video"
+        icon="🎬"
+        hint="Loops behind the headline. First frame becomes the cover automatically."
+      >
         <AssetUploader
           slotKey="hero.video"
           accept="video"
@@ -24,7 +28,7 @@ export default function HeroEditor() {
         />
       </EditorSection>
 
-      <EditorSection title="Headline & Copy">
+      <EditorSection title="Headline & Copy" icon="✏️">
         <TextEditor
           slotKey="hero.eyebrow"
           label="Eyebrow"
@@ -50,7 +54,7 @@ export default function HeroEditor() {
         />
       </EditorSection>
 
-      <EditorSection title="Colours">
+      <EditorSection title="Colours" icon="🎨">
         <ColorPicker
           slotKey="hero.headline_color"
           label="Headline color"
@@ -63,7 +67,7 @@ export default function HeroEditor() {
         />
       </EditorSection>
 
-      <EditorSection title="Call-to-Action Buttons">
+      <EditorSection title="Call-to-Action Buttons" icon="🔘">
         <TextEditor
           slotKey="hero.cta_primary_label"
           label="Primary CTA label"

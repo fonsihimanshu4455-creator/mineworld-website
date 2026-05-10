@@ -17,24 +17,31 @@ import { getAssetById, saveAsset, saveSlot, useSlotDoc } from "../cmsStore";
 import AssetSlotCard from "./AssetSlotCard";
 
 const cardStyle = {
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(184, 149, 106, 0.20)",
-  borderRadius: "14px",
-  padding: "18px",
-  color: "#F5F1E8",
+  background: "transparent",
+  borderRadius: 0,
+  padding: 0,
+  color: "var(--admin-text)",
 };
 
 const dropStyle = (active) => ({
-  marginTop: "10px",
-  padding: "22px",
-  borderRadius: "14px",
+  marginTop: "var(--admin-space-md)",
+  padding: "44px 28px",
+  borderRadius: "var(--admin-radius-md)",
   border: active
-    ? "2px dashed var(--accent-gold)"
-    : "2px dashed rgba(184, 149, 106, 0.35)",
-  background: active ? "rgba(184, 149, 106, 0.08)" : "rgba(0,0,0,0.16)",
+    ? "2px dashed var(--admin-accent)"
+    : "2px dashed var(--admin-border-strong)",
+  background: active
+    ? "var(--admin-accent-bg)"
+    : "var(--admin-surface-soft)",
   textAlign: "center",
   transition: "all 0.18s ease",
   cursor: "pointer",
+  minHeight: 200,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 10,
 });
 
 const buttonStyle = (variant = "primary", disabled = false) => ({
@@ -258,33 +265,67 @@ function AssetUploader({
       {!hideSpecCard && spec && (
         <div
           style={{
-            marginTop: "12px",
-            padding: "10px 12px",
-            borderRadius: "10px",
-            background: "rgba(0,0,0,0.18)",
-            border: "1px solid rgba(184, 149, 106, 0.16)",
-            ...muted,
+            marginTop: "var(--admin-space-md)",
+            padding: "14px 18px",
+            borderRadius: "var(--admin-radius-sm)",
+            background: "var(--admin-surface-soft)",
+            border: "1px solid var(--admin-border-gold)",
+            display: "flex",
+            gap: 14,
+            alignItems: "flex-start",
           }}
         >
-          <div style={{ fontWeight: 700, color: "#F5F1E8", marginBottom: 4 }}>
-            Recommended
-          </div>
-          {spec.recommended?.width && (
-            <div>
-              {spec.recommended.width}×{spec.recommended.height}
-              {spec.aspectRatio ? ` (${spec.aspectRatio})` : ""}
-              {spec.recommended.maxSizeMB
-                ? `, max ${spec.recommended.maxSizeMB} MB`
-                : ""}
-              {spec.recommended.duration
-                ? `, ${spec.recommended.duration}`
-                : ""}
+          <span style={{ fontSize: 22 }} aria-hidden="true">📐</span>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div
+              style={{
+                fontWeight: 800,
+                color: "var(--admin-text)",
+                fontSize: "var(--admin-text-sm)",
+                marginBottom: 4,
+                letterSpacing: "0.2px",
+              }}
+            >
+              Recommended for this slot
             </div>
-          )}
-          {Array.isArray(spec.formats) && (
-            <div>Formats: {spec.formats.join(", ")}</div>
-          )}
-          {spec.note && <div>{spec.note}</div>}
+            <div
+              style={{
+                fontSize: "var(--admin-text-sm)",
+                color: "var(--admin-text-secondary)",
+                lineHeight: 1.55,
+              }}
+            >
+              {spec.recommended?.width && (
+                <>
+                  <strong>
+                    {spec.recommended.width} × {spec.recommended.height}
+                  </strong>
+                  {spec.aspectRatio ? ` (${spec.aspectRatio})` : ""}
+                  {spec.recommended.maxSizeMB
+                    ? ` · max ${spec.recommended.maxSizeMB} MB`
+                    : ""}
+                  {spec.recommended.duration
+                    ? ` · ${spec.recommended.duration}`
+                    : ""}
+                  {Array.isArray(spec.formats) ? " · " : ""}
+                </>
+              )}
+              {Array.isArray(spec.formats) && (
+                <>Formats: {spec.formats.join(", ")}</>
+              )}
+              {spec.note && (
+                <div
+                  style={{
+                    marginTop: 6,
+                    color: "var(--admin-text-muted)",
+                    fontSize: "var(--admin-text-xs)",
+                  }}
+                >
+                  {spec.note}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
 
@@ -328,12 +369,25 @@ function AssetUploader({
                 }}
                 category={category}
                 showUsage={false}
-                thumbnailSize="md"
+                thumbnailSize="lg"
               />
             </div>
           );
         })()
       )}
+
+      <div
+        style={{
+          marginTop: "var(--admin-space-md)",
+          color: "var(--admin-accent-deep)",
+          fontSize: "var(--admin-text-xs)",
+          fontWeight: 800,
+          letterSpacing: 1.6,
+          textTransform: "uppercase",
+        }}
+      >
+        — Replace this asset —
+      </div>
 
       <div
         onDragOver={(e) => {
@@ -345,16 +399,33 @@ function AssetUploader({
         onClick={() => inputRef.current?.click()}
         style={dropStyle(dragActive)}
       >
-        <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>
+        <div
+          style={{ fontSize: 38, lineHeight: 1, marginBottom: 6 }}
+          aria-hidden="true"
+        >
+          {accept === "video" ? "🎬" : accept === "image" ? "🖼" : "📁"}
+        </div>
+        <div
+          style={{
+            fontSize: "var(--admin-text-base)",
+            fontWeight: 700,
+            color: "var(--admin-text)",
+          }}
+        >
           {currentUrl
             ? "Drop a new file to replace, or click to browse"
             : getStaticAsset(slotKey)
-            ? "Replace built-in with a Cloudinary upload — drop or browse"
-            : "Drop file here or click to browse"}
+            ? "Replace the built-in default — drop a file or click"
+            : "Drop a file here or click to browse"}
         </div>
-        <div style={muted}>
+        <div
+          style={{
+            fontSize: "var(--admin-text-sm)",
+            color: "var(--admin-text-muted)",
+          }}
+        >
           {accept === "video"
-            ? "MP4 / WEBM"
+            ? "MP4 / WEBM up to 50 MB"
             : accept === "image"
             ? "JPG / PNG / WEBP / SVG"
             : "Image or video"}
@@ -374,30 +445,40 @@ function AssetUploader({
         />
       </div>
 
-      <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
+      <div
+        style={{
+          marginTop: "var(--admin-space-md)",
+          display: "flex",
+          gap: 10,
+          alignItems: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        <span
+          style={{
+            fontSize: "var(--admin-text-sm)",
+            color: "var(--admin-text-muted)",
+            fontWeight: 600,
+          }}
+        >
+          or paste URL:
+        </span>
         <input
+          className="admin-input"
           type="url"
-          placeholder="Or paste a URL (jpg, png, mp4)…"
+          placeholder="https://example.com/image.jpg"
           value={urlInput}
           onChange={(e) => setUrlInput(e.target.value)}
-          style={{
-            flex: 1,
-            padding: "10px 12px",
-            borderRadius: 8,
-            border: "1px solid rgba(184, 149, 106, 0.25)",
-            background: "rgba(255,255,255,0.05)",
-            color: "#F5F1E8",
-            fontSize: 13,
-            outline: "none",
-          }}
+          style={{ flex: "1 1 240px", minWidth: 200 }}
         />
         <button
           type="button"
           onClick={handleUrlUpload}
           disabled={!urlInput.trim() || uploading}
-          style={buttonStyle("ghost", !urlInput.trim() || uploading)}
+          className="admin-btn admin-btn-primary"
+          aria-disabled={!urlInput.trim() || uploading}
         >
-          Upload URL
+          Upload from URL
         </button>
       </div>
 

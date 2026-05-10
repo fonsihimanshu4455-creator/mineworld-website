@@ -4,46 +4,62 @@ import { contentStore } from "../contentStore";
 import { schemas, collectionOrder } from "../schemas";
 import CloudinaryStatusPanel from "../components/CloudinaryStatusPanel";
 
-function PageHeader({ eyebrow, title, subtitle }) {
+function PageHeader({ eyebrow, title, subtitle, action }) {
   return (
-    <header style={{ marginBottom: "28px" }}>
-      <div
-        style={{
-          color: "#D9B987",
-          fontSize: "11px",
-          letterSpacing: "2px",
-          textTransform: "uppercase",
-          fontWeight: 700,
-          marginBottom: "8px",
-        }}
-      >
-        {eyebrow}
-      </div>
-      <h1
-        style={{
-          margin: "0 0 8px",
-          fontSize: "34px",
-          color: "#F5F1E8",
-          letterSpacing: "-0.7px",
-          fontFamily: '"Playfair Display", Georgia, serif',
-          fontWeight: 800,
-        }}
-      >
-        {title}
-      </h1>
-      {subtitle ? (
-        <p
+    <header
+      style={{
+        marginBottom: "var(--admin-space-lg, 40px)",
+        paddingBottom: "var(--admin-space-md, 24px)",
+        borderBottom: "1px solid var(--admin-border-gold, rgba(184,149,106,0.32))",
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        gap: 16,
+      }}
+    >
+      <div style={{ minWidth: 0 }}>
+        <div
           style={{
-            margin: 0,
-            color: "#CFC6B8",
-            fontSize: "14.5px",
-            lineHeight: 1.75,
-            maxWidth: "720px",
+            color: "var(--admin-accent-deep, #8B6E48)",
+            fontSize: "var(--admin-text-xs, 13px)",
+            letterSpacing: "2.4px",
+            textTransform: "uppercase",
+            fontWeight: 800,
+            marginBottom: 12,
           }}
         >
-          {subtitle}
-        </p>
-      ) : null}
+          {eyebrow}
+        </div>
+        <h1
+          style={{
+            margin: "0 0 12px",
+            fontSize: "var(--admin-text-2xl, 36px)",
+            color: "var(--admin-text, #1A1A1A)",
+            letterSpacing: "-0.8px",
+            lineHeight: 1.05,
+            fontFamily:
+              'var(--admin-font-serif, "Playfair Display", Georgia, serif)',
+            fontWeight: 800,
+          }}
+        >
+          {title}
+        </h1>
+        {subtitle ? (
+          <p
+            style={{
+              margin: 0,
+              color: "var(--admin-text-secondary, #4A4A4A)",
+              fontSize: "var(--admin-text-base, 17px)",
+              lineHeight: 1.65,
+              maxWidth: 760,
+            }}
+          >
+            {subtitle}
+          </p>
+        ) : null}
+      </div>
+      {action}
     </header>
   );
 }

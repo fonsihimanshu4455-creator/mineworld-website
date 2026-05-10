@@ -7,46 +7,46 @@ import useIsMobile from "../../utils/useIsMobile";
 const sidebarGroups = [
   {
     id: "dashboard",
-    label: "Home",
+    label: "🏠  Home",
     defaultOpen: true,
     links: [
-      { to: "/admin", label: "All sections (home)", end: true },
-      { to: "/admin/preview", label: "Live preview" },
-      { to: "/admin/submissions", label: "Form submissions" },
+      { to: "/admin", label: "All sections", end: true, icon: "🗂" },
+      { to: "/admin/preview", label: "Live preview", icon: "👁" },
+      { to: "/admin/submissions", label: "Form submissions", icon: "✉" },
     ],
   },
   {
     id: "cms-content",
-    label: "Edit website sections",
+    label: "✏️  Edit website sections",
     defaultOpen: true,
     links: [
-      { to: "/admin/cms/navbar", label: "Top navigation" },
-      { to: "/admin/cms/hero", label: "Top banner (with video)" },
-      { to: "/admin/cms/client-logos", label: "Client logo strip" },
-      { to: "/admin/cms/manifesto", label: "Big quote strip" },
-      { to: "/admin/cms/capabilities", label: "What we do (Build / Create / Grow)" },
-      { to: "/admin/cms/services", label: "Services tiles" },
-      { to: "/admin/cms/process", label: "How we work — 5 steps" },
-      { to: "/admin/cms/portfolio-items", label: "Project cards" },
-      { to: "/admin/cms/editing-showcase", label: "Before / After slider" },
-      { to: "/admin/cms/reels", label: "Vertical reels" },
-      { to: "/admin/cms/founder", label: "Founder section" },
-      { to: "/admin/cms/team-members", label: "Team" },
-      { to: "/admin/cms/reviews", label: "Customer reviews" },
-      { to: "/admin/cms/press", label: "As featured in (press)" },
-      { to: "/admin/cms/apps", label: "Apps we ship" },
-      { to: "/admin/cms/cta", label: "Bottom call-to-action" },
-      { to: "/admin/cms/footer", label: "Footer" },
+      { to: "/admin/cms/navbar", label: "Top navigation", icon: "🧭" },
+      { to: "/admin/cms/hero", label: "Top banner (with video)", icon: "🎬" },
+      { to: "/admin/cms/client-logos", label: "Client logo strip", icon: "🏢" },
+      { to: "/admin/cms/manifesto", label: "Big quote strip", icon: "💬" },
+      { to: "/admin/cms/capabilities", label: "What we do", icon: "⚡" },
+      { to: "/admin/cms/services", label: "Services tiles", icon: "🛠" },
+      { to: "/admin/cms/process", label: "How we work", icon: "🛤" },
+      { to: "/admin/cms/portfolio-items", label: "Project cards", icon: "📂" },
+      { to: "/admin/cms/editing-showcase", label: "Before / After", icon: "🎞" },
+      { to: "/admin/cms/reels", label: "Vertical reels", icon: "📱" },
+      { to: "/admin/cms/founder", label: "Founder section", icon: "👤" },
+      { to: "/admin/cms/team-members", label: "Team", icon: "👥" },
+      { to: "/admin/cms/reviews", label: "Customer reviews", icon: "⭐" },
+      { to: "/admin/cms/press", label: "As featured in", icon: "📰" },
+      { to: "/admin/cms/apps", label: "Apps we ship", icon: "📲" },
+      { to: "/admin/cms/cta", label: "Bottom call-to-action", icon: "📣" },
+      { to: "/admin/cms/footer", label: "Footer", icon: "🦶" },
     ],
   },
   {
     id: "cms-assets",
-    label: "Files & backups",
+    label: "📦  Media & backups",
     defaultOpen: true,
     links: [
-      { to: "/admin/cms/assets", label: "All photos & videos" },
-      { to: "/admin/legacy-dashboard", label: "Backup / Restore (JSON)" },
-      { to: "/admin/migrate", label: "Initial setup (run once)" },
+      { to: "/admin/cms/assets", label: "All photos & videos", icon: "🖼" },
+      { to: "/admin/legacy-dashboard", label: "Backup / Restore", icon: "💾" },
+      { to: "/admin/migrate", label: "Initial setup", icon: "🌱" },
     ],
   },
   {
@@ -213,21 +213,48 @@ function AdminLayout() {
                         to={link.to}
                         end={link.end}
                         style={({ isActive }) => ({
-                          display: "block",
-                          padding: "9px 14px",
-                          borderRadius: 9,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 12,
+                          padding: "12px 14px",
+                          minHeight: 44,
+                          borderRadius: 10,
                           color: isActive ? "#18140F" : "#F5F1E8",
                           background: isActive
                             ? "linear-gradient(135deg, #BC9966, #D9B987)"
                             : "transparent",
-                          fontSize: isMobile ? "14.5px" : "13px",
+                          fontSize: isMobile ? "15px" : "14px",
                           fontWeight: isActive ? 800 : 600,
                           textDecoration: "none",
                           transition: "all 0.2s ease",
                           letterSpacing: "0.1px",
+                          borderLeft: isActive
+                            ? "3px solid var(--admin-accent-deep, #8B6E48)"
+                            : "3px solid transparent",
                         })}
                       >
-                        {link.label}
+                        {link.icon ? (
+                          <span
+                            aria-hidden="true"
+                            style={{
+                              fontSize: 16,
+                              width: 22,
+                              textAlign: "center",
+                              flexShrink: 0,
+                            }}
+                          >
+                            {link.icon}
+                          </span>
+                        ) : null}
+                        <span
+                          style={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {link.label}
+                        </span>
                       </NavLink>
                     </li>
                   ))}
@@ -251,32 +278,34 @@ function AdminLayout() {
           rel="noreferrer"
           style={{
             display: "block",
-            padding: "10px 12px",
-            borderRadius: "10px",
-            border: "1px solid rgba(255,255,255,0.12)",
-            background: "rgba(255,255,255,0.03)",
-            color: "#F5F1E8",
-            fontSize: "13px",
+            padding: "14px 16px",
+            borderRadius: "12px",
+            border: "1px solid rgba(184, 149, 106, 0.45)",
+            background: "rgba(184, 149, 106, 0.08)",
+            color: "#D9B987",
+            fontSize: "14px",
             textDecoration: "none",
-            fontWeight: 700,
+            fontWeight: 800,
             textAlign: "center",
-            marginBottom: "8px",
+            marginBottom: "10px",
+            letterSpacing: "0.4px",
           }}
         >
-          View Site ↗
+          View live site ↗
         </a>
         <button
           onClick={handleLogout}
           style={{
             width: "100%",
-            padding: "10px 12px",
-            borderRadius: "10px",
+            padding: "14px 16px",
+            borderRadius: "12px",
             border: "1px solid rgba(255,120,120,0.25)",
             background: "rgba(255,120,120,0.06)",
             color: "#ff9e9e",
-            fontSize: "13px",
+            fontSize: "14px",
             fontWeight: 700,
             cursor: "pointer",
+            letterSpacing: "0.3px",
           }}
         >
           Log out
@@ -316,6 +345,7 @@ function AdminLayout() {
   if (isMobile) {
     return (
       <div
+        className="admin-shell"
         style={{
           minHeight: "100vh",
           background: "#0b0f1a",
@@ -453,8 +483,11 @@ function AdminLayout() {
 
         <main
           style={{
-            padding: "22px 16px 80px",
+            padding: "24px 18px 96px",
             width: "100%",
+            minHeight: "100vh",
+            background: "var(--admin-bg, #F8F5EF)",
+            color: "var(--admin-text, #1A1A1A)",
           }}
         >
           <Outlet />
@@ -465,12 +498,13 @@ function AdminLayout() {
 
   return (
     <div
+      className="admin-shell"
       style={{
         minHeight: "100vh",
         background: "#0b0f1a",
         color: "#F5F1E8",
         display: "grid",
-        gridTemplateColumns: "minmax(240px, 260px) 1fr",
+        gridTemplateColumns: "var(--admin-sidebar-width, 280px) 1fr",
       }}
     >
       <aside
@@ -492,9 +526,13 @@ function AdminLayout() {
 
       <main
         style={{
-          padding: "36px 40px 80px",
-          maxWidth: "1100px",
+          padding: "var(--admin-space-lg, 40px)",
+          paddingBottom: 96,
+          maxWidth: "var(--admin-content-max, 1200px)",
           width: "100%",
+          minHeight: "100vh",
+          background: "var(--admin-bg, #F8F5EF)",
+          color: "var(--admin-text, #1A1A1A)",
         }}
       >
         <Outlet />

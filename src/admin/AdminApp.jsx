@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import AdminAuth, { useAdminAuth } from "./components/AdminAuth";
 import AdminLayout from "./components/AdminLayout";
 import SectionGridDashboard from "./pages/SectionGridDashboard";
+import "../styles/admin-theme.css";
 
 // Editor pages are lazy-loaded so the initial admin bundle stays small
 // — admin lands on the section-grid dashboard (eager) and only pulls
