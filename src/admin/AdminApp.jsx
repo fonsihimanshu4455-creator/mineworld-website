@@ -1,30 +1,59 @@
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import AdminAuth, { useAdminAuth } from "./components/AdminAuth";
 import AdminLayout from "./components/AdminLayout";
 import Dashboard from "./pages/Dashboard";
-import SettingsEditor from "./pages/SettingsEditor";
-import CollectionEditor from "./pages/CollectionEditor";
-import SubmissionsEditor from "./pages/SubmissionsEditor";
-import PreviewEditor from "./pages/PreviewEditor";
-import MigrateAssets from "./pages/MigrateAssets";
-import AssetLibrary from "./pages/AssetLibrary";
-import HeroEditor from "./pages/cms/HeroEditor";
-import FounderEditor from "./pages/cms/FounderEditor";
-import FooterEditor from "./pages/cms/FooterEditor";
-import ClientLogosEditor from "./pages/cms/ClientLogosEditor";
-import PortfolioItemsEditor from "./pages/cms/PortfolioItemsEditor";
-import TeamMembersEditor from "./pages/cms/TeamMembersEditor";
-import ReelsEditor from "./pages/cms/ReelsEditor";
-import PressEditor from "./pages/cms/PressEditor";
-import AppsEditor from "./pages/cms/AppsEditor";
-import ManifestoEditor from "./pages/cms/ManifestoEditor";
-import CapabilitiesEditor from "./pages/cms/CapabilitiesEditor";
-import ServicesEditor from "./pages/cms/ServicesEditor";
-import ProcessEditor from "./pages/cms/ProcessEditor";
-import EditingShowcaseEditor from "./pages/cms/EditingShowcaseEditor";
-import CtaEditor from "./pages/cms/CtaEditor";
-import NavbarEditor from "./pages/cms/NavbarEditor";
-import ReviewsEditor from "./pages/cms/ReviewsEditor";
+
+// Editor pages are lazy-loaded so the initial admin bundle stays small
+// — admin lands on Dashboard (eager) and only pulls the heavy editors
+// when they actually navigate to one.
+const SettingsEditor = lazy(() => import("./pages/SettingsEditor"));
+const CollectionEditor = lazy(() => import("./pages/CollectionEditor"));
+const SubmissionsEditor = lazy(() => import("./pages/SubmissionsEditor"));
+const PreviewEditor = lazy(() => import("./pages/PreviewEditor"));
+const MigrateAssets = lazy(() => import("./pages/MigrateAssets"));
+const AssetLibrary = lazy(() => import("./pages/AssetLibrary"));
+const HeroEditor = lazy(() => import("./pages/cms/HeroEditor"));
+const FounderEditor = lazy(() => import("./pages/cms/FounderEditor"));
+const FooterEditor = lazy(() => import("./pages/cms/FooterEditor"));
+const ClientLogosEditor = lazy(() => import("./pages/cms/ClientLogosEditor"));
+const PortfolioItemsEditor = lazy(() =>
+  import("./pages/cms/PortfolioItemsEditor")
+);
+const TeamMembersEditor = lazy(() => import("./pages/cms/TeamMembersEditor"));
+const ReelsEditor = lazy(() => import("./pages/cms/ReelsEditor"));
+const PressEditor = lazy(() => import("./pages/cms/PressEditor"));
+const AppsEditor = lazy(() => import("./pages/cms/AppsEditor"));
+const ManifestoEditor = lazy(() => import("./pages/cms/ManifestoEditor"));
+const CapabilitiesEditor = lazy(() =>
+  import("./pages/cms/CapabilitiesEditor")
+);
+const ServicesEditor = lazy(() => import("./pages/cms/ServicesEditor"));
+const ProcessEditor = lazy(() => import("./pages/cms/ProcessEditor"));
+const EditingShowcaseEditor = lazy(() =>
+  import("./pages/cms/EditingShowcaseEditor")
+);
+const CtaEditor = lazy(() => import("./pages/cms/CtaEditor"));
+const NavbarEditor = lazy(() => import("./pages/cms/NavbarEditor"));
+const ReviewsEditor = lazy(() => import("./pages/cms/ReviewsEditor"));
+
+function PageFallback() {
+  return (
+    <div
+      style={{
+        padding: "60px 20px",
+        textAlign: "center",
+        color: "#D9B987",
+        fontSize: 13,
+        letterSpacing: 1.2,
+        textTransform: "uppercase",
+        fontWeight: 700,
+      }}
+    >
+      Loading editor…
+    </div>
+  );
+}
 
 function AdminApp() {
   const { authed, ready } = useAdminAuth();
@@ -59,29 +88,29 @@ function AdminApp() {
       <Routes>
         <Route element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path="settings" element={<SettingsEditor />} />
-          <Route path="preview" element={<PreviewEditor />} />
-          <Route path="submissions" element={<SubmissionsEditor />} />
-          <Route path="migrate" element={<MigrateAssets />} />
-          <Route path="cms/assets" element={<AssetLibrary />} />
-          <Route path="cms/hero" element={<HeroEditor />} />
-          <Route path="cms/founder" element={<FounderEditor />} />
-          <Route path="cms/footer" element={<FooterEditor />} />
-          <Route path="cms/client-logos" element={<ClientLogosEditor />} />
-          <Route path="cms/portfolio-items" element={<PortfolioItemsEditor />} />
-          <Route path="cms/team-members" element={<TeamMembersEditor />} />
-          <Route path="cms/reels" element={<ReelsEditor />} />
-          <Route path="cms/press" element={<PressEditor />} />
-          <Route path="cms/apps" element={<AppsEditor />} />
-          <Route path="cms/manifesto" element={<ManifestoEditor />} />
-          <Route path="cms/capabilities" element={<CapabilitiesEditor />} />
-          <Route path="cms/services" element={<ServicesEditor />} />
-          <Route path="cms/process" element={<ProcessEditor />} />
-          <Route path="cms/editing-showcase" element={<EditingShowcaseEditor />} />
-          <Route path="cms/cta" element={<CtaEditor />} />
-          <Route path="cms/navbar" element={<NavbarEditor />} />
-          <Route path="cms/reviews" element={<ReviewsEditor />} />
-          <Route path="collections/:key" element={<CollectionEditor />} />
+          <Route path="settings" element={<Suspense fallback={<PageFallback />}><SettingsEditor /></Suspense>} />
+          <Route path="preview" element={<Suspense fallback={<PageFallback />}><PreviewEditor /></Suspense>} />
+          <Route path="submissions" element={<Suspense fallback={<PageFallback />}><SubmissionsEditor /></Suspense>} />
+          <Route path="migrate" element={<Suspense fallback={<PageFallback />}><MigrateAssets /></Suspense>} />
+          <Route path="cms/assets" element={<Suspense fallback={<PageFallback />}><AssetLibrary /></Suspense>} />
+          <Route path="cms/hero" element={<Suspense fallback={<PageFallback />}><HeroEditor /></Suspense>} />
+          <Route path="cms/founder" element={<Suspense fallback={<PageFallback />}><FounderEditor /></Suspense>} />
+          <Route path="cms/footer" element={<Suspense fallback={<PageFallback />}><FooterEditor /></Suspense>} />
+          <Route path="cms/client-logos" element={<Suspense fallback={<PageFallback />}><ClientLogosEditor /></Suspense>} />
+          <Route path="cms/portfolio-items" element={<Suspense fallback={<PageFallback />}><PortfolioItemsEditor /></Suspense>} />
+          <Route path="cms/team-members" element={<Suspense fallback={<PageFallback />}><TeamMembersEditor /></Suspense>} />
+          <Route path="cms/reels" element={<Suspense fallback={<PageFallback />}><ReelsEditor /></Suspense>} />
+          <Route path="cms/press" element={<Suspense fallback={<PageFallback />}><PressEditor /></Suspense>} />
+          <Route path="cms/apps" element={<Suspense fallback={<PageFallback />}><AppsEditor /></Suspense>} />
+          <Route path="cms/manifesto" element={<Suspense fallback={<PageFallback />}><ManifestoEditor /></Suspense>} />
+          <Route path="cms/capabilities" element={<Suspense fallback={<PageFallback />}><CapabilitiesEditor /></Suspense>} />
+          <Route path="cms/services" element={<Suspense fallback={<PageFallback />}><ServicesEditor /></Suspense>} />
+          <Route path="cms/process" element={<Suspense fallback={<PageFallback />}><ProcessEditor /></Suspense>} />
+          <Route path="cms/editing-showcase" element={<Suspense fallback={<PageFallback />}><EditingShowcaseEditor /></Suspense>} />
+          <Route path="cms/cta" element={<Suspense fallback={<PageFallback />}><CtaEditor /></Suspense>} />
+          <Route path="cms/navbar" element={<Suspense fallback={<PageFallback />}><NavbarEditor /></Suspense>} />
+          <Route path="cms/reviews" element={<Suspense fallback={<PageFallback />}><ReviewsEditor /></Suspense>} />
+          <Route path="collections/:key" element={<Suspense fallback={<PageFallback />}><CollectionEditor /></Suspense>} />
         </Route>
       </Routes>
     </div>

@@ -1,4 +1,5 @@
 import { PageHeader } from "../Dashboard";
+import AssetUploader from "../../components/AssetUploader";
 import TextEditor from "../../components/TextEditor";
 import RepeatingListEditor from "../../components/RepeatingListEditor";
 import EditorSection from "../../components/EditorSection";
@@ -26,8 +27,28 @@ export default function FooterEditor() {
       <PageHeader
         eyebrow="CMS · Footer"
         title="Footer"
-        subtitle="Top CTA card + tagline, contact details, nav links, services list, social links, copyright."
+        subtitle="Logo + size, top CTA card, tagline, contact details, nav links, services list, social links, copyright."
       />
+
+      <EditorSection title="Logo" hint="Replace the footer logo and adjust its size">
+        <AssetUploader
+          slotKey="footer.logo"
+          accept="image"
+          category="brand"
+          folder="mineworld/brand"
+          tags={["logo", "footer"]}
+        />
+        <TextEditor
+          slotKey="footer.logo_size"
+          label="Logo size in px (e.g. 44)"
+          fallback="44"
+        />
+        <TextEditor
+          slotKey="footer.logo_alt"
+          label="Logo alt text"
+          fallback="Mineworld Production logo"
+        />
+      </EditorSection>
 
       <EditorSection title="Top CTA card (above the columns)">
         <TextEditor
