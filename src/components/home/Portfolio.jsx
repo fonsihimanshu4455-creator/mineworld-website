@@ -15,24 +15,41 @@ import useIsMobile from "../../utils/useIsMobile";
 // Convert admin-shape portfolio item into the PortfolioCard shape the
 // existing presentation layer consumes.
 function mapAdminPortfolioItem(item) {
+  // Listing-card thumbnail prefers a dedicated thumbnail field; if
+  // unset, fall back to legacy `cover` (which the "Edit existing →"
+  // import writes) so card images don't disappear after that import.
+  const thumbObj =
+    item?.thumbnail && typeof item.thumbnail === "object"
+      ? item.thumbnail
+      : item?.cover && typeof item.cover === "object"
+      ? item.cover
+      : null;
   const thumbUrl =
-    item?.thumbnail?.cloudinary_url ||
-    (typeof item?.thumbnail === "string" ? item.thumbnail : "");
-  const isVideo = item?.thumbnail?.asset_type === "video";
-  const slugSafe =
-    (item.title || item.id || "").toLowerCase().replace(/[^a-z0-9-]+/g, "-");
+    thumbObj?.cloudinary_url ||
+    thumbObj?.src ||
+    thumbObj?.url ||
+    (typeof item?.thumbnail === "string" ? item.thumbnail : "") ||
+    (typeof item?.cover === "string" ? item.cover : "");
+  const isVideo =
+    thumbObj?.asset_type === "video" || thumbObj?.type === "video";
+  const slugFromTitle = (item.title || item.id || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, "-");
+  const slug = item.slug
+    ? String(item.slug).toLowerCase().replace(/[^a-z0-9-]+/g, "-")
+    : item.link
+    ? item.link.replace(/^.*\//, "")
+    : slugFromTitle || `item-${item.id || ""}`;
   return {
-    slug: item.link
-      ? item.link.replace(/^.*\//, "")
-      : slugSafe || `item-${item.id || ""}`,
+    slug,
     title: item.title || "Untitled",
     category: item.category || "Project",
     description: item.description || "",
     cover: {
       type: isVideo ? "video" : "image",
       src: thumbUrl,
-      alt: item.title || "",
-      poster: thumbUrl,
+      alt: thumbObj?.alt || item.title || "",
+      poster: thumbObj?.poster_url || thumbUrl,
     },
   };
 }
