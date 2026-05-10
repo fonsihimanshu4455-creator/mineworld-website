@@ -133,7 +133,6 @@ function AssetUploader({
   const currentAssetId = slotDoc.data?.asset_id || null;
   const [currentAsset, setCurrentAsset] = useState(null);
 
-  // Hydrate the full asset doc for rich-preview metadata.
   useEffect(() => {
     let cancelled = false;
     if (!currentAssetId) {
@@ -200,9 +199,6 @@ function AssetUploader({
     if (v.warnings.length) setWarnings(v.warnings);
     const resourceType = pickResourceType(file, accept);
     startUpload(async (setP) => {
-      // Cloudinary's unsigned upload doesn't support fine-grained
-      // progress without XHR; we report 30% on POST start, 100% on
-      // resolve. Good enough for a single file.
       setP(30);
       const result = await uploadToCloudinary(file, {
         folder,
@@ -259,31 +255,6 @@ function AssetUploader({
 
   return (
     <div style={cardStyle}>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "12px",
-        }}
-      >
-        <div>
-          <div
-            style={{
-              color: "var(--accent-gold)",
-              fontSize: "11px",
-              letterSpacing: "1.6px",
-              textTransform: "uppercase",
-              fontWeight: 700,
-              marginBottom: "4px",
-            }}
-          >
-            Asset slot
-          </div>
-          <div style={{ fontSize: "14px", fontWeight: 700 }}>{slotKey}</div>
-        </div>
-      </div>
-
       {!hideSpecCard && spec && (
         <div
           style={{
@@ -335,8 +306,6 @@ function AssetUploader({
           />
         </div>
       ) : (
-        // Empty CMS slot — surface the bundled "live" asset (if any) so
-        // admin sees what's currently on production before replacing.
         (() => {
           const staticAsset = getStaticAsset(slotKey);
           if (!staticAsset) return null;
