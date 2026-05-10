@@ -858,15 +858,60 @@ function ItemBody({ item, itemFields, groups, updateField, category, folder }) {
           );
         })}
       </div>
-      <div style={{ display: "grid", gap: 12 }}>
-        {current.fields.map((name) => {
-          const field = fieldByName[name];
-          return (
-            <div key={field.name}>
-              {renderField(field, item, updateField, category, folder)}
+      <div style={{ display: "grid", gap: 16 }}>
+        {typeof current.renderPreview === "function" && (
+          <div
+            style={{
+              border: "1px solid rgba(184,149,106,0.20)",
+              borderRadius: 14,
+              overflow: "hidden",
+              background:
+                "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "8px 14px",
+                background: "rgba(0,0,0,0.32)",
+                borderBottom: "1px solid rgba(184,149,106,0.18)",
+                color: "#D9B987",
+                fontSize: 11,
+                letterSpacing: "1.6px",
+                textTransform: "uppercase",
+                fontWeight: 800,
+              }}
+            >
+              <span>Live preview · {current.label}</span>
+              <span
+                style={{
+                  fontSize: 10,
+                  letterSpacing: "1px",
+                  color: "rgba(245,241,232,0.55)",
+                  textTransform: "none",
+                  fontWeight: 600,
+                }}
+              >
+                this is what visitors see
+              </span>
             </div>
-          );
-        })}
+            <div style={{ padding: 16 }}>
+              {current.renderPreview(item)}
+            </div>
+          </div>
+        )}
+        <div style={{ display: "grid", gap: 12 }}>
+          {current.fields.map((name) => {
+            const field = fieldByName[name];
+            return (
+              <div key={field.name}>
+                {renderField(field, item, updateField, category, folder)}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
