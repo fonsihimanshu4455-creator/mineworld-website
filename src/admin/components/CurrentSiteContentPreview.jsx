@@ -28,7 +28,7 @@ const headerStyle = {
 const titleStyle = {
   fontSize: 14,
   fontWeight: 700,
-  color: "#F5F1E8",
+  color: "var(--admin-text, #1A1A1A)",
   marginBottom: 8,
 };
 
@@ -38,10 +38,10 @@ const itemStyle = {
   gap: 10,
   padding: "8px 10px",
   borderRadius: 10,
-  background: "rgba(0,0,0,0.18)",
+  background: "var(--admin-surface-soft, #F0EBE0)",
   border: "1px solid rgba(184, 149, 106, 0.12)",
   fontSize: 12.5,
-  color: "rgba(245,241,232,0.85)",
+  color: "var(--admin-text-secondary, #4A4A4A)",
 };
 
 function newId() {
@@ -231,10 +231,10 @@ export default function CurrentSiteContentPreview({
                     width: 32,
                     height: 32,
                     borderRadius: 6,
-                    background: "rgba(255,255,255,0.06)",
+                    background: "var(--admin-surface-soft, #F0EBE0)",
                     display: "grid",
                     placeItems: "center",
-                    color: "rgba(245,241,232,0.4)",
+                    color: "var(--admin-text-muted, #6B5B47)",
                     fontSize: 14,
                     flexShrink: 0,
                   }}

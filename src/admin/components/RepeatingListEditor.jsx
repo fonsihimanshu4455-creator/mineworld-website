@@ -34,42 +34,49 @@ import {
 import { saveAsset, saveSlot, useSaveStatus, useSlotDoc } from "../cmsStore";
 
 const cardStyle = {
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(184, 149, 106, 0.20)",
-  borderRadius: 14,
-  padding: 18,
-  color: "#F5F1E8",
+  background: "var(--admin-surface, #FFFFFF)",
+  border: "1px solid var(--admin-border-gold, rgba(184,149,106,0.20))",
+  borderRadius: "var(--admin-radius-md, 16px)",
+  padding: "var(--admin-space-md, 24px)",
+  color: "var(--admin-text, #1A1A1A)",
+  boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
 };
 
 const rowStyle = (open, dragging) => ({
   background: open
-    ? "rgba(0,0,0,0.28)"
+    ? "var(--admin-surface-soft, #F0EBE0)"
     : dragging
-    ? "rgba(184, 149, 106, 0.12)"
-    : "rgba(0,0,0,0.18)",
-  border: "1px solid rgba(184, 149, 106, 0.16)",
+    ? "rgba(184, 149, 106, 0.10)"
+    : "var(--admin-surface, #FFFFFF)",
+  border: "1px solid var(--admin-border-gold, rgba(184,149,106,0.18))",
   borderRadius: 12,
-  marginBottom: 8,
+  marginBottom: 10,
   transition: "background 0.18s ease",
+  boxShadow: open
+    ? "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))"
+    : "none",
 });
 
 const buttonStyle = (variant = "primary", disabled = false) => ({
-  padding: "8px 14px",
+  padding: "10px 18px",
   borderRadius: 999,
-  border: variant === "ghost" ? "1px solid rgba(184, 149, 106, 0.5)" : "none",
+  border:
+    variant === "ghost"
+      ? "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))"
+      : "none",
   background:
     variant === "ghost"
       ? "transparent"
       : variant === "danger"
-      ? "rgba(255,120,120,0.12)"
-      : "linear-gradient(135deg, #BC9966, #D9B987)",
+      ? "var(--admin-danger-bg, rgba(239,68,68,0.10))"
+      : "linear-gradient(135deg, var(--admin-accent, #BC9966), var(--admin-accent-soft, #D9B987))",
   color:
     variant === "ghost"
-      ? "#F5F1E8"
+      ? "var(--admin-text, #1A1A1A)"
       : variant === "danger"
-      ? "#ff9e9e"
-      : "#1F2D4D",
-  fontSize: 12,
+      ? "var(--admin-danger, #EF4444)"
+      : "var(--admin-accent-dark, #1F2D4D)",
+  fontSize: "var(--admin-text-xs, 13px)",
   fontWeight: 700,
   cursor: disabled ? "not-allowed" : "pointer",
   opacity: disabled ? 0.5 : 1,
@@ -77,12 +84,12 @@ const buttonStyle = (variant = "primary", disabled = false) => ({
 
 const inputStyle = {
   width: "100%",
-  padding: "10px 12px",
-  borderRadius: 8,
-  border: "1px solid rgba(184, 149, 106, 0.25)",
-  background: "rgba(255,255,255,0.05)",
-  color: "#FFFFFF",
-  fontSize: 13,
+  padding: "12px 14px",
+  borderRadius: "var(--admin-radius-sm, 10px)",
+  border: "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))",
+  background: "var(--admin-surface, #FFFFFF)",
+  color: "var(--admin-text, #1A1A1A)",
+  fontSize: "var(--admin-text-sm, 15px)",
   outline: "none",
   fontFamily: "inherit",
   boxSizing: "border-box",
@@ -90,12 +97,12 @@ const inputStyle = {
 
 const labelStyle = {
   display: "block",
-  fontSize: 11.5,
+  fontSize: 12,
   fontWeight: 700,
-  color: "var(--bg-cream-soft)",
-  letterSpacing: "0.4px",
+  color: "var(--admin-accent-deep, #8B6E48)",
+  letterSpacing: "0.6px",
   textTransform: "uppercase",
-  marginBottom: 4,
+  marginBottom: 6,
 };
 
 function newId() {
@@ -353,12 +360,12 @@ function ItemRow({
             flex: 1,
             background: "transparent",
             border: "none",
-            color: "#F5F1E8",
+            color: "var(--admin-text, #1A1A1A)",
             textAlign: "left",
-            fontSize: 13,
+            fontSize: "var(--admin-text-sm, 15px)",
             fontWeight: 700,
             cursor: "pointer",
-            padding: "6px 4px",
+            padding: "8px 6px",
           }}
         >
           {summaryText(item, itemFields)}
@@ -370,7 +377,9 @@ function ItemRow({
           aria-label={visible ? "Hide item" : "Show item"}
           style={{
             ...buttonStyle("ghost"),
-            color: visible ? "#F5F1E8" : "rgba(245,241,232,0.4)",
+            color: visible
+              ? "var(--admin-text, #1A1A1A)"
+              : "var(--admin-text-muted, rgba(74,74,74,0.4))",
           }}
         >
           {visible ? "👁 Visible" : "⊘ Hidden"}
@@ -590,7 +599,7 @@ function RepeatingListEditor({
             style={{
               marginTop: 4,
               fontSize: 12,
-              color: "rgba(245,241,232,0.55)",
+              color: "var(--admin-text-muted, #6B5B47)",
             }}
           >
             {items.length} {items.length === 1 ? "item" : "items"} · Drag the
@@ -619,7 +628,7 @@ function RepeatingListEditor({
             border: "1px dashed rgba(184, 149, 106, 0.3)",
             borderRadius: 12,
             textAlign: "center",
-            color: "rgba(245,241,232,0.6)",
+            color: "var(--admin-text-muted, #6B5B47)",
             fontSize: 13,
           }}
         >
@@ -662,7 +671,7 @@ function RepeatingListEditor({
               ? "#ff9e9e"
               : status.kind === "saving"
               ? "#D9B987"
-              : "rgba(245,241,232,0.55)",
+              : "var(--admin-text-muted, #6B5B47)",
         }}
       >
         {status.message ||

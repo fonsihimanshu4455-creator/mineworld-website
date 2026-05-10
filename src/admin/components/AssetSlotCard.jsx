@@ -1,46 +1,18 @@
-// AssetSlotCard — rich preview wrapper used inside AssetUploader and
-// the Asset Library detail modal. Renders the current asset with a
-// thumbnail, metadata table, "used in N slots" badge, and an optional
-// lightbox-on-click for full-size preview.
+// AssetSlotCard — premium "currently live" preview wrapper used inside
+// AssetUploader and the Asset Library detail modal.
 //
-// Pure presentational — receives `asset` already loaded and emits
-// `onReplace` / `onRemove` / `onDelete` callbacks the parent handles.
+// Redesign May 2026 v3:
+//   - White card surface on warm cream backdrop
+//   - 360px+ preview (was ~120px) — admin can SEE the asset clearly
+//   - Right-column metadata table with bigger, readable text
+//   - Inline video playback (no forced lightbox); image still gets one
+//   - "CURRENTLY LIVE" eyebrow + "Built-in" / "Cloudinary CDN" status pill
+//
+// Pure presentational. Receives a loaded `asset` and emits
+// `onReplaceClick` / `onRemoveClick` callbacks.
 
 import { useEffect, useState } from "react";
 import { findSlotsUsingAsset } from "../cmsStore";
-
-const TRANSPARENCY_BG =
-  "repeating-conic-gradient(rgba(255,255,255,0.10) 0% 25%, rgba(0,0,0,0.18) 0% 50%) 50% / 16px 16px";
-
-const PILL = (variant = "neutral") => ({
-  display: "inline-flex",
-  alignItems: "center",
-  gap: 6,
-  padding: "3px 10px",
-  borderRadius: 999,
-  fontSize: 11,
-  fontWeight: 700,
-  letterSpacing: 0.4,
-  textTransform: "uppercase",
-  border:
-    variant === "ok"
-      ? "1px solid rgba(134, 230, 156, 0.35)"
-      : variant === "warn"
-      ? "1px solid rgba(217, 185, 135, 0.45)"
-      : "1px solid rgba(184, 149, 106, 0.25)",
-  background:
-    variant === "ok"
-      ? "rgba(134, 230, 156, 0.12)"
-      : variant === "warn"
-      ? "rgba(217, 185, 135, 0.12)"
-      : "rgba(255,255,255,0.05)",
-  color:
-    variant === "ok"
-      ? "#86E69C"
-      : variant === "warn"
-      ? "#D9B987"
-      : "#F5F1E8",
-});
 
 function bytesToReadable(n) {
   if (!n && n !== 0) return null;
@@ -53,8 +25,8 @@ function bytesToReadable(n) {
 function aspectLabel(w, h) {
   if (!w || !h) return null;
   if (w === h) return "Square";
-  if (w > h) return `${w}:${h} · Landscape`;
-  return `${w}:${h} · Portrait`;
+  if (w > h) return `Landscape (${w}:${h})`;
+  return `Portrait (${w}:${h})`;
 }
 
 function timeAgo(date) {
@@ -62,27 +34,24 @@ function timeAgo(date) {
   const t = date.toDate ? date.toDate() : new Date(date);
   if (Number.isNaN(t.getTime())) return null;
   const diff = (Date.now() - t.getTime()) / 1000;
-  if (diff < 60) return "Just now";
-  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-  if (diff < 86400 * 30)
-    return `${Math.floor(diff / 86400)}d ago`;
+  if (diff < 60) return "just now";
+  if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+  if (diff < 86400 * 30) return `${Math.floor(diff / 86400)} days ago`;
   return t.toLocaleDateString();
 }
 
-// Cloudinary thumbnail builder — uses public URL transformation
 function cldThumb(url, type, opts = {}) {
-  if (!url) return null;
-  const { width = 480, height } = opts;
-  // Insert /<transform>/ after /upload/
+  if (!url || !url.includes("/upload/")) return url || null;
+  const { width = 720 } = opts;
   const transform =
     type === "video"
-      ? `so_0,f_jpg,q_auto,w_${width}${height ? `,h_${height},c_fill` : ""}`
-      : `f_auto,q_auto,w_${width}${height ? `,h_${height},c_fill` : ""}`;
+      ? `so_0,f_jpg,q_auto,w_${width}`
+      : `f_auto,q_auto,w_${width}`;
   return url.replace("/upload/", `/upload/${transform}/`);
 }
 
-function Lightbox({ asset, onClose }) {
+function ImageLightbox({ asset, onClose }) {
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
@@ -97,10 +66,10 @@ function Lightbox({ asset, onClose }) {
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 110,
-        background: "rgba(6,10,18,0.92)",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
+        zIndex: 200,
+        background: "rgba(15, 17, 22, 0.92)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
         display: "grid",
         placeItems: "center",
         padding: 32,
@@ -111,55 +80,32 @@ function Lightbox({ asset, onClose }) {
         aria-label="Close preview"
         style={{
           position: "absolute",
-          top: 16,
-          right: 16,
-          width: 44,
-          height: 44,
+          top: 20,
+          right: 20,
+          width: 48,
+          height: 48,
           borderRadius: "50%",
           border: "1px solid rgba(255,255,255,0.18)",
-          background: "rgba(255,255,255,0.06)",
-          color: "#F5F1E8",
+          background: "rgba(255,255,255,0.08)",
+          color: "#FFFFFF",
           fontSize: 22,
           cursor: "pointer",
         }}
       >
         ×
       </button>
-      <div
+      <img
+        src={asset.cloudinary_url || asset.url}
+        alt=""
         onClick={(e) => e.stopPropagation()}
         style={{
-          maxWidth: "min(94vw, 1280px)",
+          maxWidth: "min(94vw, 1400px)",
           maxHeight: "88vh",
-          display: "grid",
-          placeItems: "center",
+          borderRadius: 12,
+          objectFit: "contain",
+          background: "#FFFFFF",
         }}
-      >
-        {asset.asset_type === "video" || asset.type === "video" ? (
-          <video
-            src={asset.cloudinary_url || asset.url}
-            controls
-            autoPlay
-            playsInline
-            style={{
-              maxWidth: "100%",
-              maxHeight: "88vh",
-              borderRadius: 12,
-              background: "#000",
-            }}
-          />
-        ) : (
-          <img
-            src={asset.cloudinary_url || asset.url}
-            alt=""
-            style={{
-              maxWidth: "100%",
-              maxHeight: "88vh",
-              borderRadius: 12,
-              objectFit: "contain",
-            }}
-          />
-        )}
-      </div>
+      />
     </div>
   );
 }
@@ -170,7 +116,8 @@ export default function AssetSlotCard({
   onReplaceClick,
   onRemoveClick,
   showUsage = true,
-  thumbnailSize = "md", // "sm" | "md" | "lg"
+  thumbnailSize = "lg", // sm 120 / md 240 / lg 360 / xl 480
+  inline = false, // when true, skip the heavy "CURRENTLY LIVE" header
 }) {
   const [lightbox, setLightbox] = useState(false);
   const [usage, setUsage] = useState(null);
@@ -198,251 +145,313 @@ export default function AssetSlotCard({
 
   const isVideo = asset.asset_type === "video" || asset.type === "video";
   const isLogo = category === "logo-wall" || asset.asset_type === "logo";
-  const transparentBg = isLogo;
-  const isStaticBuiltIn = !!asset.isStatic;
+  const isStatic = !!asset.isStatic;
 
-  const thumbW =
-    thumbnailSize === "sm" ? 128 : thumbnailSize === "lg" ? 320 : 220;
+  const sizePx = {
+    sm: 200,
+    md: 280,
+    lg: 360,
+    xl: 480,
+  }[thumbnailSize] || 360;
 
   const dims =
     asset.width && asset.height
       ? `${asset.width} × ${asset.height} px`
       : null;
-
   const aspect = aspectLabel(asset.width, asset.height);
+  const sourceUrl = asset.cloudinary_url || asset.url;
+  const posterUrl = isVideo ? cldThumb(sourceUrl, "video", { width: sizePx * 2 }) : null;
 
   return (
     <>
       <div
+        className="admin-card"
         style={{
-          display: "grid",
-          gridTemplateColumns: `${thumbW}px 1fr`,
-          gap: 14,
-          alignItems: "start",
-          padding: 14,
-          borderRadius: 12,
-          background: "rgba(0,0,0,0.18)",
-          border: "1px solid rgba(184, 149, 106, 0.18)",
+          padding: 0,
+          overflow: "hidden",
         }}
       >
-        <button
-          type="button"
-          onClick={() => setLightbox(true)}
-          aria-label="Preview full size"
-          style={{
-            position: "relative",
-            width: thumbW,
-            height: isVideo ? Math.round(thumbW * 9 / 16) : thumbW,
-            border: "none",
-            background: transparentBg ? TRANSPARENCY_BG : "rgba(0,0,0,0.32)",
-            borderRadius: 10,
-            cursor: "zoom-in",
-            overflow: "hidden",
-            padding: 0,
-          }}
-        >
-          <img
-            src={cldThumb(asset.cloudinary_url, isVideo ? "video" : "image", {
-              width: thumbW * 2,
-            })}
-            alt=""
-            loading="lazy"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: isLogo ? "contain" : "cover",
-              padding: isLogo ? 8 : 0,
-            }}
-          />
-          {isVideo && (
-            <span
-              aria-hidden="true"
-              style={{
-                position: "absolute",
-                inset: 0,
-                display: "grid",
-                placeItems: "center",
-                pointerEvents: "none",
-              }}
-            >
-              <span
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: "50%",
-                  background: "rgba(0,0,0,0.55)",
-                  border: "1px solid rgba(255,255,255,0.5)",
-                  color: "#fff",
-                  display: "grid",
-                  placeItems: "center",
-                  fontSize: 16,
-                }}
-              >
-                ▶
-              </span>
-            </span>
-          )}
-        </button>
-
-        <div style={{ minWidth: 0 }}>
+        {!inline && (
           <div
             style={{
+              padding: "14px 22px",
+              borderBottom: "1px solid var(--admin-border)",
               display: "flex",
-              gap: 6,
-              flexWrap: "wrap",
-              marginBottom: 8,
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 12,
+              background: "var(--admin-surface-soft)",
             }}
           >
-            <span style={PILL()}>
-              {isVideo ? "🎬 Video" : isLogo ? "🏷 Logo" : "🖼 Image"}
-            </span>
-            {asset.format && (
-              <span style={PILL()}>{asset.format.toUpperCase()}</span>
-            )}
-            <span style={PILL(isStaticBuiltIn ? "warn" : "ok")}>
-              {isStaticBuiltIn ? "📦 Built-in" : "☁ Cloudinary"}
-            </span>
-            {showUsage && usage && !isStaticBuiltIn && (
-              <span style={PILL(usage.length > 0 ? "ok" : "warn")}>
-                {usage.length > 0
-                  ? `Used in ${usage.length}`
-                  : "Unused"}
-              </span>
-            )}
-          </div>
-
-          <div
-            style={{
-              fontSize: 13.5,
-              fontWeight: 700,
-              color: "#F5F1E8",
-              wordBreak: "break-word",
-              marginBottom: 8,
-            }}
-          >
-            {asset.original_name || asset.cloudinary_id || "Untitled asset"}
-          </div>
-
-          <ul
-            style={{
-              listStyle: "none",
-              padding: 0,
-              margin: 0,
-              display: "grid",
-              gap: 4,
-              fontSize: 12,
-              color: "rgba(245,241,232,0.72)",
-              lineHeight: 1.4,
-            }}
-          >
-            {dims && (
-              <li>
-                📐 {dims}
-                {aspect ? ` · ${aspect}` : ""}
-              </li>
-            )}
-            {asset.size_bytes ? (
-              <li>💾 {bytesToReadable(asset.size_bytes)}</li>
-            ) : null}
-            {asset.duration_seconds ? (
-              <li>
-                ⏱ {Math.round(asset.duration_seconds * 10) / 10}s
-              </li>
-            ) : null}
-            {asset.created_at ? (
-              <li>📅 Uploaded {timeAgo(asset.created_at)}</li>
-            ) : null}
-            {isStaticBuiltIn && asset.originalSource ? (
-              <li
-                style={{
-                  fontFamily:
-                    "ui-monospace, SFMono-Regular, Menlo, monospace",
-                  fontSize: 11.5,
-                }}
-              >
-                📦 {asset.originalSource}
-              </li>
-            ) : null}
-            {showUsage && usage && usage.length > 0 && (
-              <li
-                style={{
-                  marginTop: 4,
-                  paddingTop: 6,
-                  borderTop: "1px dashed rgba(184, 149, 106, 0.22)",
-                }}
-              >
-                🎯 In: {usage.map((u) => u.id).slice(0, 3).join(", ")}
-                {usage.length > 3 ? `, +${usage.length - 3} more` : ""}
-              </li>
-            )}
-          </ul>
-
-          {(onReplaceClick || onRemoveClick) && (
             <div
               style={{
-                display: "flex",
-                gap: 8,
-                marginTop: 12,
-                flexWrap: "wrap",
+                fontSize: "var(--admin-text-xs)",
+                fontWeight: 800,
+                letterSpacing: 1.6,
+                textTransform: "uppercase",
+                color: "var(--admin-accent-deep)",
               }}
             >
-              {onReplaceClick && (
-                <button
-                  type="button"
-                  onClick={onReplaceClick}
+              ✓ Currently live on the website
+            </div>
+            <span
+              className={`admin-pill ${
+                isStatic ? "admin-pill-warning" : "admin-pill-success"
+              }`}
+            >
+              {isStatic ? "📦 Built-in default" : "☁ Cloudinary CDN"}
+            </span>
+          </div>
+        )}
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: `minmax(0, ${sizePx}px) 1fr`,
+            gap: 28,
+            padding: 24,
+            alignItems: "start",
+          }}
+        >
+          {/* ── PREVIEW ─────────────────────────────── */}
+          <div
+            style={{
+              width: "100%",
+              maxWidth: sizePx,
+            }}
+          >
+            <div
+              className={isLogo ? "admin-checker-bg" : ""}
+              style={{
+                position: "relative",
+                width: "100%",
+                aspectRatio: isVideo ? "16 / 9" : isLogo ? "1 / 1" : "auto",
+                borderRadius: "var(--admin-radius-md)",
+                overflow: "hidden",
+                background: isLogo
+                  ? undefined
+                  : isVideo
+                  ? "#000"
+                  : "var(--admin-surface-soft)",
+                border: "1px solid var(--admin-border)",
+                cursor: isVideo ? "default" : "zoom-in",
+              }}
+              onClick={() => {
+                if (!isVideo) setLightbox(true);
+              }}
+            >
+              {isVideo ? (
+                <video
+                  src={sourceUrl}
+                  poster={posterUrl}
+                  controls
+                  muted
+                  playsInline
+                  preload="metadata"
                   style={{
-                    padding: "7px 14px",
-                    borderRadius: 999,
-                    border: "1px solid rgba(184, 149, 106, 0.5)",
-                    background: "transparent",
-                    color: "#F5F1E8",
-                    fontSize: 12,
-                    fontWeight: 700,
-                    cursor: "pointer",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                    background: "#000",
                   }}
-                >
-                  Replace
-                </button>
-              )}
-              {onRemoveClick && !isStaticBuiltIn && (
-                <button
-                  type="button"
-                  onClick={onRemoveClick}
+                />
+              ) : (
+                <img
+                  src={cldThumb(sourceUrl, "image", { width: sizePx * 2 })}
+                  alt={asset.original_name || "asset preview"}
+                  loading="lazy"
                   style={{
-                    padding: "7px 14px",
-                    borderRadius: 999,
-                    border: "1px solid rgba(255,120,120,0.35)",
-                    background: "rgba(255,120,120,0.08)",
-                    color: "#ff9e9e",
-                    fontSize: 12,
-                    fontWeight: 700,
-                    cursor: "pointer",
+                    width: "100%",
+                    height: isLogo ? "100%" : "auto",
+                    maxHeight: isLogo ? undefined : sizePx * 1.5,
+                    objectFit: isLogo ? "contain" : "cover",
+                    padding: isLogo ? 18 : 0,
+                    display: "block",
                   }}
-                >
-                  Remove
-                </button>
+                />
               )}
-              {isStaticBuiltIn && (
+              {!isVideo && (
                 <span
+                  aria-hidden="true"
                   style={{
-                    padding: "7px 12px",
+                    position: "absolute",
+                    bottom: 10,
+                    right: 10,
+                    background: "rgba(0,0,0,0.72)",
+                    color: "#FFFFFF",
+                    padding: "5px 10px",
                     borderRadius: 999,
-                    border: "1px dashed rgba(217, 185, 135, 0.35)",
-                    color: "rgba(245,241,232,0.55)",
                     fontSize: 11.5,
-                    fontWeight: 600,
+                    fontWeight: 700,
+                    letterSpacing: 0.4,
+                    pointerEvents: "none",
                   }}
-                  title="Built-in assets are bundled with the site and can't be removed from the admin. Replace it with a Cloudinary upload to override."
                 >
-                  Built-in (cannot remove)
+                  Click to enlarge
                 </span>
               )}
             </div>
-          )}
+          </div>
+
+          {/* ── METADATA ─────────────────────────────── */}
+          <div style={{ minWidth: 0, color: "var(--admin-text)" }}>
+            <div
+              style={{
+                fontSize: "var(--admin-text-lg)",
+                fontWeight: 800,
+                letterSpacing: "-0.3px",
+                color: "var(--admin-text)",
+                wordBreak: "break-word",
+                marginBottom: 14,
+                fontFamily: "var(--admin-font-serif)",
+              }}
+            >
+              {asset.original_name || asset.cloudinary_id || "Untitled asset"}
+            </div>
+
+            <ul
+              style={{
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+                display: "grid",
+                gap: 10,
+                fontSize: "var(--admin-text-sm)",
+                color: "var(--admin-text-secondary)",
+                lineHeight: 1.5,
+              }}
+            >
+              <li
+                style={{ display: "flex", gap: 10, alignItems: "baseline" }}
+              >
+                <span style={{ fontSize: 16 }}>
+                  {isVideo ? "🎬" : isLogo ? "🏷" : "🖼"}
+                </span>
+                <span>
+                  <strong style={{ color: "var(--admin-text)" }}>
+                    {isVideo ? "Video" : isLogo ? "Logo" : "Image"}
+                  </strong>
+                  {asset.format ? ` · ${asset.format.toUpperCase()}` : ""}
+                </span>
+              </li>
+              {dims && (
+                <li
+                  style={{ display: "flex", gap: 10, alignItems: "baseline" }}
+                >
+                  <span style={{ fontSize: 16 }}>📐</span>
+                  <span>
+                    <strong style={{ color: "var(--admin-text)" }}>
+                      {dims}
+                    </strong>
+                    {aspect ? ` · ${aspect}` : ""}
+                  </span>
+                </li>
+              )}
+              {asset.size_bytes ? (
+                <li
+                  style={{ display: "flex", gap: 10, alignItems: "baseline" }}
+                >
+                  <span style={{ fontSize: 16 }}>💾</span>
+                  <span>{bytesToReadable(asset.size_bytes)}</span>
+                </li>
+              ) : null}
+              {asset.duration_seconds ? (
+                <li
+                  style={{ display: "flex", gap: 10, alignItems: "baseline" }}
+                >
+                  <span style={{ fontSize: 16 }}>⏱</span>
+                  <span>
+                    {Math.round(asset.duration_seconds * 10) / 10} seconds
+                  </span>
+                </li>
+              ) : null}
+              {asset.created_at ? (
+                <li
+                  style={{ display: "flex", gap: 10, alignItems: "baseline" }}
+                >
+                  <span style={{ fontSize: 16 }}>📅</span>
+                  <span>Uploaded {timeAgo(asset.created_at)}</span>
+                </li>
+              ) : null}
+              {showUsage && usage && !isStatic && (
+                <li
+                  style={{ display: "flex", gap: 10, alignItems: "baseline" }}
+                >
+                  <span style={{ fontSize: 16 }}>🎯</span>
+                  <span>
+                    {usage.length > 0
+                      ? `Used in ${usage.length} ${
+                          usage.length === 1 ? "place" : "places"
+                        }`
+                      : "Not yet referenced anywhere"}
+                  </span>
+                </li>
+              )}
+              {isStatic && asset.originalSource ? (
+                <li
+                  style={{ display: "flex", gap: 10, alignItems: "baseline" }}
+                >
+                  <span style={{ fontSize: 16 }}>📦</span>
+                  <code
+                    style={{
+                      fontFamily: "var(--admin-font-mono)",
+                      fontSize: 13,
+                      background: "var(--admin-surface-soft)",
+                      padding: "2px 8px",
+                      borderRadius: 6,
+                    }}
+                  >
+                    {asset.originalSource}
+                  </code>
+                </li>
+              ) : null}
+            </ul>
+
+            {(onReplaceClick || onRemoveClick) && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  marginTop: 22,
+                  flexWrap: "wrap",
+                }}
+              >
+                {onReplaceClick && (
+                  <button
+                    type="button"
+                    onClick={onReplaceClick}
+                    className="admin-btn admin-btn-ghost"
+                  >
+                    ↻ Replace
+                  </button>
+                )}
+                {onRemoveClick && !isStatic && (
+                  <button
+                    type="button"
+                    onClick={onRemoveClick}
+                    className="admin-btn admin-btn-danger"
+                  >
+                    × Remove
+                  </button>
+                )}
+                {isStatic && (
+                  <span
+                    className="admin-pill admin-pill-warning"
+                    title="Built-in defaults are bundled with the site and can't be removed. Replace it with a Cloudinary upload to override."
+                  >
+                    Built-in · cannot remove
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {lightbox && <Lightbox asset={asset} onClose={() => setLightbox(false)} />}
+      {lightbox && !isVideo && (
+        <ImageLightbox asset={asset} onClose={() => setLightbox(false)} />
+      )}
     </>
   );
 }

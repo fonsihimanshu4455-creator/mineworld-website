@@ -36,23 +36,25 @@ const TYPES = ["all", "image", "video"];
 const SOURCES = ["all", "cloudinary", "static"];
 
 const cardStyle = {
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(184, 149, 106, 0.18)",
-  borderRadius: 14,
-  padding: 14,
-  color: "#F5F1E8",
+  background: "var(--admin-surface, #FFFFFF)",
+  border: "1px solid var(--admin-border-gold, rgba(184,149,106,0.18))",
+  borderRadius: "var(--admin-radius-md, 16px)",
+  padding: 18,
+  color: "var(--admin-text, #1A1A1A)",
   cursor: "pointer",
-  transition: "all 0.18s ease",
+  transition: "all 0.22s ease",
+  boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
 };
 
 const inputStyle = {
-  padding: "10px 14px",
-  borderRadius: 10,
-  border: "1px solid rgba(184, 149, 106, 0.25)",
-  background: "rgba(255,255,255,0.05)",
-  color: "#F5F1E8",
-  fontSize: 13,
+  padding: "14px 18px",
+  borderRadius: "var(--admin-radius-sm, 10px)",
+  border: "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))",
+  background: "var(--admin-surface, #FFFFFF)",
+  color: "var(--admin-text, #1A1A1A)",
+  fontSize: "var(--admin-text-base, 17px)",
   outline: "none",
+  fontFamily: "inherit",
 };
 
 function cldThumb(url, type, w = 480) {
@@ -95,7 +97,7 @@ function AssetCard({ asset, selected, onSelect, onClick }) {
         style={{
           position: "relative",
           width: "100%",
-          aspectRatio: "1 / 1",
+          aspectRatio: "16 / 11",
           borderRadius: 10,
           overflow: "hidden",
           background: transparent
@@ -187,14 +189,14 @@ function AssetCard({ asset, selected, onSelect, onClick }) {
           <span
             style={{
               position: "absolute",
-              bottom: 8,
-              right: 8,
-              padding: "3px 8px",
+              bottom: 10,
+              right: 10,
+              padding: "4px 10px",
               borderRadius: 999,
-              background: "rgba(0,0,0,0.7)",
-              color: "#F5F1E8",
-              fontSize: 10,
-              fontWeight: 700,
+              background: "rgba(0,0,0,0.78)",
+              color: "#FFFFFF",
+              fontSize: 10.5,
+              fontWeight: 800,
               letterSpacing: 0.4,
               textTransform: "uppercase",
             }}
@@ -206,13 +208,17 @@ function AssetCard({ asset, selected, onSelect, onClick }) {
 
       <div
         style={{
-          fontSize: 12.5,
+          fontSize: "var(--admin-text-base, 17px)",
           fontWeight: 700,
-          color: "#F5F1E8",
-          marginBottom: 4,
+          color: "var(--admin-text, #1A1A1A)",
+          marginTop: 4,
+          marginBottom: 6,
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
+          letterSpacing: "-0.2px",
+          fontFamily:
+            'var(--admin-font-serif, "Playfair Display", Georgia, serif)',
         }}
         title={asset.original_name || asset.cloudinary_id}
       >
@@ -220,9 +226,9 @@ function AssetCard({ asset, selected, onSelect, onClick }) {
       </div>
       <div
         style={{
-          fontSize: 11,
-          color: "rgba(245,241,232,0.55)",
-          lineHeight: 1.4,
+          fontSize: "var(--admin-text-sm, 15px)",
+          color: "var(--admin-text-muted, #6B5B47)",
+          lineHeight: 1.5,
         }}
       >
         {asset.width && asset.height
@@ -287,7 +293,7 @@ function AssetDetailModal({ asset, onClose, onDelete }) {
           borderRadius: 16,
           background: "linear-gradient(180deg, #1a2236, #0f172a)",
           border: "1px solid rgba(184, 149, 106, 0.25)",
-          color: "#F5F1E8",
+          color: "var(--admin-text, #1A1A1A)",
           boxShadow: "0 32px 80px rgba(0,0,0,0.5)",
         }}
       >
@@ -334,7 +340,7 @@ function AssetDetailModal({ asset, onClose, onDelete }) {
               borderRadius: "50%",
               border: "1px solid rgba(255,255,255,0.18)",
               background: "rgba(255,255,255,0.04)",
-              color: "#F5F1E8",
+              color: "var(--admin-text, #1A1A1A)",
               fontSize: 18,
               cursor: "pointer",
             }}
@@ -376,7 +382,7 @@ function AssetDetailModal({ asset, onClose, onDelete }) {
               wordBreak: "break-all",
               fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
               fontSize: 12,
-              color: "rgba(245,241,232,0.85)",
+              color: "var(--admin-text-secondary, #4A4A4A)",
               marginBottom: 8,
             }}
           >
@@ -423,13 +429,13 @@ function AssetDetailModal({ asset, onClose, onDelete }) {
           </div>
           {usage === null ? (
             <div
-              style={{ fontSize: 13, color: "rgba(245,241,232,0.55)" }}
+              style={{ fontSize: 13, color: "var(--admin-text-muted, #6B5B47)" }}
             >
               Checking…
             </div>
           ) : usage.length === 0 ? (
             <div
-              style={{ fontSize: 13, color: "rgba(245,241,232,0.65)" }}
+              style={{ fontSize: 13, color: "var(--admin-text-muted, #6B5B47)" }}
             >
               Not referenced by any slot. Safe to delete.
             </div>
@@ -439,7 +445,7 @@ function AssetDetailModal({ asset, onClose, onDelete }) {
                 margin: 0,
                 paddingLeft: 20,
                 fontSize: 13,
-                color: "rgba(245,241,232,0.85)",
+                color: "var(--admin-text-secondary, #4A4A4A)",
                 lineHeight: 1.7,
               }}
             >
@@ -474,7 +480,7 @@ function AssetDetailModal({ asset, onClose, onDelete }) {
                 padding: "10px 16px",
                 borderRadius: 999,
                 border: "1px dashed rgba(217, 185, 135, 0.35)",
-                color: "rgba(245,241,232,0.6)",
+                color: "var(--admin-text-muted, #6B5B47)",
                 fontSize: 12.5,
                 fontWeight: 600,
               }}
@@ -646,18 +652,19 @@ function AssetLibrary() {
         style={{
           display: "grid",
           gridTemplateColumns: "1fr",
-          gap: 10,
-          padding: 14,
-          borderRadius: 14,
-          background: "rgba(255,255,255,0.04)",
-          border: "1px solid rgba(184, 149, 106, 0.18)",
-          marginBottom: 18,
+          gap: 12,
+          padding: 18,
+          borderRadius: "var(--admin-radius-md, 16px)",
+          background: "var(--admin-surface, #FFFFFF)",
+          border: "1px solid var(--admin-border-gold, rgba(184,149,106,0.18))",
+          boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
+          marginBottom: 22,
         }}
       >
         <div
           style={{
             display: "flex",
-            gap: 10,
+            gap: 12,
             flexWrap: "wrap",
             alignItems: "center",
           }}
@@ -712,7 +719,7 @@ function AssetLibrary() {
               alignItems: "center",
               gap: 6,
               fontSize: 13,
-              color: "#F5F1E8",
+              color: "var(--admin-text, #1A1A1A)",
               cursor: "pointer",
             }}
           >
@@ -731,7 +738,7 @@ function AssetLibrary() {
             justifyContent: "space-between",
             alignItems: "center",
             fontSize: 12.5,
-            color: "rgba(245,241,232,0.65)",
+            color: "var(--admin-text-muted, #6B5B47)",
           }}
         >
           <span>
@@ -783,7 +790,7 @@ function AssetLibrary() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
             gap: 14,
           }}
         >
@@ -800,7 +807,7 @@ function AssetLibrary() {
               <div
                 style={{
                   width: "100%",
-                  aspectRatio: "1 / 1",
+                  aspectRatio: "16 / 11",
                   borderRadius: 10,
                   background: "rgba(255,255,255,0.06)",
                   marginBottom: 10,
@@ -834,7 +841,7 @@ function AssetLibrary() {
             background: "rgba(255,255,255,0.04)",
             border: "1px dashed rgba(184, 149, 106, 0.3)",
             textAlign: "center",
-            color: "rgba(245,241,232,0.7)",
+            color: "var(--admin-text-secondary, #4A4A4A)",
           }}
         >
           <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 6 }}>
@@ -849,7 +856,7 @@ function AssetLibrary() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
             gap: 14,
           }}
         >
