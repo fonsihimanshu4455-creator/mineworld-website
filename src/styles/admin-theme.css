@@ -267,3 +267,60 @@
     padding: var(--admin-space-sm) var(--admin-space-md);
   }
 }
+
+/* ============================================================
+ * SAFETY NET — admin main content is light (cream/white). Force
+ * dark text + light input surfaces inside `<main>` so any
+ * inline-styled component that forgot to specify a colour stays
+ * legible on the cream backdrop. The sidebar (<aside>) and
+ * portal modals (DeleteAssetDialog, lightbox, drawer) sit
+ * outside <main> and keep their own dark themes.
+ * ============================================================ */
+.admin-shell main,
+.admin-shell main > * {
+  color: var(--admin-text);
+}
+
+.admin-shell main h1,
+.admin-shell main h2,
+.admin-shell main h3,
+.admin-shell main h4,
+.admin-shell main h5,
+.admin-shell main h6 {
+  color: var(--admin-text);
+}
+
+.admin-shell main label {
+  color: var(--admin-text);
+}
+
+.admin-shell main input,
+.admin-shell main textarea,
+.admin-shell main select {
+  color: var(--admin-text);
+  caret-color: var(--admin-accent-deep);
+}
+
+.admin-shell main input::placeholder,
+.admin-shell main textarea::placeholder {
+  color: var(--admin-text-muted);
+  opacity: 1;
+}
+
+/* Admin links inside main pick up the accent gold on hover but
+ * stay dark by default so list items / breadcrumbs are legible. */
+.admin-shell main a {
+  color: var(--admin-text);
+}
+.admin-shell main a:hover {
+  color: var(--admin-accent-deep);
+}
+
+/* The few elements that DO need light text on a dark backdrop
+ * inside main (lightbox close, video format pill, dark CTA
+ * buttons, navy-on-light status pills) opt-in via inline style
+ * or via the existing .admin-pill / .admin-btn-primary classes
+ * — those colors win because they're set on the element, not on
+ * a parent. Both inline and class colours have higher
+ * specificity than the chained selector above. */
+

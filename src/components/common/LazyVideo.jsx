@@ -19,14 +19,20 @@ function LazyVideo({
   const videoRef = useRef(null);
   const [inView, setInView] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [errored, setErrored] = useState(false);
+  // Rotate through the source list instead of hard-failing on the
+  // first error. The video element only goes into the `errored`
+  // state (poster-only render) once every source has been exhausted.
+  const [activeIdx, setActiveIdx] = useState(0);
 
   const sourceList =
     Array.isArray(sources) && sources.length > 0
-      ? sources
+      ? sources.filter((s) => s && s.src)
       : src
       ? [{ src, type: "video/mp4" }]
       : [];
+
+  const errored = sourceList.length === 0 || activeIdx >= sourceList.length;
+  const currentSource = errored ? null : sourceList[activeIdx];
 
   useEffect(() => {
     const el = wrapperRef.current;
@@ -52,6 +58,32 @@ function LazyVideo({
     return () => observer.disconnect();
   }, [inView, rootMargin]);
 
+  // When the active source changes, force the video element to reload
+  // from the new src — without this, switching the React key isn't
+  // always enough to retrigger the loader.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (v && inView && currentSource) {
+      try {
+        v.load();
+      } catch {
+        // ignore — old browsers
+      }
+    }
+  }, [activeIdx, inView, currentSource]);
+
+  const handleSourceError = () => {
+    if (typeof window !== "undefined" && import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "[LazyVideo] source failed:",
+        sourceList[activeIdx]?.src,
+        `(falling through to source ${activeIdx + 2}/${sourceList.length})`
+      );
+    }
+    setActiveIdx((i) => i + 1);
+  };
+
   return (
     <div
       ref={wrapperRef}
@@ -68,22 +100,30 @@ function LazyVideo({
           alt={ariaLabel || ""}
           loading="lazy"
           aria-hidden={inView && loaded ? "true" : "false"}
+          onError={(e) => {
+            // Hide a broken poster image so it doesn't show alt text.
+            e.currentTarget.style.display = "none";
+          }}
           style={{
             position: "absolute",
             inset: 0,
             width: "100%",
             height: "100%",
             objectFit: "cover",
-            opacity: loaded ? 0 : 1,
+            opacity: loaded && !errored ? 0 : 1,
             transition: "opacity 0.5s ease",
             ...videoStyle,
           }}
         />
       )}
 
-      {inView && !errored && sourceList.length > 0 && (
+      {inView && currentSource && (
         <video
           ref={videoRef}
+          // `key` per source forces React to mount a fresh <video>
+          // element when we rotate sources — otherwise some browsers
+          // hang on the failed one.
+          key={`${currentSource.src}-${activeIdx}`}
           autoPlay={autoPlay}
           loop={loop}
           muted={muted}
@@ -94,7 +134,7 @@ function LazyVideo({
           onLoadedData={() => setLoaded(true)}
           onCanPlay={() => setLoaded(true)}
           onError={() => {
-            setErrored(true);
+            handleSourceError();
             if (typeof onError === "function") onError();
           }}
           style={{
@@ -108,14 +148,11 @@ function LazyVideo({
             ...videoStyle,
           }}
         >
-          {sourceList.map((s, i) => (
-            <source
-              key={`${s.src}-${i}`}
-              src={s.src}
-              type={s.type || "video/mp4"}
-              {...(s.media ? { media: s.media } : {})}
-            />
-          ))}
+          <source
+            src={currentSource.src}
+            type={currentSource.type || "video/mp4"}
+            {...(currentSource.media ? { media: currentSource.media } : {})}
+          />
         </video>
       )}
 

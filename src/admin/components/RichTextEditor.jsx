@@ -133,27 +133,33 @@ export default function RichTextEditor({
 
       <div
         style={{
-          marginTop: 10,
-          padding: "10px 12px",
-          borderRadius: 10,
-          background: "rgba(0,0,0,0.18)",
-          border: "1px solid rgba(184, 149, 106, 0.16)",
-          minHeight: 40,
+          marginTop: 12,
+          padding: "14px 16px",
+          borderRadius: "var(--admin-radius-sm, 10px)",
+          background: "var(--admin-surface-soft, #F0EBE0)",
+          border: "1px solid var(--admin-border-gold, rgba(184,149,106,0.18))",
+          minHeight: 48,
         }}
       >
         <div
           style={{
-            fontSize: 10.5,
-            color: "var(--accent-gold)",
+            fontSize: 11,
+            color: "var(--admin-accent-deep, #8B6E48)",
             letterSpacing: 1.4,
             textTransform: "uppercase",
-            fontWeight: 700,
-            marginBottom: 6,
+            fontWeight: 800,
+            marginBottom: 8,
           }}
         >
           Preview
         </div>
-        <div style={{ fontSize: 18, lineHeight: 1.4, color: "#F5F1E8" }}>
+        <div
+          style={{
+            fontSize: 20,
+            lineHeight: 1.35,
+            color: "var(--admin-text, #1A1A1A)",
+          }}
+        >
           <RichText value={value} fallback={fallback} />
         </div>
       </div>
@@ -162,7 +168,7 @@ export default function RichTextEditor({
         style={{
           marginTop: 10,
           fontSize: 11.5,
-          color: "rgba(245,241,232,0.55)",
+          color: "var(--admin-text-muted, #6B5B47)",
           lineHeight: 1.5,
         }}
       >
@@ -188,7 +194,7 @@ export default function RichTextEditor({
                 ? "#ff9e9e"
                 : status.kind === "saving"
                 ? "#D9B987"
-                : "rgba(245,241,232,0.55)",
+                : "var(--admin-text-muted, #6B5B47)",
           }}
         >
           {status.message ||

@@ -36,19 +36,44 @@ function Hero() {
     typeof heroVideoAsset === "object" && heroVideoAsset
       ? heroVideoAsset.publicId
       : null;
-  const desktopVideoSrc = heroPublicId
+  const heroDirectUrl =
+    typeof heroVideoAsset === "object" && heroVideoAsset
+      ? heroVideoAsset.url
+      : null;
+
+  // Robust fallback chain — browsers walk the <source> list top-down
+  // and use the first one that decodes. Order:
+  //   1. Cloudinary primary (mobile-sized on <768px, desktop-sized
+  //      otherwise — selected via useIsMobile, not the unreliable
+  //      <source media> attribute)
+  //   2. Cloudinary other size
+  //   3. The raw uploaded Cloudinary URL (skips transformation pipeline)
+  //   4. Bundled hero-video.mp4 (last-resort, always works)
+  // Without this chain, a single Cloudinary transformation failure
+  // left the <video> with no playable sources → blank navy hero.
+  const cloudinaryDesktop = heroPublicId
     ? getOptimizedVideoUrl(heroPublicId, { maxWidth: 1920 })
-    : heroVideoAsset?.url || heroVideo;
-  const mobileVideoSrc = heroPublicId
+    : null;
+  const cloudinaryMobile = heroPublicId
     ? getMobileVideoUrl(heroPublicId)
-    : heroVideoAsset?.url || heroVideo;
+    : null;
+  const primaryCloudinary = isMobile ? cloudinaryMobile : cloudinaryDesktop;
+  const secondaryCloudinary = isMobile ? cloudinaryDesktop : cloudinaryMobile;
+
+  const videoSources = [
+    primaryCloudinary && { src: primaryCloudinary, type: "video/mp4" },
+    secondaryCloudinary && { src: secondaryCloudinary, type: "video/mp4" },
+    heroDirectUrl &&
+      heroDirectUrl !== heroVideo && {
+        src: heroDirectUrl,
+        type: "video/mp4",
+      },
+    { src: heroVideo, type: "video/mp4" },
+  ].filter(Boolean);
+
   const videoPoster = heroPublicId
     ? getVideoPosterUrl(heroPublicId, { width: 1280 })
     : heroPoster;
-  const videoSources = [
-    { src: mobileVideoSrc, type: "video/mp4", media: "(max-width: 768px)" },
-    { src: desktopVideoSrc, type: "video/mp4" },
-  ];
   const heroEyebrow = useSiteContent("hero.eyebrow", DEFAULT_EYEBROW);
   const heroHeadlineRich = useSiteContent("hero.headline_rich", null);
   const heroHeadlineOverride = useSiteContent("hero.headline", null);
