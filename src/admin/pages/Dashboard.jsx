@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { contentStore } from "../contentStore";
 import { schemas, collectionOrder } from "../schemas";
+import CloudinaryStatusPanel from "../components/CloudinaryStatusPanel";
 
 function PageHeader({ eyebrow, title, subtitle }) {
   return (
@@ -308,6 +309,8 @@ function Dashboard() {
         a backend (Firebase, Supabase, or a simple JSON endpoint) — the content
         store is already abstracted for that swap.
       </div>
+
+      <CloudinaryStatusPanel />
     </div>
   );
 }
