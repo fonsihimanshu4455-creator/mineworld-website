@@ -147,7 +147,7 @@ function Dashboard() {
                 borderRadius: "18px",
                 border: "1px solid rgba(255,255,255,0.08)",
                 background:
-                  "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
+                  "var(--admin-surface, #FFFFFF)",
                 transition: "border-color 0.2s ease",
               }}
             >
@@ -165,7 +165,7 @@ function Dashboard() {
               </div>
               <div
                 style={{
-                  color: "#F5F1E8",
+                  color: "var(--admin-text, #1A1A1A)",
                   fontSize: "22px",
                   fontWeight: 800,
                   letterSpacing: "-0.4px",
@@ -176,7 +176,7 @@ function Dashboard() {
               </div>
               <div
                 style={{
-                  color: "rgba(243,239,231,0.55)",
+                  color: "var(--admin-text-muted, #6B5B47)",
                   fontSize: "12px",
                   marginTop: "8px",
                 }}
@@ -213,7 +213,7 @@ function Dashboard() {
           style={{
             margin: "0 0 10px",
             fontSize: "22px",
-            color: "#F5F1E8",
+            color: "var(--admin-text, #1A1A1A)",
             letterSpacing: "-0.4px",
             fontFamily: '"Playfair Display", Georgia, serif',
             fontWeight: 700,
@@ -224,7 +224,7 @@ function Dashboard() {
         <p
           style={{
             margin: "0 0 18px",
-            color: "#CFC6B8",
+            color: "var(--admin-text-secondary, #4A4A4A)",
             fontSize: "14px",
             lineHeight: 1.8,
             maxWidth: "640px",
@@ -257,8 +257,8 @@ function Dashboard() {
               padding: "12px 18px",
               borderRadius: "999px",
               border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(255,255,255,0.04)",
-              color: "#F5F1E8",
+              background: "var(--admin-surface, #FFFFFF)",
+              color: "var(--admin-text, #1A1A1A)",
               fontWeight: 700,
               fontSize: "13.5px",
               cursor: "pointer",
@@ -314,8 +314,8 @@ function Dashboard() {
           padding: "18px 22px",
           borderRadius: "16px",
           border: "1px solid rgba(255,255,255,0.08)",
-          background: "rgba(255,255,255,0.02)",
-          color: "#CFC6B8",
+          background: "var(--admin-surface, #FFFFFF)",
+          color: "var(--admin-text-secondary, #4A4A4A)",
           fontSize: "13px",
           lineHeight: 1.75,
         }}

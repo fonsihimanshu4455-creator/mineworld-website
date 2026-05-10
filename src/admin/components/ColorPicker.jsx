@@ -157,15 +157,15 @@ function ColorPicker({ slotKey, label, fallback = "#1A1A1A" }) {
           style={{
             width: 130,
             padding: "10px 12px",
-            borderRadius: 8,
+            borderRadius: "var(--admin-radius-sm, 10px)",
             border: validHex
-              ? "1px solid rgba(184, 149, 106, 0.25)"
+              ? "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))"
               : "1px solid #ff9e9e",
-            background: "rgba(255,255,255,0.05)",
-            color: "#FFFFFF",
+            background: "var(--admin-surface, #FFFFFF)",
+            color: "var(--admin-text, #1A1A1A)",
             fontFamily:
               "ui-monospace, SFMono-Regular, Menlo, monospace",
-            fontSize: 13,
+            fontSize: "var(--admin-text-sm, 15px)",
             outline: "none",
           }}
         />
@@ -193,12 +193,13 @@ function ColorPicker({ slotKey, label, fallback = "#1A1A1A" }) {
               borderRadius: 999,
               border:
                 value.toUpperCase() === p.value.toUpperCase()
-                  ? "1px solid var(--accent-gold)"
-                  : "1px solid rgba(184, 149, 106, 0.18)",
-              background: "rgba(0,0,0,0.18)",
-              color: "#F5F1E8",
+                  ? "1px solid var(--admin-accent, #B8956A)"
+                  : "1px solid var(--admin-border-gold, rgba(184,149,106,0.20))",
+              background: "var(--admin-surface-soft, #F0EBE0)",
+              color: "var(--admin-text, #1A1A1A)",
               cursor: "pointer",
-              fontSize: 11.5,
+              fontSize: "var(--admin-text-xs, 13px)",
+              fontWeight: 600,
             }}
           >
             <span
@@ -235,7 +236,7 @@ function ColorPicker({ slotKey, label, fallback = "#1A1A1A" }) {
                 ? "#ff9e9e"
                 : status.kind === "saving"
                 ? "#D9B987"
-                : "rgba(245,241,232,0.55)",
+                : "var(--admin-text-muted, #6B5B47)",
           }}
         >
           {status.message || (dirty ? "Unsaved" : "Saved")}

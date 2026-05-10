@@ -67,7 +67,8 @@ const buttonStyle = (variant = "primary", disabled = false) => ({
   letterSpacing: "0.2px",
 });
 
-const muted = { color: "rgba(245,241,232,0.62)", fontSize: "12.5px" };
+// Stale `muted` constant removed in v3 redesign — use
+// var(--admin-text-muted) inline instead.
 
 function bytesToMB(n) {
   if (!n) return null;

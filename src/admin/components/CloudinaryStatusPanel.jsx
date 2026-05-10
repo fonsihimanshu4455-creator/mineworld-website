@@ -43,7 +43,7 @@ function StatusRow({ entry }) {
         alignItems: "center",
         padding: 10,
         borderRadius: 10,
-        background: "rgba(0,0,0,0.18)",
+        background: "var(--admin-surface, #FFFFFF)",
         border: "1px solid rgba(184, 149, 106, 0.14)",
       }}
     >
@@ -87,7 +87,7 @@ function StatusRow({ entry }) {
           style={{
             fontSize: 12.5,
             fontWeight: 700,
-            color: "#F5F1E8",
+            color: "var(--admin-text, #1A1A1A)",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -98,7 +98,7 @@ function StatusRow({ entry }) {
         <div
           style={{
             fontSize: 11,
-            color: "rgba(245,241,232,0.55)",
+            color: "var(--admin-text-muted, #6B5B47)",
             marginTop: 2,
           }}
         >
@@ -132,7 +132,7 @@ function StatusRow({ entry }) {
           borderRadius: 999,
           border: "1px solid rgba(184, 149, 106, 0.5)",
           background: "transparent",
-          color: "#F5F1E8",
+          color: "var(--admin-text, #1A1A1A)",
           fontSize: 11.5,
           fontWeight: 700,
           textDecoration: "none",
@@ -181,7 +181,7 @@ export default function CloudinaryStatusPanel() {
         style={{
           margin: "0 0 10px",
           fontSize: 22,
-          color: "#F5F1E8",
+          color: "var(--admin-text, #1A1A1A)",
           letterSpacing: "-0.4px",
           fontFamily: '"Playfair Display", Georgia, serif',
           fontWeight: 700,
@@ -192,7 +192,7 @@ export default function CloudinaryStatusPanel() {
       <p
         style={{
           margin: "0 0 16px",
-          color: "rgba(245,241,232,0.7)",
+          color: "var(--admin-text-secondary, #4A4A4A)",
           fontSize: 13.5,
           lineHeight: 1.7,
           maxWidth: 720,
