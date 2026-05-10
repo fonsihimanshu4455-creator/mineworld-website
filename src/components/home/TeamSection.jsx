@@ -146,7 +146,15 @@ function TeamCard({ member, isMobile }) {
 function TeamSection() {
   const isMobile = useIsMobile(768);
   const cmsMembers = useSiteList("team.members", null);
-  const members = cmsMembers ? cmsMembers.map(mapAdminTeamMember) : teamRoles;
+  let members;
+  try {
+    members = cmsMembers ? cmsMembers.map(mapAdminTeamMember) : teamRoles;
+  } catch (err) {
+    if (typeof console !== "undefined") {
+      console.warn("[Team] CMS mapping failed, using legacy data:", err);
+    }
+    members = teamRoles;
+  }
   const eyebrow = useSiteContent("team.eyebrow", "Team");
   const headline = useSiteContent(
     "team.headline",

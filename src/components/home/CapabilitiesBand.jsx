@@ -76,20 +76,29 @@ function CapabilitiesBand() {
   const isMobile = useIsMobile(768);
   const legacyPillars = useCollection("capabilityPillars", defaultPillars);
   const cmsPillars = useSiteList("capabilities.pillars", null);
-  const pillars = cmsPillars
-    ? cmsPillars.map((p) => ({
-        label: p.label || "",
-        title: p.title || "",
-        description: p.description || "",
-        bullets:
-          typeof p.bullets === "string"
-            ? p.bullets.split("\n").map((s) => s.trim()).filter(Boolean)
-            : Array.isArray(p.bullets)
-            ? p.bullets
-            : [],
-        accent: p.accent || "gold",
-      }))
-    : legacyPillars;
+  let pillars;
+  try {
+    pillars = cmsPillars
+      ? cmsPillars.map((p) => ({
+          label: p?.label || "",
+          title: p?.title || "",
+          description: p?.description || "",
+          bullets:
+            typeof p?.bullets === "string"
+              ? p.bullets.split("\n").map((s) => s.trim()).filter(Boolean)
+              : Array.isArray(p?.bullets)
+              ? p.bullets
+              : [],
+          accent: p?.accent || "gold",
+        }))
+      : legacyPillars;
+    if (!Array.isArray(pillars) || pillars.length === 0) pillars = legacyPillars;
+  } catch (err) {
+    if (typeof console !== "undefined") {
+      console.warn("[Capabilities] CMS mapping failed, using legacy data:", err);
+    }
+    pillars = legacyPillars;
+  }
   const stack = useCollection("techStack", defaultStack);
 
   const eyebrow = useSiteContent("capabilities.eyebrow", "Build · Create · Grow");

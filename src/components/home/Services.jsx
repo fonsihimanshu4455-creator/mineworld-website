@@ -181,19 +181,44 @@ function Services() {
   const cmsItems = useSiteList("services.items", null);
   // Map CMS items into the shape Services.jsx expects. Fall back to the
   // canonical data when slot is empty so visual parity is preserved.
-  const allServices = cmsItems
-    ? cmsItems.map((item, i) => ({
-        slug: item.slug || `cms-svc-${i}`,
-        name: item.name || item.title || "",
-        short: item.short || "",
-        tagline: item.tagline || "",
-        color: item.color || "gold",
-        flagship: i < 3,
-        cover: item.cover_image?.cloudinary_url
-          ? { type: "image", src: item.cover_image.cloudinary_url, alt: item.name || "" }
-          : null,
-      }))
-    : serviceCategories;
+  // Defensive: every mapped item MUST have a non-null `cover` object —
+  // Services.jsx renders `item.cover.type` directly. If anything goes
+  // wrong, swallow and use the legacy data.
+  let allServices;
+  try {
+    allServices = cmsItems
+      ? cmsItems
+          .map((item, i) => {
+            const cover_url =
+              item?.cover_image?.cloudinary_url ||
+              (typeof item?.cover_image === "string" ? item.cover_image : "");
+            const fallbackLegacy = serviceCategories[i] || serviceCategories[0];
+            return {
+              slug: item.slug || `cms-svc-${i}`,
+              name: item.name || item.title || "",
+              short: item.short || "",
+              tagline: item.tagline || "",
+              color: item.color || "gold",
+              flagship: i < 3,
+              // ALWAYS an object — fallback to the legacy item's cover if
+              // admin hasn't uploaded one yet.
+              cover: cover_url
+                ? { type: "image", src: cover_url, alt: item.name || "" }
+                : fallbackLegacy?.cover || {
+                    type: "image",
+                    src: "",
+                    alt: item.name || "",
+                  },
+            };
+          })
+          .filter((s) => s.cover)
+      : serviceCategories;
+  } catch (err) {
+    if (typeof console !== "undefined") {
+      console.warn("[Services] CMS mapping failed, using legacy data:", err);
+    }
+    allServices = serviceCategories;
+  }
   const flagshipServices = allServices.filter((s) => s.flagship);
   const supportingServices = allServices.filter((s) => !s.flagship);
   const sectionEyebrow = useSiteContent("services.eyebrow", null);

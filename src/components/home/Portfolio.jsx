@@ -171,9 +171,15 @@ function Portfolio() {
   const isMobile = useIsMobile(768);
   const legacyItems = useCollection("portfolioItems", defaultPortfolio);
   const cmsItems = useSiteList("portfolio.items", null);
-  const portfolioItems = cmsItems
-    ? cmsItems.map(mapAdminPortfolioItem)
-    : legacyItems;
+  let portfolioItems;
+  try {
+    portfolioItems = cmsItems ? cmsItems.map(mapAdminPortfolioItem) : legacyItems;
+  } catch (err) {
+    if (typeof console !== "undefined") {
+      console.warn("[Portfolio] CMS mapping failed, using legacy data:", err);
+    }
+    portfolioItems = legacyItems;
+  }
   const eyebrow = useSiteContent("portfolio.eyebrow", "Portfolio");
   const headline = useSiteContent(
     "portfolio.headline",

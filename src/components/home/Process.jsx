@@ -186,7 +186,15 @@ function mapAdminStep(item, i) {
 function Process() {
   const isMobile = useIsMobile(768);
   const cmsSteps = useSiteList("process.steps", null);
-  const processSteps = cmsSteps ? cmsSteps.map(mapAdminStep) : defaultProcessSteps;
+  let processSteps;
+  try {
+    processSteps = cmsSteps ? cmsSteps.map(mapAdminStep) : defaultProcessSteps;
+  } catch (err) {
+    if (typeof console !== "undefined") {
+      console.warn("[Process] CMS mapping failed, using legacy data:", err);
+    }
+    processSteps = defaultProcessSteps;
+  }
   const eyebrow = useSiteContent("process.eyebrow", "Our Process");
   const headline = useSiteContent(
     "process.headline",

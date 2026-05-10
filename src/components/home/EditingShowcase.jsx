@@ -196,7 +196,16 @@ function EditingShowcase() {
   const afterLabel = useSiteContent("editing.after_label", "After");
 
   const cmsPairs = useSiteList("editing.pairs", null);
-  const pairs = cmsPairs ? cmsPairs.map(mapAdminPair) : beforeAfterPairs;
+  let pairs;
+  try {
+    pairs = cmsPairs ? cmsPairs.map(mapAdminPair) : beforeAfterPairs;
+    if (!Array.isArray(pairs) || pairs.length === 0) pairs = beforeAfterPairs;
+  } catch (err) {
+    if (typeof console !== "undefined") {
+      console.warn("[EditingShowcase] CMS mapping failed, using legacy data:", err);
+    }
+    pairs = beforeAfterPairs;
+  }
 
   const [activePair, setActivePair] = useState(pairs[0]?.id || beforeAfterPairs[0].id);
   const pair =
