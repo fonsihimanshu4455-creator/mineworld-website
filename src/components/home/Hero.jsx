@@ -36,19 +36,55 @@ function Hero() {
     typeof heroVideoAsset === "object" && heroVideoAsset
       ? heroVideoAsset.publicId
       : null;
-  const desktopVideoSrc = heroPublicId
+  const heroDirectUrl =
+    typeof heroVideoAsset === "object" && heroVideoAsset
+      ? heroVideoAsset.url
+      : null;
+
+  // Robust fallback chain — browsers walk the <source> list top-down
+  // and use the first one that decodes. Order:
+  //   1. Cloudinary mobile-optimised (under 768px)
+  //   2. Cloudinary desktop-optimised
+  //   3. Raw uploaded Cloudinary URL (skips the transformation pipeline)
+  //   4. Bundled hero-video.mp4 (last-resort, ships in the JS bundle)
+  // Without this chain, a single Cloudinary transformation failure left
+  // the <video> element with no playable sources → blank hero.
+  const cloudinaryDesktop = heroPublicId
     ? getOptimizedVideoUrl(heroPublicId, { maxWidth: 1920 })
-    : heroVideoAsset?.url || heroVideo;
-  const mobileVideoSrc = heroPublicId
+    : null;
+  const cloudinaryMobile = heroPublicId
     ? getMobileVideoUrl(heroPublicId)
-    : heroVideoAsset?.url || heroVideo;
+    : null;
+
+  // Order the source list based on viewport — the primary source is the
+  // appropriately-sized Cloudinary transform, with the other size, the
+  // raw upload, and the bundled file rotating in if anything 404s.
+  const primaryCloudinary = isMobile ? cloudinaryMobile : cloudinaryDesktop;
+  const secondaryCloudinary = isMobile ? cloudinaryDesktop : cloudinaryMobile;
+
+  const videoSources = [
+    primaryCloudinary && { src: primaryCloudinary, type: "video/mp4" },
+    secondaryCloudinary && { src: secondaryCloudinary, type: "video/mp4" },
+    heroDirectUrl &&
+      heroDirectUrl !== heroVideo && { src: heroDirectUrl, type: "video/mp4" },
+    { src: heroVideo, type: "video/mp4" },
+  ].filter(Boolean);
+
   const videoPoster = heroPublicId
     ? getVideoPosterUrl(heroPublicId, { width: 1280 })
     : heroPoster;
-  const videoSources = [
-    { src: mobileVideoSrc, type: "video/mp4", media: "(max-width: 768px)" },
-    { src: desktopVideoSrc, type: "video/mp4" },
-  ];
+
+  if (typeof window !== "undefined" && import.meta.env.DEV) {
+    // Dev-only diagnostic — strip in production builds via the
+    // import.meta.env.DEV gate.
+    // eslint-disable-next-line no-console
+    console.debug("[Hero] video resolution:", {
+      hasCMSUpload: !!heroPublicId,
+      publicId: heroPublicId,
+      sources: videoSources.map((s) => s.src),
+      poster: videoPoster,
+    });
+  }
   const heroEyebrow = useSiteContent("hero.eyebrow", DEFAULT_EYEBROW);
   const heroHeadlineRich = useSiteContent("hero.headline_rich", null);
   const heroHeadlineOverride = useSiteContent("hero.headline", null);
