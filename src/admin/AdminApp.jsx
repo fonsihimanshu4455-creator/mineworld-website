@@ -2,11 +2,12 @@ import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import AdminAuth, { useAdminAuth } from "./components/AdminAuth";
 import AdminLayout from "./components/AdminLayout";
-import Dashboard from "./pages/Dashboard";
+import SectionGridDashboard from "./pages/SectionGridDashboard";
 
 // Editor pages are lazy-loaded so the initial admin bundle stays small
-// — admin lands on Dashboard (eager) and only pulls the heavy editors
-// when they actually navigate to one.
+// — admin lands on the section-grid dashboard (eager) and only pulls
+// the heavy editors when admin navigates to one.
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 const SettingsEditor = lazy(() => import("./pages/SettingsEditor"));
 const CollectionEditor = lazy(() => import("./pages/CollectionEditor"));
 const SubmissionsEditor = lazy(() => import("./pages/SubmissionsEditor"));
@@ -87,7 +88,8 @@ function AdminApp() {
     <div className="surface-dark" style={{ minHeight: "100vh" }}>
       <Routes>
         <Route element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
+          <Route index element={<SectionGridDashboard />} />
+          <Route path="legacy-dashboard" element={<Suspense fallback={<PageFallback />}><Dashboard /></Suspense>} />
           <Route path="settings" element={<Suspense fallback={<PageFallback />}><SettingsEditor /></Suspense>} />
           <Route path="preview" element={<Suspense fallback={<PageFallback />}><PreviewEditor /></Suspense>} />
           <Route path="submissions" element={<Suspense fallback={<PageFallback />}><SubmissionsEditor /></Suspense>} />

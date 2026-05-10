@@ -14,23 +14,13 @@ export default function HeroEditor() {
         subtitle="The first impression. Background video, headline (with rich gold-italic emphasis), sub-headline, colours, and the two CTAs."
       />
 
-      <EditorSection title="Background Video" hint="Loops behind the headline">
+      <EditorSection title="Background Video" hint="Loops behind the headline. The first frame becomes the cover photo automatically — no separate upload needed.">
         <AssetUploader
           slotKey="hero.video"
           accept="video"
           category="hero"
           folder="mineworld/hero"
           tags={["hero"]}
-        />
-      </EditorSection>
-
-      <EditorSection title="Poster (first-frame fallback)">
-        <AssetUploader
-          slotKey="hero.poster"
-          accept="image"
-          category="hero"
-          folder="mineworld/hero"
-          tags={["hero", "poster"]}
         />
       </EditorSection>
 
