@@ -110,7 +110,9 @@ function defaultItem(itemFields) {
   itemFields.forEach((f) => {
     if (f.type === "color") item[f.name] = f.default || "#1A1A1A";
     else if (f.type === "image" || f.type === "video") item[f.name] = null;
-    else item[f.name] = "";
+    else if (f.type === "tags" || f.type === "pairs" || f.type === "media-list")
+      item[f.name] = [];
+    else item[f.name] = f.default ?? "";
   });
   return item;
 }
@@ -291,11 +293,389 @@ function InlineMediaField({ field, value, onChange, category, folder }) {
   );
 }
 
+// -------------------- tags / pairs / media-list / select --------------------
+
+function TagsField({ field, value, onChange }) {
+  const list = Array.isArray(value) ? value : [];
+  const update = (next) => onChange(next);
+  return (
+    <div>
+      <label style={labelStyle}>{field.label || field.name}</label>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 8 }}>
+        {list.map((tag, i) => (
+          <span
+            key={`${tag}-${i}`}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "6px 10px",
+              borderRadius: 999,
+              background: "rgba(184,149,106,0.14)",
+              border: "1px solid rgba(184,149,106,0.32)",
+              color: "#F5F1E8",
+              fontSize: 12,
+              fontWeight: 600,
+            }}
+          >
+            {tag}
+            <button
+              type="button"
+              onClick={() => update(list.filter((_, j) => j !== i))}
+              aria-label={`Remove ${tag}`}
+              style={{
+                background: "transparent",
+                border: "none",
+                color: "#F5F1E8",
+                cursor: "pointer",
+                fontSize: 14,
+                lineHeight: 1,
+                padding: 0,
+              }}
+            >
+              ×
+            </button>
+          </span>
+        ))}
+        {list.length === 0 && (
+          <span style={{ fontSize: 12, color: "rgba(245,241,232,0.5)" }}>
+            No tags yet — type below and press Enter or comma.
+          </span>
+        )}
+      </div>
+      <input
+        type="text"
+        placeholder={field.placeholder || "Type a tag, press Enter or comma"}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === ",") {
+            e.preventDefault();
+            const v = e.currentTarget.value.trim().replace(/,$/, "");
+            if (v) {
+              update([...list, v]);
+              e.currentTarget.value = "";
+            }
+          }
+        }}
+        onBlur={(e) => {
+          const v = e.currentTarget.value.trim();
+          if (v) {
+            update([...list, v]);
+            e.currentTarget.value = "";
+          }
+        }}
+        style={inputStyle}
+      />
+    </div>
+  );
+}
+
+function PairsField({ field, value, onChange }) {
+  const list = Array.isArray(value) ? value : [];
+  const update = (next) => onChange(next);
+  const labelKey = field.labelKey || "label";
+  const valueKey = field.valueKey || "value";
+  return (
+    <div>
+      <label style={labelStyle}>{field.label || field.name}</label>
+      <div style={{ display: "grid", gap: 6 }}>
+        {list.map((pair, i) => (
+          <div
+            key={i}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr auto",
+              gap: 6,
+              alignItems: "center",
+            }}
+          >
+            <input
+              type="text"
+              value={pair[labelKey] || ""}
+              placeholder={field.labelPlaceholder || "Label"}
+              onChange={(e) =>
+                update(
+                  list.map((p, j) =>
+                    j === i ? { ...p, [labelKey]: e.target.value } : p
+                  )
+                )
+              }
+              style={inputStyle}
+            />
+            <input
+              type="text"
+              value={pair[valueKey] || ""}
+              placeholder={field.valuePlaceholder || "Value"}
+              onChange={(e) =>
+                update(
+                  list.map((p, j) =>
+                    j === i ? { ...p, [valueKey]: e.target.value } : p
+                  )
+                )
+              }
+              style={inputStyle}
+            />
+            <button
+              type="button"
+              onClick={() => update(list.filter((_, j) => j !== i))}
+              style={buttonStyle("danger")}
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
+      <button
+        type="button"
+        onClick={() => update([...list, { [labelKey]: "", [valueKey]: "" }])}
+        style={{ ...buttonStyle("ghost"), marginTop: 8 }}
+      >
+        + Add row
+      </button>
+    </div>
+  );
+}
+
+function MediaListField({ field, value, onChange, category, folder }) {
+  const list = Array.isArray(value) ? value : [];
+  const update = (next) => onChange(next);
+  const childField = {
+    ...field,
+    type: field.mediaType || "image",
+    label: undefined,
+  };
+  return (
+    <div>
+      <label style={labelStyle}>{field.label || field.name}</label>
+      <div style={{ display: "grid", gap: 12 }}>
+        {list.map((entry, i) => (
+          <div
+            key={i}
+            style={{
+              border: "1px solid rgba(184,149,106,0.18)",
+              borderRadius: 12,
+              padding: 12,
+              background: "rgba(0,0,0,0.18)",
+              display: "grid",
+              gap: 8,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ fontSize: 12, color: "#D9B987", fontWeight: 700 }}>
+                {field.itemLabel ? `${field.itemLabel} ${i + 1}` : `Item ${i + 1}`}
+              </div>
+              <div style={{ display: "flex", gap: 6 }}>
+                <button
+                  type="button"
+                  disabled={i === 0}
+                  onClick={() => {
+                    const next = [...list];
+                    [next[i - 1], next[i]] = [next[i], next[i - 1]];
+                    update(next);
+                  }}
+                  style={buttonStyle("ghost", i === 0)}
+                >
+                  ↑
+                </button>
+                <button
+                  type="button"
+                  disabled={i === list.length - 1}
+                  onClick={() => {
+                    const next = [...list];
+                    [next[i + 1], next[i]] = [next[i], next[i + 1]];
+                    update(next);
+                  }}
+                  style={buttonStyle("ghost", i === list.length - 1)}
+                >
+                  ↓
+                </button>
+                <button
+                  type="button"
+                  onClick={() => update(list.filter((_, j) => j !== i))}
+                  style={buttonStyle("danger")}
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+            <InlineMediaField
+              field={{
+                ...childField,
+                type: entry?.asset_type === "video" ? "video" : childField.type,
+              }}
+              value={entry}
+              onChange={(next) =>
+                update(
+                  list.map((p, j) => (j === i ? { ...(p || {}), ...(next || {}) } : p))
+                )
+              }
+              category={category}
+              folder={folder}
+            />
+            <input
+              type="text"
+              value={entry?.alt || ""}
+              placeholder="Alt text (described to screen readers)"
+              onChange={(e) =>
+                update(
+                  list.map((p, j) =>
+                    j === i ? { ...(p || {}), alt: e.target.value } : p
+                  )
+                )
+              }
+              style={inputStyle}
+            />
+          </div>
+        ))}
+      </div>
+      <button
+        type="button"
+        onClick={() => update([...list, { asset_type: field.mediaType || "image" }])}
+        style={{ ...buttonStyle("ghost"), marginTop: 10 }}
+      >
+        + Add {field.itemLabel || "media"}
+      </button>
+    </div>
+  );
+}
+
+function SelectField({ field, value, onChange }) {
+  const opts = Array.isArray(field.options) ? field.options : [];
+  return (
+    <div>
+      <label style={labelStyle}>{field.label || field.name}</label>
+      <select
+        value={value || ""}
+        onChange={(e) => onChange(e.target.value)}
+        style={{ ...inputStyle, appearance: "auto" }}
+      >
+        <option value="">— None —</option>
+        {opts.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
 // -------------------- single item row --------------------
+
+function renderField(field, item, updateField, category, folder) {
+  if (field.type === "image" || field.type === "video") {
+    return (
+      <InlineMediaField
+        field={field}
+        value={item[field.name]}
+        onChange={(next) => updateField(field.name, next)}
+        category={category}
+        folder={folder}
+      />
+    );
+  }
+  if (field.type === "media-list") {
+    return (
+      <MediaListField
+        field={field}
+        value={item[field.name]}
+        onChange={(next) => updateField(field.name, next)}
+        category={category}
+        folder={folder}
+      />
+    );
+  }
+  if (field.type === "tags") {
+    return (
+      <TagsField
+        field={field}
+        value={item[field.name]}
+        onChange={(next) => updateField(field.name, next)}
+      />
+    );
+  }
+  if (field.type === "pairs") {
+    return (
+      <PairsField
+        field={field}
+        value={item[field.name]}
+        onChange={(next) => updateField(field.name, next)}
+      />
+    );
+  }
+  if (field.type === "select") {
+    return (
+      <SelectField
+        field={field}
+        value={item[field.name]}
+        onChange={(next) => updateField(field.name, next)}
+      />
+    );
+  }
+  if (field.type === "multiline") {
+    return (
+      <div>
+        <label style={labelStyle}>{field.label || field.name}</label>
+        <textarea
+          value={item[field.name] || ""}
+          rows={field.rows || 3}
+          onChange={(e) => updateField(field.name, e.target.value)}
+          style={{ ...inputStyle, resize: "vertical" }}
+        />
+      </div>
+    );
+  }
+  if (field.type === "color") {
+    return (
+      <div>
+        <label style={labelStyle}>{field.label || field.name}</label>
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <input
+            type="color"
+            value={item[field.name] || "#000000"}
+            onChange={(e) => updateField(field.name, e.target.value)}
+            style={{
+              width: 56,
+              height: 36,
+              border: "1px solid rgba(184, 149, 106, 0.3)",
+              borderRadius: 8,
+              background: "transparent",
+            }}
+          />
+          <input
+            type="text"
+            value={item[field.name] || ""}
+            onChange={(e) => updateField(field.name, e.target.value)}
+            style={{ ...inputStyle, width: 130 }}
+          />
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <label style={labelStyle}>{field.label || field.name}</label>
+      <input
+        type={field.type === "url" ? "url" : "text"}
+        value={item[field.name] || ""}
+        onChange={(e) => updateField(field.name, e.target.value)}
+        placeholder={field.placeholder || ""}
+        style={inputStyle}
+      />
+    </div>
+  );
+}
 
 function ItemRow({
   item,
   itemFields,
+  groups,
+  summarise,
   expanded,
   onToggleExpand,
   onChange,
@@ -361,7 +741,7 @@ function ItemRow({
             padding: "6px 4px",
           }}
         >
-          {summaryText(item, itemFields)}
+          {(summarise && summarise(item)) || summaryText(item, itemFields)}
         </button>
         <button
           type="button"
@@ -385,91 +765,109 @@ function ItemRow({
       </div>
 
       {expanded && (
-        <div
-          style={{
-            padding: "0 14px 14px",
-            display: "grid",
-            gap: 12,
-          }}
-        >
-          {itemFields.map((field) => {
-            if (field.type === "image" || field.type === "video") {
-              return (
-                <InlineMediaField
-                  key={field.name}
-                  field={field}
-                  value={item[field.name]}
-                  onChange={(next) => updateField(field.name, next)}
-                  category={category}
-                  folder={folder}
-                />
-              );
-            }
-            if (field.type === "multiline") {
-              return (
-                <div key={field.name}>
-                  <label style={labelStyle}>
-                    {field.label || field.name}
-                  </label>
-                  <textarea
-                    value={item[field.name] || ""}
-                    rows={3}
-                    onChange={(e) =>
-                      updateField(field.name, e.target.value)
-                    }
-                    style={{ ...inputStyle, resize: "vertical" }}
-                  />
-                </div>
-              );
-            }
-            if (field.type === "color") {
-              return (
-                <div key={field.name}>
-                  <label style={labelStyle}>
-                    {field.label || field.name}
-                  </label>
-                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                    <input
-                      type="color"
-                      value={item[field.name] || "#000000"}
-                      onChange={(e) =>
-                        updateField(field.name, e.target.value)
-                      }
-                      style={{
-                        width: 56,
-                        height: 36,
-                        border: "1px solid rgba(184, 149, 106, 0.3)",
-                        borderRadius: 8,
-                        background: "transparent",
-                      }}
-                    />
-                    <input
-                      type="text"
-                      value={item[field.name] || ""}
-                      onChange={(e) =>
-                        updateField(field.name, e.target.value)
-                      }
-                      style={{ ...inputStyle, width: 130 }}
-                    />
-                  </div>
-                </div>
-              );
-            }
-            return (
-              <div key={field.name}>
-                <label style={labelStyle}>{field.label || field.name}</label>
-                <input
-                  type={field.type === "url" ? "url" : "text"}
-                  value={item[field.name] || ""}
-                  onChange={(e) => updateField(field.name, e.target.value)}
-                  placeholder={field.placeholder || ""}
-                  style={inputStyle}
-                />
-              </div>
-            );
-          })}
+        <div style={{ padding: "0 14px 14px" }}>
+          <ItemBody
+            item={item}
+            itemFields={itemFields}
+            groups={groups}
+            updateField={updateField}
+            category={category}
+            folder={folder}
+          />
         </div>
       )}
+    </div>
+  );
+}
+
+function ItemBody({ item, itemFields, groups, updateField, category, folder }) {
+  const fieldByName = useMemo(() => {
+    const map = {};
+    itemFields.forEach((f) => {
+      map[f.name] = f;
+    });
+    return map;
+  }, [itemFields]);
+
+  const validGroups =
+    Array.isArray(groups) && groups.length > 0
+      ? groups
+          .map((g) => ({
+            ...g,
+            fields: (g.fields || []).filter((n) => fieldByName[n]),
+          }))
+          .filter((g) => g.fields.length > 0)
+      : null;
+
+  const [activeTab, setActiveTab] = useState(
+    validGroups ? validGroups[0].label : null
+  );
+
+  if (!validGroups) {
+    return (
+      <div style={{ display: "grid", gap: 12 }}>
+        {itemFields.map((field) => (
+          <div key={field.name}>
+            {renderField(field, item, updateField, category, folder)}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const current =
+    validGroups.find((g) => g.label === activeTab) || validGroups[0];
+
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 6,
+          marginBottom: 12,
+          paddingBottom: 8,
+          borderBottom: "1px solid rgba(184,149,106,0.16)",
+        }}
+      >
+        {validGroups.map((g) => {
+          const active = g.label === current.label;
+          return (
+            <button
+              key={g.label}
+              type="button"
+              onClick={() => setActiveTab(g.label)}
+              style={{
+                padding: "7px 12px",
+                borderRadius: 999,
+                border: active
+                  ? "1px solid #BC9966"
+                  : "1px solid rgba(184,149,106,0.25)",
+                background: active
+                  ? "linear-gradient(135deg, rgba(188,153,102,0.22), rgba(217,185,135,0.18))"
+                  : "transparent",
+                color: active ? "#FFFFFF" : "rgba(245,241,232,0.78)",
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: "0.4px",
+                cursor: "pointer",
+              }}
+            >
+              {g.label}
+            </button>
+          );
+        })}
+      </div>
+      <div style={{ display: "grid", gap: 12 }}>
+        {current.fields.map((name) => {
+          const field = fieldByName[name];
+          return (
+            <div key={field.name}>
+              {renderField(field, item, updateField, category, folder)}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -479,9 +877,11 @@ function ItemRow({
 function RepeatingListEditor({
   slotKey,
   itemFields,
+  groups,
   label,
   category = "misc",
   folder,
+  summarise,
 }) {
   const slotDoc = useSlotDoc(slotKey);
   const [items, setItems] = useState([]);
@@ -637,6 +1037,8 @@ function RepeatingListEditor({
                 key={item.id}
                 item={item}
                 itemFields={itemFields}
+                groups={groups}
+                summarise={summarise}
                 expanded={expandedId === item.id}
                 onToggleExpand={() =>
                   setExpandedId((cur) => (cur === item.id ? null : item.id))

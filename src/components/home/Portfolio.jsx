@@ -15,24 +15,36 @@ import useIsMobile from "../../utils/useIsMobile";
 // Convert admin-shape portfolio item into the PortfolioCard shape the
 // existing presentation layer consumes.
 function mapAdminPortfolioItem(item) {
+  // Listing-card thumbnail prefers the dedicated thumbnail field; if
+  // unset, the hero media doubles as the card image so admins don't
+  // have to upload twice.
+  const thumb = item?.thumbnail?.cloudinary_url
+    ? item.thumbnail
+    : item?.hero_media?.cloudinary_url
+    ? item.hero_media
+    : null;
   const thumbUrl =
-    item?.thumbnail?.cloudinary_url ||
+    thumb?.cloudinary_url ||
     (typeof item?.thumbnail === "string" ? item.thumbnail : "");
-  const isVideo = item?.thumbnail?.asset_type === "video";
-  const slugSafe =
-    (item.title || item.id || "").toLowerCase().replace(/[^a-z0-9-]+/g, "-");
+  const isVideo = thumb?.asset_type === "video";
+  const slugSafe = (item.title || item.id || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, "-");
+  const slug = item.slug
+    ? item.slug.toLowerCase().replace(/[^a-z0-9-]+/g, "-")
+    : item.link
+    ? item.link.replace(/^.*\//, "")
+    : slugSafe || `item-${item.id || ""}`;
   return {
-    slug: item.link
-      ? item.link.replace(/^.*\//, "")
-      : slugSafe || `item-${item.id || ""}`,
+    slug,
     title: item.title || "Untitled",
     category: item.category || "Project",
     description: item.description || "",
     cover: {
       type: isVideo ? "video" : "image",
       src: thumbUrl,
-      alt: item.title || "",
-      poster: thumbUrl,
+      alt: thumb?.alt || item.title || "",
+      poster: thumb?.poster_url || thumbUrl,
     },
   };
 }

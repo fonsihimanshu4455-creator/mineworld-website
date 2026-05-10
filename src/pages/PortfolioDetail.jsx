@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import Container from "../components/common/Container";
@@ -6,20 +6,130 @@ import MagneticButton from "../components/common/MagneticButton";
 import Reveal from "../components/common/Reveal";
 import LazyVideo from "../components/common/LazyVideo";
 import { theme } from "../styles/theme";
-import {
-  findPortfolioItem,
-  portfolioItems,
-} from "../data/portfolioItems";
+import { portfolioItems } from "../data/portfolioItems";
 import { findCaseStudy } from "../data/caseStudies";
 import { findServiceCategory } from "../data/serviceCategories";
 import { openContactModal, trackCtaClick } from "../utils/contactActions";
 import { trackEvent } from "../utils/analytics";
 import useIsMobile from "../utils/useIsMobile";
+import { useSiteList } from "../hooks/useSiteList";
+
+function slugify(s) {
+  return String(s || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function adminItemSlug(it) {
+  if (!it) return "";
+  if (it.slug) return slugify(it.slug);
+  if (it.link) return it.link.replace(/^.*\//, "");
+  return slugify(it.title || "");
+}
+
+function adminMediaToCover(media, fallback) {
+  if (!media || !media.cloudinary_url) return fallback || null;
+  return {
+    type: media.asset_type === "video" ? "video" : "image",
+    src: media.cloudinary_url,
+    poster: media.poster_url || fallback?.poster || "",
+    alt: media.alt || fallback?.alt || "",
+  };
+}
+
+function adminGalleryToList(list, fallback) {
+  if (!Array.isArray(list) || list.length === 0) return fallback || [];
+  return list
+    .map((g) => {
+      if (!g || !g.cloudinary_url) return null;
+      return {
+        type: g.asset_type === "video" ? "video" : "image",
+        src: g.cloudinary_url,
+        poster: g.poster_url || "",
+        alt: g.alt || "",
+      };
+    })
+    .filter(Boolean);
+}
+
+// Build a render-shape item by overlaying admin overrides on top of
+// the legacy item; any unset admin field falls through to legacy so
+// the detail page paints identically when nothing is saved.
+function resolvePortfolioItem(slug, cmsItems, legacyItems) {
+  const legacy = legacyItems.find((p) => p.slug === slug) || null;
+  const adminMatch = Array.isArray(cmsItems)
+    ? cmsItems.find((it) => adminItemSlug(it) === slug)
+    : null;
+  if (!adminMatch && !legacy) return null;
+  if (!adminMatch) return legacy;
+
+  const merged = {
+    slug,
+    title: adminMatch.title || legacy?.title || "",
+    category: adminMatch.category || legacy?.category || "",
+    short: adminMatch.short || legacy?.short || "",
+    longDescription:
+      adminMatch.long_description || legacy?.longDescription || "",
+    description: adminMatch.description || legacy?.description || "",
+    cover:
+      adminMediaToCover(adminMatch.hero_media, legacy?.cover) ||
+      legacy?.cover ||
+      null,
+    gallery: adminGalleryToList(adminMatch.gallery, legacy?.gallery),
+    metrics: Array.isArray(adminMatch.metrics) && adminMatch.metrics.length > 0
+      ? adminMatch.metrics.filter((m) => m && (m.label || m.value))
+      : legacy?.metrics || [],
+    resultPoints:
+      Array.isArray(adminMatch.deliverables) && adminMatch.deliverables.length > 0
+        ? adminMatch.deliverables
+        : legacy?.resultPoints || [],
+    roles:
+      Array.isArray(adminMatch.role_tags) && adminMatch.role_tags.length > 0
+        ? adminMatch.role_tags
+        : legacy?.roles || [],
+    tools:
+      Array.isArray(adminMatch.tech_tags) && adminMatch.tech_tags.length > 0
+        ? adminMatch.tech_tags
+        : legacy?.tools || [],
+    serviceSlug: adminMatch.service_slug || legacy?.serviceSlug || "",
+    caseStudySlug: adminMatch.case_study_slug || legacy?.caseStudySlug || "",
+    // Section copy overrides (default labels live in JSX below).
+    heroEyebrow: adminMatch.hero_eyebrow || "",
+    metricsEyebrow: adminMatch.metrics_eyebrow || "",
+    metricsHeading: adminMatch.metrics_heading || "",
+    galleryEyebrow: adminMatch.gallery_eyebrow || "",
+    galleryHeading: adminMatch.gallery_heading || "",
+    deliverablesEyebrow: adminMatch.deliverables_eyebrow || "",
+    deliverablesHeading: adminMatch.deliverables_heading || "",
+    roleHeading: adminMatch.role_heading || "",
+    techHeading: adminMatch.tech_heading || "",
+  };
+  return merged;
+}
 
 function PortfolioDetail() {
   const { slug } = useParams();
-  const item = findPortfolioItem(slug);
+  const cmsItems = useSiteList("portfolio.items", null);
+  const item = useMemo(
+    () => resolvePortfolioItem(slug, cmsItems, portfolioItems),
+    [slug, cmsItems]
+  );
   const isMobile = useIsMobile(768);
+
+  const allSlugs = useMemo(() => {
+    const fromCms = Array.isArray(cmsItems)
+      ? cmsItems.map(adminItemSlug).filter(Boolean)
+      : [];
+    const fromLegacy = portfolioItems.map((p) => p.slug);
+    const seen = new Set();
+    return [...fromCms, ...fromLegacy].filter((s) => {
+      if (seen.has(s)) return false;
+      seen.add(s);
+      return true;
+    });
+  }, [cmsItems]);
 
   useEffect(() => {
     if (!item) return;
@@ -58,7 +168,11 @@ function PortfolioDetail() {
 
   const caseStudy = item.caseStudySlug ? findCaseStudy(item.caseStudySlug) : null;
   const service = item.serviceSlug ? findServiceCategory(item.serviceSlug) : null;
-  const others = portfolioItems.filter((p) => p.slug !== item.slug);
+
+  const others = allSlugs
+    .filter((s) => s !== item.slug)
+    .map((s) => resolvePortfolioItem(s, cmsItems, portfolioItems))
+    .filter((p) => p && p.cover);
 
   return (
     <article
@@ -114,7 +228,7 @@ function PortfolioDetail() {
                     marginBottom: "16px",
                   }}
                 >
-                  {item.category}
+                  {item.heroEyebrow || item.category}
                 </div>
               </Reveal>
               <Reveal delay={0.08}>
@@ -254,8 +368,12 @@ function PortfolioDetail() {
           <Container>
             <div className="navy-band-inner">
               <Reveal>
-                <span className="eyebrow-label">Outcome</span>
-                <h2>What the work actually moved.</h2>
+                <span className="eyebrow-label">
+                  {item.metricsEyebrow || "Outcome"}
+                </span>
+                <h2>
+                  {item.metricsHeading || "What the work actually moved."}
+                </h2>
                 <span className="underline-pill" aria-hidden="true" />
               </Reveal>
             </div>
@@ -334,7 +452,7 @@ function PortfolioDetail() {
                   marginBottom: "14px",
                 }}
               >
-                Stills + Samples
+                {item.galleryEyebrow || "Stills + Samples"}
               </div>
               <h2
                 style={{
@@ -346,7 +464,7 @@ function PortfolioDetail() {
                     '"Playfair Display", Georgia, "Times New Roman", serif',
                 }}
               >
-                A look at the work.
+                {item.galleryHeading || "A look at the work."}
               </h2>
             </Reveal>
 
@@ -425,7 +543,7 @@ function PortfolioDetail() {
                       marginBottom: "14px",
                     }}
                   >
-                    What it delivers
+                    {item.deliverablesEyebrow || "What it delivers"}
                   </div>
                   <ul
                     style={{
@@ -474,7 +592,7 @@ function PortfolioDetail() {
                         marginBottom: "12px",
                       }}
                     >
-                      Our role
+                      {item.roleHeading || "Our role"}
                     </div>
                     <div
                       style={{
@@ -515,7 +633,7 @@ function PortfolioDetail() {
                         marginBottom: "12px",
                       }}
                     >
-                      Tools used
+                      {item.techHeading || "Tools used"}
                     </div>
                     <div
                       style={{
