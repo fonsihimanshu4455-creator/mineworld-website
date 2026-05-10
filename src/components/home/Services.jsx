@@ -57,7 +57,7 @@ function CategoryCard({ item, isMobile, size = "default" }) {
             overflow: "hidden",
           }}
         >
-          {item.cover.type === "video" ? (
+          {item.cover?.type === "video" ? (
             <LazyVideo
               src={item.cover.src}
               poster={item.cover.poster}
@@ -65,7 +65,7 @@ function CategoryCard({ item, isMobile, size = "default" }) {
               style={{ position: "absolute", inset: 0 }}
               videoStyle={{ opacity: 0.9 }}
             />
-          ) : (
+          ) : item.cover?.src ? (
             <img
               src={item.cover.src}
               alt={item.cover.alt}
@@ -79,7 +79,7 @@ function CategoryCard({ item, isMobile, size = "default" }) {
                 opacity: 0.88,
               }}
             />
-          )}
+          ) : null}
 
           <div
             style={{
@@ -182,17 +182,50 @@ function Services() {
   // Map CMS items into the shape Services.jsx expects. Fall back to the
   // canonical data when slot is empty so visual parity is preserved.
   const allServices = cmsItems
-    ? cmsItems.map((item, i) => ({
-        slug: item.slug || `cms-svc-${i}`,
-        name: item.name || item.title || "",
-        short: item.short || "",
-        tagline: item.tagline || "",
-        color: item.color || "gold",
-        flagship: i < 3,
-        cover: item.cover_image?.cloudinary_url
-          ? { type: "image", src: item.cover_image.cloudinary_url, alt: item.name || "" }
-          : null,
-      }))
+    ? cmsItems.map((item, i) => {
+        // Accept cover_image (new admin upload) OR cover (legacy
+        // "Edit existing →" import shape, which can be a Cloudinary
+        // object OR a raw string URL). Always return a non-null
+        // cover so consumers can read .type / .src safely.
+        const adminCover = item.cover_image || item.cover || null;
+        let coverObj = {
+          type: "image",
+          src: "",
+          alt: item.name || item.title || "",
+        };
+        if (adminCover && typeof adminCover === "object") {
+          const url =
+            adminCover.cloudinary_url ||
+            adminCover.src ||
+            adminCover.url ||
+            "";
+          coverObj = {
+            type:
+              adminCover.asset_type === "video" ||
+              adminCover.type === "video"
+                ? "video"
+                : "image",
+            src: url,
+            poster: adminCover.poster_url || adminCover.poster || "",
+            alt: adminCover.alt || item.name || item.title || "",
+          };
+        } else if (typeof adminCover === "string") {
+          coverObj = {
+            type: "image",
+            src: adminCover,
+            alt: item.name || item.title || "",
+          };
+        }
+        return {
+          slug: item.slug || `cms-svc-${i}`,
+          name: item.name || item.title || "",
+          short: item.short || "",
+          tagline: item.tagline || "",
+          color: item.color || "gold",
+          flagship: i < 3,
+          cover: coverObj,
+        };
+      })
     : serviceCategories;
   const flagshipServices = allServices.filter((s) => s.flagship);
   const supportingServices = allServices.filter((s) => !s.flagship);
