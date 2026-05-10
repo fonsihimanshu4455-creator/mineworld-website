@@ -8,6 +8,16 @@ import { useSlotDoc } from "../../cmsStore";
 import { portfolioItems } from "../../../data/portfolioItems";
 import { serviceCategories } from "../../../data/serviceCategories";
 import { caseStudies } from "../../../data/caseStudies";
+import {
+  CardPreview,
+  HeroPreview,
+  MetricsPreview,
+  GalleryPreview,
+  DeliverablesPreview,
+  RolePreview,
+  TechPreview,
+  LinksPreview,
+} from "./PortfolioPreviews";
 
 // Map a legacy portfolio item into the admin item shape so the
 // "Edit existing →" import seeds the editor with everything the
@@ -206,34 +216,42 @@ export default function PortfolioItemsEditor() {
       {
         label: "Card",
         fields: ["slug", "title", "category", "description", "thumbnail", "link", "tags"],
+        renderPreview: CardPreview,
       },
       {
         label: "Hero",
         fields: ["hero_eyebrow", "short", "long_description", "hero_media"],
+        renderPreview: HeroPreview,
       },
       {
         label: "Metrics",
         fields: ["metrics_eyebrow", "metrics_heading", "metrics"],
+        renderPreview: MetricsPreview,
       },
       {
         label: "Gallery",
         fields: ["gallery_eyebrow", "gallery_heading", "gallery"],
+        renderPreview: GalleryPreview,
       },
       {
         label: "Deliverables",
         fields: ["deliverables_eyebrow", "deliverables_heading", "deliverables"],
+        renderPreview: DeliverablesPreview,
       },
       {
         label: "Role",
         fields: ["role_heading", "role_tags"],
+        renderPreview: RolePreview,
       },
       {
         label: "Tech",
         fields: ["tech_heading", "tech_tags"],
+        renderPreview: TechPreview,
       },
       {
         label: "Links",
         fields: ["service_slug", "case_study_slug"],
+        renderPreview: LinksPreview,
       },
     ],
     []
@@ -244,7 +262,7 @@ export default function PortfolioItemsEditor() {
       <PageHeader
         eyebrow="CMS · Portfolio"
         title="Portfolio Items"
-        subtitle="Section heading + every field on each portfolio detail page (`/portfolio/:slug`). Open an item to edit Card, Hero, Metrics, Gallery, Deliverables, Role, Tech, and Links across the 8 tabs."
+        subtitle="Open any item, then click a tab — each tab shows a LIVE PREVIEW of that section exactly as visitors see it on /portfolio/:slug, with the matching edit fields right below. Type in a field → preview updates instantly. The 8 tabs map 1-to-1 onto the public detail page: Card · Hero · Metrics · Gallery · Deliverables · Role · Tech · Links."
       />
 
       <EditorSection title="Section copy">
