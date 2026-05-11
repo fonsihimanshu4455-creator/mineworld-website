@@ -79,6 +79,26 @@ function Hero() {
     "hero.cta_secondary_label",
     "View Work"
   );
+  // Overlay text on top of the hero video card (bottom-left). Two
+  // pieces: a small gold eyebrow + a larger white caption. Both are
+  // editable from /admin/cms/hero so the colour + copy can be tuned
+  // without touching the codebase.
+  const videoCardEyebrow = useSiteContent(
+    "hero.video_card_eyebrow",
+    "Websites · Apps · Ads"
+  );
+  const videoCardEyebrowColor = useSiteContent(
+    "hero.video_card_eyebrow_color",
+    null
+  );
+  const videoCardCaption = useSiteContent(
+    "hero.video_card_caption",
+    "Premium digital systems\nengineered to convert visitors into customers"
+  );
+  const videoCardCaptionColor = useSiteContent(
+    "hero.video_card_caption_color",
+    null
+  );
   const headlineRef = useMountStagger({
     delay: 0.2,
     duration: 0.95,
@@ -425,13 +445,13 @@ function Hero() {
                 <div
                   style={{
                     fontSize: isMobile ? "11px" : "13px",
-                    color: theme.colors.goldSoft,
+                    color: videoCardEyebrowColor || theme.colors.goldSoft,
                     letterSpacing: isMobile ? "1.4px" : "2px",
                     textTransform: "uppercase",
                     marginBottom: "12px",
                   }}
                 >
-                  Websites · Apps · Ads
+                  {videoCardEyebrow}
                 </div>
 
                 <div
@@ -439,14 +459,13 @@ function Hero() {
                     fontSize: isMobile ? "22px" : "24px",
                     fontWeight: 800,
                     lineHeight: 1.18,
-                    color: theme.colors.text,
+                    color: videoCardCaptionColor || theme.colors.text,
                     textShadow: "0 4px 18px rgba(0,0,0,0.22)",
                     maxWidth: isMobile ? "88%" : "100%",
+                    whiteSpace: "pre-line",
                   }}
                 >
-                  Premium digital systems
-                  <br />
-                  engineered to convert visitors into customers
+                  {videoCardCaption}
                 </div>
               </div>
             </motion.div>
