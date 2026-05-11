@@ -278,7 +278,7 @@ function AssetUploader({
               marginBottom: "4px",
             }}
           >
-            Asset slot
+            Asset
           </div>
           <div style={{ fontSize: "14px", fontWeight: 700 }}>{slotKey}</div>
         </div>

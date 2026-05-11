@@ -110,7 +110,7 @@ function ColorPicker({ slotKey, label, fallback = "#1A1A1A" }) {
             fontWeight: 700,
           }}
         >
-          Color slot
+          Colour
         </div>
         <div style={{ fontSize: 14, fontWeight: 700, marginTop: 4 }}>
           {label || slotKey}

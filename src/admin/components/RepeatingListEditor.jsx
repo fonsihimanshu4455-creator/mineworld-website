@@ -1026,7 +1026,7 @@ function RepeatingListEditor({
               fontWeight: 700,
             }}
           >
-            List slot
+            Items
           </div>
           <div style={{ fontSize: 14, fontWeight: 700, marginTop: 4 }}>
             {label || slotKey}
