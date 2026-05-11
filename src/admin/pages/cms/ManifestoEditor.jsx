@@ -35,10 +35,13 @@ export default function ManifestoEditor() {
         />
       </EditorSection>
 
-      <EditorSection title="Tags" hint="Drag to reorder">
+      <EditorSection
+        title="Tag chips"
+        hint="Small pill-shaped labels that appear below the manifesto headline. Drag to reorder."
+      >
         <RepeatingListEditor
           slotKey="manifesto.tags"
-          label="Tag pills"
+          label="Tag chips"
           itemFields={TAG_FIELDS}
           category="misc"
         />

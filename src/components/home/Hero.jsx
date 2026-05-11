@@ -45,10 +45,26 @@ function Hero() {
   const videoPoster = heroPublicId
     ? getVideoPosterUrl(heroPublicId, { width: 1280 })
     : heroPoster;
+  // Source list is a fallback chain. If the optimised Cloudinary URL
+  // 404s or the network blocks it, LazyVideo walks down the chain
+  // until something plays. Bundled mp4 is the ultimate safety net —
+  // it's shipped with the bundle, so it can never fail to load.
   const videoSources = [
-    { src: mobileVideoSrc, type: "video/mp4", media: "(max-width: 768px)" },
-    { src: desktopVideoSrc, type: "video/mp4" },
-  ];
+    mobileVideoSrc && {
+      src: mobileVideoSrc,
+      type: "video/mp4",
+      media: "(max-width: 768px)",
+    },
+    desktopVideoSrc && { src: desktopVideoSrc, type: "video/mp4" },
+    // Final fallback: the bundled video always works, regardless of
+    // Cloudinary state. Only adds it if it isn't already in the chain.
+    heroVideo &&
+      heroVideo !== desktopVideoSrc &&
+      heroVideo !== mobileVideoSrc && {
+        src: heroVideo,
+        type: "video/mp4",
+      },
+  ].filter(Boolean);
   const heroEyebrow = useSiteContent("hero.eyebrow", DEFAULT_EYEBROW);
   const heroHeadlineRich = useSiteContent("hero.headline_rich", null);
   const heroHeadlineOverride = useSiteContent("hero.headline", null);
