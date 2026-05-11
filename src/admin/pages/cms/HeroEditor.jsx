@@ -66,6 +66,33 @@ export default function HeroEditor() {
         />
       </EditorSection>
 
+      <EditorSection
+        title="Video card overlay text"
+        hint='The small gold line + the bigger white sentence that sit on TOP of the hero video, bottom-left corner. Currently reads "Websites · Apps · Ads" / "Premium digital systems engineered to convert visitors into customers". Change copy AND colour here only — nothing else on the page will move.'
+      >
+        <TextEditor
+          slotKey="hero.video_card_eyebrow"
+          label="Small gold line (eyebrow) — top of the two"
+          fallback="Websites · Apps · Ads"
+        />
+        <ColorPicker
+          slotKey="hero.video_card_eyebrow_color"
+          label="Colour of the small gold line"
+          fallback="#D4B896"
+        />
+        <TextEditor
+          slotKey="hero.video_card_caption"
+          label='Big white sentence (the "Premium digital systems…" line)'
+          multiline
+          fallback="Premium digital systems\nengineered to convert visitors into customers"
+        />
+        <ColorPicker
+          slotKey="hero.video_card_caption_color"
+          label="Colour of the big white sentence"
+          fallback="#FAF7F2"
+        />
+      </EditorSection>
+
       <EditorSection title="Call-to-Action Buttons">
         <TextEditor
           slotKey="hero.cta_primary_label"
