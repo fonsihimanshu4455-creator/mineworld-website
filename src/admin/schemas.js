@@ -393,5 +393,9 @@ export const collectionOrder = [
   "caseStudies",
   "insights",
   "faqItems",
-  "clientBrands",
+  // clientBrands is intentionally hidden from the legacy sidebar —
+  // it's superseded by the CMS Client Logos editor at
+  // /admin/cms/client-logos which writes to Firestore + Cloudinary.
+  // The schema definition + data file are kept because the CMS editor
+  // imports them as the seed for "Edit existing →".
 ];
