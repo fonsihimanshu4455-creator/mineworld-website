@@ -6,7 +6,7 @@ import EditorSection from "../../components/EditorSection";
 import { teamRoles } from "../../../data/teamRoles";
 
 const MEMBER_FIELDS = [
-  { name: "avatar", type: "image", label: "Avatar (square)" },
+  { name: "avatar", type: "image", label: "Avatar (square)", specKey: "team.members.avatar" },
   { name: "name", type: "text", label: "Name" },
   { name: "role", type: "text", label: "Role" },
   { name: "bio", type: "multiline", label: "Bio" },

@@ -2,8 +2,8 @@ import { PageHeader } from "../Dashboard";
 import RepeatingListEditor from "../../components/RepeatingListEditor";
 
 const REEL_FIELDS = [
-  { name: "thumbnail", type: "image", label: "Thumbnail (9:16)" },
-  { name: "video_file", type: "video", label: "Video (9:16)" },
+  { name: "thumbnail", type: "image", label: "Thumbnail (9:16)", specKey: "reel.videos.thumbnail" },
+  { name: "video_file", type: "video", label: "Video (9:16)", specKey: "reel.videos.video" },
   { name: "title", type: "text", label: "Title" },
   { name: "duration", type: "text", label: "Duration (mm:ss)" },
 ];

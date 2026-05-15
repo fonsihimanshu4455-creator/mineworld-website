@@ -6,7 +6,7 @@ import CurrentSiteContentPreview from "../../components/CurrentSiteContentPrevie
 import { serviceCategories } from "../../../data/serviceCategories";
 
 const SERVICE_FIELDS = [
-  { name: "cover_image", type: "image", label: "Cover image" },
+  { name: "cover_image", type: "image", label: "Cover image", specKey: "services.items.cover_image" },
   { name: "name", type: "text", label: "Service name" },
   { name: "short", type: "text", label: "Short tagline" },
   { name: "tagline", type: "multiline", label: "Tagline (longer)" },

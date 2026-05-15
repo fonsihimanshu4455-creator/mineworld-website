@@ -31,6 +31,7 @@ import {
   uploadFromUrl,
   uploadToCloudinary,
 } from "../../lib/cloudinary";
+import { getAssetSpec } from "../../lib/asset-specs";
 import { saveAsset, saveSlot, useSaveStatus, useSlotDoc } from "../cmsStore";
 
 const cardStyle = {
@@ -125,6 +126,72 @@ function summaryText(item, itemFields) {
   return value || "(untitled)";
 }
 
+// -------------------- spec hint card --------------------
+// Renders a compact "Recommended: WxH, max NMB, formats: …" panel so
+// admins know exactly what to upload. Resolves the spec by:
+//   1) `field.spec` if explicitly passed
+//   2) `field.specKey` (alias key) via getAssetSpec()
+function SpecHint({ field }) {
+  const spec =
+    (field && field.spec) ||
+    (field && field.specKey ? getAssetSpec(field.specKey) : null);
+  if (!spec) return null;
+  const rec = spec.recommended || {};
+  const dims =
+    rec.width && rec.height ? `${rec.width}×${rec.height}px` : null;
+  const sizeCap = rec.maxSizeMB ? `max ${rec.maxSizeMB} MB` : null;
+  const duration = rec.duration ? `length ${rec.duration}` : null;
+  const bits = [dims, sizeCap, duration].filter(Boolean).join(" · ");
+  return (
+    <div
+      style={{
+        marginBottom: 8,
+        padding: "8px 10px",
+        borderRadius: 8,
+        background: "rgba(217, 185, 135, 0.10)",
+        border: "1px solid rgba(217, 185, 135, 0.32)",
+        fontSize: 11.5,
+        lineHeight: 1.55,
+        color: "rgba(245,241,232,0.92)",
+      }}
+    >
+      <div
+        style={{
+          color: "#D9B987",
+          fontSize: 10,
+          letterSpacing: "1.4px",
+          textTransform: "uppercase",
+          fontWeight: 800,
+          marginBottom: 4,
+        }}
+      >
+        Upload spec
+      </div>
+      {bits && (
+        <div>
+          <strong>Recommended:</strong> {bits}
+          {spec.aspectRatio ? ` · ratio ${spec.aspectRatio}` : ""}
+        </div>
+      )}
+      {Array.isArray(spec.formats) && spec.formats.length > 0 && (
+        <div>
+          <strong>Formats:</strong> {spec.formats.join(", ").toUpperCase()}
+        </div>
+      )}
+      {spec.transparentBgRequired && (
+        <div style={{ color: "#FFCB91" }}>
+          ⚠ Transparent background required (no white box behind the logo)
+        </div>
+      )}
+      {spec.note && (
+        <div style={{ marginTop: 4, color: "rgba(245,241,232,0.75)" }}>
+          {spec.note}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // -------------------- inline uploader --------------------
 
 function InlineMediaField({ field, value, onChange, category, folder }) {
@@ -210,6 +277,7 @@ function InlineMediaField({ field, value, onChange, category, folder }) {
   return (
     <div>
       <label style={labelStyle}>{field.label || field.name}</label>
+      <SpecHint field={field} />
       {value?.cloudinary_url ? (
         <div
           style={{
@@ -438,14 +506,19 @@ function PairsField({ field, value, onChange }) {
 function MediaListField({ field, value, onChange, category, folder }) {
   const list = Array.isArray(value) ? value : [];
   const update = (next) => onChange(next);
+  // Spec is shown once above the list (every row shares the same spec),
+  // so the child uploader is told not to repeat it.
   const childField = {
     ...field,
     type: field.mediaType || "image",
     label: undefined,
+    spec: null,
+    specKey: null,
   };
   return (
     <div>
       <label style={labelStyle}>{field.label || field.name}</label>
+      <SpecHint field={field} />
       <div style={{ display: "grid", gap: 12 }}>
         {list.map((entry, i) => (
           <div

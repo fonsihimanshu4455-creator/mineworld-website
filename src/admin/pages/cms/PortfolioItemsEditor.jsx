@@ -147,7 +147,12 @@ export default function PortfolioItemsEditor() {
       { name: "title", type: "text", label: "Title" },
       { name: "category", type: "text", label: "Category (eyebrow on listing card)" },
       { name: "description", type: "multiline", label: "Listing description (short blurb on the card)" },
-      { name: "thumbnail", type: "image", label: "Listing thumbnail (16:9)" },
+      {
+        name: "thumbnail",
+        type: "image",
+        label: "Listing thumbnail (16:9)",
+        specKey: "portfolio.items.thumbnail",
+      },
       { name: "link", type: "url", label: "Override link (leave blank to use /portfolio/<slug>)" },
       { name: "tags", type: "text", label: "Tags (comma-separated, optional)" },
 
@@ -155,7 +160,12 @@ export default function PortfolioItemsEditor() {
       { name: "hero_eyebrow", type: "text", label: "Hero eyebrow (defaults to category)" },
       { name: "short", type: "multiline", label: "Lead paragraph (short)" },
       { name: "long_description", type: "multiline", label: "Body paragraph (long description)", rows: 5 },
-      { name: "hero_media", type: "image", label: "Hero media (image OR video — for video, upload an mp4)" },
+      {
+        name: "hero_media",
+        type: "image",
+        label: "Hero media (image OR video — for video, upload an mp4)",
+        specKey: "portfolio.items.hero_media",
+      },
 
       // ---------- Metrics ----------
       { name: "metrics_eyebrow", type: "text", label: "Section eyebrow", placeholder: "Outcome" },
@@ -179,6 +189,7 @@ export default function PortfolioItemsEditor() {
         label: "Gallery items (images or videos)",
         mediaType: "image",
         itemLabel: "Gallery item",
+        specKey: "portfolio.items.gallery",
       },
 
       // ---------- Deliverables ----------
