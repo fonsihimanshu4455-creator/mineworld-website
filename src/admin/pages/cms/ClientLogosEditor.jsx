@@ -4,7 +4,7 @@ import CurrentSiteContentPreview from "../../components/CurrentSiteContentPrevie
 import { clientBrands } from "../../../data/clientBrands";
 
 const LOGO_FIELDS = [
-  { name: "logo_image", type: "image", label: "Logo image" },
+  { name: "logo_image", type: "image", label: "Logo image", specKey: "logo_wall.client_logos.logo" },
   { name: "name", type: "text", label: "Brand name" },
   { name: "link", type: "url", label: "Website (optional)" },
 ];

@@ -8,13 +8,13 @@ const PAIR_FIELDS = [
   { name: "eyebrow", type: "text", label: "Pair eyebrow (Brand Reel / Podcast / Meta Ad)" },
   { name: "title", type: "text", label: "Pair title" },
   { name: "description", type: "multiline", label: "Pair description" },
-  { name: "before_image", type: "image", label: "Before image" },
-  { name: "after_image", type: "image", label: "After image" },
+  { name: "before_image", type: "image", label: "Before image", specKey: "editing.pairs.before_image" },
+  { name: "after_image", type: "image", label: "After image", specKey: "editing.pairs.after_image" },
 ];
 
 const REEL_FIELDS = [
-  { name: "thumbnail", type: "image", label: "Thumbnail (9:16)" },
-  { name: "video_file", type: "video", label: "Video (9:16)" },
+  { name: "thumbnail", type: "image", label: "Thumbnail (9:16)", specKey: "reel.videos.thumbnail" },
+  { name: "video_file", type: "video", label: "Video (9:16)", specKey: "reel.videos.video" },
   { name: "title", type: "text", label: "Title" },
   { name: "duration", type: "text", label: "Duration (mm:ss)" },
 ];
