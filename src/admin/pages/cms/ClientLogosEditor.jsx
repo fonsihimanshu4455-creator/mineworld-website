@@ -6,6 +6,7 @@ import { clientBrands } from "../../../data/clientBrands";
 const LOGO_FIELDS = [
   { name: "logo_image", type: "image", label: "Logo image", specKey: "logo_wall.client_logos.logo" },
   { name: "name", type: "text", label: "Brand name" },
+  { name: "industry", type: "text", label: "Industry (optional)", placeholder: "e.g. Aesthetic Clinic · D2C Skincare · F&B" },
   { name: "link", type: "url", label: "Website (optional)" },
 ];
 

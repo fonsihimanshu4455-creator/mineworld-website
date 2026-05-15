@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAdminAuth } from "./AdminAuth";
-import { schemas, collectionOrder } from "../schemas";
 import useIsMobile from "../../utils/useIsMobile";
 
 const sidebarGroups = [
@@ -46,18 +45,6 @@ const sidebarGroups = [
     links: [
       { to: "/admin/cms/assets", label: "Asset Library" },
       { to: "/admin/migrate", label: "Migrate (Phase 1)" },
-    ],
-  },
-  {
-    id: "legacy",
-    label: "Legacy",
-    defaultOpen: false,
-    links: [
-      { to: "/admin/settings", label: "Settings" },
-      ...collectionOrder.map((key) => ({
-        to: `/admin/collections/${key}`,
-        label: schemas[key].label,
-      })),
     ],
   },
 ];
