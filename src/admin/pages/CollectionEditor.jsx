@@ -15,6 +15,7 @@ import { pricingPlans as defaultPricing } from "../../data/pricingPlans";
 import { faqItems as defaultFaqs } from "../../data/faqItems";
 import { insights as defaultInsights } from "../../data/insights";
 import { clientBrands as defaultBrands } from "../../data/clientBrands";
+import { beforeAfterPairs as defaultEditingPairs } from "../../data/editingPairs";
 
 const defaultsMap = {
   portfolioItems: defaultPortfolio,
@@ -26,6 +27,7 @@ const defaultsMap = {
   faqItems: defaultFaqs,
   insights: defaultInsights,
   clientBrands: defaultBrands,
+  editingPairs: defaultEditingPairs,
 };
 
 function getCollection(key) {
