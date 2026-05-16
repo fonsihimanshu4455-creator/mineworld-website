@@ -320,6 +320,31 @@ export const schemas = {
     ],
   },
 
+  editingPairs: {
+    label: "Editing Before/After",
+    singular: "Before/After Pair",
+    idKey: "id",
+    titleKey: "title",
+    fields: [
+      { key: "id", label: "ID (unique, no spaces)", type: "text", required: true },
+      { key: "eyebrow", label: "Eyebrow (small label — e.g. Brand Reel)", type: "text" },
+      { key: "title", label: "Title", type: "text", required: true },
+      { key: "description", label: "Description", type: "textarea" },
+      mediaFieldFor("Before image (upload or URL)", {
+        key: "before",
+        recommendedSize: "1280×720 (16:9) — must match the After image",
+        hint: "The 'before' still. Drag & drop a file or paste a URL. JPG/PNG/WEBP. Keep it the same dimensions as the After image so the slider lines up.",
+        accept: "image/*",
+      }),
+      mediaFieldFor("After image (upload or URL)", {
+        key: "after",
+        recommendedSize: "1280×720 (16:9) — must match the Before image",
+        hint: "The 'after' still. Same dimensions as the Before image. This is what the slider reveals.",
+        accept: "image/*",
+      }),
+    ],
+  },
+
   capabilityPillars: {
     label: "Capabilities (Build/Create/Grow)",
     singular: "Pillar",
@@ -394,4 +419,5 @@ export const collectionOrder = [
   "insights",
   "faqItems",
   "clientBrands",
+  "editingPairs",
 ];
