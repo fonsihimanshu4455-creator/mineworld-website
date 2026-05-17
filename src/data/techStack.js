@@ -6,9 +6,17 @@ export const techStack = [
   { name: "Shopify", slug: "shopify", color: "7AB55C" },
   { name: "Node.js", slug: "nodedotjs", color: "5FA04E" },
   { name: "Firebase", slug: "firebase", color: "DD2C00" },
+  { name: "Vercel", slug: "vercel", color: "FFFFFF" },
   { name: "Figma", slug: "figma", color: "F24E1E" },
+  { name: "Photoshop", slug: "adobephotoshop", color: "31A8FF" },
+  { name: "Illustrator", slug: "adobeillustrator", color: "FF9A00" },
   { name: "Premiere Pro", slug: "adobepremierepro", color: "9999FF" },
   { name: "After Effects", slug: "adobeaftereffects", color: "9999FF" },
+  { name: "DaVinci Resolve", slug: "davinciresolve", color: "FFFFFF" },
+  { name: "Audition", slug: "adobeaudition", color: "9999FF" },
+  { name: "Blender", slug: "blender", color: "E87D0D" },
+  { name: "Maya", slug: "autodeskmaya", color: "37A5CC" },
   { name: "Meta", slug: "meta", color: "0467DF" },
   { name: "Google Analytics", slug: "googleanalytics", color: "E37400" },
 ];
+
