@@ -276,7 +276,7 @@ function EditingShowcase() {
               afterSrc={pair.after}
               beforeLabel={beforeLabel}
               afterLabel={afterLabel}
-              aspectRatio={isMobile ? "4 / 5" : "16 / 10"}
+              aspectRatio="16 / 10"
             />
 
             <div>
