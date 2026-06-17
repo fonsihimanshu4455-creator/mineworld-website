@@ -3,47 +3,65 @@ import { Link } from "react-router-dom";
 import { contentStore } from "../contentStore";
 import { schemas, collectionOrder } from "../schemas";
 import CloudinaryStatusPanel from "../components/CloudinaryStatusPanel";
+import ToggleEditor from "../components/ToggleEditor";
+import EditorSection from "../components/EditorSection";
 
-function PageHeader({ eyebrow, title, subtitle }) {
+function PageHeader({ eyebrow, title, subtitle, action }) {
   return (
-    <header style={{ marginBottom: "28px" }}>
-      <div
-        style={{
-          color: "#D9B987",
-          fontSize: "11px",
-          letterSpacing: "2px",
-          textTransform: "uppercase",
-          fontWeight: 700,
-          marginBottom: "8px",
-        }}
-      >
-        {eyebrow}
-      </div>
-      <h1
-        style={{
-          margin: "0 0 8px",
-          fontSize: "34px",
-          color: "#F5F1E8",
-          letterSpacing: "-0.7px",
-          fontFamily: '"Playfair Display", Georgia, serif',
-          fontWeight: 800,
-        }}
-      >
-        {title}
-      </h1>
-      {subtitle ? (
-        <p
+    <header
+      style={{
+        marginBottom: "var(--admin-space-lg, 40px)",
+        paddingBottom: "var(--admin-space-md, 24px)",
+        borderBottom: "1px solid var(--admin-border-gold, rgba(184,149,106,0.32))",
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        gap: 16,
+      }}
+    >
+      <div style={{ minWidth: 0 }}>
+        <div
           style={{
-            margin: 0,
-            color: "#CFC6B8",
-            fontSize: "14.5px",
-            lineHeight: 1.75,
-            maxWidth: "720px",
+            color: "var(--admin-accent-deep, #8B6E48)",
+            fontSize: "var(--admin-text-xs, 13px)",
+            letterSpacing: "2.4px",
+            textTransform: "uppercase",
+            fontWeight: 800,
+            marginBottom: 12,
           }}
         >
-          {subtitle}
-        </p>
-      ) : null}
+          {eyebrow}
+        </div>
+        <h1
+          style={{
+            margin: "0 0 12px",
+            fontSize: "var(--admin-text-2xl, 36px)",
+            color: "var(--admin-text, #151515)",
+            letterSpacing: "-0.8px",
+            lineHeight: 1.05,
+            fontFamily:
+              'var(--admin-font-serif, "Playfair Display", Georgia, serif)',
+            fontWeight: 800,
+          }}
+        >
+          {title}
+        </h1>
+        {subtitle ? (
+          <p
+            style={{
+              margin: 0,
+              color: "var(--admin-text-secondary, #4A4A4A)",
+              fontSize: "var(--admin-text-base, 17px)",
+              lineHeight: 1.65,
+              maxWidth: 760,
+            }}
+          >
+            {subtitle}
+          </p>
+        ) : null}
+      </div>
+      {action}
     </header>
   );
 }
@@ -131,7 +149,7 @@ function Dashboard() {
                 borderRadius: "18px",
                 border: "1px solid rgba(255,255,255,0.08)",
                 background:
-                  "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
+                  "var(--admin-surface, #FFFFFF)",
                 transition: "border-color 0.2s ease",
               }}
             >
@@ -149,7 +167,7 @@ function Dashboard() {
               </div>
               <div
                 style={{
-                  color: "#F5F1E8",
+                  color: "var(--admin-text, #1A1A1A)",
                   fontSize: "22px",
                   fontWeight: 800,
                   letterSpacing: "-0.4px",
@@ -160,7 +178,7 @@ function Dashboard() {
               </div>
               <div
                 style={{
-                  color: "rgba(243,239,231,0.55)",
+                  color: "var(--admin-text-muted, #6B5B47)",
                   fontSize: "12px",
                   marginTop: "8px",
                 }}
@@ -171,6 +189,102 @@ function Dashboard() {
           </Link>
         ))}
       </div>
+
+      {/* ─── Quick Actions ─── */}
+      <EditorSection
+        title="Quick actions"
+        hint="Jump to any section and start editing — same as the sidebar, just bigger."
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: 12,
+          }}
+        >
+          {[
+            { to: "/admin/cms/hero", label: "Edit Hero", icon: "🎬" },
+            { to: "/admin/cms/services", label: "Edit Services", icon: "💼" },
+            { to: "/admin/cms/portfolio-items", label: "Edit Portfolio", icon: "📁" },
+            { to: "/admin/cms/contact-info", label: "Edit Contact Info", icon: "📞" },
+            { to: "/admin/cms/client-logos", label: "Edit Client Logos", icon: "🏷️" },
+            { to: "/admin/cms/footer", label: "Edit Footer", icon: "🦶" },
+          ].map((a) => (
+            <Link
+              key={a.to}
+              to={a.to}
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "14px 16px",
+                borderRadius: "var(--admin-radius-sm, 10px)",
+                border: "1px solid var(--admin-border, #E8DED1)",
+                background: "var(--admin-bg-soft, #F5EFE6)",
+                color: "var(--admin-text, #1A1A1A)",
+                fontWeight: 700,
+                fontSize: 14,
+                transition: "all 0.18s ease",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 20,
+                  width: 38,
+                  height: 38,
+                  display: "grid",
+                  placeItems: "center",
+                  background: "rgba(184,149,106,0.14)",
+                  color: "var(--admin-accent-deep, #8B6E48)",
+                  borderRadius: 10,
+                  flexShrink: 0,
+                }}
+                aria-hidden="true"
+              >
+                {a.icon}
+              </span>
+              <span style={{ flex: 1 }}>{a.label}</span>
+              <span style={{ color: "var(--admin-accent, #B8956A)", fontWeight: 800 }}>
+                →
+              </span>
+            </Link>
+          ))}
+        </div>
+      </EditorSection>
+
+      {/* ─── Site Visibility (all footer toggles + section toggles) ─── */}
+      <EditorSection
+        title="Site visibility — show / hide sections without losing data"
+        hint="Off = element stays in admin for editing but doesn't render on the public site. Default: all on. Currently covers footer elements; more page toggles will be added as we wire them in."
+      >
+        <ToggleEditor
+          slotKey="footer.show_cta_card"
+          label="Footer · CTA card"
+          hint="The big 'If your brand still looks ordinary…' card above the footer columns."
+        />
+        <ToggleEditor
+          slotKey="footer.show_newsletter"
+          label="Footer · Newsletter signup"
+          hint="The 'Stay in the loop' band."
+        />
+        <ToggleEditor
+          slotKey="footer.show_nav_column"
+          label="Footer · Navigation column"
+        />
+        <ToggleEditor
+          slotKey="footer.show_services_column"
+          label="Footer · Services column"
+        />
+        <ToggleEditor
+          slotKey="footer.show_social_column"
+          label="Footer · Work With Us column"
+        />
+        <ToggleEditor
+          slotKey="footer.show_copyright"
+          label="Footer · Copyright line"
+        />
+      </EditorSection>
 
       <div
         style={{
@@ -197,7 +311,7 @@ function Dashboard() {
           style={{
             margin: "0 0 10px",
             fontSize: "22px",
-            color: "#F5F1E8",
+            color: "var(--admin-text, #1A1A1A)",
             letterSpacing: "-0.4px",
             fontFamily: '"Playfair Display", Georgia, serif',
             fontWeight: 700,
@@ -208,7 +322,7 @@ function Dashboard() {
         <p
           style={{
             margin: "0 0 18px",
-            color: "#CFC6B8",
+            color: "var(--admin-text-secondary, #4A4A4A)",
             fontSize: "14px",
             lineHeight: 1.8,
             maxWidth: "640px",
@@ -241,8 +355,8 @@ function Dashboard() {
               padding: "12px 18px",
               borderRadius: "999px",
               border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(255,255,255,0.04)",
-              color: "#F5F1E8",
+              background: "var(--admin-surface, #FFFFFF)",
+              color: "var(--admin-text, #1A1A1A)",
               fontWeight: 700,
               fontSize: "13.5px",
               cursor: "pointer",
@@ -298,8 +412,8 @@ function Dashboard() {
           padding: "18px 22px",
           borderRadius: "16px",
           border: "1px solid rgba(255,255,255,0.08)",
-          background: "rgba(255,255,255,0.02)",
-          color: "#CFC6B8",
+          background: "var(--admin-surface, #FFFFFF)",
+          color: "var(--admin-text-secondary, #4A4A4A)",
           fontSize: "13px",
           lineHeight: 1.75,
         }}

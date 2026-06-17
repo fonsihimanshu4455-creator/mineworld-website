@@ -11,19 +11,20 @@ import { useEffect, useState } from "react";
 import { saveSlot, useSaveStatus, useSlotDoc } from "../cmsStore";
 
 const cardStyle = {
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(184, 149, 106, 0.20)",
-  borderRadius: 14,
-  padding: "16px 18px",
-  color: "#F5F1E8",
-  marginBottom: 12,
+  background: "var(--admin-surface, #FFFFFF)",
+  border: "1px solid var(--admin-border-gold, rgba(184,149,106,0.32))",
+  borderRadius: "var(--admin-radius-md, 16px)",
+  padding: "var(--admin-space-md, 24px)",
+  color: "var(--admin-text, #1A1A1A)",
+  marginBottom: 14,
+  boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
 };
 
 const labelStyle = {
   display: "block",
   fontSize: 12,
   fontWeight: 700,
-  color: "rgba(245,241,232,0.85)",
+  color: "var(--admin-text-secondary, #4A4A4A)",
   marginBottom: 4,
   letterSpacing: "0.3px",
 };
@@ -40,12 +41,12 @@ const subLabelStyle = {
 
 const inputStyle = {
   width: "100%",
-  padding: "10px 12px",
-  borderRadius: 8,
-  border: "1px solid rgba(184, 149, 106, 0.25)",
-  background: "rgba(255,255,255,0.05)",
-  color: "#FFFFFF",
-  fontSize: 13,
+  padding: "12px 14px",
+  borderRadius: "var(--admin-radius-sm, 10px)",
+  border: "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))",
+  background: "var(--admin-surface, #FFFFFF)",
+  color: "var(--admin-text, #1A1A1A)",
+  fontSize: "var(--admin-text-sm, 15px)",
   outline: "none",
   fontFamily: "inherit",
   boxSizing: "border-box",
@@ -183,14 +184,14 @@ function ContactCard({
           </div>
         )}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 14, fontWeight: 800, color: "#FFFFFF" }}>
+          <div style={{ fontSize: 15, fontWeight: 800, color: "var(--admin-text, #1A1A1A)" }}>
             {title}
           </div>
           {hint && (
             <div
               style={{
                 fontSize: 11.5,
-                color: "rgba(245,241,232,0.6)",
+                color: "var(--admin-text-secondary, #4A4A4A)",
                 marginTop: 2,
                 lineHeight: 1.5,
               }}

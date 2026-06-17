@@ -5,23 +5,30 @@ import { useEffect, useState } from "react";
 import { clearSlot, saveSlot, useSaveStatus, useSlotDoc } from "../cmsStore";
 
 const cardStyle = {
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(184, 149, 106, 0.20)",
-  borderRadius: 14,
-  padding: 18,
-  color: "#F5F1E8",
+  background: "var(--admin-surface, #FFFFFF)",
+  border: "1px solid var(--admin-border-gold, rgba(184,149,106,0.20))",
+  borderRadius: "var(--admin-radius-md, 16px)",
+  padding: "var(--admin-space-md, 24px)",
+  color: "var(--admin-text, #1A1A1A)",
+  boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
 };
 
 const buttonStyle = (variant = "primary", disabled = false) => ({
-  padding: "9px 16px",
+  padding: "12px 22px",
   borderRadius: 999,
-  border: variant === "ghost" ? "1px solid rgba(184, 149, 106, 0.5)" : "none",
+  border:
+    variant === "ghost"
+      ? "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))"
+      : "none",
   background:
     variant === "ghost"
       ? "transparent"
-      : "linear-gradient(135deg, #BC9966, #D9B987)",
-  color: variant === "ghost" ? "#F5F1E8" : "#1F2D4D",
-  fontSize: 12.5,
+      : "linear-gradient(135deg, var(--admin-accent, #B8956A), var(--admin-accent-soft, #D9B987))",
+  color:
+    variant === "ghost"
+      ? "var(--admin-text, #1A1A1A)"
+      : "var(--admin-accent-dark, #1F2D4D)",
+  fontSize: "var(--admin-text-sm, 15px)",
   fontWeight: 700,
   cursor: disabled ? "not-allowed" : "pointer",
   opacity: disabled ? 0.5 : 1,
@@ -154,11 +161,11 @@ function ColorPicker({ slotKey, label, fallback = "#1A1A1A" }) {
             border: validHex
               ? "1px solid rgba(184, 149, 106, 0.25)"
               : "1px solid #ff9e9e",
-            background: "rgba(255,255,255,0.05)",
-            color: "#FFFFFF",
+            background: "var(--admin-surface, #FFFFFF)",
+            color: "var(--admin-text, #1A1A1A)",
             fontFamily:
               "ui-monospace, SFMono-Regular, Menlo, monospace",
-            fontSize: 13,
+            fontSize: "var(--admin-text-sm, 15px)",
             outline: "none",
           }}
         />
@@ -188,8 +195,8 @@ function ColorPicker({ slotKey, label, fallback = "#1A1A1A" }) {
                 value.toUpperCase() === p.value.toUpperCase()
                   ? "1px solid var(--accent-gold)"
                   : "1px solid rgba(184, 149, 106, 0.18)",
-              background: "rgba(0,0,0,0.18)",
-              color: "#F5F1E8",
+              background: "var(--admin-surface-soft, #F0EBE0)",
+              color: "var(--admin-text, #1A1A1A)",
               cursor: "pointer",
               fontSize: 11.5,
             }}

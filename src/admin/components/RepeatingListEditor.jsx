@@ -35,42 +35,46 @@ import { getAssetSpec } from "../../lib/asset-specs";
 import { saveAsset, saveSlot, useSaveStatus, useSlotDoc } from "../cmsStore";
 
 const cardStyle = {
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(184, 149, 106, 0.20)",
-  borderRadius: 14,
-  padding: 18,
-  color: "#F5F1E8",
+  background: "var(--admin-surface, #FFFFFF)",
+  border: "1px solid var(--admin-border, #E8DED1)",
+  borderRadius: "var(--admin-radius-md, 16px)",
+  padding: "var(--admin-space-md, 24px)",
+  color: "var(--admin-text, #1A1A1A)",
+  boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
 };
 
 const rowStyle = (open, dragging) => ({
   background: open
-    ? "rgba(0,0,0,0.28)"
+    ? "var(--admin-surface-soft, #F0EBE0)"
     : dragging
     ? "rgba(184, 149, 106, 0.12)"
-    : "rgba(0,0,0,0.18)",
-  border: "1px solid rgba(184, 149, 106, 0.16)",
+    : "var(--admin-bg-soft, #F5EFE6)",
+  border: "1px solid var(--admin-border, #E8DED1)",
   borderRadius: 12,
-  marginBottom: 8,
+  marginBottom: 10,
   transition: "background 0.18s ease",
 });
 
 const buttonStyle = (variant = "primary", disabled = false) => ({
-  padding: "8px 14px",
+  padding: "9px 16px",
   borderRadius: 999,
-  border: variant === "ghost" ? "1px solid rgba(184, 149, 106, 0.5)" : "none",
+  border:
+    variant === "ghost"
+      ? "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))"
+      : "none",
   background:
     variant === "ghost"
       ? "transparent"
       : variant === "danger"
-      ? "rgba(255,120,120,0.12)"
-      : "linear-gradient(135deg, #BC9966, #D9B987)",
+      ? "rgba(196,69,69,0.10)"
+      : "linear-gradient(135deg, var(--admin-accent, #B8956A), var(--admin-accent-soft, #C49A5A))",
   color:
     variant === "ghost"
-      ? "#F5F1E8"
+      ? "var(--admin-text, #1A1A1A)"
       : variant === "danger"
-      ? "#ff9e9e"
-      : "#1F2D4D",
-  fontSize: 12,
+      ? "var(--admin-error, #C44545)"
+      : "var(--admin-accent-dark, #0F2A44)",
+  fontSize: 12.5,
   fontWeight: 700,
   cursor: disabled ? "not-allowed" : "pointer",
   opacity: disabled ? 0.5 : 1,
@@ -78,12 +82,12 @@ const buttonStyle = (variant = "primary", disabled = false) => ({
 
 const inputStyle = {
   width: "100%",
-  padding: "10px 12px",
-  borderRadius: 8,
-  border: "1px solid rgba(184, 149, 106, 0.25)",
-  background: "rgba(255,255,255,0.05)",
-  color: "#FFFFFF",
-  fontSize: 13,
+  padding: "11px 13px",
+  borderRadius: "var(--admin-radius-sm, 10px)",
+  border: "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))",
+  background: "var(--admin-surface, #FFFFFF)",
+  color: "var(--admin-text, #1A1A1A)",
+  fontSize: 14,
   outline: "none",
   fontFamily: "inherit",
   boxSizing: "border-box",
@@ -92,11 +96,11 @@ const inputStyle = {
 const labelStyle = {
   display: "block",
   fontSize: 11.5,
-  fontWeight: 700,
-  color: "var(--bg-cream-soft)",
-  letterSpacing: "0.4px",
+  fontWeight: 800,
+  color: "var(--admin-accent-deep, #8B6E48)",
+  letterSpacing: "1.2px",
   textTransform: "uppercase",
-  marginBottom: 4,
+  marginBottom: 6,
 };
 
 function newId() {

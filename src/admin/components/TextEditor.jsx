@@ -12,36 +12,43 @@ import {
 } from "../cmsStore";
 
 const cardStyle = {
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(184, 149, 106, 0.20)",
-  borderRadius: "14px",
-  padding: "18px",
-  color: "#F5F1E8",
+  background: "var(--admin-surface, #FFFFFF)",
+  border: "1px solid var(--admin-border, #E8DED1)",
+  borderRadius: "var(--admin-radius-md, 16px)",
+  padding: "var(--admin-space-md, 24px)",
+  color: "var(--admin-text, #151515)",
+  boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
 };
 
 const inputBase = {
   width: "100%",
   padding: "12px 14px",
-  borderRadius: 8,
-  border: "1px solid rgba(184, 149, 106, 0.25)",
-  background: "rgba(255,255,255,0.05)",
-  color: "#FFFFFF",
-  fontSize: 14,
+  borderRadius: "var(--admin-radius-sm, 10px)",
+  border: "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))",
+  background: "var(--admin-surface, #FFFFFF)",
+  color: "var(--admin-text, #151515)",
+  fontSize: "var(--admin-text-sm, 15px)",
   outline: "none",
   fontFamily: "inherit",
   boxSizing: "border-box",
 };
 
 const buttonStyle = (variant = "primary", disabled = false) => ({
-  padding: "9px 16px",
+  padding: "10px 18px",
   borderRadius: 999,
-  border: variant === "ghost" ? "1px solid rgba(184, 149, 106, 0.5)" : "none",
+  border:
+    variant === "ghost"
+      ? "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))"
+      : "none",
   background:
     variant === "ghost"
       ? "transparent"
-      : "linear-gradient(135deg, #BC9966, #D9B987)",
-  color: variant === "ghost" ? "#F5F1E8" : "#1F2D4D",
-  fontSize: 12.5,
+      : "linear-gradient(135deg, var(--admin-accent, #B8956A), var(--admin-accent-soft, #C49A5A))",
+  color:
+    variant === "ghost"
+      ? "var(--admin-text, #151515)"
+      : "var(--admin-accent-dark, #0F2A44)",
+  fontSize: "var(--admin-text-sm, 15px)",
   fontWeight: 700,
   cursor: disabled ? "not-allowed" : "pointer",
   opacity: disabled ? 0.5 : 1,
@@ -134,16 +141,23 @@ function TextEditor({
         <div>
           <div
             style={{
-              color: "var(--accent-gold)",
+              color: "var(--admin-accent-deep, #8B6E48)",
               fontSize: 11,
               letterSpacing: "1.6px",
               textTransform: "uppercase",
-              fontWeight: 700,
+              fontWeight: 800,
             }}
           >
-            Text slot
+            Text
           </div>
-          <div style={{ fontSize: 14, fontWeight: 700, marginTop: 4 }}>
+          <div
+            style={{
+              fontSize: "var(--admin-text-sm, 15px)",
+              fontWeight: 700,
+              marginTop: 4,
+              color: "var(--admin-text, #151515)",
+            }}
+          >
             {label || slotKey}
           </div>
         </div>
@@ -151,7 +165,9 @@ function TextEditor({
           <span
             style={{
               fontSize: 11.5,
-              color: overLimit ? "#ff9e9e" : "rgba(245,241,232,0.65)",
+              color: overLimit
+                ? "var(--admin-error, #C44545)"
+                : "var(--admin-text-muted, #6B5B47)",
               fontVariantNumeric: "tabular-nums",
             }}
           >
@@ -170,8 +186,8 @@ function TextEditor({
           minHeight: multiline ? 110 : "auto",
           resize: multiline ? "vertical" : "none",
           borderColor: overLimit
-            ? "#ff9e9e"
-            : "rgba(184, 149, 106, 0.25)",
+            ? "var(--admin-error, #C44545)"
+            : "var(--admin-border-strong, rgba(31,45,77,0.16))",
         }}
       />
 
@@ -189,12 +205,12 @@ function TextEditor({
             fontSize: 12,
             color:
               status.kind === "ok"
-                ? "#86E69C"
+                ? "var(--admin-success, #1F8A4C)"
                 : status.kind === "error"
-                ? "#ff9e9e"
+                ? "var(--admin-error, #C44545)"
                 : status.kind === "saving"
-                ? "#D9B987"
-                : "rgba(245,241,232,0.55)",
+                ? "var(--admin-warn, #B8810B)"
+                : "var(--admin-text-muted, #6B5B47)",
           }}
         >
           {status.message ||

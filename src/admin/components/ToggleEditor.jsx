@@ -42,27 +42,35 @@ function ToggleEditor({ slotKey, label, hint, defaultOn = true }) {
   return (
     <div
       style={{
-        background: "rgba(255,255,255,0.04)",
-        border: "1px solid rgba(184, 149, 106, 0.20)",
-        borderRadius: 12,
-        padding: "14px 16px",
-        color: "#F5F1E8",
+        background: "var(--admin-surface, #FFFFFF)",
+        border: "1px solid var(--admin-border, #E8DED1)",
+        borderRadius: "var(--admin-radius-md, 16px)",
+        padding: "16px 20px",
+        color: "var(--admin-text, #1A1A1A)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         gap: 14,
+        boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
       }}
     >
       <div style={{ minWidth: 0, flex: 1 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 2 }}>
+        <div
+          style={{
+            fontSize: 15,
+            fontWeight: 800,
+            marginBottom: 2,
+            color: "var(--admin-text, #1A1A1A)",
+          }}
+        >
           {label || slotKey}
         </div>
         {hint && (
           <div
             style={{
-              fontSize: 12,
-              color: "rgba(245,241,232,0.6)",
-              lineHeight: 1.5,
+              fontSize: 12.5,
+              color: "var(--admin-text-secondary, #4A4A4A)",
+              lineHeight: 1.55,
             }}
           >
             {hint}
@@ -126,7 +134,9 @@ function ToggleEditor({ slotKey, label, hint, defaultOn = true }) {
           fontWeight: 700,
           letterSpacing: "1.4px",
           textTransform: "uppercase",
-          color: isOn ? "#86E69C" : "rgba(245,241,232,0.45)",
+          color: isOn
+            ? "var(--admin-success, #1F8A4C)"
+            : "var(--admin-text-muted, #6B5B47)",
           width: 32,
           textAlign: "right",
         }}

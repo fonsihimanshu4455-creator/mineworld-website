@@ -1,0 +1,187 @@
+/* Admin panel light/cream theme.
+ *
+ * Goal: turn the dark navy admin into a light, client-friendly CMS.
+ * Strategy: define a token palette as CSS variables on .admin-shell,
+ * provide global selectors that re-skin the most common patterns
+ * used in inline styles (cards, inputs, scrollbars, etc.), and let
+ * pages opt into the rest via the variables.
+ *
+ * Public website is untouched — .admin-shell scopes everything.
+ */
+
+.admin-shell {
+  /* ─── Palette (per user reference) ─── */
+  --admin-bg:           #FAF7F2;
+  --admin-bg-soft:      #F5EFE6;
+  --admin-surface:      #FFFFFF;
+  --admin-surface-soft: #F0EBE0;
+
+  --admin-text:           #151515;
+  --admin-text-secondary: #4A4A4A;
+  --admin-text-muted:     #6B5B47;
+
+  --admin-accent:         #B8956A;
+  --admin-accent-soft:    #C49A5A;
+  --admin-accent-deep:    #8B6E48;
+  --admin-accent-dark:    #0F2A44;   /* dark navy for primary buttons */
+
+  --admin-border:         #E8DED1;
+  --admin-border-strong:  rgba(15, 42, 68, 0.16);
+  --admin-border-gold:    rgba(184, 149, 106, 0.32);
+
+  --admin-success: #1F8A4C;
+  --admin-error:   #C44545;
+  --admin-warn:    #B8810B;
+
+  --admin-shadow-sm: 0 2px 8px rgba(31, 45, 77, 0.05);
+  --admin-shadow-md: 0 6px 22px rgba(31, 45, 77, 0.08);
+  --admin-shadow-lg: 0 18px 44px rgba(31, 45, 77, 0.12);
+
+  --admin-radius-sm: 10px;
+  --admin-radius-md: 16px;
+  --admin-radius-lg: 22px;
+  --admin-radius-pill: 999px;
+
+  --admin-space-xs: 8px;
+  --admin-space-sm: 14px;
+  --admin-space-md: 24px;
+  --admin-space-lg: 40px;
+  --admin-space-xl: 64px;
+
+  --admin-font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --admin-text-xs:  13px;
+  --admin-text-sm:  15px;
+  --admin-text-base:17px;
+  --admin-text-md:  20px;
+  --admin-text-lg:  26px;
+  --admin-text-xl:  30px;
+  --admin-text-2xl: 36px;
+
+  background: var(--admin-bg);
+  color: var(--admin-text);
+}
+
+/* Scrollbars inside the admin look soft, not the OS default dark. */
+.admin-shell *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.admin-shell *::-webkit-scrollbar-track {
+  background: var(--admin-bg-soft);
+}
+.admin-shell *::-webkit-scrollbar-thumb {
+  background: rgba(184, 149, 106, 0.45);
+  border-radius: 999px;
+}
+.admin-shell *::-webkit-scrollbar-thumb:hover {
+  background: rgba(184, 149, 106, 0.7);
+}
+
+/* Inputs / textareas / selects: re-skin to light. */
+.admin-shell input,
+.admin-shell textarea,
+.admin-shell select {
+  background: var(--admin-surface);
+  color: var(--admin-text);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-sm);
+  font-family: inherit;
+}
+.admin-shell input:focus,
+.admin-shell textarea:focus,
+.admin-shell select:focus {
+  outline: none;
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 0 3px rgba(184, 149, 106, 0.16);
+}
+.admin-shell input::placeholder,
+.admin-shell textarea::placeholder {
+  color: rgba(21, 21, 21, 0.42);
+}
+
+/* File inputs read better on light. */
+.admin-shell input[type="file"]::file-selector-button {
+  background: var(--admin-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--admin-radius-pill);
+  padding: 6px 14px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* Disabled buttons look disabled, not invisible. */
+.admin-shell button:disabled {
+  cursor: not-allowed;
+}
+
+/* Headings inside admin lean on the serif. */
+.admin-shell h1,
+.admin-shell h2,
+.admin-shell h3 {
+  font-family: var(--admin-font-serif);
+  color: var(--admin-text);
+  letter-spacing: -0.3px;
+}
+
+/* Links inside admin */
+.admin-shell a {
+  color: var(--admin-accent-deep);
+}
+.admin-shell a:hover {
+  color: var(--admin-accent);
+}
+
+/* ─── Safety-net overrides for legacy inline styles ───
+ * Some editor components still ship with dark inline backgrounds.
+ * Until they're all migrated to the token vars, force-flip them here
+ * inside the admin shell only. Public site is unaffected.
+ */
+
+/* Dark card backgrounds → light cream surface */
+.admin-shell main [style*="background: rgba(255,255,255,0.04)"],
+.admin-shell main [style*="background:rgba(255,255,255,0.04)"],
+.admin-shell main [style*="background: rgba(255,255,255,0.03)"],
+.admin-shell main [style*="background:rgba(255,255,255,0.03)"] {
+  background: var(--admin-surface-soft, #F0EBE0) !important;
+  color: var(--admin-text, #1A1A1A) !important;
+}
+
+/* Dark input backgrounds → white surface (already light) */
+.admin-shell main [style*="background: rgba(255,255,255,0.05)"],
+.admin-shell main [style*="background:rgba(255,255,255,0.05)"],
+.admin-shell main [style*="background: rgba(0,0,0,0.18)"],
+.admin-shell main [style*="background:rgba(0,0,0,0.18)"] {
+  background: var(--admin-surface, #FFFFFF) !important;
+}
+
+/* White / cream text on dark turns into near-black on light */
+.admin-shell main [style*="color: #F5F1E8"],
+.admin-shell main [style*="color:#F5F1E8"],
+.admin-shell main [style*="color: rgba(245,241,232"],
+.admin-shell main [style*="color:rgba(245,241,232"] {
+  color: var(--admin-text, #1A1A1A) !important;
+}
+.admin-shell main [style*="color: #FFFFFF"],
+.admin-shell main [style*="color:#FFFFFF"] {
+  color: var(--admin-text, #1A1A1A) !important;
+}
+
+/* "Saved" / "Unsaved" status pills — keep them readable on light */
+.admin-shell main [style*="color: #D9B987"],
+.admin-shell main [style*="color:#D9B987"] {
+  color: var(--admin-accent-deep, #8B6E48) !important;
+}
+
+/* Gold pill button text was navy on gold — keep as-is, no override */
+
+/* Mobile: smaller paddings + tighter type */
+@media (max-width: 768px) {
+  .admin-shell {
+    --admin-space-lg: 28px;
+    --admin-space-md: 18px;
+    --admin-text-2xl: 28px;
+    --admin-text-xl: 22px;
+  }
+}

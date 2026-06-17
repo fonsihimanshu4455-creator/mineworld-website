@@ -126,13 +126,13 @@ function AdminLayout() {
       <div
         style={{
           padding: "6px 8px 18px",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          borderBottom: "1px solid var(--admin-border, #E8DED1)",
           marginBottom: "14px",
         }}
       >
         <div
           style={{
-            color: "#D9B987",
+            color: "var(--admin-accent-deep, #8B6E48)",
             fontSize: "10.5px",
             letterSpacing: "2px",
             textTransform: "uppercase",
@@ -143,7 +143,7 @@ function AdminLayout() {
         </div>
         <div
           style={{
-            color: "#F5F1E8",
+            color: "var(--admin-text, #151515)",
             fontSize: "20px",
             fontWeight: 800,
             marginTop: "2px",
@@ -175,7 +175,7 @@ function AdminLayout() {
                   borderRadius: 8,
                   border: "none",
                   background: "transparent",
-                  color: "#D9B987",
+                  color: "var(--admin-accent-deep, #8B6E48)",
                   fontSize: 10.5,
                   letterSpacing: 1.6,
                   textTransform: "uppercase",
@@ -216,15 +216,20 @@ function AdminLayout() {
                           display: "block",
                           padding: "9px 14px",
                           borderRadius: 9,
-                          color: isActive ? "#18140F" : "#F5F1E8",
+                          color: isActive
+                            ? "#FFFFFF"
+                            : "var(--admin-text, #151515)",
                           background: isActive
-                            ? "linear-gradient(135deg, #BC9966, #D9B987)"
+                            ? "linear-gradient(135deg, var(--admin-accent, #B8956A), var(--admin-accent-soft, #C49A5A))"
                             : "transparent",
                           fontSize: isMobile ? "14.5px" : "13px",
                           fontWeight: isActive ? 800 : 600,
                           textDecoration: "none",
                           transition: "all 0.2s ease",
                           letterSpacing: "0.1px",
+                          boxShadow: isActive
+                            ? "0 6px 16px rgba(184,149,106,0.32)"
+                            : "none",
                         })}
                       >
                         {link.label}
@@ -241,7 +246,7 @@ function AdminLayout() {
       <div
         style={{
           paddingTop: "14px",
-          borderTop: "1px solid rgba(255,255,255,0.08)",
+          borderTop: "1px solid var(--admin-border, #E8DED1)",
           marginTop: "12px",
         }}
       >
@@ -253,9 +258,9 @@ function AdminLayout() {
             display: "block",
             padding: "10px 12px",
             borderRadius: "10px",
-            border: "1px solid rgba(255,255,255,0.12)",
-            background: "rgba(255,255,255,0.03)",
-            color: "#F5F1E8",
+            border: "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))",
+            background: "var(--admin-surface-soft, #F0EBE0)",
+            color: "var(--admin-text, #151515)",
             fontSize: "13px",
             textDecoration: "none",
             fontWeight: 700,
@@ -271,9 +276,9 @@ function AdminLayout() {
             width: "100%",
             padding: "10px 12px",
             borderRadius: "10px",
-            border: "1px solid rgba(255,120,120,0.25)",
-            background: "rgba(255,120,120,0.06)",
-            color: "#ff9e9e",
+            border: "1px solid rgba(196,69,69,0.28)",
+            background: "rgba(196,69,69,0.06)",
+            color: "var(--admin-error, #C44545)",
             fontSize: "13px",
             fontWeight: 700,
             cursor: "pointer",
@@ -285,7 +290,7 @@ function AdminLayout() {
         <div
           style={{
             marginTop: "16px",
-            color: "#D9B987",
+            color: "var(--admin-accent, #B8956A)",
             fontSize: "18px",
             fontStyle: "italic",
             fontFamily: '"Brush Script MT", "Segoe Script", cursive',
@@ -316,10 +321,11 @@ function AdminLayout() {
   if (isMobile) {
     return (
       <div
+        className="admin-shell"
         style={{
           minHeight: "100vh",
-          background: "#0b0f1a",
-          color: "#F5F1E8",
+          background: "var(--admin-bg, #FAF7F2)",
+          color: "var(--admin-text, #151515)",
         }}
       >
         <header
@@ -331,11 +337,11 @@ function AdminLayout() {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "14px 16px",
-            borderBottom: "1px solid rgba(255,255,255,0.08)",
-            background:
-              "linear-gradient(180deg, rgba(17,24,39,0.98), rgba(11,15,26,0.98))",
+            borderBottom: "1px solid var(--admin-border, #E8DED1)",
+            background: "var(--admin-surface, #FFFFFF)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
+            boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
           }}
         >
           <button
@@ -345,9 +351,9 @@ function AdminLayout() {
               width: "44px",
               height: "44px",
               borderRadius: "12px",
-              border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(255,255,255,0.04)",
-              color: "#F5F1E8",
+              border: "1px solid var(--admin-border, #E8DED1)",
+              background: "var(--admin-surface-soft, #F0EBE0)",
+              color: "var(--admin-text, #151515)",
               fontSize: "20px",
               cursor: "pointer",
               display: "grid",
@@ -465,10 +471,11 @@ function AdminLayout() {
 
   return (
     <div
+      className="admin-shell"
       style={{
         minHeight: "100vh",
-        background: "#0b0f1a",
-        color: "#F5F1E8",
+        background: "var(--admin-bg, #FAF7F2)",
+        color: "var(--admin-text, #151515)",
         display: "grid",
         gridTemplateColumns: "minmax(240px, 260px) 1fr",
       }}
@@ -482,9 +489,9 @@ function AdminLayout() {
           display: "flex",
           flexDirection: "column",
           padding: "24px 18px",
-          background:
-            "linear-gradient(180deg, rgba(17,24,39,1), rgba(11,15,26,1))",
-          borderRight: "1px solid rgba(255,255,255,0.08)",
+          background: "var(--admin-surface, #FFFFFF)",
+          borderRight: "1px solid var(--admin-border, #E8DED1)",
+          boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
         }}
       >
         {SidebarBody}
