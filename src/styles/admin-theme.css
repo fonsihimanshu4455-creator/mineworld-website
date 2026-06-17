@@ -200,9 +200,27 @@
 /* Card backgrounds rgba(0,0,0,*) → soft cream surface */
 .admin-shell main [style*="background: rgba(0,0,0,0.18)"],
 .admin-shell main [style*="background: rgba(0, 0, 0, 0.18)"],
+.admin-shell main [style*="background: rgba(0,0,0,0.25)"],
+.admin-shell main [style*="background: rgba(0, 0, 0, 0.25)"],
 .admin-shell main [style*="background: rgba(0,0,0,0.28)"],
-.admin-shell main [style*="background: rgba(0, 0, 0, 0.28)"] {
+.admin-shell main [style*="background: rgba(0, 0, 0, 0.28)"],
+.admin-shell main [style*="background: rgba(0,0,0,0.16)"],
+.admin-shell main [style*="background: rgba(0,0,0,0.32)"] {
   background: var(--admin-bg-soft, #F5EFE6) !important;
+}
+
+/* Misc gray text colors used in legacy media preview chips */
+.admin-shell main [style*="color: #bbb"],
+.admin-shell main [style*="color:#bbb"],
+.admin-shell main [style*="color: rgb(187, 187, 187)"],
+.admin-shell main [style*="color: #ccc"],
+.admin-shell main [style*="color:#ccc"],
+.admin-shell main [style*="color: rgb(204, 204, 204)"],
+.admin-shell main [style*="color: #9aa3b8"],
+.admin-shell main [style*="color: rgb(154, 163, 184)"],
+.admin-shell main [style*="color: #8a93a7"],
+.admin-shell main [style*="color: rgb(138, 147, 167)"] {
+  color: var(--admin-text, #1A1A1A) !important;
 }
 
 /* Borders that were faint-on-dark → soft beige on light */
