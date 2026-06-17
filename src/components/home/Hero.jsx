@@ -14,6 +14,7 @@ import {
   useRevealOnScroll,
 } from "../../utils/gsapHooks";
 import { useSiteAsset, useSiteContent } from "../../hooks/useSiteContent";
+import { useSiteToggle } from "../../hooks/useSiteToggle";
 import RichText from "../../lib/richText.jsx";
 import {
   getMobileVideoUrl,
@@ -30,6 +31,7 @@ const DEFAULT_SUBHEAD =
 
 function Hero() {
   const isMobile = useIsMobile(768);
+  const visible = useSiteToggle("hero.show_section", true);
 
   const heroVideoAsset = useSiteAsset("hero.video", null);
   const heroPublicId =
@@ -110,6 +112,8 @@ function Hero() {
   const ctaRef = useFadeIn({ delay: 1.05, duration: 0.7, y: 14 });
   const chipsRef = useRevealOnScroll({ stagger: 0.06, y: 12, duration: 0.6 });
   const signatureRef = useFadeIn({ delay: 1.35, duration: 0.9, y: 8 });
+
+  if (!visible) return null;
 
   return (
     <section
