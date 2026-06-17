@@ -16,6 +16,7 @@ const AssetLibrary = lazy(() => import("./pages/AssetLibrary"));
 const HeroEditor = lazy(() => import("./pages/cms/HeroEditor"));
 const FounderEditor = lazy(() => import("./pages/cms/FounderEditor"));
 const FooterEditor = lazy(() => import("./pages/cms/FooterEditor"));
+const ContactInfoEditor = lazy(() => import("./pages/cms/ContactInfoEditor"));
 const ClientLogosEditor = lazy(() => import("./pages/cms/ClientLogosEditor"));
 const PortfolioItemsEditor = lazy(() =>
   import("./pages/cms/PortfolioItemsEditor")
@@ -96,6 +97,7 @@ function AdminApp() {
           <Route path="cms/hero" element={<Suspense fallback={<PageFallback />}><HeroEditor /></Suspense>} />
           <Route path="cms/founder" element={<Suspense fallback={<PageFallback />}><FounderEditor /></Suspense>} />
           <Route path="cms/footer" element={<Suspense fallback={<PageFallback />}><FooterEditor /></Suspense>} />
+          <Route path="cms/contact-info" element={<Suspense fallback={<PageFallback />}><ContactInfoEditor /></Suspense>} />
           <Route path="cms/client-logos" element={<Suspense fallback={<PageFallback />}><ClientLogosEditor /></Suspense>} />
           <Route path="cms/portfolio-items" element={<Suspense fallback={<PageFallback />}><PortfolioItemsEditor /></Suspense>} />
           <Route path="cms/team-members" element={<Suspense fallback={<PageFallback />}><TeamMembersEditor /></Suspense>} />

@@ -20,6 +20,7 @@ const sidebarGroups = [
     label: "CMS · Content",
     defaultOpen: true,
     links: [
+      { to: "/admin/cms/contact-info", label: "Contact Info" },
       { to: "/admin/cms/hero", label: "Hero" },
       { to: "/admin/cms/manifesto", label: "Manifesto" },
       { to: "/admin/cms/capabilities", label: "Capabilities" },

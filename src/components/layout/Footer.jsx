@@ -29,8 +29,11 @@ function Footer() {
   const showNewsletter = useSiteToggle("footer.show_newsletter", true);
   const showSignature = useSiteToggle("footer.show_signature", true);
   const showBrandDescription = useSiteToggle("footer.show_brand_description", true);
-  // Optional explicit Instagram URL (was hardcoded fallback before).
+  const showWebsiteLink = useSiteToggle("footer.show_website", true);
+  // Optional explicit URLs (were hardcoded fallbacks before — now CMS-driven).
   const cmsInstagramUrl = useSiteContent("footer.instagram_url", null);
+  const cmsMapsUrl = useSiteContent("footer.maps_url", null);
+  const cmsWebsiteUrl = useSiteContent("footer.website_url", null);
   const cmsFooterLogo = useSiteAsset("footer.logo", null);
   const cmsFooterLogoUrl =
     typeof cmsFooterLogo === "object" && cmsFooterLogo?.url
@@ -504,7 +507,7 @@ function Footer() {
                       </svg>
                     </div>
                     <a
-                      href="https://maps.google.com/?q=Mayur+Vihar+Phase+1+Delhi+110091"
+                      href={cmsMapsUrl || "https://maps.google.com/?q=Mayur+Vihar+Phase+1+Delhi+110091"}
                       target="_blank"
                       rel="noreferrer"
                       style={linkStyle}
@@ -547,16 +550,27 @@ function Footer() {
                   </div>
                 )}
 
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-                  <div style={iconWrap}>
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M14 3v2h3.59L7 15.59 8.41 17 19 6.41V10h2V3z" />
-                      <path d="M5 5h6V3H3v8h2z" />
-                      <path d="M19 19H5V9H3v12h18V7h-2z" />
-                    </svg>
+                {showWebsiteLink && (
+                  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                    <div style={iconWrap}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 3v2h3.59L7 15.59 8.41 17 19 6.41V10h2V3z" />
+                        <path d="M5 5h6V3H3v8h2z" />
+                        <path d="M19 19H5V9H3v12h18V7h-2z" />
+                      </svg>
+                    </div>
+                    <a
+                      href={cmsWebsiteUrl || "https://www.mineworldproduction.com"}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={linkStyle}
+                    >
+                      {(cmsWebsiteUrl || "www.mineworldproduction.com")
+                        .replace(/^https?:\/\//, "")
+                        .replace(/\/$/, "")}
+                    </a>
                   </div>
-                  <a href="https://www.mineworldproduction.com" target="_blank" rel="noreferrer" style={linkStyle}>www.mineworldproduction.com</a>
-                </div>
+                )}
 
                 {showWhatsApp && (
                   <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
