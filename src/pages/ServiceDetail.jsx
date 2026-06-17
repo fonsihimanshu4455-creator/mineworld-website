@@ -890,10 +890,11 @@ function ServiceDetail() {
                       </div>
                       <div
                         style={{
-                          color: theme.colors.text,
+                          color: "#FFFFFF",
                           fontSize: isMobile ? "15px" : "17px",
                           fontWeight: 800,
                           lineHeight: 1.2,
+                          textShadow: "0 2px 8px rgba(0,0,0,0.45)",
                           fontFamily:
                             '"Playfair Display", Georgia, "Times New Roman", serif',
                         }}
