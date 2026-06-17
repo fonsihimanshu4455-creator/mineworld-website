@@ -333,7 +333,13 @@ function ContactModal() {
                 width: "100%",
                 maxWidth: "920px",
                 maxHeight: "92vh",
-                overflow: "hidden",
+                // overflow-y: auto so the modal itself can scroll when
+                // its content (especially on mobile, where the two
+                // panels stack into one column) exceeds 92vh. Was
+                // 'hidden' which clipped the form bottom on phones.
+                overflowY: "auto",
+                overflowX: "hidden",
+                WebkitOverflowScrolling: "touch",
                 borderRadius: isMobile ? "24px" : "20px",
                 background: "rgba(15, 22, 41, 0.98)",
                 border: "1px solid rgba(184, 149, 106, 0.2)",
