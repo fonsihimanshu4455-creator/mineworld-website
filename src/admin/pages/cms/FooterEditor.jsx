@@ -3,6 +3,7 @@ import AssetUploader from "../../components/AssetUploader";
 import TextEditor from "../../components/TextEditor";
 import RepeatingListEditor from "../../components/RepeatingListEditor";
 import EditorSection from "../../components/EditorSection";
+import ToggleEditor from "../../components/ToggleEditor";
 
 const SOCIAL_FIELDS = [
   { name: "platform", type: "text", label: "Platform" },
@@ -106,6 +107,11 @@ export default function FooterEditor() {
           label="Phone"
           fallback="+91 9758850933"
         />
+        <TextEditor
+          slotKey="footer.instagram_url"
+          label="Instagram URL"
+          fallback="https://instagram.com/mineworldproduction"
+        />
       </EditorSection>
 
       <EditorSection title="Navigation column" hint="Drag to reorder">
@@ -141,6 +147,77 @@ export default function FooterEditor() {
           slotKey="footer.copyright"
           label="Copyright line"
           fallback="©️ 2026 Mineworld Production. All rights reserved."
+        />
+      </EditorSection>
+
+      <EditorSection
+        title="What to show / hide on the website"
+        hint="Toggle individual footer elements ON / OFF. Off = element stays here in admin for editing, but doesn't render on the public site. Default for all = ON."
+      >
+        <ToggleEditor
+          slotKey="footer.show_cta_card"
+          label="Top CTA card"
+          hint="The big 'If your brand still looks ordinary…' card above the columns."
+        />
+        <ToggleEditor
+          slotKey="footer.show_brand_description"
+          label="Brand description paragraph"
+          hint="The 'Mineworld Production is Delhi's premium…' paragraph."
+        />
+        <ToggleEditor
+          slotKey="footer.show_signature"
+          label="Signature script block"
+          hint="The script-font 'Mineworld Production' signature near the brand description."
+        />
+        <ToggleEditor
+          slotKey="footer.show_address"
+          label="Address row"
+          hint="The address line in the Contact column."
+        />
+        <ToggleEditor
+          slotKey="footer.show_email"
+          label="Email row"
+          hint="The email link in the Contact column."
+        />
+        <ToggleEditor
+          slotKey="footer.show_phone"
+          label="Phone row"
+          hint="The clickable phone number in the Contact column."
+        />
+        <ToggleEditor
+          slotKey="footer.show_instagram"
+          label="Instagram row"
+          hint="The Instagram link in the Contact column."
+        />
+        <ToggleEditor
+          slotKey="footer.show_whatsapp"
+          label="WhatsApp row"
+          hint="The WhatsApp link in the Contact column."
+        />
+        <ToggleEditor
+          slotKey="footer.show_nav_column"
+          label="Navigation column"
+          hint="The whole 'Navigation' column (Home / Services / Portfolio / Contact)."
+        />
+        <ToggleEditor
+          slotKey="footer.show_services_column"
+          label="Services column"
+          hint="The whole 'Services' column with the service strings list."
+        />
+        <ToggleEditor
+          slotKey="footer.show_social_column"
+          label="Work With Us column"
+          hint="The right-most column (contact rows + 'Start a Project' button)."
+        />
+        <ToggleEditor
+          slotKey="footer.show_newsletter"
+          label="Newsletter signup strip"
+          hint="The 'Stay in the loop' band above the copyright line."
+        />
+        <ToggleEditor
+          slotKey="footer.show_copyright"
+          label="Copyright line"
+          hint="The '© 2026 Mineworld Production…' line at the very bottom."
         />
       </EditorSection>
     </div>

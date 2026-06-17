@@ -9,10 +9,28 @@ import { useSiteSettings } from "../../admin/hooks";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 import defaultLogo from "../../assets/mineworld-logo.png";
 import { useSiteAsset, useSiteContent } from "../../hooks/useSiteContent";
+import { useSiteToggle } from "../../hooks/useSiteToggle";
 
 function Footer() {
   const isMobile = useIsMobile(768);
   const settings = useSiteSettings(defaultSiteConfig);
+  // Per-element visibility toggles. Default = on. Admin can flip any
+  // of these off from /admin/cms/footer → "What to show / hide".
+  const showAddress = useSiteToggle("footer.show_address", true);
+  const showEmail = useSiteToggle("footer.show_email", true);
+  const showPhone = useSiteToggle("footer.show_phone", true);
+  const showInstagram = useSiteToggle("footer.show_instagram", true);
+  const showWhatsApp = useSiteToggle("footer.show_whatsapp", true);
+  const showNavColumn = useSiteToggle("footer.show_nav_column", true);
+  const showServicesColumn = useSiteToggle("footer.show_services_column", true);
+  const showSocialColumn = useSiteToggle("footer.show_social_column", true);
+  const showCopyright = useSiteToggle("footer.show_copyright", true);
+  const showCtaCard = useSiteToggle("footer.show_cta_card", true);
+  const showNewsletter = useSiteToggle("footer.show_newsletter", true);
+  const showSignature = useSiteToggle("footer.show_signature", true);
+  const showBrandDescription = useSiteToggle("footer.show_brand_description", true);
+  // Optional explicit Instagram URL (was hardcoded fallback before).
+  const cmsInstagramUrl = useSiteContent("footer.instagram_url", null);
   const cmsFooterLogo = useSiteAsset("footer.logo", null);
   const cmsFooterLogoUrl =
     typeof cmsFooterLogo === "object" && cmsFooterLogo?.url
@@ -62,7 +80,8 @@ function Footer() {
     cmsAddress ||
     settings.contact?.address ||
     "Mayur Vihar Phase 1, Delhi, 110091";
-  const instagramHref = settings.social?.instagram || "https://instagram.com/";
+  const instagramHref =
+    cmsInstagramUrl || settings.social?.instagram || "https://instagram.com/";
   const whatsappHref = `https://wa.me/${phoneDigits}`;
   const telHref = `tel:+${phoneDigits}`;
 
@@ -141,6 +160,7 @@ function Footer() {
           paddingBottom: isMobile ? "28px" : "34px",
         }}
       >
+        {showCtaCard && (
         <Reveal>
           <div
             style={{
@@ -257,6 +277,7 @@ function Footer() {
             </div>
           </div>
         </Reveal>
+        )}
 
         <div
           style={{
@@ -334,52 +355,57 @@ function Footer() {
                 </div>
               </div>
 
-              <p
-                style={{
-                  margin: 0,
-                  maxWidth: "390px",
-                  color: "rgba(245, 239, 230, 0.7)",
-                  fontSize: "15px",
-                  lineHeight: 1.95,
-                }}
-              >
-                {brandDescription}
-              </p>
-
-              <div
-                style={{
-                  marginTop: "22px",
-                  display: "inline-flex",
-                  flexDirection: "column",
-                  gap: "5px",
-                }}
-              >
-                <div
+              {showBrandDescription && (
+                <p
                   style={{
-                    color: "rgba(188,153,102,0.96)",
-                    fontSize: isMobile ? "28px" : "34px",
-                    lineHeight: 1,
-                    fontStyle: "italic",
-                    fontWeight: 500,
-                    fontFamily:
-                      '"Brush Script MT", "Lucida Handwriting", "Segoe Script", cursive',
+                    margin: 0,
+                    maxWidth: "390px",
+                    color: "rgba(245, 239, 230, 0.7)",
+                    fontSize: "15px",
+                    lineHeight: 1.95,
                   }}
                 >
-                  {signatureText}
-                </div>
+                  {brandDescription}
+                </p>
+              )}
 
+              {showSignature && (
                 <div
                   style={{
-                    width: isMobile ? "180px" : "220px",
-                    height: "1px",
-                    background:
-                      "linear-gradient(90deg, rgba(188,153,102,0.72), rgba(188,153,102,0.12), transparent)",
+                    marginTop: "22px",
+                    display: "inline-flex",
+                    flexDirection: "column",
+                    gap: "5px",
                   }}
-                />
-              </div>
+                >
+                  <div
+                    style={{
+                      color: "rgba(188,153,102,0.96)",
+                      fontSize: isMobile ? "28px" : "34px",
+                      lineHeight: 1,
+                      fontStyle: "italic",
+                      fontWeight: 500,
+                      fontFamily:
+                        '"Brush Script MT", "Lucida Handwriting", "Segoe Script", cursive',
+                    }}
+                  >
+                    {signatureText}
+                  </div>
+
+                  <div
+                    style={{
+                      width: isMobile ? "180px" : "220px",
+                      height: "1px",
+                      background:
+                        "linear-gradient(90deg, rgba(188,153,102,0.72), rgba(188,153,102,0.12), transparent)",
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </Reveal>
 
+          {showNavColumn && (
           <Reveal delay={0.12}>
             <div>
               <div
@@ -417,7 +443,9 @@ function Footer() {
               </div>
             </div>
           </Reveal>
+          )}
 
+          {showServicesColumn && (
           <Reveal delay={0.16}>
             <div>
               <div
@@ -449,7 +477,9 @@ function Footer() {
               </div>
             </div>
           </Reveal>
+          )}
 
+          {showSocialColumn && (
           <Reveal delay={0.2}>
             <div>
               <div
@@ -466,48 +496,56 @@ function Footer() {
               </div>
 
               <div style={{ display: "grid", gap: "14px" }}>
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-                  <div style={iconWrap}>
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z" />
-                    </svg>
+                {showAddress && (
+                  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                    <div style={iconWrap}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z" />
+                      </svg>
+                    </div>
+                    <a
+                      href="https://maps.google.com/?q=Mayur+Vihar+Phase+1+Delhi+110091"
+                      target="_blank"
+                      rel="noreferrer"
+                      style={linkStyle}
+                    >
+                      {address}
+                    </a>
                   </div>
-                  <a
-                    href="https://maps.google.com/?q=Mayur+Vihar+Phase+1+Delhi+110091"
-                    target="_blank"
-                    rel="noreferrer"
-                    style={linkStyle}
-                  >
-                    {address}
-                  </a>
-                </div>
+                )}
 
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-                  <div style={iconWrap}>
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3.2-8 5-8-5V6l8 5 8-5v1.2z" />
-                    </svg>
+                {showEmail && (
+                  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                    <div style={iconWrap}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3.2-8 5-8-5V6l8 5 8-5v1.2z" />
+                      </svg>
+                    </div>
+                    <a href={`mailto:${email}`} style={linkStyle}>{email}</a>
                   </div>
-                  <a href={`mailto:${email}`} style={linkStyle}>{email}</a>
-                </div>
+                )}
 
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-                  <div style={iconWrap}>
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1-.24c1.12.37 2.33.57 3.59.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.85 21 3 13.15 3 3a1 1 0 0 1 1-1h3.49a1 1 0 0 1 1 1c0 1.26.2 2.47.57 3.59a1 1 0 0 1-.24 1l-2.2 2.2z" />
-                    </svg>
+                {showPhone && (
+                  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                    <div style={iconWrap}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1-.24c1.12.37 2.33.57 3.59.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.85 21 3 13.15 3 3a1 1 0 0 1 1-1h3.49a1 1 0 0 1 1 1c0 1.26.2 2.47.57 3.59a1 1 0 0 1-.24 1l-2.2 2.2z" />
+                      </svg>
+                    </div>
+                    <a href={telHref} style={linkStyle}>{phoneDisplay}</a>
                   </div>
-                  <a href={telHref} style={linkStyle}>{phoneDisplay}</a>
-                </div>
+                )}
 
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-                  <div style={iconWrap}>
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm8.37 1.72H7.88A4.16 4.16 0 0 0 3.72 7.88v8.24a4.16 4.16 0 0 0 4.16 4.16h8.24a4.16 4.16 0 0 0 4.16-4.16V7.88a4.16 4.16 0 0 0-4.16-4.16zM17.5 6.3a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.7A3.3 3.3 0 1 0 12 15.3 3.3 3.3 0 0 0 12 8.7z" />
-                    </svg>
+                {showInstagram && (
+                  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                    <div style={iconWrap}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm8.37 1.72H7.88A4.16 4.16 0 0 0 3.72 7.88v8.24a4.16 4.16 0 0 0 4.16 4.16h8.24a4.16 4.16 0 0 0 4.16-4.16V7.88a4.16 4.16 0 0 0-4.16-4.16zM17.5 6.3a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.7A3.3 3.3 0 1 0 12 15.3 3.3 3.3 0 0 0 12 8.7z" />
+                      </svg>
+                    </div>
+                    <a href={instagramHref} target="_blank" rel="noreferrer" style={linkStyle}>Instagram</a>
                   </div>
-                  <a href={instagramHref} target="_blank" rel="noreferrer" style={linkStyle}>Instagram</a>
-                </div>
+                )}
 
                 <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
                   <div style={iconWrap}>
@@ -520,15 +558,17 @@ function Footer() {
                   <a href="https://www.mineworldproduction.com" target="_blank" rel="noreferrer" style={linkStyle}>www.mineworldproduction.com</a>
                 </div>
 
-                <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-                  <div style={iconWrap}>
-                    <svg viewBox="0 0 32 32" fill="currentColor">
-                      <path d="M19.11 17.34c-.27-.13-1.58-.78-1.82-.87-.24-.09-.42-.13-.6.13-.18.27-.69.87-.85 1.05-.16.18-.31.2-.58.07-.27-.13-1.12-.41-2.13-1.3-.79-.7-1.32-1.56-1.48-1.82-.16-.27-.02-.41.12-.54.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.33-.02-.47-.07-.13-.6-1.45-.82-1.98-.22-.53-.44-.46-.6-.47h-.51c-.18 0-.47.07-.71.33-.24.27-.93.91-.93 2.22s.96 2.58 1.09 2.76c.13.18 1.88 2.87 4.56 4.03.64.27 1.14.43 1.53.55.64.2 1.22.17 1.68.1.51-.08 1.58-.64 1.8-1.25.22-.62.22-1.14.16-1.25-.07-.11-.24-.18-.51-.31z" />
-                      <path d="M16.01 3.2c-7.07 0-12.8 5.72-12.8 12.78 0 2.26.59 4.46 1.71 6.39L3 29l6.84-1.79a12.8 12.8 0 0 0 6.17 1.57h.01c7.06 0 12.79-5.73 12.79-12.79 0-3.43-1.34-6.65-3.77-9.07A12.7 12.7 0 0 0 16.01 3.2zm0 23.42h-.01a10.65 10.65 0 0 1-5.43-1.49l-.39-.23-4.06 1.06 1.08-3.96-.25-.41a10.6 10.6 0 0 1-1.63-5.61c0-5.88 4.79-10.67 10.69-10.67 2.85 0 5.52 1.11 7.54 3.12a10.58 10.58 0 0 1 3.13 7.54c0 5.89-4.79 10.68-10.67 10.68z" />
-                    </svg>
+                {showWhatsApp && (
+                  <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                    <div style={iconWrap}>
+                      <svg viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M19.11 17.34c-.27-.13-1.58-.78-1.82-.87-.24-.09-.42-.13-.6.13-.18.27-.69.87-.85 1.05-.16.18-.31.2-.58.07-.27-.13-1.12-.41-2.13-1.3-.79-.7-1.32-1.56-1.48-1.82-.16-.27-.02-.41.12-.54.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.33-.02-.47-.07-.13-.6-1.45-.82-1.98-.22-.53-.44-.46-.6-.47h-.51c-.18 0-.47.07-.71.33-.24.27-.93.91-.93 2.22s.96 2.58 1.09 2.76c.13.18 1.88 2.87 4.56 4.03.64.27 1.14.43 1.53.55.64.2 1.22.17 1.68.1.51-.08 1.58-.64 1.8-1.25.22-.62.22-1.14.16-1.25-.07-.11-.24-.18-.51-.31z" />
+                        <path d="M16.01 3.2c-7.07 0-12.8 5.72-12.8 12.78 0 2.26.59 4.46 1.71 6.39L3 29l6.84-1.79a12.8 12.8 0 0 0 6.17 1.57h.01c7.06 0 12.79-5.73 12.79-12.79 0-3.43-1.34-6.65-3.77-9.07A12.7 12.7 0 0 0 16.01 3.2zm0 23.42h-.01a10.65 10.65 0 0 1-5.43-1.49l-.39-.23-4.06 1.06 1.08-3.96-.25-.41a10.6 10.6 0 0 1-1.63-5.61c0-5.88 4.79-10.67 10.69-10.67 2.85 0 5.52 1.11 7.54 3.12a10.58 10.58 0 0 1 3.13 7.54c0 5.89-4.79 10.68-10.67 10.68z" />
+                      </svg>
+                    </div>
+                    <a href={whatsappHref} target="_blank" rel="noreferrer" style={linkStyle}>WhatsApp</a>
                   </div>
-                  <a href={whatsappHref} target="_blank" rel="noreferrer" style={linkStyle}>WhatsApp</a>
-                </div>
+                )}
               </div>
 
               <div style={{ marginTop: "22px" }}>
@@ -541,18 +581,21 @@ function Footer() {
               </div>
             </div>
           </Reveal>
+          )}
         </div>
 
-        <div
-          style={{
-            paddingTop: isMobile ? "24px" : "32px",
-            paddingBottom: isMobile ? "20px" : "28px",
-            borderTop: "1px solid rgba(184, 149, 106, 0.20)",
-            marginBottom: isMobile ? "16px" : "20px",
-          }}
-        >
-          <NewsletterSignup variant="footer" />
-        </div>
+        {showNewsletter && (
+          <div
+            style={{
+              paddingTop: isMobile ? "24px" : "32px",
+              paddingBottom: isMobile ? "20px" : "28px",
+              borderTop: "1px solid rgba(184, 149, 106, 0.20)",
+              marginBottom: isMobile ? "16px" : "20px",
+            }}
+          >
+            <NewsletterSignup variant="footer" />
+          </div>
+        )}
 
         <div
           style={{
@@ -566,15 +609,17 @@ function Footer() {
             gap: isMobile ? "10px" : "18px",
           }}
         >
-          <div
-            style={{
-              color: "rgba(245, 239, 230, 0.5)",
-              fontSize: "13px",
-              lineHeight: 1.7,
-            }}
-          >
-            {copyrightLine}
-          </div>
+          {showCopyright && (
+            <div
+              style={{
+                color: "rgba(245, 239, 230, 0.5)",
+                fontSize: "13px",
+                lineHeight: 1.7,
+              }}
+            >
+              {copyrightLine}
+            </div>
+          )}
 
           <div
             style={{

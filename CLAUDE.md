@@ -133,7 +133,41 @@ Multiple feature branches exist with different states of the CMS:
 
 ---
 
-## 6. Where the rules came from
+## 6. Pattern: per-element show/hide toggles
+
+Admin can hide individual UI elements without deleting them. Implementation:
+
+- **Hook:** `useSiteToggle(slotKey, defaultVisible=true)` from
+  `src/hooks/useSiteToggle.js`. Returns `true`/`false`. Backed by a
+  text slot containing `"on"` or `"off"`.
+- **Admin UI:** `<ToggleEditor slotKey label hint />` from
+  `src/admin/components/ToggleEditor.jsx`. Renders a switch and saves
+  to the slot.
+- **Slot naming convention:** `<section>.show_<element>`
+  e.g. `footer.show_phone`, `hero.show_eyebrow`, `services.show_section`.
+
+### To add a new toggle:
+
+1. Identify the JSX block in the public component.
+2. Add a `useSiteToggle("<section>.show_<element>", true)` call.
+3. Wrap the JSX block in `{showXyz && (<JSX/>)}`.
+4. In the matching `*Editor.jsx` admin page, add a `<ToggleEditor>`
+   with the same slot key, in a "What to show / hide" section at the
+   bottom of the page.
+5. **Default is always ON.** Off only when admin flips it. Visual
+   parity preserved when no admin edit exists.
+
+Already wired (as of this writing): Footer — CTA card, brand
+description, signature, address/email/phone/Instagram/WhatsApp rows,
+nav column, services column, social column, newsletter, copyright.
+
+Extending to other pages/sections is incremental — just add the hook
++ wrapper + admin toggle. Don't bulk-add to every element in one PR;
+it's high-risk and the user prefers section-by-section verification.
+
+---
+
+## 7. Where the rules came from
 
 Real incidents on this repo where admin edits "vanished":
 
