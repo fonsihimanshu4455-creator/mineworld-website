@@ -184,6 +184,12 @@
   color: var(--admin-text-secondary, #4A4A4A) !important;
 }
 
+/* Misc commonly-used near-light text colours */
+.admin-shell main [style*="color: rgba(245, 239, 230"],
+.admin-shell main [style*="color: rgba(245,239,230"] {
+  color: var(--admin-text-secondary, #4A4A4A) !important;
+}
+
 /* Gold-on-dark labels become deeper gold on cream for readability */
 .admin-shell main [style*="color: #D9B987"],
 .admin-shell main [style*="color:#D9B987"],
@@ -204,9 +210,51 @@
 .admin-shell main [style*="border: 1px solid rgba(184, 149, 106, 0.18)"],
 .admin-shell main [style*="border: 1px solid rgba(184, 149, 106, 0.20)"],
 .admin-shell main [style*="border: 1px solid rgba(184, 149, 106, 0.25)"],
+.admin-shell main [style*="border: 1px solid rgba(184, 149, 106, 0.32)"],
 .admin-shell main [style*="border: 1px solid rgba(255,255,255,0.08)"],
-.admin-shell main [style*="border: 1px solid rgba(255,255,255,0.12)"] {
+.admin-shell main [style*="border: 1px solid rgba(255, 255, 255, 0.08)"],
+.admin-shell main [style*="border: 1px solid rgba(255,255,255,0.1)"],
+.admin-shell main [style*="border: 1px solid rgba(255, 255, 255, 0.1)"],
+.admin-shell main [style*="border: 1px solid rgba(255,255,255,0.12)"],
+.admin-shell main [style*="border: 1px solid rgba(255, 255, 255, 0.12)"] {
   border-color: var(--admin-border, #E8DED1) !important;
+}
+
+/* Card backgrounds that were near-transparent on dark → white surface */
+.admin-shell main [style*="background: rgba(255,255,255,0.02)"],
+.admin-shell main [style*="background: rgba(255, 255, 255, 0.02)"],
+.admin-shell main [style*="background:rgba(255,255,255,0.02)"],
+.admin-shell main [style*="background: rgba(255,255,255,0.015)"],
+.admin-shell main [style*="background: rgba(255, 255, 255, 0.015)"] {
+  background: var(--admin-surface, #FFFFFF) !important;
+  color: var(--admin-text, #1A1A1A) !important;
+}
+
+/* Linear-gradient backgrounds that were near-transparent on dark.
+ * These were typically dark glass cards; flip to soft cream. */
+.admin-shell main [style*="linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015)"],
+.admin-shell main [style*="linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)"],
+.admin-shell main [style*="linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)"],
+.admin-shell main [style*="linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015)"] {
+  background: var(--admin-surface, #FFFFFF) !important;
+  box-shadow: 0 2px 8px rgba(31, 45, 77, 0.05) !important;
+}
+
+/* Heavy navy dark-glass containers (CollectionEditor right pane,
+ * Settings tabs etc.) → soft cream */
+.admin-shell main [style*="linear-gradient(180deg, rgba(17,24,39"],
+.admin-shell main [style*="linear-gradient(180deg, rgba(17, 24, 39"] {
+  background: var(--admin-bg-soft, #F5EFE6) !important;
+  color: var(--admin-text, #1A1A1A) !important;
+}
+
+/* Soft gold-tint cards (used by Backup & Restore, status banners) */
+.admin-shell main [style*="linear-gradient(180deg, rgba(188,153,102,0.08), rgba(255,255,255,0.02)"] {
+  background: linear-gradient(
+    180deg,
+    rgba(188, 153, 102, 0.12),
+    var(--admin-surface, #FFFFFF) 60%
+  ) !important;
 }
 
 /* Gold pill button text was navy on gold — keep as-is, no override */
