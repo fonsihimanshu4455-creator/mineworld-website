@@ -7,12 +7,15 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
   getDoc,
   getDocs,
+  limit as fsLimit,
   onSnapshot,
+  orderBy,
   query,
   serverTimestamp,
   setDoc,
@@ -27,9 +30,89 @@ import {
   encodeAssetDocId,
 } from "../lib/cms-schema";
 
+export const ACTIVITY_LOG_COLLECTION = "activity_log";
+
 function ensureFirestore() {
   if (!firebaseEnabled || !db) {
     throw new Error("Firebase is not configured.");
+  }
+}
+
+// Map a slot key like "footer.phone" → "Footer", "portfolio.items" →
+// "Portfolio". Falls back to the first segment, title-cased.
+export function deriveSectionLabel(slotKey) {
+  if (!slotKey) return "Unknown";
+  const head = String(slotKey).split(".")[0];
+  const map = {
+    hero: "Hero",
+    navbar: "Navbar",
+    footer: "Footer",
+    services: "Services",
+    portfolio: "Portfolio",
+    team: "Team",
+    founder: "Founder",
+    manifesto: "Manifesto",
+    capabilities: "Capabilities",
+    process: "Process",
+    cta: "Closing CTA",
+    editing: "Editing Showcase",
+    reel: "Reels",
+    reviews: "Reviews",
+    logo_wall: "Client Logos",
+    press: "Press / Featured In",
+    apps: "Apps We Ship",
+    trust: "Press / Trust",
+    contact: "Contact Info",
+    case_studies: "Case Studies",
+  };
+  return (
+    map[head] || head.charAt(0).toUpperCase() + head.slice(1).replace(/_/g, " ")
+  );
+}
+
+function shortPreview(value) {
+  if (value == null) return null;
+  if (typeof value === "string") {
+    const t = value.trim();
+    return t.length > 80 ? t.slice(0, 77) + "…" : t;
+  }
+  if (typeof value === "object" && value.cloudinary_url) {
+    return value.cloudinary_url;
+  }
+  try {
+    const json = JSON.stringify(value);
+    return json.length > 80 ? json.slice(0, 77) + "…" : json;
+  } catch {
+    return String(value).slice(0, 80);
+  }
+}
+
+// Best-effort: write an entry to activity_log. Failure (offline,
+// permission, etc.) is swallowed so the underlying save is not blocked.
+export async function logActivity({
+  action,
+  collection_name,
+  doc_id,
+  summary,
+  preview,
+}) {
+  if (!firebaseEnabled || !db) return;
+  try {
+    const actor = auth?.currentUser;
+    await addDoc(collection(db, ACTIVITY_LOG_COLLECTION), {
+      action: action || "update",
+      collection_name: collection_name || null,
+      doc_id: doc_id || null,
+      section_label: deriveSectionLabel(doc_id),
+      summary: summary || null,
+      preview: preview ?? null,
+      actor_uid: actor?.uid || null,
+      actor_email: actor?.email || null,
+      actor_name: actor?.displayName || null,
+      created_at: serverTimestamp(),
+    });
+  } catch {
+    // best-effort; do not block the underlying write
   }
 }
 
@@ -82,6 +165,19 @@ export async function saveSlot(slotKey, body) {
     updated_at: serverTimestamp(),
   };
   await setDoc(ref, payload, { merge: true });
+  // Activity log — best-effort, never blocks the save.
+  let preview = null;
+  if (body?.slot_type === "text") preview = shortPreview(body.text_value);
+  else if (body?.slot_type === "color") preview = body.color_value;
+  else if (body?.slot_type === "asset") preview = body.cloudinary_url;
+  else if (body?.slot_type === "json") preview = shortPreview(body.json_value);
+  logActivity({
+    action: "update",
+    collection_name: SITE_CONTENT_COLLECTION,
+    doc_id: slotKey,
+    summary: `Updated ${slotKey}`,
+    preview,
+  });
   return payload;
 }
 
@@ -89,6 +185,13 @@ export async function clearSlot(slotKey) {
   ensureFirestore();
   const ref = doc(db, SITE_CONTENT_COLLECTION, slotKey);
   await deleteDoc(ref);
+  logActivity({
+    action: "delete",
+    collection_name: SITE_CONTENT_COLLECTION,
+    doc_id: slotKey,
+    summary: `Reset ${slotKey} to default`,
+    preview: null,
+  });
 }
 
 // Legacy helper kept for the migration page (PR-CMS-1). Writes a typed
@@ -187,6 +290,13 @@ export async function saveAsset(payload) {
     updated_at: now,
   };
   await setDoc(ref, body, { merge: true });
+  logActivity({
+    action: "upload",
+    collection_name: ASSETS_COLLECTION,
+    doc_id: docId,
+    summary: `Uploaded ${payload.asset_type || "asset"}: ${payload.original_name || payload.cloudinary_id}`,
+    preview: payload.cloudinary_url || null,
+  });
   return { id: docId, ...body };
 }
 
@@ -199,6 +309,33 @@ export async function getAssetById(docId) {
 export async function deleteAssetDoc(docId) {
   ensureFirestore();
   await deleteDoc(doc(db, ASSETS_COLLECTION, docId));
+  logActivity({
+    action: "delete",
+    collection_name: ASSETS_COLLECTION,
+    doc_id: docId,
+    summary: `Deleted asset ${docId}`,
+    preview: null,
+  });
+}
+
+// Query the activity log. Default: 200 most-recent entries. Use
+// `sectionLabel` to filter by section, `since` for a date floor.
+export async function listActivity({
+  limit = 200,
+  sectionLabel = null,
+  since = null,
+} = {}) {
+  ensureFirestore();
+  const constraints = [orderBy("created_at", "desc"), fsLimit(limit)];
+  if (sectionLabel) {
+    constraints.unshift(where("section_label", "==", sectionLabel));
+  }
+  if (since instanceof Date) {
+    constraints.unshift(where("created_at", ">=", since));
+  }
+  const q = query(collection(db, ACTIVITY_LOG_COLLECTION), ...constraints);
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
 // Find every site_content slot referencing a given asset. Used for

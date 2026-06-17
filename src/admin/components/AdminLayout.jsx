@@ -11,6 +11,7 @@ const sidebarGroups = [
     defaultOpen: true,
     links: [
       { to: "/admin", label: "Dashboard", end: true },
+      { to: "/admin/history", label: "History · Activity" },
       { to: "/admin/preview", label: "Live Preview" },
       { to: "/admin/submissions", label: "Submissions" },
     ],

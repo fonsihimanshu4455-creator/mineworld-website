@@ -156,22 +156,57 @@
   background: var(--admin-surface, #FFFFFF) !important;
 }
 
-/* White / cream text on dark turns into near-black on light */
+/* White / cream text on dark turns into near-black on light.
+ * React stringifies inline hex (#F5F1E8) into rgb() form
+ * (rgb(245, 241, 232)), so we have to match BOTH forms. */
 .admin-shell main [style*="color: #F5F1E8"],
 .admin-shell main [style*="color:#F5F1E8"],
+.admin-shell main [style*="color: rgb(245, 241, 232)"],
+.admin-shell main [style*="color:rgb(245, 241, 232)"],
 .admin-shell main [style*="color: rgba(245,241,232"],
-.admin-shell main [style*="color:rgba(245,241,232"] {
+.admin-shell main [style*="color:rgba(245,241,232"],
+.admin-shell main [style*="color: rgba(245, 241, 232"],
+.admin-shell main [style*="color:rgba(245, 241, 232"],
+.admin-shell main [style*="color: rgba(243,239,231"],
+.admin-shell main [style*="color: rgba(243, 239, 231"] {
   color: var(--admin-text, #1A1A1A) !important;
 }
 .admin-shell main [style*="color: #FFFFFF"],
-.admin-shell main [style*="color:#FFFFFF"] {
+.admin-shell main [style*="color:#FFFFFF"],
+.admin-shell main [style*="color: #fff"],
+.admin-shell main [style*="color:#fff"],
+.admin-shell main [style*="color: rgb(255, 255, 255)"],
+.admin-shell main [style*="color: white"] {
   color: var(--admin-text, #1A1A1A) !important;
 }
+.admin-shell main [style*="color: #CFC6B8"],
+.admin-shell main [style*="color: rgb(207, 198, 184)"] {
+  color: var(--admin-text-secondary, #4A4A4A) !important;
+}
 
-/* "Saved" / "Unsaved" status pills — keep them readable on light */
+/* Gold-on-dark labels become deeper gold on cream for readability */
 .admin-shell main [style*="color: #D9B987"],
-.admin-shell main [style*="color:#D9B987"] {
+.admin-shell main [style*="color:#D9B987"],
+.admin-shell main [style*="color: rgb(217, 185, 135)"] {
   color: var(--admin-accent-deep, #8B6E48) !important;
+}
+
+/* Card backgrounds rgba(0,0,0,*) → soft cream surface */
+.admin-shell main [style*="background: rgba(0,0,0,0.18)"],
+.admin-shell main [style*="background: rgba(0, 0, 0, 0.18)"],
+.admin-shell main [style*="background: rgba(0,0,0,0.28)"],
+.admin-shell main [style*="background: rgba(0, 0, 0, 0.28)"] {
+  background: var(--admin-bg-soft, #F5EFE6) !important;
+}
+
+/* Borders that were faint-on-dark → soft beige on light */
+.admin-shell main [style*="border: 1px solid rgba(184, 149, 106, 0.16)"],
+.admin-shell main [style*="border: 1px solid rgba(184, 149, 106, 0.18)"],
+.admin-shell main [style*="border: 1px solid rgba(184, 149, 106, 0.20)"],
+.admin-shell main [style*="border: 1px solid rgba(184, 149, 106, 0.25)"],
+.admin-shell main [style*="border: 1px solid rgba(255,255,255,0.08)"],
+.admin-shell main [style*="border: 1px solid rgba(255,255,255,0.12)"] {
+  border-color: var(--admin-border, #E8DED1) !important;
 }
 
 /* Gold pill button text was navy on gold — keep as-is, no override */

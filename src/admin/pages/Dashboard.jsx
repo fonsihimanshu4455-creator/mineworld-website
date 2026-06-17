@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { contentStore } from "../contentStore";
 import { schemas, collectionOrder } from "../schemas";
+import { listActivity } from "../cmsStore";
 import CloudinaryStatusPanel from "../components/CloudinaryStatusPanel";
 import ToggleEditor from "../components/ToggleEditor";
 import EditorSection from "../components/EditorSection";
@@ -66,9 +67,38 @@ function PageHeader({ eyebrow, title, subtitle, action }) {
   );
 }
 
+function formatRelativeShort(ts) {
+  if (!ts) return "—";
+  const date = ts.toDate ? ts.toDate() : new Date(ts);
+  const diff = Date.now() - date.getTime();
+  const minute = 60_000;
+  const hour = 60 * minute;
+  const day = 24 * hour;
+  if (diff < minute) return "just now";
+  if (diff < hour) return `${Math.floor(diff / minute)}m ago`;
+  if (diff < day) return `${Math.floor(diff / hour)}h ago`;
+  if (diff < 7 * day) return `${Math.floor(diff / day)}d ago`;
+  return date.toLocaleDateString();
+}
+
 function Dashboard() {
   const [msg, setMsg] = useState("");
   const fileRef = useRef(null);
+  const [recent, setRecent] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    listActivity({ limit: 5 })
+      .then((rows) => {
+        if (!cancelled) setRecent(rows);
+      })
+      .catch(() => {
+        if (!cancelled) setRecent([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const snapshot = contentStore.snapshot();
   const counts = collectionOrder.map((key) => ({
@@ -284,6 +314,119 @@ function Dashboard() {
           slotKey="footer.show_copyright"
           label="Footer · Copyright line"
         />
+      </EditorSection>
+
+      {/* ─── Recent Changes (from activity_log) ─── */}
+      <EditorSection
+        title="Recent changes"
+        hint="The last few edits made through the admin panel. Full log on the History · Activity page."
+        action={
+          <Link
+            to="/admin/history"
+            style={{
+              padding: "8px 14px",
+              borderRadius: 999,
+              border: "1px solid var(--admin-border-strong, rgba(31,45,77,0.16))",
+              background: "var(--admin-surface, #FFFFFF)",
+              color: "var(--admin-text, #1A1A1A)",
+              fontSize: 12,
+              fontWeight: 700,
+              textDecoration: "none",
+            }}
+          >
+            View all →
+          </Link>
+        }
+      >
+        {recent.length === 0 ? (
+          <div
+            style={{
+              padding: "20px",
+              borderRadius: 12,
+              background: "var(--admin-bg-soft, #F5EFE6)",
+              color: "var(--admin-text-muted, #6B5B47)",
+              fontSize: 13,
+              textAlign: "center",
+              lineHeight: 1.7,
+            }}
+          >
+            No activity yet. Edit any field anywhere in the admin panel — it'll
+            show up here within seconds.
+          </div>
+        ) : (
+          <div style={{ display: "grid", gap: 8 }}>
+            {recent.map((r) => (
+              <div
+                key={r.id}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  padding: "12px 14px",
+                  borderRadius: 12,
+                  border: "1px solid var(--admin-border, #E8DED1)",
+                  background: "var(--admin-bg-soft, #F5EFE6)",
+                }}
+              >
+                <div
+                  aria-hidden="true"
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 8,
+                    background: "rgba(184,149,106,0.16)",
+                    color: "var(--admin-accent-deep, #8B6E48)",
+                    display: "grid",
+                    placeItems: "center",
+                    fontSize: 14,
+                    flexShrink: 0,
+                  }}
+                >
+                  {r.action === "delete"
+                    ? "🗑️"
+                    : r.action === "upload"
+                    ? "📤"
+                    : r.action === "create"
+                    ? "➕"
+                    : "✏️"}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontWeight: 700,
+                      color: "var(--admin-text, #1A1A1A)",
+                      fontSize: 14,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {r.summary || r.doc_id}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 11.5,
+                      color: "var(--admin-text-muted, #6B5B47)",
+                      marginTop: 2,
+                    }}
+                  >
+                    {r.section_label || "—"} ·{" "}
+                    {r.actor_name || r.actor_email || "Admin"}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: "var(--admin-text-muted, #6B5B47)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {formatRelativeShort(r.created_at)}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </EditorSection>
 
       <div

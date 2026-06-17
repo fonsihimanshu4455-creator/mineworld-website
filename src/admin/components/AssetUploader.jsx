@@ -17,11 +17,12 @@ import { getAssetById, saveAsset, saveSlot, useSlotDoc } from "../cmsStore";
 import AssetSlotCard from "./AssetSlotCard";
 
 const cardStyle = {
-  background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(184, 149, 106, 0.20)",
-  borderRadius: "14px",
-  padding: "18px",
-  color: "#F5F1E8",
+  background: "var(--admin-surface, #FFFFFF)",
+  border: "1px solid var(--admin-border, #E8DED1)",
+  borderRadius: "var(--admin-radius-md, 16px)",
+  padding: "var(--admin-space-md, 24px)",
+  color: "var(--admin-text, #1A1A1A)",
+  boxShadow: "var(--admin-shadow-sm, 0 2px 8px rgba(31,45,77,0.05))",
 };
 
 const dropStyle = (active) => ({
