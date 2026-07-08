@@ -100,30 +100,38 @@ function ToggleEditor({ slotKey, label, hint, defaultOn = true }) {
         aria-label={`${isOn ? "Hide" : "Show"} ${label || slotKey}`}
         onClick={handleToggle}
         style={{
-          width: 56,
-          height: 30,
+          width: 60,
+          height: 32,
           borderRadius: 999,
-          border: "none",
-          padding: 3,
+          // Solid, always-visible outline so admins can see the click
+          // target even when the switch is off on a cream card.
+          border: isOn
+            ? "2px solid var(--admin-accent-deep, #8B6E48)"
+            : "2px solid var(--admin-text-muted, #6B5B47)",
+          padding: 2,
           cursor: "pointer",
           background: isOn
-            ? "linear-gradient(135deg, #BC9966, #D9B987)"
-            : "rgba(255,255,255,0.16)",
-          transition: "background 0.18s ease",
+            ? "linear-gradient(135deg, var(--admin-accent, #B8956A), var(--admin-accent-soft, #C49A5A))"
+            : "var(--admin-bg-soft, #EDE4D3)",
+          transition: "background 0.18s ease, border-color 0.18s ease",
           flexShrink: 0,
           display: "flex",
           alignItems: "center",
           justifyContent: isOn ? "flex-end" : "flex-start",
+          boxShadow: "inset 0 1px 3px rgba(0,0,0,0.12)",
         }}
       >
         <span
           style={{
             display: "block",
-            width: 24,
-            height: 24,
+            width: 22,
+            height: 22,
             borderRadius: "50%",
-            background: "#fff",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.32)",
+            background: "#FFFFFF",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.28)",
+            border: isOn
+              ? "1px solid rgba(139,110,72,0.4)"
+              : "1px solid var(--admin-text-muted, #6B5B47)",
             transition: "all 0.18s ease",
           }}
         />

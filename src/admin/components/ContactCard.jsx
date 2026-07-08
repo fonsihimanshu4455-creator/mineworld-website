@@ -91,30 +91,36 @@ function ToggleSwitch({ on, onToggle, label }) {
       aria-label={`${on ? "Hide" : "Show"} ${label}`}
       onClick={onToggle}
       style={{
-        width: 50,
-        height: 28,
+        width: 54,
+        height: 30,
         borderRadius: 999,
-        border: "none",
-        padding: 3,
+        border: on
+          ? "2px solid var(--admin-accent-deep, #8B6E48)"
+          : "2px solid var(--admin-text-muted, #6B5B47)",
+        padding: 2,
         cursor: "pointer",
         background: on
-          ? "linear-gradient(135deg, #BC9966, #D9B987)"
-          : "rgba(255,255,255,0.16)",
-        transition: "background 0.18s ease",
+          ? "linear-gradient(135deg, var(--admin-accent, #B8956A), var(--admin-accent-soft, #C49A5A))"
+          : "var(--admin-bg-soft, #EDE4D3)",
+        transition: "background 0.18s ease, border-color 0.18s ease",
         flexShrink: 0,
         display: "flex",
         alignItems: "center",
         justifyContent: on ? "flex-end" : "flex-start",
+        boxShadow: "inset 0 1px 3px rgba(0,0,0,0.12)",
       }}
     >
       <span
         style={{
           display: "block",
-          width: 22,
-          height: 22,
+          width: 20,
+          height: 20,
           borderRadius: "50%",
-          background: "#fff",
-          boxShadow: "0 1px 4px rgba(0,0,0,0.32)",
+          background: "#FFFFFF",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.28)",
+          border: on
+            ? "1px solid rgba(139,110,72,0.4)"
+            : "1px solid var(--admin-text-muted, #6B5B47)",
         }}
       />
     </button>

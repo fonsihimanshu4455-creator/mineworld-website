@@ -70,19 +70,22 @@ function ToggleSwitch({ on, onClick, label }) {
       aria-label={label}
       onClick={onClick}
       style={{
-        width: 44,
-        height: 24,
+        width: 48,
+        height: 26,
         borderRadius: 999,
-        border: "none",
-        padding: 3,
+        border: on
+          ? "2px solid var(--admin-accent-deep, #8B6E48)"
+          : "2px solid var(--admin-text-muted, #6B5B47)",
+        padding: 1,
         cursor: "pointer",
         background: on
           ? "linear-gradient(135deg, var(--admin-accent, #B8956A), var(--admin-accent-soft, #C49A5A))"
-          : "var(--admin-border, #E8DED1)",
+          : "var(--admin-bg-soft, #EDE4D3)",
         flexShrink: 0,
         display: "flex",
         alignItems: "center",
         justifyContent: on ? "flex-end" : "flex-start",
+        boxShadow: "inset 0 1px 3px rgba(0,0,0,0.12)",
       }}
     >
       <span
