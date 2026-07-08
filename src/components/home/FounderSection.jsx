@@ -11,6 +11,7 @@ import useIsMobile from "../../utils/useIsMobile";
 import { useParallax } from "../../utils/gsapHooks";
 import { useSiteAsset, useSiteContent } from "../../hooks/useSiteContent";
 import { useSiteList } from "../../hooks/useSiteList";
+import { useSiteToggle } from "../../hooks/useSiteToggle";
 import RichText from "../../lib/richText.jsx";
 
 const DEFAULT_FOUNDER_NAME = "Himanshu Bhardwaj";
@@ -29,6 +30,7 @@ const DEFAULT_BULLETS = [
 function FounderSection() {
   const isMobile = useIsMobile(768);
   const parallaxRef = useParallax({ speed: 0.12 });
+  const visible = useSiteToggle("founder.show_section", true);
 
   const founderPhoto = useSiteAsset("founder.photo", founderImage);
   const founderPhotoUrl =
@@ -59,6 +61,8 @@ function FounderSection() {
     "founder.cta_secondary_label",
     "Build with Mineworld"
   );
+
+  if (!visible) return null;
 
   return (
     <section

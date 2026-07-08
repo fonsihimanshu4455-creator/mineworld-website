@@ -4,6 +4,7 @@ import TextEditor from "../../components/TextEditor";
 import RichTextEditor from "../../components/RichTextEditor";
 import RepeatingListEditor from "../../components/RepeatingListEditor";
 import EditorSection from "../../components/EditorSection";
+import ToggleEditor from "../../components/ToggleEditor";
 
 const BULLET_FIELDS = [{ name: "text", type: "text", label: "Bullet text" }];
 
@@ -15,6 +16,16 @@ export default function FounderEditor() {
         title="Founder Section"
         subtitle="Portrait, identity, the second-column heading + paragraph, capability bullets, and the Founder Note italic quote."
       />
+
+      <EditorSection
+        title="Show / hide the whole Founder section"
+        hint="Turn this off to hide the entire Founder block from the About page (and homepage). Data stays saved — just not rendered."
+      >
+        <ToggleEditor
+          slotKey="founder.show_section"
+          label="Show Founder section on the website"
+        />
+      </EditorSection>
 
       <EditorSection title="Portrait" hint="4:5 vertical recommended">
         <AssetUploader
