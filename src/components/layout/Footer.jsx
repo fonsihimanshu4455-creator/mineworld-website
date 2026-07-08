@@ -9,6 +9,7 @@ import { useSiteSettings } from "../../admin/hooks";
 import { siteConfig as defaultSiteConfig } from "../../data/siteConfig";
 import defaultLogo from "../../assets/mineworld-logo.png";
 import { useSiteAsset, useSiteContent } from "../../hooks/useSiteContent";
+import { useSiteList } from "../../hooks/useSiteList";
 import { useSiteToggle } from "../../hooks/useSiteToggle";
 
 function Footer() {
@@ -34,6 +35,13 @@ function Footer() {
   const cmsInstagramUrl = useSiteContent("footer.instagram_url", null);
   const cmsMapsUrl = useSiteContent("footer.maps_url", null);
   const cmsWebsiteUrl = useSiteContent("footer.website_url", null);
+  // Extra contact entries — admin can add unlimited via
+  // /admin/cms/contact-info. Only visible items render (each row has
+  // its own eye toggle in RepeatingListEditor).
+  const additionalPhones = useSiteList("footer.additional_phones", []);
+  const additionalEmails = useSiteList("footer.additional_emails", []);
+  const additionalInstagrams = useSiteList("footer.additional_instagrams", []);
+  const additionalAddresses = useSiteList("footer.additional_addresses", []);
   const cmsFooterLogo = useSiteAsset("footer.logo", null);
   const cmsFooterLogoUrl =
     typeof cmsFooterLogo === "object" && cmsFooterLogo?.url
@@ -583,6 +591,79 @@ function Footer() {
                     <a href={whatsappHref} target="_blank" rel="noreferrer" style={linkStyle}>WhatsApp</a>
                   </div>
                 )}
+
+                {additionalPhones.filter((p) => p.phone).map((p, i) => (
+                  <div
+                    key={`extra-phone-${i}`}
+                    style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}
+                  >
+                    <div style={iconWrap}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1-.24c1.12.37 2.33.57 3.59.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.85 21 3 13.15 3 3a1 1 0 0 1 1-1h3.49a1 1 0 0 1 1 1c0 1.26.2 2.47.57 3.59a1 1 0 0 1-.24 1l-2.2 2.2z" />
+                      </svg>
+                    </div>
+                    <a
+                      href={`tel:${p.phone.replace(/\s+/g, "")}`}
+                      style={linkStyle}
+                    >
+                      {p.label ? `${p.label}: ${p.phone}` : p.phone}
+                    </a>
+                  </div>
+                ))}
+
+                {additionalEmails.filter((e) => e.email).map((e, i) => (
+                  <div
+                    key={`extra-email-${i}`}
+                    style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}
+                  >
+                    <div style={iconWrap}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 3.2-8 5-8-5V6l8 5 8-5v1.2z" />
+                      </svg>
+                    </div>
+                    <a href={`mailto:${e.email}`} style={linkStyle}>
+                      {e.label ? `${e.label}: ${e.email}` : e.email}
+                    </a>
+                  </div>
+                ))}
+
+                {additionalInstagrams.filter((ig) => ig.url).map((ig, i) => (
+                  <div
+                    key={`extra-ig-${i}`}
+                    style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}
+                  >
+                    <div style={iconWrap}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm8.37 1.72H7.88A4.16 4.16 0 0 0 3.72 7.88v8.24a4.16 4.16 0 0 0 4.16 4.16h8.24a4.16 4.16 0 0 0 4.16-4.16V7.88a4.16 4.16 0 0 0-4.16-4.16zM17.5 6.3a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.7A3.3 3.3 0 1 0 12 15.3 3.3 3.3 0 0 0 12 8.7z" />
+                      </svg>
+                    </div>
+                    <a href={ig.url} target="_blank" rel="noreferrer" style={linkStyle}>
+                      {ig.label ? `${ig.label}` : "Instagram"}
+                    </a>
+                  </div>
+                ))}
+
+                {additionalAddresses.filter((a) => a.address).map((a, i) => (
+                  <div
+                    key={`extra-address-${i}`}
+                    style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}
+                  >
+                    <div style={iconWrap}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z" />
+                      </svg>
+                    </div>
+                    {a.maps_url ? (
+                      <a href={a.maps_url} target="_blank" rel="noreferrer" style={linkStyle}>
+                        {a.label ? `${a.label}: ${a.address}` : a.address}
+                      </a>
+                    ) : (
+                      <span style={linkStyle}>
+                        {a.label ? `${a.label}: ${a.address}` : a.address}
+                      </span>
+                    )}
+                  </div>
+                ))}
               </div>
 
               <div style={{ marginTop: "22px" }}>
