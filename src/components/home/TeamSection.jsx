@@ -8,16 +8,23 @@ import { theme } from "../../styles/theme";
 import { teamRoles } from "../../data/teamRoles";
 import { useSiteList } from "../../hooks/useSiteList";
 import { useSiteContent } from "../../hooks/useSiteContent";
+import { useSiteToggle } from "../../hooks/useSiteToggle";
 import useIsMobile from "../../utils/useIsMobile";
 
 function mapAdminTeamMember(item) {
+  // Accept avatar (new admin upload) OR photo (legacy data-file field
+  // that survives via the "Edit existing →" seed). Either can be a
+  // Cloudinary-shaped object or a raw string URL.
+  const raw = item?.avatar || item?.photo || null;
   const photoUrl =
-    item?.avatar?.cloudinary_url ||
-    (typeof item?.avatar === "string" ? item.avatar : "");
+    (raw && typeof raw === "object"
+      ? raw.cloudinary_url || raw.url || raw.src
+      : null) ||
+    (typeof raw === "string" ? raw : "");
   const slugSafe =
     (item.name || item.id || "").toLowerCase().replace(/[^a-z0-9-]+/g, "-");
   return {
-    slug: slugSafe || `member-${item.id || ""}`,
+    slug: item.slug || slugSafe || `member-${item.id || ""}`,
     name: item.name || "Team member",
     role: item.role || "",
     photo: photoUrl,
@@ -60,19 +67,42 @@ function TeamCard({ member, isMobile }) {
             overflow: "hidden",
           }}
         >
-          <img
-            src={member.photo}
-            alt={member.photoAlt}
-            loading="lazy"
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              filter: "grayscale(20%)",
-            }}
-          />
+          {member.photo ? (
+            <img
+              src={member.photo}
+              alt={member.photoAlt}
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                filter: "grayscale(20%)",
+              }}
+            />
+          ) : (
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(135deg, rgba(184,149,106,0.25), rgba(15,42,68,0.55))",
+                display: "grid",
+                placeItems: "center",
+                color: "rgba(255,255,255,0.55)",
+                fontSize: 12,
+                letterSpacing: "1.4px",
+                textTransform: "uppercase",
+              }}
+            >
+              (upload photo in admin)
+            </div>
+          )}
           <div
             style={{
               position: "absolute",
@@ -156,6 +186,8 @@ function TeamSection() {
     "team.subhead",
     "Tap any role to see what they own, how they contribute, and the service they lead."
   );
+  const visible = useSiteToggle("team.show_section", true);
+  if (!visible) return null;
 
   return (
     <section

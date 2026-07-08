@@ -3,13 +3,19 @@ import TextEditor from "../../components/TextEditor";
 import RepeatingListEditor from "../../components/RepeatingListEditor";
 import CurrentSiteContentPreview from "../../components/CurrentSiteContentPreview";
 import EditorSection from "../../components/EditorSection";
+import ToggleEditor from "../../components/ToggleEditor";
 import { teamRoles } from "../../../data/teamRoles";
 
 const MEMBER_FIELDS = [
-  { name: "avatar", type: "image", label: "Avatar (square)", specKey: "team.members.avatar" },
+  {
+    name: "avatar",
+    type: "image",
+    label: "Photo (upload the team member's picture here — square 1:1 works best)",
+    specKey: "team.members.avatar",
+  },
   { name: "name", type: "text", label: "Name" },
-  { name: "role", type: "text", label: "Role" },
-  { name: "bio", type: "multiline", label: "Bio" },
+  { name: "role", type: "text", label: "Role (small line above the name)" },
+  { name: "bio", type: "multiline", label: "Bio (optional — shown on the /team/:slug page)" },
   { name: "linkedin_url", type: "url", label: "LinkedIn (optional)" },
   { name: "twitter_url", type: "url", label: "Twitter / X (optional)" },
 ];
@@ -22,6 +28,16 @@ export default function TeamMembersEditor() {
         title="Team Members"
         subtitle="Section heading + the team member cards. Square avatars work best — they're cropped to circles in some surfaces."
       />
+
+      <EditorSection
+        title="Show / hide the whole Team section"
+        hint="Turn off to hide the Team section from the About page. Data stays saved."
+      >
+        <ToggleEditor
+          slotKey="team.show_section"
+          label="Show Team section on the website"
+        />
+      </EditorSection>
 
       <EditorSection title="Section copy">
         <TextEditor
