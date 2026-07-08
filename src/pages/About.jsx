@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import FounderSection from "../components/home/FounderSection";
 import TeamSection from "../components/home/TeamSection";
+import {
+  MissionSection,
+  PillarsSection,
+  ImpactSection,
+} from "../components/home/AboutSections";
 import NavyBand from "../components/common/NavyBand";
 import Seo from "../components/common/Seo";
 
@@ -18,17 +23,22 @@ function About() {
       }}
     >
       <Seo
-        title="About — Founder & Team"
+        title="About — Mineworld Production"
         path="/about"
-        description="Meet the founder and team behind Mineworld Production — Delhi-based studio building content systems, websites, and ad campaigns for serious brands."
+        description="Delhi-based studio building content systems, websites, and ad campaigns for serious brands. Editing-first. Growth as the metric. Premium standard."
       />
+
+      {/* Individual admin toggles let these turn off without touching code */}
+      <MissionSection />
       <FounderSection />
+      <PillarsSection />
       <NavyBand
         eyebrow="Studio philosophy"
         title="The goal isn't more content. It's shaping perception."
         body="Every section, every frame, every output is intentional — not generic. Mineworld is built for clients and brands who want to look stronger, sharper, and harder to ignore."
       />
       <TeamSection />
+      <ImpactSection />
     </article>
   );
 }

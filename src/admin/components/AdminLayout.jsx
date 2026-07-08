@@ -23,6 +23,7 @@ const sidebarGroups = [
     links: [
       { to: "/admin/cms/contact-info", label: "Contact Info" },
       { to: "/admin/cms/hero", label: "Hero" },
+      { to: "/admin/cms/about", label: "About Page" },
       { to: "/admin/cms/manifesto", label: "Manifesto" },
       { to: "/admin/cms/capabilities", label: "Capabilities" },
       { to: "/admin/cms/services", label: "Services" },
