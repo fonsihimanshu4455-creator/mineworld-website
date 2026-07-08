@@ -92,17 +92,23 @@ function PlanCard({ plan, isMobile }) {
         style={{
           display: "flex",
           alignItems: "baseline",
-          gap: "8px",
+          flexWrap: "wrap",
+          columnGap: "10px",
+          rowGap: "4px",
           marginBottom: "4px",
+          maxWidth: "100%",
         }}
       >
         <span
           style={{
             color: theme.colors.text,
-            fontSize: "34px",
+            fontSize: isMobile ? "30px" : "clamp(24px, 2.4vw, 34px)",
             fontWeight: 800,
             letterSpacing: "-0.8px",
-            lineHeight: 1,
+            lineHeight: 1.05,
+            wordBreak: "break-word",
+            overflowWrap: "anywhere",
+            minWidth: 0,
           }}
         >
           {plan.monthly}
@@ -112,6 +118,7 @@ function PlanCard({ plan, isMobile }) {
             color: theme.colors.textSoft,
             fontSize: "13px",
             fontWeight: 600,
+            whiteSpace: "nowrap",
           }}
         >
           {plan.monthlyNote}
